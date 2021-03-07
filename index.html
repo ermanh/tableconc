@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>TableConc - Concordance Tool for Tabular Data</title>
+
+
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+    <p>Upload CSV File:</p>
+    <input id="csv" type="file" accept=".csv">
+    
+    <output id="out">
+        file contents will appear here
+    </output>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
+    <script>
+        var $j = jQuery.noConflict();
+        $j(document).ready(function () {
+        });
+    </script>
+    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+    <!-- <script src="tableconc.js" charset="utf-8"></script> -->
+    <script>
+        const fileInput = document.getElementById("csv");
+
+        const readFile = function () {
+            var reader = new FileReader();
+            reader.onload = function () {
+                data = $j.csv.toArrays(reader.result);
+                document.getElementById('out').innerHTML = data[0][0];
+            };
+            reader.readAsBinaryString(fileInput.files[0]);
+        };
+
+        fileInput.addEventListener('change', readFile);
+    </script>
+</body>
+
+</html>
