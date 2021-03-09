@@ -1,4 +1,8 @@
-output {
+body {
+    font-family: monospace;
+}
+
+column-names, output {
     display: block;
     margin-top: 1em;
     font-family: monospace;
