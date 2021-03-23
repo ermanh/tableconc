@@ -1,9 +1,32 @@
+
+
 body {
     font-family: monospace;
+    font-size: 1.1em;
+    margin: 1.5em;
 }
 
 column-names, output {
     display: block;
     margin-top: 1em;
     font-family: monospace;
+}
+
+form, section {
+    padding: 1em;
+    border-radius: 1em;
+    margin-bottom: 0.5em;
+}
+
+#searchbox {
+    background-color:lightskyblue;
+}
+
+#file, #columnselect {
+    background-color:lightgreen;
+}
+
+#banner {
+    font-size: 1.5em;
+    padding: 0.25em;
 }

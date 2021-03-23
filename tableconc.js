@@ -4,13 +4,13 @@ const readFile = function () {
     var reader = new FileReader();
     reader.onload = function () {    
         data = $j.csv.toArrays(reader.result);
+        columns = data[0].join(", ");
         
         // display all column names
         d3.select("#column-names")
-            .select("ul")
-            .selectAll("li")
-            .data(data[0])
-            .enter().append("li")
+            .selectAll("text")
+            .data(columns)
+            .enter().append("text")
                 .text(function(d) { return d; });
 
         // populate drop-down menu
@@ -29,7 +29,7 @@ const readFile = function () {
             .attr("type", function () { return "checkbox"; });
         columnsToShow.insert("label")
             .attr("for", function(d) { return "to-show-" + d; })
-            .text(function(d) { return d; });
+            .text(function(d) { return d + " "; });
 
     };
     reader.readAsBinaryString(fileInput.files[0]);
