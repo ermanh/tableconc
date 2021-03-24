@@ -3,8 +3,8 @@ const fileInput = document.getElementById("csv");
 const readFile = function () {
     var reader = new FileReader();
     reader.onload = function () {    
-        data = $j.csv.toArrays(reader.result);
-        columns = data[0].join(", ");
+        var data = $j.csv.toArrays(reader.result);
+        var columns = data[0].join(", ");
         
         // display all column names
         d3.select("#column-names")

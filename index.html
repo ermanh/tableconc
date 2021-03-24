@@ -17,12 +17,13 @@
         Upload CSV File: <input id="csv" type="file" accept=".csv"><br>
         Column names in file: <text id="column-names"></text>
     </section>
-    <form id="searchbox">
+
+    <form id="search-box" onsubmit="return false;">
         <label for="column-selection">Column to search:</label>
         <select name="column-selection" id="column-selection"></select>
 
         <br><br>
-        <input id="search" type="text" placeholder="Search...">
+        <input id="search-input" type="text" placeholder="Search...">
         <input type="radio" id="keyword" name="search-type" value="keyword" checked>
             <label for="male">Keyword(s)</label> 
         <input type="radio" id="regex" name="search-type" value="regex">
@@ -41,16 +42,20 @@
         <input id="case-sensitive" type="checkbox">
         <label for="case-sensitive">Ignore case</label>
         <br>
-        Match
+        Match |
         <input type="radio" id="match-anywhere" name="match-where" value="match-anywhere" checked>
-            <label for="match-anywhere">anywhere</label> 
+            <label for="match-anywhere">anywhere |</label> 
         <input type="radio" id="match-entire" name="match-where" value="match-entire">
-            <label for="match-entire">entire string</label>
+            <label for="match-entire">entire string |</label>
         <input type="radio" id="match-beginning" name="match-where" value="match-beginning">
-            <label for="match-beginning">beginning</label>
+            <label for="match-beginning">beginning |</label>
         <input type="radio" id="match-end" name="match-where" value="match-end">
-            <label for="match-end">end</label>
+            <label for="match-end">end |</label>
+        <br>
+        <button id="search-button" type="button" onsubmit="concord(); return false;">
+            Search</button>
     </form>
+
     <section id="columnselect">
         Columns to display:
         <text id="columns-to-show"></text>
@@ -69,7 +74,8 @@
         $j(document).ready(function () {
         });
     </script>
-    <script src="tableconc.js" charset="utf-8"></script>
+    <script src="filehandler.js" charset="utf-8"></script>
+    <script src="search.js" charset="utf-8"></script>
 
 </body>
 
