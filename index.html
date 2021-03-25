@@ -31,13 +31,17 @@
         <br>
         <br>
         <input id="chinese" type="checkbox">
-            <label for="chinese">Chinese characters included</label>
+            <label for="chinese">Contains Chinese</label>
         <br>
         <input id="full-words" type="checkbox" checked>
-            <label for="full-words">Full word(s) 
-                <text style="color:gray">
-                    (If selected, searching "word" will not match "words")
-                </text></label>
+            <label id="full-words-label" for="full-words">
+                <div class="tooltip">
+                    Full word(s)
+                    <span class="tooltiptext">
+                        E.g., searching "word" won't match "words"
+                    </span>
+                </div>
+            </label>
         <br>
         <input id="case-sensitive" type="checkbox">
         <label for="case-sensitive">Ignore case</label>
@@ -74,6 +78,7 @@
         $j(document).ready(function () {
         });
     </script>
+    <script src="formlisteners.js" charset="utf-8"></script>
     <script src="filehandler.js" charset="utf-8"></script>
     <script src="search.js" charset="utf-8"></script>
 
