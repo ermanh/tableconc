@@ -10,61 +10,92 @@
 </head>
 
 <body>
-    <section id="banner">
+    <div id="banner" class="section">
         TableConc
-    </section>
-    <section id="file">
+    </div>
+    <div id="file" class="section">
         Upload CSV File: <input id="csv" type="file" accept=".csv"><br>
-        Column names in file: <text id="column-names"></text>
-    </section>
+    </div>
 
     <form id="search-box" onsubmit="return false;">
-        <label for="column-selection">Column to search:</label>
-        <select name="column-selection" id="column-selection"></select>
-
-        <br><br>
-        <input id="search-input" type="text" placeholder="Search...">
-        <input type="radio" id="keyword" name="search-type" value="keyword" checked>
-            <label for="male">Keyword(s)</label> 
-        <input type="radio" id="regex" name="search-type" value="regex">
-            <label for="female">Regex</label>
-        <br>
-        <br>
-        <input id="chinese" type="checkbox">
-            <label for="chinese">Contains Chinese</label>
-        <br>
-        <input id="full-words" type="checkbox" checked>
-            <label id="full-words-label" for="full-words">
-                <div class="tooltip">
-                    Full word(s)
-                    <span class="tooltiptext">
-                        E.g., searching "word" won't match "words"
-                    </span>
-                </div>
-            </label>
-        <br>
-        <input id="case-sensitive" type="checkbox">
-        <label for="case-sensitive">Ignore case</label>
-        <br>
-        Match |
-        <input type="radio" id="match-anywhere" name="match-where" value="match-anywhere" checked>
-            <label for="match-anywhere">anywhere |</label> 
-        <input type="radio" id="match-entire" name="match-where" value="match-entire">
-            <label for="match-entire">entire string |</label>
-        <input type="radio" id="match-beginning" name="match-where" value="match-beginning">
-            <label for="match-beginning">beginning |</label>
-        <input type="radio" id="match-end" name="match-where" value="match-end">
-            <label for="match-end">end |</label>
-        <br>
-        <button id="search-button" type="button" onsubmit="concord(); return false;">
+        <table><tr>
+            <td>
+                <label for="column-selection">Column to search:</label>
+                <select name="column-selection" id="column-selection"></select>
+                <br>
+                <input id="search-input" type="text" placeholder="Search...">
+                <br>
+                <input type="radio" id="keyword" name="search-type" value="keyword" checked>
+                <label for="male">Keyword(s)</label>
+                <input type="radio" id="regex" name="search-type" value="regex">
+                <label for="female">Regex</label>
+                <br>
+                <input id="full-words" type="checkbox" checked>
+                <label id="full-words-label" for="full-words">
+                    <div class="tooltip">
+                        Full word(s)
+                        <span class="tooltiptext">
+                            E.g., searching "host" won't match "hostname"
+                        </span>
+                    </div>
+                </label>
+                <br>
+                <input id="case-sensitive" type="checkbox">
+                <label for="case-sensitive">Case-sensitive</label>
+                <br>
+                <label for="match-where">Match</label>
+                <select name="match-where" id="match-where">
+                    <option value="match-anywhere">anywhere</option>
+                    <option value="match-entire">entire string</option>
+                    <option value="match-beginning">beginning</option>
+                    <option value="match-end">end</option>
+                </select>
+            </td>
+            <td>
+                <label for="column-selection2">Column to search:</label>
+                <select name="column-selection2" id="column-selection2"></select>
+                <br>
+                <input id="search-input2" type="text" placeholder="Search...">
+                <br>
+                <input type="radio" id="keyword2" name="search-type2" value="keyword" checked>
+                <label for="male">Keyword(s)</label>
+                <input type="radio" id="regex2" name="search-type2" value="regex">
+                <label for="female">Regex</label>
+                <br>
+                <input id="full-words2" type="checkbox" checked>
+                <label id="full-words-label2" for="full-words2">
+                    <div class="tooltip">
+                        Full word(s)
+                        <span class="tooltiptext">
+                            E.g., searching "host" won't match "hostname"
+                        </span>
+                    </div>
+                </label>
+                <br>
+                <input id="case-sensitive2" type="checkbox">
+                <label for="case-sensitive2">Case-sensitive</label>
+                <br>
+                <label for="match-where2">Match</label>
+                <select name="match-where2" id="match-where2">
+                    <option value="match-anywhere">anywhere</option>
+                    <option value="match-entire">entire string</option>
+                    <option value="match-beginning">beginning</option>
+                    <option value="match-end">end</option>
+                </select>
+            </td>
+        </tr></table>
+        <button id="search-button">
             Search</button>
     </form>
 
-    <section id="columnselect">
+    <div id="columnselect" class="section">
         Columns to display:
         <text id="columns-to-show"></text>
-    </section>
+    </div>
     
+    <div id="results" class="section">
+        
+    </div>
 
 
 
