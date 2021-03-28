@@ -1,10 +1,10 @@
 const fileInput = document.getElementById("csv");
+var data;
 
 const readFile = function () {
     var reader = new FileReader();
     reader.onload = function () {    
-        var data = $j.csv.toArrays(reader.result);
-        var columns = data[0].join(", ");
+        data = $j.csv.toArrays(reader.result);
         
         // populate drop-down menu
         d3.select("#column-selection").selectAll("option")

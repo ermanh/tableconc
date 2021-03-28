@@ -1,12 +1,12 @@
 const searchBox = document.getElementById("search-box");
 
 const concord = function () {
-    var columnToSearch = document.getElementById("column-selection").value;
-    var searchInput = document.getElementById("search-input").value;
-    var searchType = $j('input[name="search-type"]').val();
-    var fullWords = document.getElementById("full-words").checked;
-    var caseSensitive = document.getElementById("case-sensitive").checked;
-    var matchWhere = document.getElementById("match-where").value;
+    var columnToSearch1 = document.getElementById("column-selection").value;
+    var searchInput1 = document.getElementById("search-input").value;
+    var searchType1 = $j('input[name="search-type"]').val();
+    var fullWords1 = document.getElementById("full-words").checked;
+    var caseSensitive1 = document.getElementById("case-sensitive").checked;
+    var matchWhere1 = document.getElementById("match-where").value;
 
     var columnToSearch2 = document.getElementById("column-selection2").value;
     var searchInput2 = document.getElementById("search-input2").value;
@@ -14,30 +14,50 @@ const concord = function () {
     var fullWords2 = document.getElementById("full-words2").checked;
     var caseSensitive2 = document.getElementById("case-sensitive2").checked;
     var matchWhere2 = document.getElementById("match-where2").value;
-
-    if (searchInput !== "") {
-        console.log("YAY");  
-        if (searchType == "regex") {
-            var re = RegExp(searchInput);
-        } else {
-            // check beginning
-            var beginning = searchInput.match(/^\w/) ? "\b" : "";
-            // check end
-            var end = searchInput.match(/\w$/) ? "\b" : "";
-            var re = RegExp(`${beginning}${searchInput}${end}`);
-        }
+    
+    columnNames = data[0];
+    columnObject = {};
+    for (let i = 0; i < columnNames.length; i++) {
+        columnObject[columnNames[i]] = i;
     }
+    // console.log(JSON.stringify(columnObject));
+    var matchedRows1 = Array();
+    var searchColumnIndex1 = columnObject[columnToSearch1];
+    
+    if (searchInput1 !== "") {
+        console.log("YAY");  
+        var re;
+        if (searchType1 == "regex") {
+            re = caseSensitive1 ? RegExp(searchInput1) : RegExp(searchInput1, 'i');
+        } else {
+            var beginning = searchInput1.match(/^\w/) ? "\\b" : "";
+            var end = searchInput1.match(/\w$/) ? "\\b" : "";
+            pattern = `${beginning}${searchInput1}${end}`
+            re = caseSensitive1 ? RegExp(pattern) : RegExp(pattern, 'i');
+        }
+        // console.log(re);
+        for (let i = 0; i < data.length; i++) {
+            if (data[i][searchColumnIndex1].match(re)) {
+                matchedRows1.push(i);
+            }
+        }
+        // need to save column with concordance color-coding and central alignment
+    }
+    console.log(matchedRows1);
+    
+    
+
 
     if (searchInput2 !== "") {
         console.log("YAY-YAY");
     }
 
-    console.log("columnToSearch", columnToSearch);
-    console.log("searchInput", searchInput);
-    console.log("searchType", searchType);
-    console.log("fullWords", fullWords);
-    console.log("caseSensitive", caseSensitive);
-    console.log("matchWhere", matchWhere);
+    console.log("columnToSearch1", columnToSearch1);
+    console.log("searchInput1", searchInput1);
+    console.log("searchType1", searchType1);
+    console.log("fullWords1", fullWords1);
+    console.log("caseSensitive1", caseSensitive1);
+    console.log("matchWhere1", matchWhere1);
 
     console.log("columnToSearch2", columnToSearch2);
     console.log("searchInput2", searchInput2);
