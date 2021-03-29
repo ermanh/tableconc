@@ -23,10 +23,12 @@ const concord = function () {
     // console.log(JSON.stringify(columnObject));
     var matchedRows1 = Array();
     var searchColumnIndex1 = columnObject[columnToSearch1];
-    
+    var concordanceColumn1 = Array();
+
     if (searchInput1 !== "") {
         console.log("YAY");  
         var re;
+        
         if (searchType1 == "regex") {
             re = caseSensitive1 ? RegExp(searchInput1) : RegExp(searchInput1, 'i');
         } else {
@@ -37,13 +39,22 @@ const concord = function () {
         }
         // console.log(re);
         for (let i = 0; i < data.length; i++) {
-            if (data[i][searchColumnIndex1].match(re)) {
+            var string = data[i][searchColumnIndex1]
+            if (string.match(re)) {
                 matchedRows1.push(i);
+                var match = string.match(re);
+                before = string.slice(0, match.index);
+                after = string.slice(match.index + match[0].length);
+                concordanceColumn1.push(
+                    before + "<text style='color:darkred;'>" + match[0] +
+                    "</text>" + after
+                );
             }
         }
         // need to save column with concordance color-coding and central alignment
     }
     console.log(matchedRows1);
+    console.log(JSON.stringify(concordanceColumn1));
     
     
 
