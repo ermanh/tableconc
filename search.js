@@ -16,28 +16,30 @@ const concord = function () {
     var matchWhere2 = document.getElementById("match-where2").value;
     
     columnNames = data[0];
-    columnObject = {};
+    columnObject = {}; // {column name: index}
     for (let i = 0; i < columnNames.length; i++) {
         columnObject[columnNames[i]] = i;
     }
     // console.log(JSON.stringify(columnObject));
-    var matchedRows1 = Array();
-    var searchColumnIndex1 = columnObject[columnToSearch1];
-    var concordanceColumn1 = Array();
+    var matchedRows1 = Array();  // the rows where there is a match
+    var searchColumnIndex1 = columnObject[columnToSearch1];  // index of the searched column
+    var concordanceColumn1 = Array();  // matched strings with color coding
 
     if (searchInput1 !== "") {
         console.log("YAY");  
         var re;
         
+        // Construct regex
         if (searchType1 == "regex") {
             re = caseSensitive1 ? RegExp(searchInput1) : RegExp(searchInput1, 'i');
         } else {
             var beginning = searchInput1.match(/^\w/) ? "\\b" : "";
             var end = searchInput1.match(/\w$/) ? "\\b" : "";
-            pattern = `${beginning}${searchInput1}${end}`
+            pattern = `${beginning}${searchInput1}${end}`;
             re = caseSensitive1 ? RegExp(pattern) : RegExp(pattern, 'i');
         }
-        // console.log(re);
+        
+        // Create array of color-coded strings
         for (let i = 0; i < data.length; i++) {
             var string = data[i][searchColumnIndex1]
             if (string.match(re)) {
@@ -51,13 +53,34 @@ const concord = function () {
                 );
             }
         }
-        // need to save column with concordance color-coding and central alignment
     }
     console.log(matchedRows1);
     console.log(JSON.stringify(concordanceColumn1));
     
-    
+    // Add color-coded strings into data
+    var newData = JSON.parse(JSON.stringify(data));
+    for (i = 1; i < data.length; i++) {
+        if (matchedRows1.includes(i)) {
+            newData[i][searchColumnIndex1] = concordanceColumn1.pop(0);
+        }
+    }
 
+    // Display results
+    const results = d3.select("#results-table");
+    results.append("tr").selectAll("th")
+        .data(columnNames).enter()
+        .append("th")
+        .text(function(d) { return d; });  
+    for (i = 1; i < newData.length; i++) {
+        if (matchedRows1.includes(i)) {
+            results.append("tr").selectAll("td")
+                .data(newData[i]).enter()
+                .append("td")
+                .html(function(d) { return d; });
+        }
+    }
+
+    
 
     if (searchInput2 !== "") {
         console.log("YAY-YAY");

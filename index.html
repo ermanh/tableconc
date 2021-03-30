@@ -13,13 +13,14 @@
     <div id="banner" class="section">
         TableConc
     </div>
-    <div id="file" class="section">
-        Upload CSV File: <input id="csv" type="file" accept=".csv"><br>
-    </div>
+    <input id="csv" type="file" accept=".csv">
+    <br style="line-height:2.5em;">
 
     <form id="search-box" onsubmit="return false;">
         <table><tr>
-            <td>
+            <td class="search-td">
+                <b>Concordance Search</b>
+                <br>
                 <label for="column-selection">Column to search:</label>
                 <select name="column-selection" id="column-selection"></select>
                 <br>
@@ -51,7 +52,15 @@
                     <option value="match-end">end</option>
                 </select>
             </td>
-            <td>
+            <td id="search-logic">
+                AND
+                <br><br>
+                OR
+            </td>
+            <td style="width:5px;"></td>
+            <td class="search-td">
+                <b>Regular Search</b>
+                <br>
                 <label for="column-selection2">Column to search:</label>
                 <select name="column-selection2" id="column-selection2"></select>
                 <br>
