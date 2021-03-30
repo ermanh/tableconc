@@ -35,7 +35,7 @@ const concord = function () {
         } else {
             var beginning = searchInput1.match(/^\w/) ? "\\b" : "";
             var end = searchInput1.match(/\w$/) ? "\\b" : "";
-            pattern = `${beginning}${searchInput1}${end}`;
+            pattern = `${beginning}${RegExp.escape(searchInput1)}${end}`;
             re = caseSensitive1 ? RegExp(pattern) : RegExp(pattern, 'i');
         }
         
@@ -67,20 +67,24 @@ const concord = function () {
 
     // Display results
     const results = d3.select("#results-table");
-    results.append("tr").selectAll("th")
+    results.html(""); // clear results
+    if (matchedRows1.length > 0) {
+        results.append("tr").selectAll("th")
         .data(columnNames).enter()
         .append("th")
         .text(function(d) { return d; });  
-    for (i = 1; i < newData.length; i++) {
-        if (matchedRows1.includes(i)) {
+        for (i = 1; i < newData.length; i++) {
+            if (matchedRows1.includes(i)) {
             results.append("tr").selectAll("td")
                 .data(newData[i]).enter()
                 .append("td")
                 .html(function(d) { return d; });
-        }
+            }
+        }   
+    } else {
+        results.html(`No results for "${searchInput1}"`);
     }
 
-    
 
     if (searchInput2 !== "") {
         console.log("YAY-YAY");
