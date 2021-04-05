@@ -9,6 +9,7 @@ const concord = function () {
     var fullWords1 = document.getElementById("full-words").checked;
     var caseSensitive1 = document.getElementById("case-sensitive").checked;
     var matchWhere1 = document.getElementById("match-where").value;
+    var concordDisplay1 = document.getElementById("concordance-display").value;
 
     var columnToSearch2 = document.getElementById("column-selection2").value;
     var searchInput2 = document.getElementById("search-input2").value;
@@ -16,6 +17,7 @@ const concord = function () {
     var fullWords2 = document.getElementById("full-words2").checked;
     var caseSensitive2 = document.getElementById("case-sensitive2").checked;
     var matchWhere2 = document.getElementById("match-where2").value;
+    var concordDisplay2 = document.getElementById("concordance-display2").value;
     
     columnNames = data[0];
     columnObject = {}; // {column name: index}
@@ -110,15 +112,26 @@ const concord = function () {
         });
     }
 
-    
     // Pad strings to be displayed
-    var concordanceStrings1 = matchedRows.map((index) => {
-        return newData[index][searchColumnIndex1];
-    });
-    concordanceStrings1 = padConcordance(concordanceStrings1);
-    matchedRows.forEach((index) => {
-        newData[index][searchColumnIndex1] = concordanceStrings1.pop(0);
-    });
+    if (concordDisplay1) {
+        var concordStrings1 = matchedRows.map((index) => {
+            return newData[index][searchColumnIndex1];
+        });
+        concordStrings1 = padConcordance(concordStrings1);
+        console.log(JSON.stringify(concordStrings1));
+        matchedRows.forEach((index) => {
+            newData[index][searchColumnIndex1] = concordStrings1.pop(0);
+        });
+    }
+    if (concordDisplay2) {
+        var concordStrings2 = matchedRows.map((index) => {
+            return newData[index][searchColumnIndex2];
+        });
+        concordStrings2 = padConcordance(concordStrings2);
+        matchedRows.forEach((index) => {
+            newData[index][searchColumnIndex2] = concordStrings2.pop(0);
+        });
+    }
 
     
     // Insert text and html
