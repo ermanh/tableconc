@@ -18,12 +18,12 @@ const readFile = function () {
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });
 
-        // columns to show
+        // columns to display
         var columnsToShow = d3.select("#columns-to-show").selectAll("input")
             .data(data[0]).enter();
         columnsToShow.append("input")
             .attr("id", function(d) { return "to-show-" + d; })
-            .attr("type", function () { return "checkbox"; })
+            .attr("type", "checkbox")
             .property("checked", true);
         columnsToShow.insert("label")
             .attr("for", function(d) { return "to-show-" + d; })

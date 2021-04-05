@@ -41,7 +41,7 @@ const concord = function () {
         
         // Create array of color-coded strings
         for (let i = 0; i < data.length; i++) {
-            var string = data[i][searchColumnIndex1]
+            var string = data[i][searchColumnIndex1];
             if (string.match(re)) {
                 matchedRows1.push(i);
                 var match = string.match(re);
@@ -54,6 +54,7 @@ const concord = function () {
             }
         }
     }
+    concordanceColumn1 = padConcordance(concordanceColumn1);
     console.log(matchedRows1);
     console.log(JSON.stringify(concordanceColumn1));
     
@@ -66,19 +67,27 @@ const concord = function () {
     }
 
     // Display results
+    var selectedColumns = Array();
+    d3.select('#columns-to-show').selectAll('input').each(function (d, i) { 
+        selectedColumns.push(this.checked);
+    });
     const results = d3.select("#results-table");
     results.html(""); // clear results
     if (matchedRows1.length > 0) {
         results.append("tr").selectAll("th")
         .data(columnNames).enter()
         .append("th")
-        .text(function(d) { return d; });  
+        .text(function(d, i) { 
+            if (selectedColumns[i]) { return d; } 
+        });  
         for (i = 1; i < newData.length; i++) {
             if (matchedRows1.includes(i)) {
-            results.append("tr").selectAll("td")
-                .data(newData[i]).enter()
-                .append("td")
-                .html(function(d) { return d; });
+                results.append("tr").selectAll("td")
+                    .data(newData[i]).enter()
+                    .append("td")
+                    .html(function(d, j) { 
+                        if (selectedColumns[j]) { return d; }
+                    });
             }
         }   
     } else {
