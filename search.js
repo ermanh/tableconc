@@ -1,6 +1,8 @@
 const searchBox = document.getElementById("search-box");
 
 const concord = function () {
+    var newData = JSON.parse(JSON.stringify(data));
+
     var columnToSearch1 = document.getElementById("column-selection").value;
     var searchInput1 = document.getElementById("search-input").value;
     var searchType1 = $j('input[name="search-type"]').val();
@@ -23,83 +25,126 @@ const concord = function () {
     // console.log(JSON.stringify(columnObject));
     var matchedRows1 = Array();  // the rows where there is a match
     var searchColumnIndex1 = columnObject[columnToSearch1];  // index of the searched column
-    var concordanceColumn1 = Array();  // matched strings with color coding
+    var matchedRows2 = Array();
+    var searchColumnIndex2 = columnObject[columnToSearch2];  // index of the searched column
 
+
+    // PROCESS SEARCH INPUT 1
     if (searchInput1 !== "") {
         console.log("YAY");  
-        var re;
+        var re1;
         
         // Construct regex
         if (searchType1 == "regex") {
-            re = caseSensitive1 ? RegExp(searchInput1) : RegExp(searchInput1, 'i');
+            re1 = caseSensitive1 ? RegExp(searchInput1) : RegExp(searchInput1, 'i');
         } else {
-            var beginning = searchInput1.match(/^\w/) ? "\\b" : "";
-            var end = searchInput1.match(/\w$/) ? "\\b" : "";
-            pattern = `${beginning}${RegExp.escape(searchInput1)}${end}`;
-            re = caseSensitive1 ? RegExp(pattern) : RegExp(pattern, 'i');
+            var beginning1 = searchInput1.match(/^\w/) ? "\\b" : "";
+            var end1 = searchInput1.match(/\w$/) ? "\\b" : "";
+            var pattern1 = `${beginning1}${RegExp.escape(searchInput1)}${end1}`;
+            re1 = caseSensitive1 ? RegExp(pattern1) : RegExp(pattern1, 'i');
         }
         
-        // Create array of color-coded strings
+        // Record matched rows and create array of color-coded strings
         for (let i = 0; i < data.length; i++) {
-            var string = data[i][searchColumnIndex1];
-            if (string.match(re)) {
+            let str = data[i][searchColumnIndex1];
+            if (str.match(re1)) {
                 matchedRows1.push(i);
-                var match = string.match(re);
-                before = string.slice(0, match.index);
-                after = string.slice(match.index + match[0].length);
-                concordanceColumn1.push(
-                    before + "<text style='color:darkred;'>" + match[0] +
-                    "</text>" + after
-                );
+                let match = str.match(re1);
+                let before = str.slice(0, match.index);
+                let after = str.slice(match.index + match[0].length);
+                let tagOpen = "<text style='color:darkred;'>";
+                let tagClose = "</text>";
+                newData[i][searchColumnIndex1] = `${before}${tagOpen}${match[0]}${tagClose}${after}`;
             }
         }
     }
-    concordanceColumn1 = padConcordance(concordanceColumn1);
-    console.log(matchedRows1);
-    console.log(JSON.stringify(concordanceColumn1));
-    
-    // Add color-coded strings into data
-    var newData = JSON.parse(JSON.stringify(data));
-    for (i = 1; i < data.length; i++) {
-        if (matchedRows1.includes(i)) {
-            newData[i][searchColumnIndex1] = concordanceColumn1.pop(0);
+
+
+    // PROCESS SEARCH INPUT 2
+    if (searchInput2 !== "") {
+        console.log("YAY-YAY");
+        var re2;
+        // Construct regex
+        if (searchType2 == "regex") {
+            re2 = caseSensitive2 ? RegExp(searchInput2) : RegExp(searchIntput2, 'i');
+        } else {
+            var beginning2 = searchInput2.match(/^\w/) ? "\\b" : "";
+            var end2 = searchInput2.match(/\w$/) ? "\\b" : "";
+            var pattern2 = `${beginning2}${RegExp.escape(searchInput2)}${end2}`;
+            re2 = caseSensitive2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
+        }
+
+        // Record matched rows
+        // TODO: searchColumnIndex2 cannot be the same as searchColumnIndex1
+        for (let i = 0; i < data.length; i++) {
+            let str = data[i][searchColumnIndex2];
+            if (str.match(re2)) {
+                matchedRows2.push(i);
+                let match = str.match(re2);
+                let before = str.slice(0, match.index);
+                let after = str.slice(match.index + match[0].length);
+                let tagOpen = "<text style='color:blue;'>";
+                let tagClose = "</text>";
+                newData[i][searchColumnIndex2] = `${before}${tagOpen}${match[0]}${tagClose}${after}`;
+            }
         }
     }
 
     //// Display results
+    
     // Get array of trues and falses on which columns to display
     var selectedColumns = Array();
     d3.select('#columns-to-show').selectAll('input').each(function (d, i) { 
         selectedColumns.push(this.checked);
     });
+    
+    // Matched rows logic
+    var matchedRows;
+    if (searchInput1 !== "" && searchInput2 == "") {
+        matchedRows = matchedRows1;
+    } else if (searchInput1 == "" && searchInput2 !== "") {
+        matchedRows = matchedRows2;
+    } else if (searchInput1 !== "" && searchInput2 !== "") {
+        matchedRows = matchedRows1.filter(x => { 
+            return matchedRows2.includes(x); 
+        });
+    }
+
+    
+    // Pad strings to be displayed
+    var concordanceStrings1 = matchedRows.map((index) => {
+        return newData[index][searchColumnIndex1];
+    });
+    concordanceStrings1 = padConcordance(concordanceStrings1);
+    matchedRows.forEach((index) => {
+        newData[index][searchColumnIndex1] = concordanceStrings1.pop(0);
+    });
+
+    
     // Insert text and html
     const results = d3.select("#results-table");
     results.html(""); // clear results
-    if (matchedRows1.length > 0) {
+    if (matchedRows.length > 0) {
         results.append("tr").selectAll("th")
         .data(columnNames).enter()
         .append("th")
         .text(function(d, i) { 
             if (selectedColumns[i]) { return d; } 
         });  
-        for (i = 1; i < newData.length; i++) {
-            if (matchedRows1.includes(i)) {
-                results.append("tr").selectAll("td")
-                    .data(newData[i]).enter()
-                    .append("td")
-                    .html(function(d, j) { 
-                        if (selectedColumns[j]) { return d; }
-                    });
-            }
-        }   
+        matchedRows.forEach((index) => {
+            results.append("tr").selectAll("td")
+                .data(newData[index]).enter()
+                .append("td")
+                .html(function(d, j) {
+                    if (selectedColumns[j]) { return d; }
+                });
+        }); 
     } else {
         results.html(`No results for "${searchInput1}"`);
     }
 
 
-    if (searchInput2 !== "") {
-        console.log("YAY-YAY");
-    }
+
 
     console.log("columnToSearch1", columnToSearch1);
     console.log("searchInput1", searchInput1);

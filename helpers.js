@@ -1,4 +1,5 @@
 function padConcordance(concordanceColumn) {
+    console.log(JSON.stringify(concordanceColumn));
     // TODO: need to limit padding length (for strings that are absolutely too long)
     let beforeRE = RegExp(/^(.*?)<text style='color:darkred;'>/);
     let afterRE = RegExp(/.*?<\/text>(.+)$/);
