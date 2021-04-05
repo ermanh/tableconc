@@ -1,4 +1,5 @@
 function padConcordance(concordanceColumn) {
+    // TODO: need to limit padding length (for strings that are absolutely too long)
     let beforeRE = RegExp(/^(.*?)<text style='color:darkred;'>/);
     let afterRE = RegExp(/.*?<\/text>(.+)$/);
     var beforeLengths = concordanceColumn.map((el) => {
@@ -7,15 +8,13 @@ function padConcordance(concordanceColumn) {
     var afterLengths = concordanceColumn.map((el) => {
         return afterRE.exec(el).pop().length;
     });
-    console.log(JSON.stringify(beforeLengths));
-    console.log(JSON.stringify(afterLengths));
-    var maxBefore = Math.max(beforeLengths);
-    var maxAfter = Math.max(afterLengths);
+    var maxBefore = beforeLengths.reduce((a, b) => { return Math.max(a, b); });
+    var maxAfter = afterLengths.reduce((a, b) => { return Math.max(a, b); });
     var newColumn = Array();
     for (let i = 0; i < concordanceColumn.length; i++) {
-        padStart = '&nbsp;'.repeat(maxBefore - beforeLengths[i]);
-        padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
+        var padStart = '&nbsp;'.repeat(maxBefore - beforeLengths[i]);
+        var padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
         newColumn.push(`${padStart}${concordanceColumn[i]}${padEnd}`);
     }
     return newColumn;
-};
+}

@@ -66,11 +66,13 @@ const concord = function () {
         }
     }
 
-    // Display results
+    //// Display results
+    // Get array of trues and falses on which columns to display
     var selectedColumns = Array();
     d3.select('#columns-to-show').selectAll('input').each(function (d, i) { 
         selectedColumns.push(this.checked);
     });
+    // Insert text and html
     const results = d3.select("#results-table");
     results.html(""); // clear results
     if (matchedRows1.length > 0) {
