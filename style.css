@@ -55,8 +55,12 @@ td#search-logic {
 #search-input, #search-input2 {
     font-size: 0.8em;
     border-radius: 0.5em;
-    padding: 0.1em 0.4em;
     width: 265px;
+    margin: 5px 0;
+}
+
+#search-input:disabled, #search-input2:disabled {
+    background-color: lightgray;
 }
 
 #file, #columnselect {
