@@ -47,6 +47,7 @@ keywordSelection.addEventListener('change', function() {
 columnSelection.addEventListener('change', function() {
     if (this.value == "(none)") {
         // Diable all selections
+        searchInput.value = "";
         searchInput.disabled = true;
         regexSelection.disabled = true;
         keywordSelection.disabled = true;
@@ -99,6 +100,7 @@ keywordSelection.addEventListener('change', function() {
 columnSelection2.addEventListener('change', function() {
     if (this.value == "(none)") {
         // Diable all selections
+        searchInput2.value = "";
         searchInput2.disabled = true;
         regexSelection2.disabled = true;
         keywordSelection2.disabled = true;

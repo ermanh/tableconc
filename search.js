@@ -139,18 +139,19 @@ const concord = function () {
     results.html(""); // clear results
     if (matchedRows.length > 0) {
         results.append("tr").selectAll("th")
-        .data(columnNames).enter()
+        .data(columnNames.filter(function(d, i) {
+            if (selectedColumns[i]) { return d; }
+        })).enter()
         .append("th")
-        .text(function(d, i) { 
-            if (selectedColumns[i]) { return d; } 
-        });  
+        .text(function(d) { return d; });
         matchedRows.forEach((index) => {
             results.append("tr").selectAll("td")
-                .data(newData[index]).enter()
-                .append("td")
-                .html(function(d, j) {
+                .data(newData[index].filter(function(d, j) {
                     if (selectedColumns[j]) { return d; }
-                });
+                })).enter()
+                .append("td")
+                .attr("class", "results-td")
+                .html(function(d) { return d; });
         }); 
     } else {
         results.html(`No results for "${searchInputValue1}"`);

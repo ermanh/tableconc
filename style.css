@@ -16,6 +16,16 @@ form, div.section {
     margin-bottom: 0.5em;
 }
 
+table#results-table {
+    border-collapse: collapse;
+}
+
+td.results-td {
+    padding: 3px 12px;
+    border: 0.5px solid lightgray;
+    border-collapse: collapse;
+}
+
 td {
     padding: 0 0.75em;
 }
