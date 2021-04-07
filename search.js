@@ -9,7 +9,7 @@ const concord = function () {
     var fullWordsChecked1 = document.getElementById("full-words").checked;
     var caseSensitiveChecked1 = document.getElementById("case-sensitive").checked;
     var matchWhereValue1 = document.getElementById("match-where").value;
-    var concordDisplayValue1 = document.getElementById("concordance-display").value;
+    var concordDisplayChecked1 = document.getElementById("concordance-display").checked;
 
     var columnToSearchValue2 = document.getElementById("column-selection2").value;
     var searchInputValue2 = document.getElementById("search-input2").value;
@@ -17,7 +17,7 @@ const concord = function () {
     var fullWordsChecked2 = document.getElementById("full-words2").checked;
     var caseSensitiveChecked2 = document.getElementById("case-sensitive2").checked;
     var matchWhereValue2 = document.getElementById("match-where2").value;
-    var concordDisplayValue2 = document.getElementById("concordance-display2").value;
+    var concordDisplayChecked2 = document.getElementById("concordance-display2").checked;
     
     columnNames = data[0];
     columnObject = {}; // {column name: index}
@@ -113,23 +113,23 @@ const concord = function () {
     }
 
     // Pad strings to be displayed
-    if (concordDisplayValue1 && searchInputValue1 !== "") {
+    if (concordDisplayChecked1 && searchInputValue1 !== "") {
         var concordStrings1 = matchedRows.map((index) => {
             return newData[index][searchColumnIndex1];
         });
         concordStrings1 = padConcordance(concordStrings1, 'red');
         console.log(JSON.stringify(concordStrings1));
         matchedRows.forEach((index) => {
-            newData[index][searchColumnIndex1] = concordStrings1.pop(0);
+            newData[index][searchColumnIndex1] = concordStrings1.shift();
         });
     }
-    if (concordDisplayValue2 && searchInputValue2 !== "") {
+    if (concordDisplayChecked2 && searchInputValue2 !== "") {
         var concordStrings2 = matchedRows.map((index) => {
             return newData[index][searchColumnIndex2];
         });
         concordStrings2 = padConcordance(concordStrings2, 'blue');
         matchedRows.forEach((index) => {
-            newData[index][searchColumnIndex2] = concordStrings2.pop(0);
+            newData[index][searchColumnIndex2] = concordStrings2.shift();
         });
     }
 
