@@ -24,14 +24,14 @@
                 <label for="column-selection">Column to search:</label>
                 <select name="column-selection" id="column-selection"></select>
                 <br>
-                <input id="search-input" type="text" placeholder="Search...">
+                <input id="search-input" type="text" placeholder="Search..." disabled>
                 <br>
-                <input type="radio" id="keyword" name="search-type" value="keyword" checked>
+                <input type="radio" id="keyword" name="search-type" value="keyword" checked disabled>
                 <label for="male">Keyword(s)</label>
-                <input type="radio" id="regex" name="search-type" value="regex">
+                <input type="radio" id="regex" name="search-type" value="regex" disabled>
                 <label for="female">Regex</label>
                 <br>
-                <input id="full-words" type="checkbox" checked>
+                <input id="full-words" type="checkbox" checked disabled>
                 <label id="full-words-label" for="full-words">
                     <div class="tooltip">
                         Full word(s)
@@ -41,18 +41,18 @@
                     </div>
                 </label>
                 <br>
-                <input id="case-sensitive" type="checkbox">
+                <input id="case-sensitive" type="checkbox" disabled>
                 <label for="case-sensitive">Case-sensitive</label>
                 <br>
                 <label for="match-where">Match</label>
-                <select name="match-where" id="match-where">
+                <select name="match-where" id="match-where" disabled>
                     <option value="match-anywhere">anywhere</option>
                     <option value="match-entire">entire string</option>
                     <option value="match-beginning">beginning</option>
                     <option value="match-end">end</option>
                 </select>
                 <br>
-                <input id="concordance-display" type="checkbox" checked>
+                <input id="concordance-display" type="checkbox" checked disabled>
                 <label for="concordance-display">Concordance display</label>
             </td>
             <td style="width:5px;"></td>
@@ -62,14 +62,14 @@
                 <label for="column-selection2">Column to search:</label>
                 <select name="column-selection2" id="column-selection2"></select>
                 <br>
-                <input id="search-input2" type="text" placeholder="Search...">
+                <input id="search-input2" type="text" placeholder="Search..." disabled>
                 <br>
-                <input type="radio" id="keyword2" name="search-type2" value="keyword" checked>
+                <input type="radio" id="keyword2" name="search-type2" value="keyword" checked disabled>
                 <label for="male">Keyword(s)</label>
-                <input type="radio" id="regex2" name="search-type2" value="regex">
+                <input type="radio" id="regex2" name="search-type2" value="regex" disabled>
                 <label for="female">Regex</label>
                 <br>
-                <input id="full-words2" type="checkbox" checked>
+                <input id="full-words2" type="checkbox" checked disabled>
                 <label id="full-words-label2" for="full-words2">
                     <div class="tooltip">
                         Full word(s)
@@ -79,22 +79,22 @@
                     </div>
                 </label>
                 <br>
-                <input id="case-sensitive2" type="checkbox">
+                <input id="case-sensitive2" type="checkbox" disabled>
                 <label for="case-sensitive2">Case-sensitive</label>
                 <br>
                 <label for="match-where2">Match</label>
-                <select name="match-where2" id="match-where2">
+                <select name="match-where2" id="match-where2" disabled>
                     <option value="match-anywhere">anywhere</option>
                     <option value="match-entire">entire string</option>
                     <option value="match-beginning">beginning</option>
                     <option value="match-end">end</option>
                 </select>
                 <br>
-                <input id="concordance-display2" type="checkbox">
+                <input id="concordance-display2" type="checkbox" disabled>
                 <label for="concordance-display2">Concordance display</label>
             </td>
         </tr></table>
-        <button id="search-button">
+        <button id="search-button" disabled>
             Search</button>
     </form>
 

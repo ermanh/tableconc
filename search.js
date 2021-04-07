@@ -3,21 +3,21 @@ const searchBox = document.getElementById("search-box");
 const concord = function () {
     var newData = JSON.parse(JSON.stringify(data));
 
-    var columnToSearch1 = document.getElementById("column-selection").value;
-    var searchInput1 = document.getElementById("search-input").value;
-    var searchType1 = $j('input[name="search-type"]').val();
-    var fullWords1 = document.getElementById("full-words").checked;
-    var caseSensitive1 = document.getElementById("case-sensitive").checked;
-    var matchWhere1 = document.getElementById("match-where").value;
-    var concordDisplay1 = document.getElementById("concordance-display").value;
+    var columnToSearchValue1 = document.getElementById("column-selection").value;
+    var searchInputValue1 = document.getElementById("search-input").value;
+    var searchTypeValue1 = $j('input[name="search-type"]').val();
+    var fullWordsChecked1 = document.getElementById("full-words").checked;
+    var caseSensitiveChecked1 = document.getElementById("case-sensitive").checked;
+    var matchWhereValue1 = document.getElementById("match-where").value;
+    var concordDisplayValue1 = document.getElementById("concordance-display").value;
 
-    var columnToSearch2 = document.getElementById("column-selection2").value;
-    var searchInput2 = document.getElementById("search-input2").value;
-    var searchType2 = $j('input[name="search-type2"]').val();
-    var fullWords2 = document.getElementById("full-words2").checked;
-    var caseSensitive2 = document.getElementById("case-sensitive2").checked;
-    var matchWhere2 = document.getElementById("match-where2").value;
-    var concordDisplay2 = document.getElementById("concordance-display2").value;
+    var columnToSearchValue2 = document.getElementById("column-selection2").value;
+    var searchInputValue2 = document.getElementById("search-input2").value;
+    var searchTypeValue2 = $j('input[name="search-type2"]').val();
+    var fullWordsChecked2 = document.getElementById("full-words2").checked;
+    var caseSensitiveChecked2 = document.getElementById("case-sensitive2").checked;
+    var matchWhereValue2 = document.getElementById("match-where2").value;
+    var concordDisplayValue2 = document.getElementById("concordance-display2").value;
     
     columnNames = data[0];
     columnObject = {}; // {column name: index}
@@ -26,24 +26,24 @@ const concord = function () {
     }
     // console.log(JSON.stringify(columnObject));
     var matchedRows1 = Array();  // the rows where there is a match
-    var searchColumnIndex1 = columnObject[columnToSearch1];  // index of the searched column
+    var searchColumnIndex1 = columnObject[columnToSearchValue1];  // index of the searched column
     var matchedRows2 = Array();
-    var searchColumnIndex2 = columnObject[columnToSearch2];  // index of the searched column
+    var searchColumnIndex2 = columnObject[columnToSearchValue2];  // index of the searched column
 
 
     // PROCESS SEARCH INPUT 1
-    if (searchInput1 !== "") {
+    if (searchInputValue1 !== "") {
         console.log("YAY");  
         var re1;
         
         // Construct regex
-        if (searchType1 == "regex") {
-            re1 = caseSensitive1 ? RegExp(searchInput1) : RegExp(searchInput1, 'i');
+        if (searchTypeValue1 == "regex") {
+            re1 = caseSensitiveChecked1 ? RegExp(searchInputValue1) : RegExp(searchInputValue1, 'i');
         } else {
-            var beginning1 = searchInput1.match(/^\w/) ? "\\b" : "";
-            var end1 = searchInput1.match(/\w$/) ? "\\b" : "";
-            var pattern1 = `${beginning1}${RegExp.escape(searchInput1)}${end1}`;
-            re1 = caseSensitive1 ? RegExp(pattern1) : RegExp(pattern1, 'i');
+            var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
+            var end1 = searchInputValue1.match(/\w$/) ? "\\b" : "";
+            var pattern1 = `${beginning1}${RegExp.escape(searchInputValue1)}${end1}`;
+            re1 = caseSensitiveChecked1 ? RegExp(pattern1) : RegExp(pattern1, 'i');
         }
         
         // Record matched rows and create array of color-coded strings
@@ -63,17 +63,17 @@ const concord = function () {
 
 
     // PROCESS SEARCH INPUT 2
-    if (searchInput2 !== "") {
+    if (searchInputValue2 !== "") {
         console.log("YAY-YAY");
         var re2;
         // Construct regex
-        if (searchType2 == "regex") {
-            re2 = caseSensitive2 ? RegExp(searchInput2) : RegExp(searchIntput2, 'i');
+        if (searchTypeValue2 == "regex") {
+            re2 = caseSensitiveChecked2 ? RegExp(searchInputValue2) : RegExp(searchIntputValue2, 'i');
         } else {
-            var beginning2 = searchInput2.match(/^\w/) ? "\\b" : "";
-            var end2 = searchInput2.match(/\w$/) ? "\\b" : "";
-            var pattern2 = `${beginning2}${RegExp.escape(searchInput2)}${end2}`;
-            re2 = caseSensitive2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
+            var beginning2 = searchInputValue2.match(/^\w/) ? "\\b" : "";
+            var end2 = searchInputValue2.match(/\w$/) ? "\\b" : "";
+            var pattern2 = `${beginning2}${RegExp.escape(searchInputValue2)}${end2}`;
+            re2 = caseSensitiveChecked2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
         }
 
         // Record matched rows
@@ -102,32 +102,32 @@ const concord = function () {
     
     // Matched rows logic
     var matchedRows;
-    if (searchInput1 !== "" && searchInput2 == "") {
+    if (searchInputValue1 !== "" && searchInputValue2 == "") {
         matchedRows = matchedRows1;
-    } else if (searchInput1 == "" && searchInput2 !== "") {
+    } else if (searchInputValue1 == "" && searchInputValue2 !== "") {
         matchedRows = matchedRows2;
-    } else if (searchInput1 !== "" && searchInput2 !== "") {
+    } else if (searchInputValue1 !== "" && searchInputValue2 !== "") {
         matchedRows = matchedRows1.filter(x => { 
             return matchedRows2.includes(x); 
         });
     }
 
     // Pad strings to be displayed
-    if (concordDisplay1) {
+    if (concordDisplayValue1 && searchInputValue1 !== "") {
         var concordStrings1 = matchedRows.map((index) => {
             return newData[index][searchColumnIndex1];
         });
-        concordStrings1 = padConcordance(concordStrings1);
+        concordStrings1 = padConcordance(concordStrings1, 'red');
         console.log(JSON.stringify(concordStrings1));
         matchedRows.forEach((index) => {
             newData[index][searchColumnIndex1] = concordStrings1.pop(0);
         });
     }
-    if (concordDisplay2) {
+    if (concordDisplayValue2 && searchInputValue2 !== "") {
         var concordStrings2 = matchedRows.map((index) => {
             return newData[index][searchColumnIndex2];
         });
-        concordStrings2 = padConcordance(concordStrings2);
+        concordStrings2 = padConcordance(concordStrings2, 'blue');
         matchedRows.forEach((index) => {
             newData[index][searchColumnIndex2] = concordStrings2.pop(0);
         });
@@ -153,25 +153,25 @@ const concord = function () {
                 });
         }); 
     } else {
-        results.html(`No results for "${searchInput1}"`);
+        results.html(`No results for "${searchInputValue1}"`);
     }
 
 
 
 
-    console.log("columnToSearch1", columnToSearch1);
-    console.log("searchInput1", searchInput1);
-    console.log("searchType1", searchType1);
-    console.log("fullWords1", fullWords1);
-    console.log("caseSensitive1", caseSensitive1);
-    console.log("matchWhere1", matchWhere1);
+    console.log("columnToSearchValue1", columnToSearchValue1);
+    console.log("searchInputValue1", searchInputValue1);
+    console.log("searchTypeValue1", searchTypeValue1);
+    console.log("fullWordsChecked1", fullWordsChecked1);
+    console.log("caseSensitiveChecked1", caseSensitiveChecked1);
+    console.log("matchWhereValue1", matchWhereValue1);
 
-    console.log("columnToSearch2", columnToSearch2);
-    console.log("searchInput2", searchInput2);
-    console.log("searchType2", searchType2);
-    console.log("fullWords2", fullWords2);
-    console.log("caseSensitive2", caseSensitive2);
-    console.log("matchWhere2", matchWhere2);
+    console.log("columnToSearchValue2", columnToSearchValue2);
+    console.log("searchInputValue2", searchInputValue2);
+    console.log("searchTypeValue2", searchTypeValue2);
+    console.log("fullWordsChecked2", fullWordsChecked2);
+    console.log("caseSensitiveChecked2", caseSensitiveChecked2);
+    console.log("matchWhereValue2", matchWhereValue2);
 };
 
 searchBox.addEventListener('submit', concord);
