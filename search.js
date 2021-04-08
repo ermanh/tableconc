@@ -1,3 +1,5 @@
+// TODO: Both searches cannot search the same column
+
 const searchBox = document.getElementById("search-box");
 
 const concord = function () {

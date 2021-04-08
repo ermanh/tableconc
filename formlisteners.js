@@ -45,8 +45,9 @@ keywordSelection.addEventListener('change', function() {
 
 // ~~~ Column Selection ~~~
 columnSelection.addEventListener('change', function() {
-    if (this.value == "(none)") {
-        // Diable all selections
+    var columnSelectionValue = this.value;
+    if (columnSelectionValue == "(none)") {
+        // Disable all selections
         searchInput.value = "";
         searchInput.disabled = true;
         regexSelection.disabled = true;
@@ -68,7 +69,17 @@ columnSelection.addEventListener('change', function() {
         matchWhere.disabled = false;
         concordanceDisplay.disabled = false;
         searchButton.disabled = false;
+        columnSelection2.childNodes.forEach(function(node) {
+            if (node.value !== columnSelectionValue) {
+                // Enable all options in the other search
+                node.disabled = false;
+            } else {
+                // Disable the selected option in the other search
+                node.disabled = true;
+            }
+        });
     }
+
 });
 
 
@@ -98,8 +109,9 @@ keywordSelection.addEventListener('change', function() {
 
 // ~~~ Column Selection ~~~
 columnSelection2.addEventListener('change', function() {
-    if (this.value == "(none)") {
-        // Diable all selections
+    var columnSelectionValue2 = this.value;
+    if (columnSelectionValue2 == "(none)") {
+        // Disable all selections
         searchInput2.value = "";
         searchInput2.disabled = true;
         regexSelection2.disabled = true;
@@ -121,6 +133,15 @@ columnSelection2.addEventListener('change', function() {
         matchWhere2.disabled = false;
         concordanceDisplay2.disabled = false;
         searchButton.disabled = false;
+        columnSelection.childNodes.forEach(function(node) {
+            if (node.value !== columnSelectionValue2) {
+                // Enable all options in the other search
+                node.disabled = false;
+            } else {
+                // Disable the selected option in the other search
+                node.disabled = true;
+            }
+        });
     }
 });
 
