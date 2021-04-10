@@ -6,6 +6,7 @@ const keywordSelection = document.getElementById("keyword");
 const fullWords = document.getElementById("full-words");
 const caseSensitive = document.getElementById("case-sensitive");
 const matchWhere = document.getElementById("match-where");
+const findall = document.getElementById("findall");
 const concordanceDisplay = document.getElementById("concordance-display");
 const concordanceCutoff = document.getElementById("concordance-cutoff");
 
@@ -16,6 +17,7 @@ const keywordSelection2 = document.getElementById("keyword2");
 const fullWords2 = document.getElementById("full-words2");
 const caseSensitive2 = document.getElementById("case-sensitive2");
 const matchWhere2 = document.getElementById("match-where2");
+const findall2 = document.getElementById("findall2");
 const concordanceDisplay2 = document.getElementById("concordance-display2");
 const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
 
@@ -54,6 +56,18 @@ concordanceDisplay.addEventListener('change', function() {
     }
 });
 
+// ~~~ Findall ~~~
+findall.addEventListener('change', function() {
+    if (this.checked) {
+        concordanceDisplay.checked = false;
+        concordanceDisplay.disabled = true;
+        concordanceCutoff.disabled = true;
+    } else {
+        concordanceDisplay.disabled = false;
+        concordanceCutoff.disabled = false;
+    }
+});
+
 // ~~~ Column Selection ~~~
 columnSelection.addEventListener('change', function() {
     var columnSelectionValue = this.value;
@@ -66,6 +80,7 @@ columnSelection.addEventListener('change', function() {
         fullWords.disabled = true;
         caseSensitive.disabled = true;
         matchWhere.disabled = true;
+        findall.disabled = true;
         concordanceDisplay.disabled = true;
         concordanceCutoff.disabled = true;
         if (columnSelection2.value == "(none)") {
@@ -79,6 +94,7 @@ columnSelection.addEventListener('change', function() {
         fullWords.disabled = false;
         caseSensitive.disabled = false;
         matchWhere.disabled = false;
+        findall.disabled = false;
         concordanceDisplay.disabled = false;
         if (concordanceDisplay.checked) {
             concordanceCutoff.disabled = false;
@@ -130,6 +146,18 @@ concordanceDisplay2.addEventListener('change', function() {
     }
 });
 
+// ~~~ Findall ~~~
+findall2.addEventListener('change', function() {
+    if (this.checked) {
+        concordanceDisplay2.checked = false;
+        concordanceDisplay2.disabled = true;
+        concordanceCutoff2.disabled = true;
+    } else {
+        concordanceDisplay2.disabled = false;
+        concordanceCutoff2.disabled = false;
+    }
+});
+
 // ~~~ Column Selection ~~~
 columnSelection2.addEventListener('change', function() {
     var columnSelectionValue2 = this.value;
@@ -142,6 +170,7 @@ columnSelection2.addEventListener('change', function() {
         fullWords2.disabled = true;
         caseSensitive2.disabled = true;
         matchWhere2.disabled = true;
+        findall2.disabled = true;
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
         if (columnSelection.value == "(none)") {
@@ -155,6 +184,7 @@ columnSelection2.addEventListener('change', function() {
         fullWords2.disabled = false;
         caseSensitive2.disabled = false;
         matchWhere2.disabled = false;
+        findall2.disabled = false;
         concordanceDisplay2.disabled = false;
         if (concordanceDisplay2.checked) {
             concordanceCutoff2.disabled = false;
