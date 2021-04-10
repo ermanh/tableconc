@@ -1,7 +1,6 @@
 function padConcordance(concordanceColumn, redOrBlue) {
     console.log(JSON.stringify(concordanceColumn));
     // TODO: need to limit padding length (for strings that are absolutely too long)
-    // TODO: padding amount still problematic
     let beforeRE;
     if (redOrBlue == "red") {
         beforeRE = RegExp(/^(.*?)<text style='color:darkred;'>/);

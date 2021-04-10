@@ -1,5 +1,3 @@
-// TODO: Both searches cannot search the same column
-
 const searchBox = document.getElementById("search-box");
 
 const concord = function () {
@@ -7,7 +5,7 @@ const concord = function () {
 
     var columnToSearchValue1 = document.getElementById("column-selection").value;
     var searchInputValue1 = document.getElementById("search-input").value;
-    var searchTypeValue1 = $j('input[name="search-type"]').val();
+    var searchTypeValue1 = document.querySelector('input[name="search-type"]:checked').value;
     var fullWordsChecked1 = document.getElementById("full-words").checked;
     var caseSensitiveChecked1 = document.getElementById("case-sensitive").checked;
     var matchWhereValue1 = document.getElementById("match-where").value;
@@ -15,7 +13,7 @@ const concord = function () {
 
     var columnToSearchValue2 = document.getElementById("column-selection2").value;
     var searchInputValue2 = document.getElementById("search-input2").value;
-    var searchTypeValue2 = $j('input[name="search-type2"]').val();
+    var searchTypeValue2 = document.querySelector('input[name="search-type2"]:checked').value;
     var fullWordsChecked2 = document.getElementById("full-words2").checked;
     var caseSensitiveChecked2 = document.getElementById("case-sensitive2").checked;
     var matchWhereValue2 = document.getElementById("match-where2").value;
@@ -40,6 +38,7 @@ const concord = function () {
         
         // Construct regex
         if (searchTypeValue1 == "regex") {
+            console.log("EEEKS searchTypeValue1", searchTypeValue1);
             re1 = caseSensitiveChecked1 ? RegExp(searchInputValue1) : RegExp(searchInputValue1, 'i');
         } else {
             var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
@@ -79,7 +78,6 @@ const concord = function () {
         }
 
         // Record matched rows
-        // TODO: searchColumnIndex2 cannot be the same as searchColumnIndex1
         for (let i = 0; i < data.length; i++) {
             let str = data[i][searchColumnIndex2];
             if (str.match(re2)) {
@@ -156,6 +154,7 @@ const concord = function () {
                 .html(function(d) { return d; });
         }); 
     } else {
+        // TODO: Need to update to include searchInputValue2
         results.html(`No results for "${searchInputValue1}"`);
     }
 
