@@ -35,14 +35,25 @@ const concord = function () {
     if (searchInputValue1 !== "") {
         console.log("YAY");  
         var re1;
-        
+        var pattern1 = searchInputValue1;
+
         // Construct regex
-        if (searchTypeValue1 == "regex" || !fullWordsChecked1) {
-            re1 = caseSensitiveChecked1 ? RegExp(searchInputValue1) : RegExp(searchInputValue1, 'i');
+        if (searchTypeValue1 == "regex") {
+            re1 = caseSensitiveChecked1 ? RegExp(pattern1) : RegExp(pattern1, 'i');
         } else {
-            var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
-            var end1 = searchInputValue1.match(/\w$/) ? "\\b" : "";
-            var pattern1 = `${beginning1}${RegExp.escape(searchInputValue1)}${end1}`;
+            pattern1 = RegExp.escape(searchInputValue1);
+            if (fullWordsChecked1) {
+                var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
+                var end1 = searchInputValue1.match(/\w$/) ? "\\b" : "";
+                pattern1 = `${beginning1}${pattern1}${end1}`;
+            }
+            if (matchWhereValue1 == "match-entire") {
+                pattern1 = `^${pattern1}$`;
+            } else if (matchWhereValue1 == "match-beginning") {
+                pattern1 = `^${pattern1}`;
+            } else if (matchWhereValue1 == "match-end") {
+                pattern1 = `${pattern1}$`;
+            }
             re1 = caseSensitiveChecked1 ? RegExp(pattern1) : RegExp(pattern1, 'i');
         }
         
@@ -66,13 +77,25 @@ const concord = function () {
     if (searchInputValue2 !== "") {
         console.log("YAY-YAY");
         var re2;
+        var pattern2 = searchInputValue2;
+
         // Construct regex
-        if (searchTypeValue2 == "regex" || !fullWordsChecked2) {
-            re2 = caseSensitiveChecked2 ? RegExp(searchInputValue2) : RegExp(searchInputValue2, 'i');
+        if (searchTypeValue2 == "regex") {
+            re2 = caseSensitiveChecked2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
         } else {
-            var beginning2 = searchInputValue2.match(/^\w/) ? "\\b" : "";
-            var end2 = searchInputValue2.match(/\w$/) ? "\\b" : "";
-            var pattern2 = `${beginning2}${RegExp.escape(searchInputValue2)}${end2}`;
+            pattern2 = RegExp.escape(searchInputValue2);
+            if (fullWordsChecked2) {
+                var beginning2 = searchInputValue1.match(/^\w/) ? "\\b" : "";
+                var end2 = searchInputValue1.match(/\w$/) ? "\\b" : "";
+                pattern2 = `${beginning2}${pattern2}${end2}`;
+            }
+            if (matchWhereValue2 == "match-entire") {
+                pattern2 = `^${pattern2}$`;
+            } else if (matchWhereValue2 == "match-beginning") {
+                pattern2 = `^${pattern2}`;
+            } else if (matchWhereValue2 == "match-end") {
+                pattern2 = `${pattern2}$`;
+            }
             re2 = caseSensitiveChecked2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
         }
 
@@ -173,7 +196,7 @@ const concord = function () {
     // console.log("searchTypeValue1", searchTypeValue1);
     // console.log("fullWordsChecked1", fullWordsChecked1);
     // console.log("caseSensitiveChecked1", caseSensitiveChecked1);
-    // console.log("matchWhereValue1", matchWhereValue1);
+    console.log("matchWhereValue1", matchWhereValue1);
 
     // console.log("columnToSearchValue2", columnToSearchValue2);
     // console.log("searchInputValue2", searchInputValue2);
