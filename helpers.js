@@ -1,5 +1,5 @@
 function padConcordance(concordanceColumn, redOrBlue) {
-    console.log(JSON.stringify(concordanceColumn));
+    // console.log(JSON.stringify(concordanceColumn));
     // TODO: need to limit padding length (for strings that are absolutely too long)
     let beforeRE;
     if (redOrBlue == "red") {
