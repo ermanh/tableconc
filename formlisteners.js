@@ -7,6 +7,7 @@ const fullWords = document.getElementById("full-words");
 const caseSensitive = document.getElementById("case-sensitive");
 const matchWhere = document.getElementById("match-where");
 const concordanceDisplay = document.getElementById("concordance-display");
+const concordanceCutoff = document.getElementById("concordance-cutoff");
 
 const columnSelection2 = document.getElementById("column-selection2");
 const searchInput2 = document.getElementById("search-input2");
@@ -16,6 +17,7 @@ const fullWords2 = document.getElementById("full-words2");
 const caseSensitive2 = document.getElementById("case-sensitive2");
 const matchWhere2 = document.getElementById("match-where2");
 const concordanceDisplay2 = document.getElementById("concordance-display2");
+const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
 
 const searchButton = document.getElementById("search-button");
 
@@ -43,6 +45,15 @@ keywordSelection.addEventListener('change', function() {
     }
 });
 
+// ~~~ Concordance Cutoff ~~~
+concordanceDisplay.addEventListener('change', function() {
+    if (this.checked) {
+        concordanceCutoff.disabled = false;
+    } else {
+        concordanceCutoff.disabled = true;
+    }
+});
+
 // ~~~ Column Selection ~~~
 columnSelection.addEventListener('change', function() {
     var columnSelectionValue = this.value;
@@ -56,6 +67,7 @@ columnSelection.addEventListener('change', function() {
         caseSensitive.disabled = true;
         matchWhere.disabled = true;
         concordanceDisplay.disabled = true;
+        concordanceCutoff.disabled = true;
         if (columnSelection2.value == "(none)") {
             searchButton.disabled = true;
         }
@@ -68,6 +80,9 @@ columnSelection.addEventListener('change', function() {
         caseSensitive.disabled = false;
         matchWhere.disabled = false;
         concordanceDisplay.disabled = false;
+        if (concordanceDisplay.checked) {
+            concordanceCutoff.disabled = false;
+        }
         searchButton.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
             if (node.value !== columnSelectionValue) {
@@ -79,7 +94,6 @@ columnSelection.addEventListener('change', function() {
             }
         });
     }
-
 });
 
 
@@ -107,6 +121,15 @@ keywordSelection.addEventListener('change', function() {
     }
 });
 
+// ~~~ Concordance Cutoff ~~~
+concordanceDisplay2.addEventListener('change', function() {
+    if (this.checked) {
+        concordanceCutoff2.disabled = false;
+    } else {
+        concordanceCutoff2.disabled = true;
+    }
+});
+
 // ~~~ Column Selection ~~~
 columnSelection2.addEventListener('change', function() {
     var columnSelectionValue2 = this.value;
@@ -120,6 +143,7 @@ columnSelection2.addEventListener('change', function() {
         caseSensitive2.disabled = true;
         matchWhere2.disabled = true;
         concordanceDisplay2.disabled = true;
+        concordanceCutoff2.disabled = true;
         if (columnSelection.value == "(none)") {
             searchButton.disabled = true;
         }
@@ -132,6 +156,9 @@ columnSelection2.addEventListener('change', function() {
         caseSensitive2.disabled = false;
         matchWhere2.disabled = false;
         concordanceDisplay2.disabled = false;
+        if (concordanceDisplay2.checked) {
+            concordanceCutoff2.disabled = false;
+        }
         searchButton.disabled = false;
         columnSelection.childNodes.forEach(function(node) {
             if (node.value !== columnSelectionValue2) {

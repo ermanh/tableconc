@@ -1,3 +1,5 @@
+// TODO: Add "match multiple"
+
 const searchBox = document.getElementById("search-box");
 
 const concord = function () {

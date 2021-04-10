@@ -76,6 +76,17 @@ td#search-logic {
     padding: 0.25em;
 }
 
+.cutoff {
+    padding: 1px 0 1px 3px;
+    width: 40px;
+    border-radius: 0.25em;
+}
+
+.cutoff:disabled {
+    background-color: lightgray;
+}
+
+
 .tooltip {
   position: relative;
   display: inline-block;
