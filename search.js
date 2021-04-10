@@ -37,7 +37,7 @@ const concord = function () {
         var re1;
         
         // Construct regex
-        if (searchTypeValue1 == "regex") {
+        if (searchTypeValue1 == "regex" || !fullWordsChecked1) {
             re1 = caseSensitiveChecked1 ? RegExp(searchInputValue1) : RegExp(searchInputValue1, 'i');
         } else {
             var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
@@ -67,7 +67,7 @@ const concord = function () {
         console.log("YAY-YAY");
         var re2;
         // Construct regex
-        if (searchTypeValue2 == "regex") {
+        if (searchTypeValue2 == "regex" || !fullWordsChecked2) {
             re2 = caseSensitiveChecked2 ? RegExp(searchInputValue2) : RegExp(searchInputValue2, 'i');
         } else {
             var beginning2 = searchInputValue2.match(/^\w/) ? "\\b" : "";
@@ -166,8 +166,6 @@ const concord = function () {
         }
         results.html(resultText);
     }
-
-
 
 
     console.log("FINAL columnToSearchValue1", columnToSearchValue1);
