@@ -1,4 +1,4 @@
-// TODO: Implement logic for concordance cutoff -- maybe change in line width?
+// TODO: Add tooltip for custom concordance length
 
 const searchBox = document.getElementById("search-box");
 
@@ -145,7 +145,7 @@ const concord = function () {
             var concordStrings1 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex1];
             });
-            concordStrings1 = padConcordance(concordStrings1, 'red');
+            concordStrings1 = padConcordance(concordStrings1, 'red', concordCutoffValue1);
             console.log(JSON.stringify(concordStrings1));
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex1] = concordStrings1.shift();
@@ -155,7 +155,7 @@ const concord = function () {
             var concordStrings2 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex2];
             });
-            concordStrings2 = padConcordance(concordStrings2, 'blue');
+            concordStrings2 = padConcordance(concordStrings2, 'blue', concordCutoffValue2);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex2] = concordStrings2.shift();
             });

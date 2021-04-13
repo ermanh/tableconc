@@ -1,6 +1,4 @@
-function padConcordance(concordanceColumn, redOrBlue) {
-    // console.log(JSON.stringify(concordanceColumn));
-    // TODO: need to limit padding length (for strings that are absolutely too long)
+function padConcordance(concordanceColumn, redOrBlue, concordCutoffValue) {
     let beforeRE;
     if (redOrBlue == "red") {
         beforeRE = RegExp(/^(.*?)<text style='color:darkred;'>/);
@@ -18,9 +16,56 @@ function padConcordance(concordanceColumn, redOrBlue) {
     var maxAfter = afterLengths.reduce((a, b) => { return Math.max(a, b); });
     var newColumn = Array();
     for (let i = 0; i < concordanceColumn.length; i++) {
-        var padStart = '&nbsp;'.repeat(maxBefore - beforeLengths[i]);
-        var padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
-        newColumn.push(`${padStart}${concordanceColumn[i]}${padEnd}`);
+        var html = concordanceColumn[i];
+        var sliceStartIndex = 0;
+        var sliceEndIndex = html.length;
+        var startCutoffDiff;
+        var endCutoffDiff;
+        var padStart;
+        var padEnd;
+
+        if (concordCutoffValue < maxBefore && concordCutoffValue > 0) {
+            startCutoffDiff = maxBefore - concordCutoffValue;
+            if (concordCutoffValue > beforeLengths[i]) { 
+                startCutoffDiff = startCutoffDiff + (concordCutoffValue - beforeLengths[i]);
+            }
+            if (startCutoffDiff < 0) { startCutoffDiff = 0; }
+            padStart = '&nbsp;'.repeat(startCutoffDiff);
+            let cutIntoStart = (beforeLengths[i] > (maxBefore - concordCutoffValue));
+            if (concordCutoffValue < maxBefore) {
+                if (cutIntoStart) {
+                    padStart = padStart + '...';
+                } else {
+                    padStart = padStart + '&nbsp;'.repeat(3);
+                }
+            } 
+            if (cutIntoStart) {
+                sliceStartIndex = maxBefore - concordCutoffValue;
+            }
+        } else {
+            padStart = '&nbsp;'.repeat(maxBefore - beforeLengths[i]);
+        }
+        
+        if (concordCutoffValue < maxAfter && concordCutoffValue > 0) {
+            endCutoffDiff = maxAfter - concordCutoffValue;
+            padEnd = '&nbsp;'.repeat(endCutoffDiff);
+            let cutIntoEnd = (concordCutoffValue < afterLengths[i]);
+            if (concordCutoffValue < maxAfter) {
+                if (cutIntoEnd) {
+                    padEnd = '...' + padEnd;
+                } else {
+                    padEnd = '&nbsp;'.repeat(3) + padEnd;
+                }
+            }
+            if (cutIntoEnd) {
+                sliceEndIndex = sliceEndIndex - (afterLengths[i] - concordCutoffValue);
+            }
+        } else {
+            padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
+        }
+        
+        newHtml = html.slice(sliceStartIndex, sliceEndIndex);
+        newColumn.push(`${padStart}${newHtml}${padEnd}`);
     }
     return newColumn;
 }
