@@ -13,6 +13,7 @@ const concord = function () {
     var caseSensitiveChecked1 = document.getElementById("case-sensitive").checked;
     var matchWhereValue1 = document.getElementById("match-where").value;
     var concordDisplayChecked1 = document.getElementById("concordance-display").checked;
+    var findallChecked1 = document.getElementById("findall").checked;
 
     var columnToSearchValue2 = document.getElementById("column-selection2").value;
     var searchInputValue2 = document.getElementById("search-input2").value;
@@ -21,6 +22,7 @@ const concord = function () {
     var caseSensitiveChecked2 = document.getElementById("case-sensitive2").checked;
     var matchWhereValue2 = document.getElementById("match-where2").value;
     var concordDisplayChecked2 = document.getElementById("concordance-display2").checked;
+    var findallChecked2 = document.getElementById("findall2").checked;
     
     columnNames = data[0];
     columnObject = {}; // {column name: index}
@@ -38,13 +40,14 @@ const concord = function () {
     if (searchInputValue1 !== "") {
         console.log("YAY");  
         var re1;
-        var pattern1 = searchInputValue1;
+        var pattern1;
 
         // Construct regex
         if (searchTypeValue1 == "regex") {
+            pattern1 = `(${searchInputValue1})`; 
             re1 = caseSensitiveChecked1 ? RegExp(pattern1) : RegExp(pattern1, 'i');
         } else {
-            pattern1 = RegExp.escape(searchInputValue1);
+            pattern1 = `(${RegExp.escape(searchInputValue1)})`;
             if (fullWordsChecked1) {
                 var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
                 var end1 = searchInputValue1.match(/\w$/) ? "\\b" : "";
@@ -65,12 +68,9 @@ const concord = function () {
             let str = data[i][searchColumnIndex1];
             if (str.match(re1)) {
                 matchedRows1.push(i);
-                let match = str.match(re1);
-                let before = str.slice(0, match.index);
-                let after = str.slice(match.index + match[0].length);
                 let tagOpen = "<text style='color:darkred;'>";
                 let tagClose = "</text>";
-                newData[i][searchColumnIndex1] = `${before}${tagOpen}${match[0]}${tagClose}${after}`;
+                newData[i][searchColumnIndex1] = str.replace(re1, `${tagOpen}$1${tagClose}`);
             }
         }
     }
@@ -80,16 +80,17 @@ const concord = function () {
     if (searchInputValue2 !== "") {
         console.log("YAY-YAY");
         var re2;
-        var pattern2 = searchInputValue2;
+        var pattern2;
 
         // Construct regex
         if (searchTypeValue2 == "regex") {
+            pattern2 = `(${searchInputValue2})`; 
             re2 = caseSensitiveChecked2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
         } else {
-            pattern2 = RegExp.escape(searchInputValue2);
+            pattern2 = `(${RegExp.escape(searchInputValue2)})`;
             if (fullWordsChecked2) {
-                var beginning2 = searchInputValue1.match(/^\w/) ? "\\b" : "";
-                var end2 = searchInputValue1.match(/\w$/) ? "\\b" : "";
+                var beginning2 = searchInputValue2.match(/^\w/) ? "\\b" : "";
+                var end2 = searchInputValue2.match(/\w$/) ? "\\b" : "";
                 pattern2 = `${beginning2}${pattern2}${end2}`;
             }
             if (matchWhereValue2 == "match-entire") {
@@ -102,17 +103,14 @@ const concord = function () {
             re2 = caseSensitiveChecked2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
         }
 
-        // Record matched rows
+        // Record matched rows and create array of color-coded strings
         for (let i = 0; i < data.length; i++) {
             let str = data[i][searchColumnIndex2];
             if (str.match(re2)) {
                 matchedRows2.push(i);
-                let match = str.match(re2);
-                let before = str.slice(0, match.index);
-                let after = str.slice(match.index + match[0].length);
                 let tagOpen = "<text style='color:blue;'>";
                 let tagClose = "</text>";
-                newData[i][searchColumnIndex2] = `${before}${tagOpen}${match[0]}${tagClose}${after}`;
+                newData[i][searchColumnIndex2] = str.replace(re2, `${tagOpen}$1${tagClose}`);
             }
         }
     }
