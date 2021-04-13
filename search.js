@@ -11,8 +11,9 @@ const concord = function () {
     var fullWordsChecked1 = document.getElementById("full-words").checked;
     var caseSensitiveChecked1 = document.getElementById("case-sensitive").checked;
     var matchWhereValue1 = document.getElementById("match-where").value;
-    var concordDisplayChecked1 = document.getElementById("concordance-display").checked;
     var findallChecked1 = document.getElementById("findall").checked;
+    var concordDisplayChecked1 = document.getElementById("concordance-display").checked;
+    var concordCutoffValue1 = document.getElementById("concordance-cutoff").value;
 
     var columnToSearchValue2 = document.getElementById("column-selection2").value;
     var searchInputValue2 = document.getElementById("search-input2").value;
@@ -20,9 +21,10 @@ const concord = function () {
     var fullWordsChecked2 = document.getElementById("full-words2").checked;
     var caseSensitiveChecked2 = document.getElementById("case-sensitive2").checked;
     var matchWhereValue2 = document.getElementById("match-where2").value;
-    var concordDisplayChecked2 = document.getElementById("concordance-display2").checked;
     var findallChecked2 = document.getElementById("findall2").checked;
-    
+    var concordDisplayChecked2 = document.getElementById("concordance-display2").checked;
+    var concordCutoffValue2 = document.getElementById("concordance-cutoff2").value;
+
     columnNames = data[0];
     columnObject = {}; // {column name: index}
     for (let i = 0; i < columnNames.length; i++) {
@@ -40,6 +42,8 @@ const concord = function () {
         console.log("YAY");  
         var pattern1;
         var flags1 = "";
+        var tagOpen1 = "<text style='color:darkred;'>";
+        var tagClose1 = "</text>";
 
         // Construct regex
         if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
@@ -68,10 +72,8 @@ const concord = function () {
             let str = data[i][searchColumnIndex1];
             if (str.match(re1)) {
                 matchedRows1.push(i);
-                let tagOpen = "<text style='color:darkred;'>";
-                let tagClose = "</text>";
-                newData[i][searchColumnIndex1] = str.replace(re1, `${tagOpen}$1${tagClose}`);
-            }
+                newData[i][searchColumnIndex1] = str.replace(re1, `${tagOpen1}$1${tagClose1}`);
+            } 
         }
     }
 
@@ -82,6 +84,8 @@ const concord = function () {
         var re2;
         var pattern2;
         var flags2 = "";
+        var tagOpen2 = "<text style='color:blue;'>";
+        var tagClose2 = "</text>";
 
         // Construct regex
         if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
@@ -110,9 +114,7 @@ const concord = function () {
             let str = data[i][searchColumnIndex2];
             if (str.match(re2)) {
                 matchedRows2.push(i);
-                let tagOpen = "<text style='color:blue;'>";
-                let tagClose = "</text>";
-                newData[i][searchColumnIndex2] = str.replace(re2, `${tagOpen}$1${tagClose}`);
+                newData[i][searchColumnIndex2] = str.replace(re2, `${tagOpen2}$1${tagClose2}`);
             }
         }
     }
