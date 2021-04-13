@@ -1,4 +1,3 @@
-// TODO: Implement logic for "findall"
 // TODO: Implement logic for concordance cutoff -- maybe change in line width?
 
 const searchBox = document.getElementById("search-box");
