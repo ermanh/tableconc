@@ -39,13 +39,14 @@ const concord = function () {
     // PROCESS SEARCH INPUT 1
     if (searchInputValue1 !== "") {
         console.log("YAY");  
-        var re1;
         var pattern1;
+        var flags1 = "";
 
         // Construct regex
+        if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
+        if (findallChecked1) { flags1 = `${flags1}g`; }
         if (searchTypeValue1 == "regex") {
             pattern1 = `(${searchInputValue1})`; 
-            re1 = caseSensitiveChecked1 ? RegExp(pattern1) : RegExp(pattern1, 'i');
         } else {
             pattern1 = `(${RegExp.escape(searchInputValue1)})`;
             if (fullWordsChecked1) {
@@ -60,8 +61,8 @@ const concord = function () {
             } else if (matchWhereValue1 == "match-end") {
                 pattern1 = `${pattern1}$`;
             }
-            re1 = caseSensitiveChecked1 ? RegExp(pattern1) : RegExp(pattern1, 'i');
         }
+        re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
         
         // Record matched rows and create array of color-coded strings
         for (let i = 0; i < data.length; i++) {
@@ -81,11 +82,13 @@ const concord = function () {
         console.log("YAY-YAY");
         var re2;
         var pattern2;
+        var flags2 = "";
 
         // Construct regex
+        if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
+        if (findallChecked2) { flags2 = `${flags2}g`; }
         if (searchTypeValue2 == "regex") {
             pattern2 = `(${searchInputValue2})`; 
-            re2 = caseSensitiveChecked2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
         } else {
             pattern2 = `(${RegExp.escape(searchInputValue2)})`;
             if (fullWordsChecked2) {
@@ -100,8 +103,8 @@ const concord = function () {
             } else if (matchWhereValue2 == "match-end") {
                 pattern2 = `${pattern2}$`;
             }
-            re2 = caseSensitiveChecked2 ? RegExp(pattern2) : RegExp(pattern2, 'i');
         }
+        re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
 
         // Record matched rows and create array of color-coded strings
         for (let i = 0; i < data.length; i++) {
