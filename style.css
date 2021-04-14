@@ -90,20 +90,24 @@ td#search-logic {
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted gray;
+  background-color: steelblue;
+  color: white;
+  font-weight: 500;
+  border-radius: 1em;
+  padding: 1px 5px;
 }
 
-.tooltip .tooltiptext {
+.tooltiptext {
   visibility: hidden;
-  width: 200px;
+  min-width: 180px;
   background-color: darkslategray;
-  opacity: 0.9;
+  opacity: 0.88;
   color: #fff;
   font-size: 0.9em;
   font-weight: lighter;
-  text-align: center;
+  text-align: left;
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 10px 7px 10px;
   margin: 2px;
   position: absolute;
   z-index: 1;

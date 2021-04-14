@@ -31,10 +31,11 @@
                 <br>
                 <input id="full-words" type="checkbox" checked disabled>
                 <label id="full-words-label" for="full-words">
+                    Full word(s)
                     <div class="tooltip">
-                        Full word(s)
+                        i
                         <span class="tooltiptext">
-                            E.g., searching "host" won't match "hostname"
+                            E.g., searching "know" won't match "knowledge"
                         </span>
                     </div>
                 </label>
@@ -55,7 +56,14 @@
                 <br>
                 <input id="concordance-display" type="checkbox" checked disabled>
                 <label for="concordance-display">Concordance display</label>
-                <input class="cutoff" id="concordance-cutoff" type="number" value="100" disabled>
+                <input class="cutoff" id="concordance-cutoff" type="number" value="50" disabled>
+                <div class="tooltip">
+                    i
+                    <span class="tooltiptext">
+                        Sets the maximum length displayed on each side
+                        of the matched pattern
+                    </span>
+                </div>
             </td>
             <td style="width:5px;"></td>
             <td class="search-td">
@@ -71,10 +79,11 @@
                 <br>
                 <input id="full-words2" type="checkbox" checked disabled>
                 <label id="full-words-label2" for="full-words2">
+                    Full word(s)
                     <div class="tooltip">
-                        Full word(s)
+                        i
                         <span class="tooltiptext">
-                            E.g., searching "host" won't match "hostname"
+                            E.g., searching "know" won't match "knowledge"
                         </span>
                     </div>
                 </label>
@@ -95,7 +104,14 @@
                 <br>
                 <input id="concordance-display2" type="checkbox" checked disabled>
                 <label for="concordance-display2">Concordance display</label>
-                <input class="cutoff" id="concordance-cutoff2" type="number" value="100" disabled>
+                <input class="cutoff" id="concordance-cutoff2" type="number" value="50" disabled>
+                <div class="tooltip">
+                    i
+                    <span class="tooltiptext">
+                        Sets the maximum length displayed on each side
+                        of the matched pattern
+                    </span>
+                </div>
             </td>
         </tr></table>
         <button id="search-button" disabled>
