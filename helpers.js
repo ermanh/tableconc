@@ -1,4 +1,5 @@
 function padConcordance(concordanceColumn, redOrBlue, concordCutoffValue) {
+    // concordCutoffValue: the number of char spaces to each side of the searched pattern
     let beforeRE;
     if (redOrBlue == "red") {
         beforeRE = RegExp(/^(.*?)<text style='color:darkred;'>/);
@@ -19,42 +20,40 @@ function padConcordance(concordanceColumn, redOrBlue, concordCutoffValue) {
         var html = concordanceColumn[i];
         var sliceStartIndex = 0;
         var sliceEndIndex = html.length;
-        var startCutoffDiff;
-        var endCutoffDiff;
+        var startCutoffDiff;  // number of &nbps; to add at the beginning
+        var endCutoffDiff;  // number of &nbps; to add at the end
         var padStart;
         var padEnd;
 
         if (concordCutoffValue < maxBefore && concordCutoffValue > 0) {
-            startCutoffDiff = maxBefore - concordCutoffValue;
-            if (concordCutoffValue > beforeLengths[i]) { 
-                startCutoffDiff = startCutoffDiff + (concordCutoffValue - beforeLengths[i]);
-            }
-            if (startCutoffDiff < 0) { startCutoffDiff = 0; }
+            startCutoffDiff = concordCutoffValue - beforeLengths[i];
+            if (startCutoffDiff < 0) { startCutoffDiff = 0; }               
             padStart = '&nbsp;'.repeat(startCutoffDiff);
-            let cutIntoStart = (beforeLengths[i] > (maxBefore - concordCutoffValue));
+            let cutIntoStart = (concordCutoffValue < beforeLengths[i]);
             if (concordCutoffValue < maxBefore) {
                 if (cutIntoStart) {
-                    padStart = padStart + '...';
+                    padStart = padStart + '<text style="color:gray">&hellip;</text>';
                 } else {
-                    padStart = padStart + '&nbsp;'.repeat(3);
+                    padStart = padStart + '&nbsp;';
                 }
             } 
             if (cutIntoStart) {
-                sliceStartIndex = maxBefore - concordCutoffValue;
+                sliceStartIndex = beforeLengths[i] - concordCutoffValue;
             }
         } else {
             padStart = '&nbsp;'.repeat(maxBefore - beforeLengths[i]);
         }
         
         if (concordCutoffValue < maxAfter && concordCutoffValue > 0) {
-            endCutoffDiff = maxAfter - concordCutoffValue;
+            endCutoffDiff = concordCutoffValue - afterLengths[i];
+            if (endCutoffDiff < 0) { endCutoffDiff = 0; }
             padEnd = '&nbsp;'.repeat(endCutoffDiff);
             let cutIntoEnd = (concordCutoffValue < afterLengths[i]);
             if (concordCutoffValue < maxAfter) {
                 if (cutIntoEnd) {
-                    padEnd = '...' + padEnd;
+                    padEnd = '<text style="color:gray">&hellip;</text>' + padEnd;
                 } else {
-                    padEnd = '&nbsp;'.repeat(3) + padEnd;
+                    padEnd = '&nbsp;' + padEnd;
                 }
             }
             if (cutIntoEnd) {
