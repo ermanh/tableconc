@@ -8,12 +8,12 @@ const readFile = function () {
         
         // populate drop-down menu
         d3.select("#column-selection").selectAll("option")
-            .data(["(none)"].concat(data[0])).enter()
+            .data(["(None)"].concat(data[0])).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });
         d3.select("#column-selection2").selectAll("option")
-            .data(["(none)"].concat(data[0])).enter()
+            .data(["(None)"].concat(data[0])).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });

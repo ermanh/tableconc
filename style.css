@@ -87,7 +87,7 @@ td#search-logic {
 }
 
 
-.tooltip {
+.infotip {
   position: relative;
   display: inline-block;
   background-color: steelblue;
@@ -97,7 +97,7 @@ td#search-logic {
   padding: 1px 5px;
 }
 
-.tooltiptext {
+.infotiptext {
   visibility: hidden;
   min-width: 180px;
   background-color: darkslategray;
@@ -113,6 +113,6 @@ td#search-logic {
   z-index: 1;
 }
 
-.tooltip:hover .tooltiptext {
+.infotip:hover .infotiptext {
   visibility: visible;
 }

@@ -1,4 +1,21 @@
-// TODO: Add tooltip for custom concordance length
+//// TODOs
+// - Refactor and clean code
+//      - Append "1" to the plain names
+// - Improve UI aesthetics/format/style
+//      - Shorten the total height of UI controls
+//      - Maybe divide search options into 2 columns
+//      - "Choose File" button needs to be bigger
+// - Improve UX
+//      - Ability to drag and adjust column widths
+//      - Maybe ability to hide/unhide some controls/sections
+//      - Ability to hide the search form in order to see results on the full screen
+//      - Anchored bottom button to go back to top
+//      - Display the number of results at the top of the results div
+// - Accept other file formats
+//      - tsv, psv
+//      - Single column text file
+//      - Maybe allow users to paste in data
+
 
 const searchBox = document.getElementById("search-box");
 
