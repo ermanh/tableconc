@@ -11,7 +11,6 @@
 //      - Maybe ability to hide/unhide some controls/sections
 //      - Ability to hide the search form in order to see results on the full screen
 //      - Anchored bottom button to go back to top
-//      - Display the number of results at the top of the results div
 // - Accept other file formats
 //      - Maybe allow users to paste in data
 
@@ -184,6 +183,9 @@ const concord = function () {
     // Insert text and html
     const results = d3.select("#results-table");
     results.html(""); // clear results
+    results.append("text").text(`Total results: ${matchedRows.length}`);
+    results.append("br"); // TODO: "Cleaner" way to do this
+    results.append("br");
     if (matchedRows.length > 0) {
         results.append("tr").selectAll("th")
         .data(columnNames.filter(function(d, i) {
