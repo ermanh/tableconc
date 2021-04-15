@@ -1,6 +1,7 @@
 //// TODOs
 // - Refactor and clean code
 //      - Append "1" to the plain names
+//      - Move variable declarations to separate js file
 // - Improve UI aesthetics/format/style
 //      - Shorten the total height of UI controls
 //      - Maybe divide search options into 2 columns
@@ -12,9 +13,9 @@
 //      - Anchored bottom button to go back to top
 //      - Display the number of results at the top of the results div
 // - Accept other file formats
-//      - tsv, psv
 //      - Single column text file
 //      - Maybe allow users to paste in data
+//      - Give option to exclude column headers
 
 
 const searchBox = document.getElementById("search-box");
@@ -85,7 +86,7 @@ const concord = function () {
         re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
         
         // Record matched rows and create array of color-coded strings
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 1; i < data.length; i++) {
             let str = data[i][searchColumnIndex1];
             if (str.match(re1)) {
                 matchedRows1.push(i);
@@ -127,7 +128,7 @@ const concord = function () {
         re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
 
         // Record matched rows and create array of color-coded strings
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 1; i < data.length; i++) {
             let str = data[i][searchColumnIndex2];
             if (str.match(re2)) {
                 matchedRows2.push(i);
@@ -214,18 +215,7 @@ const concord = function () {
 
 
     console.log("FINAL columnToSearchValue1", columnToSearchValue1);
-    // console.log("searchInputValue1", searchInputValue1);
-    // console.log("searchTypeValue1", searchTypeValue1);
-    // console.log("fullWordsChecked1", fullWordsChecked1);
-    // console.log("caseSensitiveChecked1", caseSensitiveChecked1);
-    console.log("matchWhereValue1", matchWhereValue1);
-
-    // console.log("columnToSearchValue2", columnToSearchValue2);
-    // console.log("searchInputValue2", searchInputValue2);
-    // console.log("searchTypeValue2", searchTypeValue2);
-    // console.log("fullWordsChecked2", fullWordsChecked2);
-    // console.log("caseSensitiveChecked2", caseSensitiveChecked2);
-    // console.log("matchWhereValue2", matchWhereValue2);
+    console.log("FINAL columnToSearchValue2", columnToSearchValue2);
 };
 
 searchBox.addEventListener('submit', concord);

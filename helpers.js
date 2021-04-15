@@ -6,7 +6,7 @@ function padConcordance(concordanceColumn, redOrBlue, concordCutoffValue) {
     } else if (redOrBlue == "blue") {
         beforeRE = RegExp(/^(.*?)<text style='color:blue;'>/);
     }
-    let afterRE = RegExp(/.*?<\/text>(.+)$/);
+    let afterRE = RegExp(/.*?<\/text>(.*)$/);
     var beforeLengths = concordanceColumn.map((el) => {
         return beforeRE.exec(el).pop().length;
     });
