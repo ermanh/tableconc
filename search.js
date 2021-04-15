@@ -13,7 +13,6 @@
 //      - Anchored bottom button to go back to top
 //      - Display the number of results at the top of the results div
 // - Accept other file formats
-//      - Single column text file
 //      - Maybe allow users to paste in data
 //      - Give option to exclude column headers
 

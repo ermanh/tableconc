@@ -5,17 +5,13 @@ const readFile = function () {
     var reader = new FileReader();
     reader.onload = function () {    
         filetype = fileInput.files[0].type;
-        console.log(filetype);
         if (filetype == "text/csv") {
-            console.log(filetype, "should be csv");
             data = d3.csv.parseRows(reader.result);
         } else if (["text/tab-separated-values", "text/tsv"].includes(filetype)) {
-            console.log(filetype, "should be tsv");
             data = d3.tsv.parseRows(reader.result);
-        } else if (filetype == "text/txt") {
-            console.log(filetype, "should be txt");
+        } else if (filetype == "text/plain") {
             data = reader.result.split('\n');
-            data = data.forEach((line) => { return [line]; });
+            data = data.map((line) => { return [line]; });
         }
 
         // populate drop-down menu
@@ -42,7 +38,6 @@ const readFile = function () {
             .text(function(d) { return d + " "; });
 
     };
-    // reader.readAsBinaryString(fileInput.files[0]);
     reader.readAsText(fileInput.files[0]);
 };
 
