@@ -1,4 +1,8 @@
 // ~~~~~~~~~~ All Search Elements ~~~~~~~~~~
+const chooseFile = document.getElementById("choose-file");
+const columnHeaders = document.getElementById("column-headers");
+const searchButton = document.getElementById("search-button");
+
 const columnSelection = document.getElementById("column-selection");
 const searchInput = document.getElementById("search-input");
 const regexSelection = document.getElementById("regex");
@@ -21,9 +25,12 @@ const findall2 = document.getElementById("findall2");
 const concordanceDisplay2 = document.getElementById("concordance-display2");
 const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
 
-const searchButton = document.getElementById("search-button");
+// ~~~~~~~~~~ Columns to display ~~~~~~~~~~
+columnHeaders.addEventListener('change', function() {
+    if (chooseFile.value) { readFile(); }
+});
 
-// ~~~~~~~~~~ SEARCH 1 ~~~~~~~~~~~
+// ~~~~~~~~~~ SEARCH 1 ~~~~~~~~~~
 
 // ~~~ Search Type ~~~
 // Switching search-type to "Regex"... 

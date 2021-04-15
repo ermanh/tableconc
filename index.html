@@ -13,8 +13,10 @@
     <div id="banner" class="section">
         TableConc
     </div>
-    <input id="csv" type="file" accept=".csv,.tsv,.txt">
-    <br style="line-height:2.5em;">
+    <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
+    <input id="column-headers" type="checkbox" checked>
+    <label id="column-headers-label" for="column-headers">Column headers</label> 
+    <br><div style="height:5px;"></div>
 
     <form id="search-box" onsubmit="return false;">
         <table><tr>
@@ -139,9 +141,9 @@
         });
     </script>
     <script src="helpers.js" charset="utf-8"></script>
+    <script src="filehandler.js" charset="utf-8"></script>
     <script src="formlisteners.js" charset="utf-8"></script>
     <!-- <script src="formlisteners2.js" charset="utf-8"></script> -->
-    <script src="filehandler.js" charset="utf-8"></script>
     <script src="search.js" charset="utf-8"></script>
 
 </body>

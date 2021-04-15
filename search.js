@@ -14,13 +14,13 @@
 //      - Display the number of results at the top of the results div
 // - Accept other file formats
 //      - Maybe allow users to paste in data
-//      - Give option to exclude column headers
 
 
 const searchBox = document.getElementById("search-box");
 
 const concord = function () {
     var newData = JSON.parse(JSON.stringify(data));
+    var columnHeaders = document.getElementById("column-headers").checked;
 
     var columnToSearchValue1 = document.getElementById("column-selection").value;
     var searchInputValue1 = document.getElementById("search-input").value;
@@ -42,8 +42,10 @@ const concord = function () {
     var concordDisplayChecked2 = document.getElementById("concordance-display2").checked;
     var concordCutoffValue2 = document.getElementById("concordance-cutoff2").value;
 
-    columnNames = data[0];
-    columnObject = {}; // {column name: index}
+    // THIS CAN BE MOVED TO A GLOBALS FILE
+    var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { return `Column ${i + 1}`; });
+    var startingRowIndex = columnHeaders ? 1 : 0;    
+    var columnObject = {}; // {column name: index}
     for (let i = 0; i < columnNames.length; i++) {
         columnObject[columnNames[i]] = i;
     }
@@ -85,7 +87,7 @@ const concord = function () {
         re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
         
         // Record matched rows and create array of color-coded strings
-        for (let i = 1; i < data.length; i++) {
+        for (let i = startingRowIndex; i < data.length; i++) {
             let str = data[i][searchColumnIndex1];
             if (str.match(re1)) {
                 matchedRows1.push(i);
@@ -127,7 +129,7 @@ const concord = function () {
         re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
 
         // Record matched rows and create array of color-coded strings
-        for (let i = 1; i < data.length; i++) {
+        for (let i = startingRowIndex; i < data.length; i++) {
             let str = data[i][searchColumnIndex2];
             if (str.match(re2)) {
                 matchedRows2.push(i);
