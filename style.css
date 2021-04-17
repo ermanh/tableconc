@@ -18,12 +18,20 @@ form, div.section {
 
 table#results-table {
     border-collapse: collapse;
+    width: 100%;
 }
 
-td.results-td {
+th, td.results-td {
     padding: 3px 12px;
     border: 0.5px solid lightgray;
     border-collapse: collapse;
+    min-width: 20px;
+    /* overflow: hidden;
+    white-space: nowrap;
+    -moz-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis; */
 }
 
 td {
@@ -67,10 +75,6 @@ td#search-logic {
     background-color: lightgreen;
 }
 
-/* #results {
-    /* background-color: lightsteelblue; */
-} */
-
 #banner {
     font-size: 1.5em;
     padding: 0.25em;
@@ -88,31 +92,31 @@ td#search-logic {
 
 
 .infotip {
-  position: relative;
-  display: inline-block;
-  background-color: steelblue;
-  color: white;
-  font-weight: 500;
-  border-radius: 1em;
-  padding: 1px 5px;
+    position: relative;
+    display: inline-block;
+    background-color: steelblue;
+    color: white;
+    font-weight: 500;
+    border-radius: 1em;
+    padding: 1px 5px;
 }
 
 .infotiptext {
-  visibility: hidden;
-  min-width: 180px;
-  background-color: darkslategray;
-  opacity: 0.88;
-  color: #fff;
-  font-size: 0.9em;
-  font-weight: lighter;
-  text-align: left;
-  border-radius: 5px;
-  padding: 5px 10px 7px 10px;
-  margin: 2px;
-  position: absolute;
-  z-index: 1;
+    visibility: hidden;
+    min-width: 180px;
+    background-color: darkslategray;
+    opacity: 0.88;
+    color: #fff;
+    font-size: 0.9em;
+    font-weight: lighter;
+    text-align: left;
+    border-radius: 5px;
+    padding: 5px 10px 7px 10px;
+    margin: 2px;
+    position: absolute;
+    z-index: 1;
 }
 
 .infotip:hover .infotiptext {
-  visibility: visible;
+    visibility: visible;
 }

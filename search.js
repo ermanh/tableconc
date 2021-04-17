@@ -6,11 +6,14 @@
 //      - Shorten the total height of UI controls
 //      - Maybe divide search options into 2 columns
 //      - "Choose File" button needs to be bigger
+//      - Light/Dark modes
 // - Improve UX
 //      - Ability to drag and adjust column widths
 //      - Maybe ability to hide/unhide some controls/sections
 //      - Ability to hide the search form in order to see results on the full screen
 //      - Anchored bottom button to go back to top
+//      - If no singleton values in a column, drop-down menu to see only specific values
+//      - Sorting mechanism (for columns without concordance display)
 // - Accept other file formats
 //      - Maybe allow users to paste in data
 
@@ -20,6 +23,7 @@ const searchBox = document.getElementById("search-box");
 const concord = function () {
     var newData = JSON.parse(JSON.stringify(data));
     var columnHeaders = document.getElementById("column-headers").checked;
+    var resultsNumber = d3.select("#results-number");
 
     var columnToSearchValue1 = document.getElementById("column-selection").value;
     var searchInputValue1 = document.getElementById("search-input").value;
@@ -164,7 +168,7 @@ const concord = function () {
                 return newData[index][searchColumnIndex1];
             });
             concordStrings1 = padConcordance(concordStrings1, 'red', concordCutoffValue1);
-            console.log(JSON.stringify(concordStrings1));
+            // console.log(JSON.stringify(concordStrings1));
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex1] = concordStrings1.shift();
             });
@@ -181,18 +185,23 @@ const concord = function () {
     }
     
     // Insert text and html
+    numberOfResults = matchedRows.length;
+    if (numberOfResults > 0) {
+        resultsNumber.text(`Total results: ${numberOfResults}`);
+    }
     const results = d3.select("#results-table");
     results.html(""); // clear results
-    results.append("text").text(`Total results: ${matchedRows.length}`);
     results.append("br"); // TODO: "Cleaner" way to do this
     results.append("br");
     if (matchedRows.length > 0) {
+        // Column headers
         results.append("tr").selectAll("th")
         .data(columnNames.filter(function(d, i) {
             if (selectedColumns[i]) { return d; }
         })).enter()
         .append("th")
-        .text(function(d) { return d; });
+        .html(function(d) { return d; });
+        // Results
         matchedRows.forEach((index) => {
             results.append("tr").selectAll("td")
                 .data(newData[index].filter(function(d, j) {
@@ -213,7 +222,7 @@ const concord = function () {
         if (searchInputValue2 !== "") {
             resultText = resultText + ` "${searchInputValue2}"`;
         }
-        results.html(resultText);
+        resultsNumber.text(resultText);
     }
 
 

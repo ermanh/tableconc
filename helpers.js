@@ -68,3 +68,30 @@ function padConcordance(concordanceColumn, redOrBlue, concordCutoffValue) {
     }
     return newColumn;
 }
+
+const makeResizable = function(div) {
+    var x = 0;
+    var w = 0;
+    var parent = div.parentElement;
+
+    const mousemoveListener = function(e) {
+        var distanceMoved = e.pageX - x;
+        parent.style.width = `${w + distanceMoved}px`;
+    };
+
+    const mouseupListener = function() {
+        document.removeEventListener('mousemove', mousemoveListener);
+        document.removeEventListener('mouseup', mouseupListener);
+    };
+
+    const mousedownListener = function(e) {
+        e.preventDefault(); 
+        x = e.pageX;  
+        w = parent.style.width;
+        document.addEventListener('mousemove', mousemoveListener);
+        document.addEventListener('mouseup', mouseupListener);
+    };
+
+    div.addEventListener('mousedown', mousedownListener);
+};
+

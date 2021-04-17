@@ -1,4 +1,4 @@
-// ~~~~~~~~~~ All Search Elements ~~~~~~~~~~
+// ~~~~~~~~~~ All Elements ~~~~~~~~~~
 const chooseFile = document.getElementById("choose-file");
 const columnHeaders = document.getElementById("column-headers");
 const searchButton = document.getElementById("search-button");
