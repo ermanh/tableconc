@@ -6,14 +6,16 @@
 //      - Shorten the total height of UI controls
 //      - Maybe divide search options into 2 columns
 //      - "Choose File" button needs to be bigger
-//      - Light/Dark modes
+//      - Light/Dark modes (later/last)
+//      - Improve column resizing aesthetics
 // - Improve UX
-//      - Ability to drag and adjust column widths
+//      - Improve column resizing
 //      - Maybe ability to hide/unhide some controls/sections
 //      - Ability to hide the search form in order to see results on the full screen
 //      - Anchored bottom button to go back to top
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //      - Sorting mechanism (for columns without concordance display)
+//      - Header row can "freeze" or float (like in Google sheets)
 // - Accept other file formats
 //      - Maybe allow users to paste in data
 

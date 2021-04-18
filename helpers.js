@@ -75,18 +75,20 @@ function makeResizable(div) {
     var position, thisColumn, nextColumn, thisWidth, nextWidth;
 
     var mousemoveListener = function(e) {
-        var traveled = e.pageX - position;    
+        var traveled = e.pageX - position;
         thisColumn.style.width = `${thisWidth + traveled}px`;
         nextColumn.style.width = `${nextWidth - traveled}px`; 
     };
 
     var mouseupListener = function() {
+        document.getElementsByTagName("body")[0].style.cursor = "auto";
         document.removeEventListener('mousemove', mousemoveListener);
         document.removeEventListener('mouseup', mouseupListener);
     };
 
     div.addEventListener('mousedown', function (e) {
         e.preventDefault();
+        document.getElementsByTagName("body")[0].style.cursor = "col-resize";
         position = e.pageX;
         thisColumn = div.parentElement;
         nextColumn = thisColumn.nextElementSibling;
