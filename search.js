@@ -193,14 +193,22 @@ const concord = function () {
     results.html(""); // clear results
     results.append("br"); // TODO: "Cleaner" way to do this
     results.append("br");
+    columnsToDisplay = columnNames.filter(function(d, i) {
+        if (selectedColumns[i]) { return d; }
+    });
     if (matchedRows.length > 0) {
         // Column headers
         results.append("tr").selectAll("th")
-        .data(columnNames.filter(function(d, i) {
-            if (selectedColumns[i]) { return d; }
-        })).enter()
+        .data(columnsToDisplay).enter()
         .append("th")
-        .html(function(d) { return d; });
+        .html(function(d, i) { 
+            // Add resize controller divs in header row
+            if (i == columnsToDisplay.length - 1) {
+                return d;
+            } else {
+                return `${d}<div class="resize"></div>`; 
+            }
+        });
         // Results
         matchedRows.forEach((index) => {
             results.append("tr").selectAll("td")
@@ -211,6 +219,10 @@ const concord = function () {
                 .attr("class", "results-td")
                 .html(function(d) { return d; });
         }); 
+        // Add resize event listeners
+        document.querySelectorAll("div.resize").forEach((div) => {
+            makeResizable(div);
+        });
     } else {
         var resultText = "No results for";
         if (searchInputValue1 !== "") {

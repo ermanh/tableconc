@@ -21,7 +21,16 @@ table#results-table {
     width: 100%;
 }
 
+/* th {
+    position: relative;
+    padding: 3px 12px;
+    border: 0.5px solid lightgray;
+    border-collapse: collapse;
+    min-width: 20px;
+} */
+
 th, td.results-td {
+    position: relative;
     padding: 3px 12px;
     border: 0.5px solid lightgray;
     border-collapse: collapse;
@@ -32,6 +41,18 @@ th, td.results-td {
     -ms-text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis; */
+}
+
+div.resize {
+    /* TODO: Make resizable "handle" more attractive, use hoverover tricks */
+    background-color: orange;
+    cursor: col-resize;
+    position: absolute;
+    right: 0;
+    top: 0;
+    user-select: none;
+    width: 8px;
+    height: 100%;
 }
 
 td {
