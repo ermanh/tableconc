@@ -15,7 +15,6 @@
 //      - Anchored bottom button to go back to top
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //      - Sorting mechanism (for columns without concordance display)
-//      - Header row can "freeze" or float (like in Google sheets)
 // - Accept other file formats
 //      - Maybe allow users to paste in data
 
@@ -200,7 +199,9 @@ const concord = function () {
     });
     if (matchedRows.length > 0) {
         // Column headers
-        results.append("tr").selectAll("th")
+        results.append("tr")
+        .attr("class", "sticky")
+        .selectAll("th")
         .data(columnsToDisplay).enter()
         .append("th")
         .html(function(d, i) { 

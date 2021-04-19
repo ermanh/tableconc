@@ -21,6 +21,13 @@ table#results-table {
     width: 100%;
 }
 
+tr.sticky {
+    position: sticky;
+    top: 0;
+    background-color: steelblue;
+    color: white;
+}
+
 /* th {
     position: relative;
     padding: 3px 12px;
