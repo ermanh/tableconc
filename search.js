@@ -8,15 +8,16 @@
 //      - "Choose File" button needs to be bigger
 //      - Light/Dark modes (later/last)
 //      - Improve column resizing aesthetics
+//      - Prettify search form hiding control/mechanism
 // - Improve UX
 //      - Improve column resizing
 //      - Maybe ability to hide/unhide some controls/sections
-//      - Ability to hide the search form in order to see results on the full screen
 //      - Anchored bottom button to go back to top
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //      - Sorting mechanism (for columns without concordance display)
 // - Accept other file formats
 //      - Maybe allow users to paste in data
+// - If csv/tsv/text file has strings that include html code, need to display correctly
 
 
 const searchBox = document.getElementById("search-box");
@@ -192,7 +193,6 @@ const concord = function () {
     }
     const results = d3.select("#results-table");
     results.html(""); // clear results
-    results.append("br"); // TODO: "Cleaner" way to do this
     results.append("br");
     columnsToDisplay = columnNames.filter(function(d, i) {
         if (selectedColumns[i]) { return d; }

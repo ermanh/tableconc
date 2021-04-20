@@ -4,6 +4,25 @@ body {
     margin: 1.5em;
 }
 
+/* div#controls {
+
+} */
+
+#banner {
+    display: inline-block;
+}
+
+#hide-controls {
+    background: seagreen;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+}
+
+#hide-controls:hover {
+    background: yellowgreen;
+}
+
 column-names, output {
     display: block;
     margin-top: 1em;

@@ -10,121 +10,124 @@
 </head>
 
 <body>
+    <div id="hide-controls"></div>
     <div id="banner" class="section">
         TableConc
     </div>
-    <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
-    <input id="column-headers" type="checkbox" checked>
-    <label id="column-headers-label" for="column-headers">Contains column headers</label> 
-    <br><div style="height:5px;"></div>
+    <div id="controls">
+        <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
+        <input id="column-headers" type="checkbox" checked>
+        <label id="column-headers-label" for="column-headers">Contains column headers</label> 
+        <br><div style="height:5px;"></div>
 
-    <form id="search-box" onsubmit="return false;">
-        <table><tr>
-            <td class="search-td">
-                <label for="column-selection">Column to search:</label>
-                <select name="column-selection" id="column-selection"></select>
-                <br>
-                <input id="search-input" type="search" placeholder="Search..." disabled>
-                <br>
-                <input type="radio" id="keyword" name="search-type" value="keyword" checked disabled>
-                <label for="keyword">Keyword(s)</label>
-                <input type="radio" id="regex" name="search-type" value="regex" disabled>
-                <label for="regex">Regex</label>
-                <br>
-                <input id="full-words" type="checkbox" checked disabled>
-                <label id="full-words-label" for="full-words">
-                    Full word(s)
+        <form id="search-box" onsubmit="return false;">
+            <table><tr>
+                <td class="search-td">
+                    <label for="column-selection">Column to search:</label>
+                    <select name="column-selection" id="column-selection"></select>
+                    <br>
+                    <input id="search-input" type="search" placeholder="Search..." disabled>
+                    <br>
+                    <input type="radio" id="keyword" name="search-type" value="keyword" checked disabled>
+                    <label for="keyword">Keyword(s)</label>
+                    <input type="radio" id="regex" name="search-type" value="regex" disabled>
+                    <label for="regex">Regex</label>
+                    <br>
+                    <input id="full-words" type="checkbox" checked disabled>
+                    <label id="full-words-label" for="full-words">
+                        Full word(s)
+                        <div class="infotip">
+                            i
+                            <span class="infotiptext">
+                                If selected, searching "know" won't match "known" or "knowledge"
+                            </span>
+                        </div>
+                    </label>
+                    <br>
+                    <input id="case-sensitive" type="checkbox" disabled>
+                    <label for="case-sensitive">Case-sensitive</label>
+                    <br>
+                    <label for="match-where">Match</label>
+                    <select name="match-where" id="match-where" disabled>
+                        <option value="match-anywhere">anywhere</option>
+                        <option value="match-entire">entire string</option>
+                        <option value="match-beginning">beginning</option>
+                        <option value="match-end">end</option>
+                    </select>
+                    <br>
+                    <input id="findall" type="checkbox" disabled>
+                    <label for="findall">Find all instances</label>
+                    <br>
+                    <input id="concordance-display" type="checkbox" checked disabled>
+                    <label for="concordance-display">Concordance display</label>
+                    <input class="cutoff" id="concordance-cutoff" type="number" value="50" disabled>
                     <div class="infotip">
                         i
                         <span class="infotiptext">
-                            If selected, searching "know" won't match "known" or "knowledge"
+                            Sets the maximum length displayed on each side
+                            of the matched pattern
                         </span>
                     </div>
-                </label>
-                <br>
-                <input id="case-sensitive" type="checkbox" disabled>
-                <label for="case-sensitive">Case-sensitive</label>
-                <br>
-                <label for="match-where">Match</label>
-                <select name="match-where" id="match-where" disabled>
-                    <option value="match-anywhere">anywhere</option>
-                    <option value="match-entire">entire string</option>
-                    <option value="match-beginning">beginning</option>
-                    <option value="match-end">end</option>
-                </select>
-                <br>
-                <input id="findall" type="checkbox" disabled>
-                <label for="findall">Find all instances</label>
-                <br>
-                <input id="concordance-display" type="checkbox" checked disabled>
-                <label for="concordance-display">Concordance display</label>
-                <input class="cutoff" id="concordance-cutoff" type="number" value="50" disabled>
-                <div class="infotip">
-                    i
-                    <span class="infotiptext">
-                        Sets the maximum length displayed on each side
-                        of the matched pattern
-                    </span>
-                </div>
-            </td>
-            <td style="width:5px;"></td>
-            <td class="search-td">
-                <label for="column-selection2">Column to search:</label>
-                <select name="column-selection2" id="column-selection2"></select>
-                <br>
-                <input id="search-input2" type="search" placeholder="Search..." disabled>
-                <br>
-                <input type="radio" id="keyword2" name="search-type2" value="keyword" checked disabled>
-                <label for="male">Keyword(s)</label>
-                <input type="radio" id="regex2" name="search-type2" value="regex" disabled>
-                <label for="female">Regex</label>
-                <br>
-                <input id="full-words2" type="checkbox" checked disabled>
-                <label id="full-words-label2" for="full-words2">
-                    Full word(s)
+                </td>
+                <td style="width:5px;"></td>
+                <td class="search-td">
+                    <label for="column-selection2">Column to search:</label>
+                    <select name="column-selection2" id="column-selection2"></select>
+                    <br>
+                    <input id="search-input2" type="search" placeholder="Search..." disabled>
+                    <br>
+                    <input type="radio" id="keyword2" name="search-type2" value="keyword" checked disabled>
+                    <label for="male">Keyword(s)</label>
+                    <input type="radio" id="regex2" name="search-type2" value="regex" disabled>
+                    <label for="female">Regex</label>
+                    <br>
+                    <input id="full-words2" type="checkbox" checked disabled>
+                    <label id="full-words-label2" for="full-words2">
+                        Full word(s)
+                        <div class="infotip">
+                            i
+                            <span class="infotiptext">
+                                If selected, searching "know" won't match "known" or "knowledge"
+                            </span>
+                        </div>
+                    </label>
+                    <br>
+                    <input id="case-sensitive2" type="checkbox" disabled>
+                    <label for="case-sensitive2">Case-sensitive</label>
+                    <br>
+                    <label for="match-where2">Match</label>
+                    <select name="match-where2" id="match-where2" disabled>
+                        <option value="match-anywhere">anywhere</option>
+                        <option value="match-entire">entire string</option>
+                        <option value="match-beginning">beginning</option>
+                        <option value="match-end">end</option>
+                    </select>
+                    <br>
+                    <input id="findall2" type="checkbox" disabled>
+                    <label for="findall2">Find all instances</label>
+                    <br>
+                    <input id="concordance-display2" type="checkbox" checked disabled>
+                    <label for="concordance-display2">Concordance display</label>
+                    <input class="cutoff" id="concordance-cutoff2" type="number" value="50" disabled>
                     <div class="infotip">
                         i
                         <span class="infotiptext">
-                            If selected, searching "know" won't match "known" or "knowledge"
+                            Sets the maximum length displayed on each side
+                            of the matched pattern
                         </span>
                     </div>
-                </label>
-                <br>
-                <input id="case-sensitive2" type="checkbox" disabled>
-                <label for="case-sensitive2">Case-sensitive</label>
-                <br>
-                <label for="match-where2">Match</label>
-                <select name="match-where2" id="match-where2" disabled>
-                    <option value="match-anywhere">anywhere</option>
-                    <option value="match-entire">entire string</option>
-                    <option value="match-beginning">beginning</option>
-                    <option value="match-end">end</option>
-                </select>
-                <br>
-                <input id="findall2" type="checkbox" disabled>
-                <label for="findall2">Find all instances</label>
-                <br>
-                <input id="concordance-display2" type="checkbox" checked disabled>
-                <label for="concordance-display2">Concordance display</label>
-                <input class="cutoff" id="concordance-cutoff2" type="number" value="50" disabled>
-                <div class="infotip">
-                    i
-                    <span class="infotiptext">
-                        Sets the maximum length displayed on each side
-                        of the matched pattern
-                    </span>
-                </div>
-            </td>
-        </tr></table>
-        <button id="search-button" disabled>
-            Search</button>
-    </form>
+                </td>
+            </tr></table>
+            <button id="search-button" disabled>
+                Search</button>
+        </form>
 
-    <div id="columnselect" class="section">
-        Columns to display:
-        <text id="columns-to-show"></text>
+        <div id="columnselect" class="section">
+            Columns to display:
+            <text id="columns-to-show"></text>
+        </div>
     </div>
-    
+
     <div id="results" class="section">
         <text id="results-number"></text>
         <table id="results-table">

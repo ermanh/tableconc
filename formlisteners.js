@@ -1,4 +1,6 @@
 // ~~~~~~~~~~ All Elements ~~~~~~~~~~
+const controls = document.getElementById("controls");
+const hideControls = document.getElementById("hide-controls");
 const chooseFile = document.getElementById("choose-file");
 const columnHeaders = document.getElementById("column-headers");
 const searchButton = document.getElementById("search-button");
@@ -24,6 +26,11 @@ const matchWhere2 = document.getElementById("match-where2");
 const findall2 = document.getElementById("findall2");
 const concordanceDisplay2 = document.getElementById("concordance-display2");
 const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
+
+// ~~~~~~~~~~ Hide Controls ~~~~~~~~~~
+hideControls.addEventListener('click', function() {
+    controls.style.display = (controls.style.display != 'none') ? 'none' : 'block';
+});
 
 // ~~~~~~~~~~ Columns to display ~~~~~~~~~~
 columnHeaders.addEventListener('change', function() {
