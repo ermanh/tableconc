@@ -1,6 +1,7 @@
 body {
-    font-family: monospace;
-    font-size: 1.1em;
+    font-family: Arial, sans-serif;
+    font-size: 0.95em;
+    /* letter-spacing: 0.035em; */
     margin: 1.5em;
 }
 
@@ -10,6 +11,8 @@ body {
 
 #banner {
     display: inline-block;
+    font-size: 1.75em;
+    padding: 0.25em;
 }
 
 #hide-controls {
@@ -38,6 +41,8 @@ form, div.section {
 table#results-table {
     border-collapse: collapse;
     width: 100%;
+    font-family: monospace;
+    font-size: 1.1em;
 }
 
 tr.sticky {
@@ -122,11 +127,6 @@ td#search-logic {
     background-color: lightgreen;
 }
 
-#banner {
-    font-size: 1.5em;
-    padding: 0.25em;
-}
-
 .cutoff {
     padding: 1px 0 1px 3px;
     width: 40px;
@@ -145,7 +145,10 @@ td#search-logic {
     color: white;
     font-weight: 500;
     border-radius: 1em;
-    padding: 1px 5px;
+    padding: 1px 3px 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.8em;
+    font-weight: 600;
 }
 
 .infotiptext {
@@ -154,7 +157,7 @@ td#search-logic {
     background-color: darkslategray;
     opacity: 0.88;
     color: #fff;
-    font-size: 0.9em;
+    font-family: Arial, sans-serif;
     font-weight: lighter;
     text-align: left;
     border-radius: 5px;
