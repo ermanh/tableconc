@@ -15,6 +15,11 @@ body {
     padding: 0.25em;
 }
 
+table.controls-container td {
+    margin: 0;
+    padding: 0 20px 0 0;
+}
+
 #controls {
     position: relative;
 }
@@ -54,6 +59,14 @@ input.search {
     -moz-appearance: none; 
     appearance: none;
     font-size: 1.5em;
+}
+
+input[type="checkbox"]:disabled + label {
+    color: gray;
+}
+
+select[for="match-where"]:disabled + label {
+    color: gray;
 }
 
 column-names, output {

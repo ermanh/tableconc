@@ -53,11 +53,13 @@ regexSelection.addEventListener('change', function() {
         fullWords.checked = false;
         fullWords.disabled = true;
         matchWhere.disabled = true;
+        $j('label[for="match-where"]').style.color = "gray";
     } else {
         caseSensitive.checked = false;
         fullWords.checked = true;
         fullWords.disabled = false;
         matchWhere.disabled = false;
+        $j('label[for="match-where"]').style.color = "";
     }
 });
 
@@ -85,7 +87,9 @@ findall.addEventListener('change', function() {
 // ~~~ Column Selection ~~~
 columnSelection.addEventListener('change', function() {
     var columnSelectionValue = this.value;
-    if (columnSelectionValue == "(none)") {
+    if (columnSelectionValue == "(None)") {
+        // Enable all selections in the other column selection
+        columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
         // Disable all selections
         searchInput.value = "";
         searchInput.disabled = true;
@@ -96,9 +100,7 @@ columnSelection.addEventListener('change', function() {
         findall.disabled = true;
         concordanceDisplay.disabled = true;
         concordanceCutoff.disabled = true;
-        if (columnSelection2.value == "(none)") {
-            searchButton.disabled = true;
-        }
+        if (columnSelection2.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
         searchInput.disabled = false;
@@ -108,9 +110,7 @@ columnSelection.addEventListener('change', function() {
         matchWhere.disabled = false;
         findall.disabled = false;
         concordanceDisplay.disabled = false;
-        if (concordanceDisplay.checked) {
-            concordanceCutoff.disabled = false;
-        }
+        if (concordanceDisplay.checked) { concordanceCutoff.disabled = false; }
         searchButton.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
             if (node.value !== columnSelectionValue) {
@@ -169,7 +169,9 @@ findall2.addEventListener('change', function() {
 // ~~~ Column Selection ~~~
 columnSelection2.addEventListener('change', function() {
     var columnSelectionValue2 = this.value;
-    if (columnSelectionValue2 == "(none)") {
+    if (columnSelectionValue2 == "(None)") {
+        // Enable all selections in the other column selection
+        columnSelection.childNodes.forEach(function(node) { node.disabled = false; });
         // Disable all selections
         searchInput2.value = "";
         searchInput2.disabled = true;
@@ -180,9 +182,7 @@ columnSelection2.addEventListener('change', function() {
         findall2.disabled = true;
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
-        if (columnSelection.value == "(none)") {
-            searchButton.disabled = true;
-        }
+        if (columnSelection.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
         searchInput2.disabled = false;
@@ -192,9 +192,7 @@ columnSelection2.addEventListener('change', function() {
         matchWhere2.disabled = false;
         findall2.disabled = false;
         concordanceDisplay2.disabled = false;
-        if (concordanceDisplay2.checked) {
-            concordanceCutoff2.disabled = false;
-        }
+        if (concordanceDisplay2.checked) { concordanceCutoff2.disabled = false; }
         searchButton.disabled = false;
         columnSelection.childNodes.forEach(function(node) {
             if (node.value !== columnSelectionValue2) {
