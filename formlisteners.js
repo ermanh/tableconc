@@ -8,7 +8,6 @@ const searchButton = document.getElementById("search-button");
 const columnSelection = document.getElementById("column-selection");
 const searchInput = document.getElementById("search-input");
 const regexSelection = document.getElementById("regex");
-const keywordSelection = document.getElementById("keyword");
 const fullWords = document.getElementById("full-words");
 const caseSensitive = document.getElementById("case-sensitive");
 const matchWhere = document.getElementById("match-where");
@@ -19,7 +18,6 @@ const concordanceCutoff = document.getElementById("concordance-cutoff");
 const columnSelection2 = document.getElementById("column-selection2");
 const searchInput2 = document.getElementById("search-input2");
 const regexSelection2 = document.getElementById("regex2");
-const keywordSelection2 = document.getElementById("keyword2");
 const fullWords2 = document.getElementById("full-words2");
 const caseSensitive2 = document.getElementById("case-sensitive2");
 const matchWhere2 = document.getElementById("match-where2");
@@ -29,7 +27,13 @@ const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
 
 // ~~~~~~~~~~ Hide Controls ~~~~~~~~~~
 hideControls.addEventListener('click', function() {
-    controls.style.display = (controls.style.display != 'none') ? 'none' : 'block';
+    // controls.style.display = (controls.style.display != 'none') ? 'none' : 'block';
+    if (controls.style.display != 'none') {
+        controls.className = 'slideClose';
+        // controls.style.display = 'none';
+    } else {
+        controls.className = 'slideOpen';
+    }
 });
 
 // ~~~~~~~~~~ Columns to display ~~~~~~~~~~
@@ -40,7 +44,7 @@ columnHeaders.addEventListener('change', function() {
 // ~~~~~~~~~~ SEARCH 1 ~~~~~~~~~~
 
 // ~~~ Search Type ~~~
-// Switching search-type to "Regex"... 
+// Selecting "Regex"... 
 // - selects "Case-sensitive"
 // - deselects and disables "Full word(s)"
 regexSelection.addEventListener('change', function() {
@@ -49,11 +53,7 @@ regexSelection.addEventListener('change', function() {
         fullWords.checked = false;
         fullWords.disabled = true;
         matchWhere.disabled = true;
-    }
-});
-// Switching search-type to "Keyword" reverses above actions
-keywordSelection.addEventListener('change', function() {
-    if (this.checked) {
+    } else {
         caseSensitive.checked = false;
         fullWords.checked = true;
         fullWords.disabled = false;
@@ -90,7 +90,6 @@ columnSelection.addEventListener('change', function() {
         searchInput.value = "";
         searchInput.disabled = true;
         regexSelection.disabled = true;
-        keywordSelection.disabled = true;
         fullWords.disabled = true;
         caseSensitive.disabled = true;
         matchWhere.disabled = true;
@@ -104,7 +103,6 @@ columnSelection.addEventListener('change', function() {
         // Enable all selections
         searchInput.disabled = false;
         regexSelection.disabled = false;
-        keywordSelection.disabled = false;
         fullWords.disabled = false;
         caseSensitive.disabled = false;
         matchWhere.disabled = false;
@@ -130,20 +128,16 @@ columnSelection.addEventListener('change', function() {
 // ~~~~~~~~~~ SEARCH 2 ~~~~~~~~~~
 
 // ~~~ Search Type ~~~
-// Switching search-type to "Regex"... 
+// Selecting "Regex"... 
 // - selects "Case-sensitive"
 // - deselects and disables "Full word(s)"
-regexSelection.addEventListener('change', function() {
+regexSelection2.addEventListener('change', function() {
     if (this.checked) {
         caseSensitive2.checked = true;
         fullWords2.checked = false;
         fullWords2.disabled = true;
         matchWhere2.disabled = true;
-    }
-});
-// Switching search-type to "Keyword" reverses above actions
-keywordSelection.addEventListener('change', function() {
-    if (this.checked) {
+    } else {
         caseSensitive2.checked = false;
         fullWords2.checked = true;
         fullWords2.disabled = false;
@@ -180,7 +174,6 @@ columnSelection2.addEventListener('change', function() {
         searchInput2.value = "";
         searchInput2.disabled = true;
         regexSelection2.disabled = true;
-        keywordSelection2.disabled = true;
         fullWords2.disabled = true;
         caseSensitive2.disabled = true;
         matchWhere2.disabled = true;
@@ -194,7 +187,6 @@ columnSelection2.addEventListener('change', function() {
         // Enable all selections
         searchInput2.disabled = false;
         regexSelection2.disabled = false;
-        keywordSelection2.disabled = false;
         fullWords2.disabled = false;
         caseSensitive2.disabled = false;
         matchWhere2.disabled = false;

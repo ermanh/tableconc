@@ -29,7 +29,7 @@ const concord = function () {
 
     var columnToSearchValue1 = document.getElementById("column-selection").value;
     var searchInputValue1 = document.getElementById("search-input").value;
-    var searchTypeValue1 = document.querySelector('input[name="search-type"]:checked').value;
+    var regexChecked1 = document.getElementById("regex").checked;
     var fullWordsChecked1 = document.getElementById("full-words").checked;
     var caseSensitiveChecked1 = document.getElementById("case-sensitive").checked;
     var matchWhereValue1 = document.getElementById("match-where").value;
@@ -39,7 +39,7 @@ const concord = function () {
 
     var columnToSearchValue2 = document.getElementById("column-selection2").value;
     var searchInputValue2 = document.getElementById("search-input2").value;
-    var searchTypeValue2 = document.querySelector('input[name="search-type2"]:checked').value;
+    var regexChecked2 = document.getElementById("regex2").checked;
     var fullWordsChecked2 = document.getElementById("full-words2").checked;
     var caseSensitiveChecked2 = document.getElementById("case-sensitive2").checked;
     var matchWhereValue2 = document.getElementById("match-where2").value;
@@ -72,7 +72,7 @@ const concord = function () {
         // Construct regex
         if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
         if (findallChecked1) { flags1 = `${flags1}g`; }
-        if (searchTypeValue1 == "regex") {
+        if (regexChecked1) {
             pattern1 = `(${searchInputValue1})`; 
         } else {
             pattern1 = `(${RegExp.escape(searchInputValue1)})`;
@@ -114,7 +114,7 @@ const concord = function () {
         // Construct regex
         if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
         if (findallChecked2) { flags2 = `${flags2}g`; }
-        if (searchTypeValue2 == "regex") {
+        if (regexChecked2) {
             pattern2 = `(${searchInputValue2})`; 
         } else {
             pattern2 = `(${RegExp.escape(searchInputValue2)})`;

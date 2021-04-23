@@ -26,12 +26,10 @@
                     <label for="column-selection">Column to search:</label>
                     <select name="column-selection" id="column-selection"></select>
                     <br>
-                    <input id="search-input" type="search" placeholder="Search..." disabled>
+                    <input id="search-input" class="search" type="search" placeholder="Search..." disabled>
                     <br>
-                    <input type="radio" id="keyword" name="search-type" value="keyword" checked disabled>
-                    <label for="keyword">Keyword(s)</label>
-                    <input type="radio" id="regex" name="search-type" value="regex" disabled>
-                    <label for="regex">Regex</label>
+                    <input id="regex" type="checkbox" disabled>
+                    <label id="regex-label" for="regex">Regular expression</label>
                     <br>
                     <input id="full-words" type="checkbox" checked disabled>
                     <label id="full-words-label" for="full-words">
@@ -59,7 +57,7 @@
                     <label for="findall">Find all instances</label>
                     <br>
                     <input id="concordance-display" type="checkbox" checked disabled>
-                    <label for="concordance-display">Concordance display</label>
+                    <label for="concordance-display">Concordance</label>
                     <input class="cutoff" id="concordance-cutoff" type="number" value="50" disabled>
                     <div class="infotip">
                         &nbsp;i&nbsp;
@@ -74,12 +72,10 @@
                     <label for="column-selection2">Column to search:</label>
                     <select name="column-selection2" id="column-selection2"></select>
                     <br>
-                    <input id="search-input2" type="search" placeholder="Search..." disabled>
+                    <input id="search-input2" class="search" type="search" placeholder="Search..." disabled>
                     <br>
-                    <input type="radio" id="keyword2" name="search-type2" value="keyword" checked disabled>
-                    <label for="male">Keyword(s)</label>
-                    <input type="radio" id="regex2" name="search-type2" value="regex" disabled>
-                    <label for="female">Regex</label>
+                    <input id="regex2" type="checkbox" disabled>
+                    <label id="regex-label2" for="regex2">Regular expression</label>
                     <br>
                     <input id="full-words2" type="checkbox" checked disabled>
                     <label id="full-words-label2" for="full-words2">
@@ -107,7 +103,7 @@
                     <label for="findall2">Find all instances</label>
                     <br>
                     <input id="concordance-display2" type="checkbox" checked disabled>
-                    <label for="concordance-display2">Concordance display</label>
+                    <label for="concordance-display2">Concordance</label>
                     <input class="cutoff" id="concordance-cutoff2" type="number" value="50" disabled>
                     <div class="infotip">
                         &nbsp;i&nbsp;

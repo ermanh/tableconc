@@ -15,6 +15,10 @@ body {
     padding: 0.25em;
 }
 
+#controls {
+    position: relative;
+}
+
 #hide-controls {
     background: seagreen;
     width: 15px;
@@ -22,8 +26,34 @@ body {
     display: inline-block;
 }
 
+.slideClose {
+    animation: slideClose 1s forwards;
+}
+
+.slideOpen {
+    animation: slideOpen 1s forwards;
+}
+
+@keyframes slideClose {
+  0% { height: 1000px; }
+  100% { height: 0px; }
+}
+
+@keyframes slideOpen {
+  0% { height: 0px; }
+  100% { height: 800px; }
+}
+
+
 #hide-controls:hover {
     background: yellowgreen;
+}
+
+input.search {
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none;
+    font-size: 1.5em;
 }
 
 column-names, output {
