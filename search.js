@@ -4,21 +4,17 @@
 //      - Move variable declarations to separate js file
 // - Improve UI aesthetics/format/style
 //      - Shorten the total height of UI controls
-//      - Maybe divide search options into 2 columns
 //      - "Choose File" button needs to be bigger
 //      - Light/Dark modes (later/last)
 //      - Improve column resizing aesthetics
 //      - Prettify search form hiding control/mechanism
 // - Improve UX
 //      - Improve column resizing
-//      - Maybe ability to hide/unhide some controls/sections
 //      - Anchored bottom button to go back to top
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //      - Sorting mechanism (for columns without concordance display)
-// - Accept other file formats
-//      - Maybe allow users to paste in data
-// - If csv/tsv/text file has strings that include html code, need to display correctly
-
+// - Maybe allow users to paste in data
+// - If "Find all instances checked", disable match-entire, match-beginning, and match-end
 
 const searchBox = document.getElementById("search-box");
 
@@ -47,6 +43,8 @@ const concord = function () {
     var concordDisplayChecked2 = document.getElementById("concordance-display2").checked;
     var concordCutoffValue2 = document.getElementById("concordance-cutoff2").value;
 
+    var columnsToSearchValues = [columnToSearchValue1, columnToSearchValue2];
+
     // THIS CAN BE MOVED TO A GLOBALS FILE
     var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { return `Column ${i + 1}`; });
     var startingRowIndex = columnHeaders ? 1 : 0;    
@@ -73,20 +71,22 @@ const concord = function () {
         if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
         if (findallChecked1) { flags1 = `${flags1}g`; }
         if (regexChecked1) {
-            pattern1 = `(${searchInputValue1})`; 
+            pattern1 = `^(.*?)(${searchInputValue1})(.*?)$`; 
         } else {
-            pattern1 = `(${RegExp.escape(searchInputValue1)})`;
+            pattern1 = RegExp.escape(searchInputValue1);
             if (fullWordsChecked1) {
                 var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
                 var end1 = searchInputValue1.match(/\w$/) ? "\\b" : "";
                 pattern1 = `${beginning1}${pattern1}${end1}`;
             }
             if (matchWhereValue1 == "match-entire") {
-                pattern1 = `^${pattern1}$`;
+                pattern1 = `^(${pattern1})$`;
             } else if (matchWhereValue1 == "match-beginning") {
-                pattern1 = `^${pattern1}`;
+                pattern1 = `^(${pattern1})(.*?)$`;
             } else if (matchWhereValue1 == "match-end") {
-                pattern1 = `${pattern1}$`;
+                pattern1 = `^(.*?)(${pattern1})$`;
+            } else {
+                pattern1 = `^(.*?)(${pattern1})(.*?)$`;
             }
         }
         re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
@@ -96,7 +96,25 @@ const concord = function () {
             let str = data[i][searchColumnIndex1];
             if (str.match(re1)) {
                 matchedRows1.push(i);
-                newData[i][searchColumnIndex1] = str.replace(re1, `${tagOpen1}$1${tagClose1}`);
+                let htmlSafeString;
+                if (regexChecked1 || matchWhereValue1 == "match-anywhere") {
+                    htmlSafeString = str.replace(re1, function(_, g1, g2, g3) {
+                        return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
+                    });
+                } else if (matchWhereValue1 == "match-entire") {
+                    htmlSafeString = str.replace(re1, function(_, g1) {
+                        return `${tagOpen1}${escapeHTML(g1)}${tagClose1}`;
+                    });
+                } else if (matchWhereValue1 == "match-beginning") {
+                    htmlSafeString = str.replace(re1, function(_, g1, g2) {
+                        return `${tagOpen1}${escapeHTML(g1)}${tagClose1}${escapeHTML(g2)}`;
+                    });
+                } else if (matchWhereValue1 == "match-end") {
+                    htmlSafeString = str.replace(re1, function(_, g1, g2) {
+                        return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}`;
+                    });
+                }
+                newData[i][searchColumnIndex1] = htmlSafeString;
             } 
         }
     }
@@ -115,7 +133,7 @@ const concord = function () {
         if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
         if (findallChecked2) { flags2 = `${flags2}g`; }
         if (regexChecked2) {
-            pattern2 = `(${searchInputValue2})`; 
+            pattern2 = `^(.*?)(${searchInputValue2})(.*?)$`; 
         } else {
             pattern2 = `(${RegExp.escape(searchInputValue2)})`;
             if (fullWordsChecked2) {
@@ -124,11 +142,13 @@ const concord = function () {
                 pattern2 = `${beginning2}${pattern2}${end2}`;
             }
             if (matchWhereValue2 == "match-entire") {
-                pattern2 = `^${pattern2}$`;
+                pattern2 = `^(${pattern2})$`;
             } else if (matchWhereValue2 == "match-beginning") {
-                pattern2 = `^${pattern2}`;
+                pattern2 = `^(${pattern2})(.*?)$`;
             } else if (matchWhereValue2 == "match-end") {
-                pattern2 = `${pattern2}$`;
+                pattern2 = `^(.*?)(${pattern2})$`;
+            } else {
+                pattern2 = `^(.*?)(${pattern2})(.*?)$`;
             }
         }
         re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
@@ -138,7 +158,25 @@ const concord = function () {
             let str = data[i][searchColumnIndex2];
             if (str.match(re2)) {
                 matchedRows2.push(i);
-                newData[i][searchColumnIndex2] = str.replace(re2, `${tagOpen2}$1${tagClose2}`);
+                let htmlSafeString;
+                if (regexChecked2 || matchWhereValue2 == "match-anywhere") {
+                    htmlSafeString = str.replace(re2, function(_, g1, g2, g3) {
+                        return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;
+                    });
+                } else if (matchWhereValue2 == "match-entire") {
+                    htmlSafeString = str.replace(re2, function(_, g1) {
+                        return `${tagOpen2}${escapeHTML(g1)}${tagClose2}`;
+                    });
+                } else if (matchWhereValue2 == "match-beginning") {
+                    htmlSafeString = str.replace(re2, function(_, g1, g2) {
+                        return `${tagOpen2}${escapeHTML(g1)}${tagClose2}${escapeHTML(g2)}`;
+                    });
+                } else if (matchWhereValue2 == "match-end") {
+                    htmlSafeString = str.replace(re2, function(_, g1, g2) {
+                        return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}`;
+                    });
+                }
+                newData[i][searchColumnIndex2] = htmlSafeString;
             }
         }
     }
@@ -217,7 +255,14 @@ const concord = function () {
             results.append("tr").selectAll("td")
                 .data(newData[index].filter(function(d, j) {
                     if (selectedColumns[j]) { return d; }
-                })).enter()
+                }).map(function(d, j) {
+                    if (columnsToSearchValues.includes(columnNames[j])) {
+                        return d;
+                    } else {
+                        return escapeHTML(d);
+                    }
+                })
+                ).enter()
                 .append("td")
                 .attr("class", "results-td")
                 .html(function(d) { return d; });

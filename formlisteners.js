@@ -53,13 +53,11 @@ regexSelection.addEventListener('change', function() {
         fullWords.checked = false;
         fullWords.disabled = true;
         matchWhere.disabled = true;
-        $j('label[for="match-where"]').style.color = "gray";
     } else {
         caseSensitive.checked = false;
         fullWords.checked = true;
         fullWords.disabled = false;
         matchWhere.disabled = false;
-        $j('label[for="match-where"]').style.color = "";
     }
 });
 

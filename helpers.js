@@ -99,3 +99,12 @@ function makeResizable(div) {
     });
 
 }
+
+function escapeHTML(string) {
+    newstring = string.replace(RegExp(/&/, 'g'), '&amp;');
+    newstring = newstring.replace(RegExp(/</, 'g'), '&lt;');
+    newstring = newstring.replace(RegExp(/>/, 'g'), '&gt;');
+    newstring = newstring.replace(RegExp(/\"/, 'g'), '&quot;');
+    newstring = newstring.replace(RegExp(/\'/, 'g'), '&#39;');
+    return newstring;
+}
