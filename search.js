@@ -3,19 +3,21 @@
 //      - Append "1" to the plain names
 //      - Move variable declarations to separate js file
 // - Improve UI aesthetics/format/style
-//      - Shorten the total height of UI controls
+//      - Prettify search form hiding control/mechanism
+//      - Prettify results table
+//      - Improve column resizing aesthetics
 //      - "Choose File" button needs to be bigger
 //      - Light/Dark modes (later/last)
-//      - Improve column resizing aesthetics
-//      - Prettify search form hiding control/mechanism
+//      - Create own custom buttons
+//      - Cross-browser aesthetics
 // - Improve UX
 //      - (minor) Improve column resizing 
-//      - Anchored bottom button to go back to top
+//      - Anchored bottom button to go back to top OR sticky all top sections
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //      - Sorting mechanism (for columns without concordance display)
 // - (minor) Maybe allow users to paste in data
 // - Write unit tests for all functions
-// - ? Export feature
+// - ? Export results feature
 
 const searchBox = document.getElementById("search-box");
 
@@ -296,15 +298,16 @@ const concord = function () {
         // Results
         matchedRows.forEach((index) => {
             results.append("tr").selectAll("td")
-                .data(newData[index].filter(function(d, j) {
-                    if (selectedColumns[j]) { return d; }
-                }).map(function(d, j) {
-                    if (columnsToSearchValues.includes(columnNames[j])) {
-                        return d;
-                    } else {
-                        return escapeHTML(d);
-                    }
-                })
+                .data(newData[index].map(
+                    function(d, j) {
+                        if (columnsToSearchValues.includes(columnNames[j])) {
+                            return d;
+                        } else {
+                            return escapeHTML(d);
+                        }
+                    }).filter(function(d, j) { 
+                        if (selectedColumns[j]) { return d; }
+                    })
                 ).enter()
                 .append("td")
                 .attr("class", "results-td")

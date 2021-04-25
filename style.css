@@ -39,7 +39,7 @@ table.controls-container td {
 
 .hiders {
     color: lightblue;
-    text-align: left;
+    text-align: center;
     font-size: 0.75em;
     font-weight: 1000;
     padding: 3px 6px;
@@ -92,7 +92,7 @@ column-names, output {
 }
 
 form, div.section {
-    padding: 0.2em 1em 0.6em;
+    padding: 0.25em 1em 0.6em;
 }
 
 #columnselect {
@@ -174,13 +174,13 @@ td#search-logic {
     background-color: var(--controls-bg-color);
 }
 
-#search-button {
+/* #search-button {
     padding: 0.5em 0.65em;
 }
 
 #search-button-outside {
     padding: 0.5em 0.65em;
-}
+} */
 
 #search-input, #search-input2 {
     font-size: 0.8em;
