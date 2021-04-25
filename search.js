@@ -14,6 +14,9 @@
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //      - Sorting mechanism (for columns without concordance display)
 // - Maybe allow users to paste in data
+// - padConcordance 
+//      - needs to treat HTML chars as single-space chars, BUT...
+//      - ...also display accordingly
 
 const searchBox = document.getElementById("search-box");
 
@@ -74,6 +77,9 @@ const concord = function () {
                 pattern1 = searchInputValue1;
             } else {
                 pattern1 = RegExp.escape(searchInputValue1);
+                if (fullWordsChecked1) {
+                    pattern1 = fullwordBoundaries(pattern1, searchInputValue1);
+                }
             }
         } else {
             if (regexChecked1) {
@@ -81,9 +87,7 @@ const concord = function () {
             } else {
                 pattern1 = RegExp.escape(searchInputValue1);
                 if (fullWordsChecked1) {
-                    var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
-                    var end1 = searchInputValue1.match(/\w$/) ? "\\b" : "";
-                    pattern1 = `${beginning1}${pattern1}${end1}`;
+                    pattern1 = fullwordBoundaries(pattern1, searchInputValue1);
                 }
                 if (matchWhereValue1 == "match-entire") {
                     pattern1 = `^(${pattern1})$`;
@@ -106,9 +110,10 @@ const concord = function () {
                 var htmlSafeString1;
                 if (regexChecked1 || matchWhereValue1 == "match-anywhere") {
                     if (findallChecked1) {
-                        htmlSafeString1 = str.replace(re1, function(g1) {
-                            return `${tagOpen1}${g1}${tagClose1}`;
-                        });
+                        htmlSafeString1 = iterHtmlSafeReplace(str, re1, tagOpen1, tagClose1);
+                        // htmlSafeString1 = str.replace(re1, function(g1) {
+                        //     return `${tagOpen1}${g1}${tagClose1}`;
+                        // });
                     } else {
                         htmlSafeString1 = str.replace(re1, function(_, g1, g2, g3) {
                             return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
@@ -150,6 +155,9 @@ const concord = function () {
                 pattern2 = searchInputValue2;
             } else {
                 pattern2 = RegExp.escape(searchInputValue2);
+                if (fullWordsChecked2) {
+                    pattern2 = fullwordBoundaries(pattern2, searchInputValue2);
+                }
             }
         } else {
             if (regexChecked2) {
@@ -157,9 +165,7 @@ const concord = function () {
             } else {
                 pattern2 = RegExp.escape(searchInputValue2);
                 if (fullWordsChecked2) {
-                    var beginning2 = searchInputValue2.match(/^\w/) ? "\\b" : "";
-                    var end2 = searchInputValue2.match(/\w$/) ? "\\b" : "";
-                    pattern2 = `${beginning2}${pattern2}${end2}`;
+                    pattern2 = fullwordBoundaries(pattern2, searchInputValue2);
                 }
                 if (matchWhereValue2 == "match-entire2") {
                     pattern2 = `^(${pattern2})$`;
@@ -183,9 +189,10 @@ const concord = function () {
                 var htmlSafeString2;
                 if (regexChecked2 || matchWhereValue2 == "match-anywhere2") {
                     if (findallChecked2) {
-                        htmlSafeString2 = str.replace(re2, function(g1) {
-                            return `${tagOpen2}${g1}${tagClose2}`;
-                        });
+                        htmlSafeString2 = iterHtmlSafeReplace(str, re2, tagOpen2, tagClose2);
+                        // htmlSafeString2 = str.replace(re2, function(g1) {
+                        //     return `${tagOpen2}${g1}${tagClose2}`;
+                        // });
                     } else {
                         htmlSafeString2 = str.replace(re2, function(_, g1, g2, g3) {
                             return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;

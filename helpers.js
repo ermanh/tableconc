@@ -108,3 +108,26 @@ function escapeHTML(string) {
     newstring = newstring.replace(RegExp(/\'/, 'g'), '&#39;');
     return newstring;
 }
+
+function iterHtmlSafeReplace(string, re, tagOpen, tagClose) {
+    var newString = '';
+    var myArray;
+    var prevIndex = 0;
+    var prevMatchLength = 0;
+    while ((myArray = re.exec(string)) !== null) {
+        match = myArray[0];
+        index = myArray.index;
+        preMatch = string.slice(prevIndex + prevMatchLength, index);
+        newString += `${escapeHTML(preMatch)}${tagOpen}${escapeHTML(match)}${tagClose}`;
+        prevIndex = index;
+        prevMatchLength = match.length;
+    }
+    newString += `${escapeHTML(string.slice(prevIndex + prevMatchLength, string.length))}`;
+    return newString;
+}
+
+function fullwordBoundaries(pattern, searchInputValue) {
+    var beginning = searchInputValue.match(/^\w/) ? "\\b" : "";
+    var end = searchInputValue.match(/\w$/) ? "\\b" : "";
+    return `${beginning}${pattern}${end}`;
+}
