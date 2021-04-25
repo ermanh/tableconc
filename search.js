@@ -71,7 +71,7 @@ const concord = function () {
         if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
         if (findallChecked1) { flags1 = `${flags1}g`; }
         if (regexChecked1) {
-            pattern1 = `^(.*?)(${searchInputValue1})(.*?)$`; 
+            pattern1 = `^(.*?)(${searchInputValue1})(.*)$`; 
         } else {
             pattern1 = RegExp.escape(searchInputValue1);
             if (fullWordsChecked1) {
@@ -82,11 +82,11 @@ const concord = function () {
             if (matchWhereValue1 == "match-entire") {
                 pattern1 = `^(${pattern1})$`;
             } else if (matchWhereValue1 == "match-beginning") {
-                pattern1 = `^(${pattern1})(.*?)$`;
+                pattern1 = `^(${pattern1})(.*)$`;
             } else if (matchWhereValue1 == "match-end") {
                 pattern1 = `^(.*?)(${pattern1})$`;
             } else {
-                pattern1 = `^(.*?)(${pattern1})(.*?)$`;
+                pattern1 = `^(.*?)(${pattern1})(.*)$`;
             }
         }
         re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
@@ -96,25 +96,25 @@ const concord = function () {
             let str = data[i][searchColumnIndex1];
             if (str.match(re1)) {
                 matchedRows1.push(i);
-                let htmlSafeString;
+                var htmlSafeString1;
                 if (regexChecked1 || matchWhereValue1 == "match-anywhere") {
-                    htmlSafeString = str.replace(re1, function(_, g1, g2, g3) {
+                    htmlSafeString1 = str.replace(re1, function(_, g1, g2, g3) {
                         return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
                     });
                 } else if (matchWhereValue1 == "match-entire") {
-                    htmlSafeString = str.replace(re1, function(_, g1) {
+                    htmlSafeString1 = str.replace(re1, function(_, g1) {
                         return `${tagOpen1}${escapeHTML(g1)}${tagClose1}`;
                     });
                 } else if (matchWhereValue1 == "match-beginning") {
-                    htmlSafeString = str.replace(re1, function(_, g1, g2) {
+                    htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
                         return `${tagOpen1}${escapeHTML(g1)}${tagClose1}${escapeHTML(g2)}`;
                     });
                 } else if (matchWhereValue1 == "match-end") {
-                    htmlSafeString = str.replace(re1, function(_, g1, g2) {
+                    htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
                         return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}`;
                     });
                 }
-                newData[i][searchColumnIndex1] = htmlSafeString;
+                newData[i][searchColumnIndex1] = htmlSafeString1;
             } 
         }
     }
@@ -133,22 +133,22 @@ const concord = function () {
         if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
         if (findallChecked2) { flags2 = `${flags2}g`; }
         if (regexChecked2) {
-            pattern2 = `^(.*?)(${searchInputValue2})(.*?)$`; 
+            pattern2 = `^(.*?)(${searchInputValue2})(.*)$`; 
         } else {
-            pattern2 = `(${RegExp.escape(searchInputValue2)})`;
+            pattern2 = RegExp.escape(searchInputValue2);
             if (fullWordsChecked2) {
                 var beginning2 = searchInputValue2.match(/^\w/) ? "\\b" : "";
                 var end2 = searchInputValue2.match(/\w$/) ? "\\b" : "";
                 pattern2 = `${beginning2}${pattern2}${end2}`;
             }
-            if (matchWhereValue2 == "match-entire") {
+            if (matchWhereValue2 == "match-entire2") {
                 pattern2 = `^(${pattern2})$`;
-            } else if (matchWhereValue2 == "match-beginning") {
-                pattern2 = `^(${pattern2})(.*?)$`;
-            } else if (matchWhereValue2 == "match-end") {
+            } else if (matchWhereValue2 == "match-beginning2") {
+                pattern2 = `^(${pattern2})(.*)$`;
+            } else if (matchWhereValue2 == "match-end2") {
                 pattern2 = `^(.*?)(${pattern2})$`;
             } else {
-                pattern2 = `^(.*?)(${pattern2})(.*?)$`;
+                pattern2 = `^(.*?)(${pattern2})(.*)$`;
             }
         }
         re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
@@ -158,26 +158,33 @@ const concord = function () {
             let str = data[i][searchColumnIndex2];
             if (str.match(re2)) {
                 matchedRows2.push(i);
-                let htmlSafeString;
-                if (regexChecked2 || matchWhereValue2 == "match-anywhere") {
-                    htmlSafeString = str.replace(re2, function(_, g1, g2, g3) {
+                console.log('I reached here');
+                var htmlSafeString2;
+                if (regexChecked2 || matchWhereValue2 == "match-anywhere2") {
+                    htmlSafeString2 = str.replace(re2, function(_, g1, g2, g3) {
                         return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;
                     });
-                } else if (matchWhereValue2 == "match-entire") {
-                    htmlSafeString = str.replace(re2, function(_, g1) {
+                } else if (matchWhereValue2 == "match-entire2") {
+                    htmlSafeString2 = str.replace(re2, function(_, g1) {
                         return `${tagOpen2}${escapeHTML(g1)}${tagClose2}`;
                     });
-                } else if (matchWhereValue2 == "match-beginning") {
-                    htmlSafeString = str.replace(re2, function(_, g1, g2) {
+                } else if (matchWhereValue2 == "match-beginning2") {
+                    htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
                         return `${tagOpen2}${escapeHTML(g1)}${tagClose2}${escapeHTML(g2)}`;
                     });
-                } else if (matchWhereValue2 == "match-end") {
-                    htmlSafeString = str.replace(re2, function(_, g1, g2) {
+                } else if (matchWhereValue2 == "match-end2") {
+                    htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
                         return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}`;
                     });
                 }
-                newData[i][searchColumnIndex2] = htmlSafeString;
-            }
+                console.log('LAHDEEDAA');
+                console.log('re2', re2);
+                console.log('pattern2', pattern2);
+                // console.log("Check every string and escapeHTML result");
+                // console.log(str);
+                // console.log(htmlSafeString2);
+                newData[i][searchColumnIndex2] = htmlSafeString2;
+            } 
         }
     }
 
@@ -217,6 +224,9 @@ const concord = function () {
             var concordStrings2 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex2];
             });
+            console.log(JSON.stringify(newData));
+            // console.log('searchColumnIndex2', searchColumnIndex2);
+            // console.log(JSON.stringify(concordStrings2));
             concordStrings2 = padConcordance(concordStrings2, 'blue', concordCutoffValue2);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex2] = concordStrings2.shift();
