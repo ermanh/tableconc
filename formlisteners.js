@@ -76,9 +76,12 @@ findall.addEventListener('change', function() {
         concordanceDisplay.checked = false;
         concordanceDisplay.disabled = true;
         concordanceCutoff.disabled = true;
+        matchWhere.value = 'match-anywhere';
+        matchWhere.disabled = true;
     } else {
         concordanceDisplay.disabled = false;
         concordanceCutoff.disabled = false;
+        matchWhere.disabled = false;
     }
 });
 
@@ -158,9 +161,12 @@ findall2.addEventListener('change', function() {
         concordanceDisplay2.checked = false;
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
+        matchWhere2.value = "match-anywhere";
+        matchWhere2.disabled = true;
     } else {
         concordanceDisplay2.disabled = false;
         concordanceCutoff2.disabled = false;
+        matchWhere2.disabled = false;
     }
 });
 
