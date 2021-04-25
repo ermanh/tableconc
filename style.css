@@ -1,18 +1,21 @@
 body {
+    background-color: #2a3347;
+    color: white;
     font-family: Arial, sans-serif;
     font-size: 0.95em;
-    /* letter-spacing: 0.035em; */
-    margin: 1.5em;
+    margin: 1em 0;
 }
 
-/* div#controls {
-
-} */
+#results {
+    background-color: white;
+    color: black;
+    min-height: 500px;
+}
 
 #banner {
     display: inline-block;
     font-size: 1.75em;
-    padding: 0.25em;
+    padding: 0 0.75em 0.5em 0.75em;
 }
 
 table.controls-container td {
@@ -26,29 +29,17 @@ table.controls-container td {
 
 #hide-controls {
     background: seagreen;
-    width: 15px;
-    height: 15px;
-    display: inline-block;
+    width: 100%;
+    height: 12px;
+    display: block;
 }
 
-.slideClose {
-    animation: slideClose 1s forwards;
+#hide-column-controls {
+    background: turquoise;
+    width: 100%;
+    height: 12px;
+    display: block;
 }
-
-.slideOpen {
-    animation: slideOpen 1s forwards;
-}
-
-@keyframes slideClose {
-  0% { height: 1000px; }
-  100% { height: 0px; }
-}
-
-@keyframes slideOpen {
-  0% { height: 0px; }
-  100% { height: 800px; }
-}
-
 
 #hide-controls:hover {
     background: yellowgreen;
@@ -76,9 +67,11 @@ column-names, output {
 }
 
 form, div.section {
-    padding: 1em;
-    border-radius: 1em;
-    margin-bottom: 0.5em;
+    padding: 0.75em 1em;
+}
+
+#columnselect {
+    background-color: steelblue;
 }
 
 table#results-table {
@@ -103,18 +96,23 @@ tr.sticky {
     min-width: 20px;
 } */
 
-th, td.results-td {
+th {
+    color: white;
     position: relative;
     padding: 3px 12px;
     border: 0.5px solid lightgray;
     border-collapse: collapse;
     min-width: 20px;
-    /* overflow: hidden;
-    white-space: nowrap;
-    -moz-text-overflow: ellipsis;
-    -ms-text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis; */
+
+}
+
+td.results-td {
+    color: black;
+    position: relative;
+    padding: 3px 12px;
+    border: 0.5px solid lightgray;
+    border-collapse: collapse;
+    min-width: 20px;
 }
 
 div.resize {
@@ -144,15 +142,19 @@ td#search-logic {
     background-color: lightgray;
     padding: 1em !important;
     margin-right: 0.5em;
-    border-radius: 1em;
+    /* border-radius: 1em; */
 }
 
 #search-box {
-    background-color: lightskyblue;
+    background-color: #384a73;
 }
 
 #search-button {
-    padding: 0.65em;
+    padding: 0.5em 0.65em;
+}
+
+#search-button-outside {
+    padding: 0.5em 0.65em;
 }
 
 #search-input, #search-input2 {
@@ -164,10 +166,6 @@ td#search-logic {
 
 #search-input:disabled, #search-input2:disabled {
     background-color: lightgray;
-}
-
-#file, #columnselect {
-    background-color: lightgreen;
 }
 
 .cutoff {

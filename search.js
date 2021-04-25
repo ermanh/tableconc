@@ -15,6 +15,7 @@
 //      - Sorting mechanism (for columns without concordance display)
 // - (minor) Maybe allow users to paste in data
 // - Write unit tests for all functions
+// - ? Export feature
 
 const searchBox = document.getElementById("search-box");
 

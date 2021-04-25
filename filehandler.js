@@ -43,7 +43,7 @@ const readFile = function () {
             .property("checked", true);
         columnsToShow.insert("label")
             .attr("for", function(d) { return "to-show-" + d; })
-            .text(function(d) { return d + " "; });
+            .html(function(d) { return d + "&nbsp;&nbsp;"; });
 
     };
     reader.readAsText(fileInput.files[0]);

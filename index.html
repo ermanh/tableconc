@@ -10,20 +10,18 @@
 </head>
 
 <body>
-    <div id="hide-controls"></div>
     <div id="banner" class="section">
         TableConc
     </div>
+    <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
+    <input id="column-headers" type="checkbox" checked>
+    <label id="column-headers-label" for="column-headers">Contains column headers</label>
+    <div id="hide-controls"></div>
     <div id="controls">
-        <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
-        <input id="column-headers" type="checkbox" checked>
-        <label id="column-headers-label" for="column-headers">Contains column headers</label> 
-        <br><div style="height:5px;"></div>
-
         <form id="search-box" onsubmit="return false;">
             <table><tr>
                 <td class="search-td">
-                    <label for="column-selection">Column to search:</label>
+                    <label for="column-selection">Search column</label>
                     <select name="column-selection" id="column-selection"></select>
                     <br>
                     <input id="search-input" class="search" type="search" placeholder="Search..." disabled>
@@ -83,7 +81,7 @@
                 </td>
                 <td style="width:5px;"></td>
                 <td class="search-td">
-                    <label for="column-selection2">Column to search:</label>
+                    <label for="column-selection2">Search column</label>
                     <select name="column-selection2" id="column-selection2"></select>
                     <br>
                     <input id="search-input2" class="search" type="search" placeholder="Search..." disabled>
@@ -145,11 +143,13 @@
             <button id="search-button" disabled>
                 Search</button>
         </form>
-
-        <div id="columnselect" class="section">
-            Columns to display:
-            <text id="columns-to-show"></text>
-        </div>
+    </div>
+    <div id="hide-column-controls"></div>
+    <div id="columnselect" class="section">
+        <button id="search-button-outside" form="search-box" disabled>
+            Reset</button>
+        Display columns:&nbsp;&nbsp;
+        <text id="columns-to-show"></text>
     </div>
 
     <div id="results" class="section">

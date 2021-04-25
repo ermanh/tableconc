@@ -1,9 +1,12 @@
 // ~~~~~~~~~~ All Elements ~~~~~~~~~~
 const controls = document.getElementById("controls");
 const hideControls = document.getElementById("hide-controls");
+const columnControls = document.getElementById("columnselect");
+const hideColumnControls = document.getElementById("hide-column-controls");
 const chooseFile = document.getElementById("choose-file");
 const columnHeaders = document.getElementById("column-headers");
 const searchButton = document.getElementById("search-button");
+const searchButtonOutside = document.getElementById("search-button-outside");
 
 const columnSelection = document.getElementById("column-selection");
 const searchInput = document.getElementById("search-input");
@@ -27,13 +30,10 @@ const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
 
 // ~~~~~~~~~~ Hide Controls ~~~~~~~~~~
 hideControls.addEventListener('click', function() {
-    // controls.style.display = (controls.style.display != 'none') ? 'none' : 'block';
-    if (controls.style.display != 'none') {
-        controls.className = 'slideClose';
-        // controls.style.display = 'none';
-    } else {
-        controls.className = 'slideOpen';
-    }
+    controls.style.display = (controls.style.display != 'none') ? 'none' : 'block';
+});
+hideColumnControls.addEventListener('click', function() {
+    columnControls.style.display = (columnControls.style.display != 'none') ? 'none' : 'block';
 });
 
 // ~~~~~~~~~~ Columns to display ~~~~~~~~~~
@@ -113,6 +113,7 @@ columnSelection.addEventListener('change', function() {
         concordanceDisplay.disabled = false;
         if (concordanceDisplay.checked) { concordanceCutoff.disabled = false; }
         searchButton.disabled = false;
+        searchButtonOutside.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
             if (node.value !== columnSelectionValue) {
                 // Enable all options in the other search
