@@ -9,14 +9,12 @@
 //      - Improve column resizing aesthetics
 //      - Prettify search form hiding control/mechanism
 // - Improve UX
-//      - Improve column resizing
+//      - (minor) Improve column resizing 
 //      - Anchored bottom button to go back to top
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //      - Sorting mechanism (for columns without concordance display)
-// - Maybe allow users to paste in data
-// - padConcordance 
-//      - needs to treat HTML chars as single-space chars, BUT...
-//      - ...also display accordingly
+// - (minor) Maybe allow users to paste in data
+// - Write unit tests for all functions
 
 const searchBox = document.getElementById("search-box");
 
@@ -185,7 +183,7 @@ const concord = function () {
             let str = data[i][searchColumnIndex2];
             if (str.match(re2)) {
                 matchedRows2.push(i);
-                console.log('I reached here');
+                // console.log('I reached here');
                 var htmlSafeString2;
                 if (regexChecked2 || matchWhereValue2 == "match-anywhere2") {
                     if (findallChecked2) {
@@ -211,9 +209,9 @@ const concord = function () {
                         return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}`;
                     });
                 }
-                console.log('LAHDEEDAA');
-                console.log('re2', re2);
-                console.log('pattern2', pattern2);
+                // console.log('LAHDEEDAA');
+                // console.log('re2', re2);
+                // console.log('pattern2', pattern2);
                 // console.log("Check every string and escapeHTML result");
                 // console.log(str);
                 // console.log(htmlSafeString2);
@@ -258,7 +256,7 @@ const concord = function () {
             var concordStrings2 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex2];
             });
-            console.log(JSON.stringify(newData));
+            // console.log(JSON.stringify(newData));
             // console.log('searchColumnIndex2', searchColumnIndex2);
             // console.log(JSON.stringify(concordStrings2));
             concordStrings2 = padConcordance(concordStrings2, 'blue', concordCutoffValue2);
