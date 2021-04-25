@@ -6,22 +6,31 @@
 }
 
 body {
-    /* background-color: var(--banner-bg-color); */
+    background-color: var(--hiders-hover-bg-color);
     color: white;
     font-family: Arial, sans-serif;
     font-size: 0.95em;
     margin: 0;
+    width: 100%;
 }
 
 #results {
-    background-color: white;
+    border-top: 1px solid;
+    border-color: var(--column-controls-bg-color);
     color: black;
-    min-height: 800px;
+    /* min-height: 800px; */
+    padding: 0.7em 0;
+    width: 100%;
+}
+
+#results-number {
+    padding-left: 20px;
 }
 
 #banner {
     background-color: var(--banner-bg-color);
     padding: 0.65em 1.25em;
+    width: 100%;
 }
 
 #title {
@@ -55,6 +64,7 @@ table.controls-container td {
 #hide-controls:hover {
     background-color: var(--hiders-hover-bg-color);
     color: var(--controls-bg-color);
+    width: 100%;
 }
 
 #hide-column-controls {
@@ -67,7 +77,7 @@ table.controls-container td {
 #hide-column-controls:hover {
     background-color: var(--hiders-hover-bg-color);
     color: var(--controls-bg-color);
-    /* color: var(--column-controls-bg-color); */
+    width: 100%;
 }
 
 input.search {
@@ -93,6 +103,7 @@ column-names, output {
 
 form, div.section {
     padding: 0.25em 1em 0.6em;
+    width: 100%;
 }
 
 #columnselect {
@@ -101,43 +112,36 @@ form, div.section {
 
 table#results-table {
     border-collapse: collapse;
-    width: 100%;
     font-family: monospace;
     font-size: 1.1em;
+    margin-top: -8px;
+    width: 100%;
 }
 
 tr.sticky {
     position: sticky;
     top: 0;
-    background-color: var(--column-controls-bg-color);
-    color: white;
 }
 
-/* th {
-    position: relative;
-    padding: 3px 12px;
-    border: 0.5px solid lightgray;
-    border-collapse: collapse;
-    min-width: 20px;
-} */
-
 th {
+    background-color: var(--controls-bg-color);
     color: white;
     position: relative;
     padding: 3px 12px;
     border: 0.5px solid lightgray;
     border-collapse: collapse;
     min-width: 20px;
-
 }
 
 td.results-td {
+    background-color: white;
     color: black;
     position: relative;
     padding: 3px 12px;
     border: 0.5px solid lightgray;
     border-collapse: collapse;
     min-width: 20px;
+    text-align: center;
 }
 
 div.resize {
@@ -202,7 +206,6 @@ td#search-logic {
 .cutoff:disabled {
     background-color: lightgray;
 }
-
 
 .infotip {
     position: relative;

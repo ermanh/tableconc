@@ -4,7 +4,6 @@
 //      - Move variable declarations to separate js file
 // - Improve UI aesthetics/format/style
 //      - Prettify search form hiding control/mechanism
-//      - Prettify results table
 //      - Improve column resizing aesthetics
 //      - "Choose File" button needs to be bigger
 //      - Light/Dark modes (later/last)
