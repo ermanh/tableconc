@@ -1,21 +1,31 @@
+:root {
+    --banner-bg-color: #2a3347;
+    --controls-bg-color: #384a73;
+    --column-controls-bg-color: steelblue;
+    --hiders-hover-bg-color: lightsteelblue;
+}
+
 body {
-    background-color: #2a3347;
+    /* background-color: var(--banner-bg-color); */
     color: white;
     font-family: Arial, sans-serif;
     font-size: 0.95em;
-    margin: 1em 0;
+    margin: 0;
 }
 
 #results {
     background-color: white;
     color: black;
-    min-height: 500px;
+    min-height: 800px;
 }
 
 #banner {
-    display: inline-block;
-    font-size: 1.75em;
-    padding: 0 0.75em 0.5em 0.75em;
+    background-color: var(--banner-bg-color);
+    padding: 0.65em 1.25em;
+}
+
+#title {
+    font-size: 1.7em;
 }
 
 table.controls-container td {
@@ -27,22 +37,37 @@ table.controls-container td {
     position: relative;
 }
 
-#hide-controls {
-    background: seagreen;
-    width: 100%;
-    height: 12px;
-    display: block;
+.hiders {
+    color: lightblue;
+    text-align: left;
+    font-size: 0.75em;
+    font-weight: 1000;
+    padding: 3px 6px;
 }
 
-#hide-column-controls {
-    background: turquoise;
+#hide-controls {
+    background-color: var(--controls-bg-color);
     width: 100%;
     height: 12px;
     display: block;
 }
 
 #hide-controls:hover {
-    background: yellowgreen;
+    background-color: var(--hiders-hover-bg-color);
+    color: var(--controls-bg-color);
+}
+
+#hide-column-controls {
+    background-color: var(--column-controls-bg-color);
+    width: 100%;
+    height: 12px;
+    display: block;
+}
+
+#hide-column-controls:hover {
+    background-color: var(--hiders-hover-bg-color);
+    color: var(--controls-bg-color);
+    /* color: var(--column-controls-bg-color); */
 }
 
 input.search {
@@ -67,11 +92,11 @@ column-names, output {
 }
 
 form, div.section {
-    padding: 0.75em 1em;
+    padding: 0.2em 1em 0.6em;
 }
 
 #columnselect {
-    background-color: steelblue;
+    background-color: var(--column-controls-bg-color);
 }
 
 table#results-table {
@@ -84,7 +109,7 @@ table#results-table {
 tr.sticky {
     position: sticky;
     top: 0;
-    background-color: steelblue;
+    background-color: var(--column-controls-bg-color);
     color: white;
 }
 
@@ -146,7 +171,7 @@ td#search-logic {
 }
 
 #search-box {
-    background-color: #384a73;
+    background-color: var(--controls-bg-color);
 }
 
 #search-button {

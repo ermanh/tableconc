@@ -30,10 +30,23 @@ const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
 
 // ~~~~~~~~~~ Hide Controls ~~~~~~~~~~
 hideControls.addEventListener('click', function() {
-    controls.style.display = (controls.style.display != 'none') ? 'none' : 'block';
+    if (controls.style.display != 'none') {
+        controls.style.display = 'none';
+        hideControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;S E A R C H';
+    } else {
+        controls.style.display = 'block';
+        hideControls.innerHTML = 'H I D E';
+    }
+    
 });
 hideColumnControls.addEventListener('click', function() {
-    columnControls.style.display = (columnControls.style.display != 'none') ? 'none' : 'block';
+    if (columnControls.style.display != 'none') {
+        columnControls.style.display = 'none';
+        hideColumnControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;C O L U M N S';
+    } else {
+        columnControls.style.display = 'block';
+        hideColumnControls.innerHTML = 'H I D E';
+    }
 });
 
 // ~~~~~~~~~~ Columns to display ~~~~~~~~~~

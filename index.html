@@ -11,12 +11,13 @@
 
 <body>
     <div id="banner" class="section">
-        TableConc
+        <text id="title">TableConc</text>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
+        <input id="column-headers" type="checkbox" checked>
+        <label id="column-headers-label" for="column-headers">Contains column headers</label>
     </div>
-    <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
-    <input id="column-headers" type="checkbox" checked>
-    <label id="column-headers-label" for="column-headers">Contains column headers</label>
-    <div id="hide-controls"></div>
+    <div id="hide-controls" class="hiders">H I D E</div>
     <div id="controls">
         <form id="search-box" onsubmit="return false;">
             <table><tr>
@@ -144,7 +145,7 @@
                 Search</button>
         </form>
     </div>
-    <div id="hide-column-controls"></div>
+    <div id="hide-column-controls" class="hiders">H I D E</div>
     <div id="columnselect" class="section">
         <button id="search-button-outside" form="search-box" disabled>
             Reset</button>
