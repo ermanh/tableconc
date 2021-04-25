@@ -14,7 +14,6 @@
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //      - Sorting mechanism (for columns without concordance display)
 // - Maybe allow users to paste in data
-// - If "Find all instances checked", disable match-entire, match-beginning, and match-end
 
 const searchBox = document.getElementById("search-box");
 
@@ -69,24 +68,32 @@ const concord = function () {
 
         // Construct regex
         if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
-        if (findallChecked1) { flags1 = `${flags1}g`; }
-        if (regexChecked1) {
-            pattern1 = `^(.*?)(${searchInputValue1})(.*)$`; 
-        } else {
-            pattern1 = RegExp.escape(searchInputValue1);
-            if (fullWordsChecked1) {
-                var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
-                var end1 = searchInputValue1.match(/\w$/) ? "\\b" : "";
-                pattern1 = `${beginning1}${pattern1}${end1}`;
-            }
-            if (matchWhereValue1 == "match-entire") {
-                pattern1 = `^(${pattern1})$`;
-            } else if (matchWhereValue1 == "match-beginning") {
-                pattern1 = `^(${pattern1})(.*)$`;
-            } else if (matchWhereValue1 == "match-end") {
-                pattern1 = `^(.*?)(${pattern1})$`;
+        if (findallChecked1) {
+            flags1 = `${flags1}g`;
+            if (regexChecked1) {
+                pattern1 = searchInputValue1;
             } else {
-                pattern1 = `^(.*?)(${pattern1})(.*)$`;
+                pattern1 = RegExp.escape(searchInputValue1);
+            }
+        } else {
+            if (regexChecked1) {
+                pattern1 = `^(.*?)(${searchInputValue1})(.*)$`;
+            } else {
+                pattern1 = RegExp.escape(searchInputValue1);
+                if (fullWordsChecked1) {
+                    var beginning1 = searchInputValue1.match(/^\w/) ? "\\b" : "";
+                    var end1 = searchInputValue1.match(/\w$/) ? "\\b" : "";
+                    pattern1 = `${beginning1}${pattern1}${end1}`;
+                }
+                if (matchWhereValue1 == "match-entire") {
+                    pattern1 = `^(${pattern1})$`;
+                } else if (matchWhereValue1 == "match-beginning") {
+                    pattern1 = `^(${pattern1})(.*)$`;
+                } else if (matchWhereValue1 == "match-end") {
+                    pattern1 = `^(.*?)(${pattern1})$`;
+                } else {
+                    pattern1 = `^(.*?)(${pattern1})(.*)$`;
+                }
             }
         }
         re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
@@ -98,9 +105,15 @@ const concord = function () {
                 matchedRows1.push(i);
                 var htmlSafeString1;
                 if (regexChecked1 || matchWhereValue1 == "match-anywhere") {
-                    htmlSafeString1 = str.replace(re1, function(_, g1, g2, g3) {
-                        return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
-                    });
+                    if (findallChecked1) {
+                        htmlSafeString1 = str.replace(re1, function(g1) {
+                            return `${tagOpen1}${g1}${tagClose1}`;
+                        });
+                    } else {
+                        htmlSafeString1 = str.replace(re1, function(_, g1, g2, g3) {
+                            return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
+                        });
+                    }
                 } else if (matchWhereValue1 == "match-entire") {
                     htmlSafeString1 = str.replace(re1, function(_, g1) {
                         return `${tagOpen1}${escapeHTML(g1)}${tagClose1}`;
@@ -131,24 +144,32 @@ const concord = function () {
 
         // Construct regex
         if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
-        if (findallChecked2) { flags2 = `${flags2}g`; }
-        if (regexChecked2) {
-            pattern2 = `^(.*?)(${searchInputValue2})(.*)$`; 
-        } else {
-            pattern2 = RegExp.escape(searchInputValue2);
-            if (fullWordsChecked2) {
-                var beginning2 = searchInputValue2.match(/^\w/) ? "\\b" : "";
-                var end2 = searchInputValue2.match(/\w$/) ? "\\b" : "";
-                pattern2 = `${beginning2}${pattern2}${end2}`;
-            }
-            if (matchWhereValue2 == "match-entire2") {
-                pattern2 = `^(${pattern2})$`;
-            } else if (matchWhereValue2 == "match-beginning2") {
-                pattern2 = `^(${pattern2})(.*)$`;
-            } else if (matchWhereValue2 == "match-end2") {
-                pattern2 = `^(.*?)(${pattern2})$`;
+        if (findallChecked2) { 
+            flags2 = `${flags2}g`;
+            if (regexChecked2) {
+                pattern2 = searchInputValue2;
             } else {
-                pattern2 = `^(.*?)(${pattern2})(.*)$`;
+                pattern2 = RegExp.escape(searchInputValue2);
+            }
+        } else {
+            if (regexChecked2) {
+                pattern2 = `^(.*?)(${searchInputValue2})(.*)$`; 
+            } else {
+                pattern2 = RegExp.escape(searchInputValue2);
+                if (fullWordsChecked2) {
+                    var beginning2 = searchInputValue2.match(/^\w/) ? "\\b" : "";
+                    var end2 = searchInputValue2.match(/\w$/) ? "\\b" : "";
+                    pattern2 = `${beginning2}${pattern2}${end2}`;
+                }
+                if (matchWhereValue2 == "match-entire2") {
+                    pattern2 = `^(${pattern2})$`;
+                } else if (matchWhereValue2 == "match-beginning2") {
+                    pattern2 = `^(${pattern2})(.*)$`;
+                } else if (matchWhereValue2 == "match-end2") {
+                    pattern2 = `^(.*?)(${pattern2})$`;
+                } else {
+                    pattern2 = `^(.*?)(${pattern2})(.*)$`;
+                }
             }
         }
         re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
@@ -161,9 +182,15 @@ const concord = function () {
                 console.log('I reached here');
                 var htmlSafeString2;
                 if (regexChecked2 || matchWhereValue2 == "match-anywhere2") {
-                    htmlSafeString2 = str.replace(re2, function(_, g1, g2, g3) {
-                        return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;
-                    });
+                    if (findallChecked2) {
+                        htmlSafeString2 = str.replace(re2, function(g1) {
+                            return `${tagOpen2}${g1}${tagClose2}`;
+                        });
+                    } else {
+                        htmlSafeString2 = str.replace(re2, function(_, g1, g2, g3) {
+                            return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;
+                        });
+                    }
                 } else if (matchWhereValue2 == "match-entire2") {
                     htmlSafeString2 = str.replace(re2, function(_, g1) {
                         return `${tagOpen2}${escapeHTML(g1)}${tagClose2}`;

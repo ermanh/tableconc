@@ -161,7 +161,7 @@ findall2.addEventListener('change', function() {
         concordanceDisplay2.checked = false;
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
-        matchWhere2.value = "match-anywhere";
+        matchWhere2.value = "match-anywhere2";
         matchWhere2.disabled = true;
     } else {
         concordanceDisplay2.disabled = false;
