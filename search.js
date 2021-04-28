@@ -9,6 +9,7 @@
 //      - Light/Dark modes (later/last)
 //      - Create own custom buttons
 //      - Cross-browser aesthetics
+//      - Do not center non-searched columns
 // - Improve UX
 //      - (minor) Improve column resizing 
 //      - Anchored bottom button to go back to top OR sticky all top sections
