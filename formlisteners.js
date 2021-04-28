@@ -123,6 +123,10 @@ columnSelection.addEventListener('change', function() {
         findall.disabled = true;
         concordanceDisplay.disabled = true;
         concordanceCutoff.disabled = true;
+        colorPickerDiv1.style.opacity = "0.3";
+        bgColorPickerDiv1.style.opacity = "0.3";
+        colorPicker1.disabled = true;
+        bgColorPickerDiv1.disabled=true;
         if (columnSelection2.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
@@ -134,6 +138,10 @@ columnSelection.addEventListener('change', function() {
         findall.disabled = false;
         concordanceDisplay.disabled = false;
         if (concordanceDisplay.checked) { concordanceCutoff.disabled = false; }
+        colorPickerDiv1.style.opacity = "1";
+        bgColorPickerDiv1.style.opacity = "1";
+        colorPicker1.disabled = false;
+        bgColorPickerDiv1.disabled=false;
         searchButton.disabled = false;
         searchButtonOutside.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
@@ -230,6 +238,10 @@ columnSelection2.addEventListener('change', function() {
         findall2.disabled = true;
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
+        colorPickerDiv2.style.opacity = "0.3";
+        bgColorPickerDiv2.style.opacity = "0.3";
+        colorPicker2.disabled = true;
+        bgColorPickerDiv2.disabled=true;
         if (columnSelection.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
@@ -241,6 +253,10 @@ columnSelection2.addEventListener('change', function() {
         findall2.disabled = false;
         concordanceDisplay2.disabled = false;
         if (concordanceDisplay2.checked) { concordanceCutoff2.disabled = false; }
+        colorPickerDiv2.style.opacity = "1";
+        bgColorPickerDiv2.style.opacity = "1";
+        colorPicker2.disabled = false;
+        bgColorPickerDiv2.disabled=false;
         searchButton.disabled = false;
         columnSelection.childNodes.forEach(function(node) {
             if (node.value !== columnSelectionValue2) {

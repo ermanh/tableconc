@@ -101,6 +101,11 @@ input[type="color"] {
     margin: 2px 0;
     border: 1px solid lightsteelblue;
     border-radius: 3px;
+    opacity: 0.3;
+}
+
+#picker-1:disabled, #bg-picker-1:disabled, #picker-2:disabled, #bg-picker-2:disabled {
+    visibility: hidden;
 }
 
 input.search {
