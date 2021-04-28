@@ -70,16 +70,16 @@ function fullwordBoundaries(pattern, searchInputValue) {
     return `${beginning}${pattern}${end}`;
 }
 
-function padConcordance(concordanceColumn, redOrBlue, concordCutoffValue) {
+function padConcordance(concordanceColumn, oneOrTwo, concordCutoffValue) {
     // concordCutoffValue: the number of char spaces to each side of the searched pattern
     let beforeRE;
     let hilitedRE;
-    if (redOrBlue == "red") {
-        beforeRE = RegExp(/^(.*?)<text style='color:darkred;'>/);
-        hilitedRE = RegExp(/<text style='color:darkred;'>.+?<\/text>/);
-    } else if (redOrBlue == "blue") {
-        beforeRE = RegExp(/^(.*?)<text style='color:blue;'>/);
-        hilitedRE = RegExp(/<text style='color:blue;'>.+?<\/text>/);
+    if (oneOrTwo == "one") {
+        beforeRE = RegExp(/^(.*?)<text class='hilite1'>/);
+        hilitedRE = RegExp(/<text class='hilite1'>.+?<\/text>/);
+    } else if (oneOrTwo == "two") {
+        beforeRE = RegExp(/^(.*?)<text class='hilite2'>/);
+        hilitedRE = RegExp(/<text class='hilite2'>.+?<\/text>/);
     }
     let afterRE = RegExp(/.*?<\/text>(.*)$/);
     var beforeLengths = concordanceColumn.map((el) => {

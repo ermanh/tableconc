@@ -67,7 +67,7 @@ const concord = function () {
         console.log("YAY");  
         var pattern1;
         var flags1 = "";
-        var tagOpen1 = "<text style='color:darkred;'>";
+        var tagOpen1 = "<text class='hilite1'>";
         var tagClose1 = "</text>";
 
         // Construct regex
@@ -145,7 +145,7 @@ const concord = function () {
         var re2;
         var pattern2;
         var flags2 = "";
-        var tagOpen2 = "<text style='color:blue;'>";
+        var tagOpen2 = "<text class='hilite2'>";
         var tagClose2 = "</text>";
 
         // Construct regex
@@ -249,7 +249,7 @@ const concord = function () {
             var concordStrings1 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex1];
             });
-            concordStrings1 = padConcordance(concordStrings1, 'red', concordCutoffValue1);
+            concordStrings1 = padConcordance(concordStrings1, 'one', concordCutoffValue1);
             // console.log(JSON.stringify(concordStrings1));
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex1] = concordStrings1.shift();
@@ -262,7 +262,7 @@ const concord = function () {
             // console.log(JSON.stringify(newData));
             // console.log('searchColumnIndex2', searchColumnIndex2);
             // console.log(JSON.stringify(concordStrings2));
-            concordStrings2 = padConcordance(concordStrings2, 'blue', concordCutoffValue2);
+            concordStrings2 = padConcordance(concordStrings2, 'two', concordCutoffValue2);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex2] = concordStrings2.shift();
             });

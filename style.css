@@ -3,7 +3,13 @@
     --controls-bg-color: #384a73;
     --column-controls-bg-color: steelblue;
     --hiders-hover-bg-color: lightsteelblue;
+    --hilite-color-1: red;
+    --hilite-bg-color-1: white;
+    --hilite-color-2: blue;
+    --hilite-bg-color-2: white;
 }
+
+
 
 body {
     background-color: var(--hiders-hover-bg-color);
@@ -29,7 +35,7 @@ body {
 
 #banner {
     background-color: var(--banner-bg-color);
-    padding: 0.65em 1.25em;
+    padding: 18px 25px;
     width: 100%;
 }
 
@@ -51,7 +57,7 @@ table.controls-container td {
     text-align: center;
     font-size: 0.75em;
     font-weight: 1000;
-    padding: 2px 6px 0;
+    padding: 2px 8px;
 }
 
 #hide-controls {
@@ -80,6 +86,23 @@ table.controls-container td {
     width: 100%;
 }
 
+input[type="color"] {
+    opacity: 0;
+	display: block;
+	border: none;
+    /* height: 12px;
+    width: 12px; */
+}
+
+.picker-div {
+    float: left;
+    height: 12px;
+    width: 12px;
+    margin: 2px 0;
+    border: 1px solid lightsteelblue;
+    border-radius: 3px;
+}
+
 input.search {
     -webkit-appearance: none; 
     -moz-appearance: none; 
@@ -102,13 +125,14 @@ column-names, output {
 }
 
 form, div.section {
-    padding: 0 20px 8px;
+    padding: 0 18px 8px;
     width: 100%;
 }
 
 #columnselect {
     background-color: var(--column-controls-bg-color);
-    padding-bottom: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 table#results-table {
@@ -142,7 +166,17 @@ td.results-td {
     border: 0.5px solid lightgray;
     border-collapse: collapse;
     min-width: 20px;
-    text-align: center;
+    /* text-align: center; */
+}
+
+.hilite1 {
+    color: var(--hilite-color-1);
+    background-color: var(--hilite-bg-color-1);
+}
+
+.hilite2 {
+    color: var(--hilite-color-2);
+    background-color: var(--hilite-bg-color-2);
 }
 
 div.resize {

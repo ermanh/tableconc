@@ -17,6 +17,10 @@ const matchWhere = document.getElementById("match-where");
 const findall = document.getElementById("findall");
 const concordanceDisplay = document.getElementById("concordance-display");
 const concordanceCutoff = document.getElementById("concordance-cutoff");
+const colorPicker1 = document.getElementById("picker-1");
+const colorPickerDiv1 = document.getElementById("picker-div-1");
+const bgColorPicker1 = document.getElementById("bg-picker-1");
+const bgColorPickerDiv1 = document.getElementById("bg-picker-div-1");
 
 const columnSelection2 = document.getElementById("column-selection2");
 const searchInput2 = document.getElementById("search-input2");
@@ -27,6 +31,11 @@ const matchWhere2 = document.getElementById("match-where2");
 const findall2 = document.getElementById("findall2");
 const concordanceDisplay2 = document.getElementById("concordance-display2");
 const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
+const colorPicker2 = document.getElementById("picker-2");
+const colorPickerDiv2 = document.getElementById("picker-div-2");
+const bgColorPicker2 = document.getElementById("bg-picker-2");
+const bgColorPickerDiv2 = document.getElementById("bg-picker-div-2");
+
 
 // ~~~~~~~~~~ Hide Controls ~~~~~~~~~~
 hideControls.addEventListener('click', function() {
@@ -56,7 +65,7 @@ columnHeaders.addEventListener('change', function() {
 
 // ~~~~~~~~~~ SEARCH 1 ~~~~~~~~~~
 
-// ~~~ Search Type ~~~
+// ~~~ Search Type 1 ~~~
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
 // - deselects and disables "Full word(s)"
@@ -74,7 +83,7 @@ regexSelection.addEventListener('change', function() {
     }
 });
 
-// ~~~ Concordance Cutoff ~~~
+// ~~~ Concordance Cutoff 1 ~~~
 concordanceDisplay.addEventListener('change', function() {
     if (this.checked) {
         concordanceCutoff.disabled = false;
@@ -83,7 +92,7 @@ concordanceDisplay.addEventListener('change', function() {
     }
 });
 
-// ~~~ Findall ~~~
+// ~~~ Findall 1 ~~~
 findall.addEventListener('change', function() {
     if (this.checked) {
         concordanceDisplay.checked = false;
@@ -98,7 +107,7 @@ findall.addEventListener('change', function() {
     }
 });
 
-// ~~~ Column Selection ~~~
+// ~~~ Column Selection 1 ~~~
 columnSelection.addEventListener('change', function() {
     var columnSelectionValue = this.value;
     if (columnSelectionValue == "(None)") {
@@ -139,10 +148,31 @@ columnSelection.addEventListener('change', function() {
     }
 });
 
+// ~~~ Color Pickers 1 ~~~
+colorPicker1.addEventListener('change', function() {
+    let newColor = colorPicker1.value;
+    colorPickerDiv1.style.backgroundColor = newColor;
+    hilitedOnes = document.getElementsByClassName("hilite1");
+    Array.from(hilitedOnes).forEach((el) => {
+        el.style.color = newColor;
+    });
+});
+colorPickerDiv1.style.backgroundColor = colorPicker1.value;
+
+bgColorPicker1.addEventListener('change', function() {
+    let newColor = bgColorPicker1.value;
+    bgColorPickerDiv1.style.backgroundColor = newColor;
+    hilitedOnes = document.getElementsByClassName("hilite1");
+    Array.from(hilitedOnes).forEach((el) => {
+        el.style.backgroundColor = newColor; 
+    })
+});
+bgColorPickerDiv1.style.backgroundColor = bgColorPicker1.value;
+
 
 // ~~~~~~~~~~ SEARCH 2 ~~~~~~~~~~
 
-// ~~~ Search Type ~~~
+// ~~~ Search Type 2 ~~~
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
 // - deselects and disables "Full word(s)"
@@ -160,7 +190,7 @@ regexSelection2.addEventListener('change', function() {
     }
 });
 
-// ~~~ Concordance Cutoff ~~~
+// ~~~ Concordance Cutoff 2 ~~~
 concordanceDisplay2.addEventListener('change', function() {
     if (this.checked) {
         concordanceCutoff2.disabled = false;
@@ -169,7 +199,7 @@ concordanceDisplay2.addEventListener('change', function() {
     }
 });
 
-// ~~~ Findall ~~~
+// ~~~ Findall 2 ~~~
 findall2.addEventListener('change', function() {
     if (this.checked) {
         concordanceDisplay2.checked = false;
@@ -184,7 +214,7 @@ findall2.addEventListener('change', function() {
     }
 });
 
-// ~~~ Column Selection ~~~
+// ~~~ Column Selection 2 ~~~
 columnSelection2.addEventListener('change', function() {
     var columnSelectionValue2 = this.value;
     if (columnSelectionValue2 == "(None)") {
@@ -224,3 +254,23 @@ columnSelection2.addEventListener('change', function() {
     }
 });
 
+// ~~~ Color Pickers 2 ~~~
+colorPicker2.addEventListener('change', function() {
+    let newColor = colorPicker2.value;
+    colorPickerDiv2.style.backgroundColor = newColor;
+    hilitedTwos = document.getElementsByClassName("hilite2");
+    Array.from(hilitedTwos).forEach((el) => {
+        el.style.color = newColor;
+    });
+});
+colorPickerDiv2.style.backgroundColor = colorPicker2.value;
+
+bgColorPicker2.addEventListener('change', function() {
+    let newColor = bgColorPicker2.value;
+    bgColorPickerDiv2.style.backgroundColor = newColor;
+    hilitedTwos = document.getElementsByClassName("hilite2");
+    Array.from(hilitedTwos).forEach((el) => {
+        el.style.backgroundColor = newColor;
+    });
+});
+bgColorPickerDiv2.style.backgroundColor = bgColorPicker2.value;
