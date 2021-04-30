@@ -7,6 +7,8 @@ const chooseFile = document.getElementById("choose-file");
 const columnHeaders = document.getElementById("column-headers");
 const searchButton = document.getElementById("search-button");
 const searchButtonOutside = document.getElementById("search-button-outside");
+const secondSearch = document.getElementById("second-search");
+const secondSearchHider = document.getElementById("second-search-hider");
 
 const columnSelection = document.getElementById("column-selection");
 const searchInput = document.getElementById("search-input");
@@ -44,7 +46,7 @@ hideControls.addEventListener('click', function() {
         hideControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;S E A R C H';
     } else {
         controls.style.display = 'block';
-        hideControls.innerHTML = 'H I D E';
+        hideControls.innerHTML = 'H I D E&nbsp;&nbsp;&nbsp;S E A R C H';
     }
     
 });
@@ -54,9 +56,22 @@ hideColumnControls.addEventListener('click', function() {
         hideColumnControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;C O L U M N S';
     } else {
         columnControls.style.display = 'block';
-        hideColumnControls.innerHTML = 'H I D E';
+        hideColumnControls.innerHTML = 'H I D E&nbsp;&nbsp;&nbsp;C O L U M N S';
     }
 });
+
+// ~~~ Second Search Hider ~~~
+secondSearchHider.addEventListener('click', function(e) {
+    e.preventDefault();
+    if (secondSearch.style.display == "none") {
+        secondSearch.style.display = "block";
+        this.innerHTML = '<path d="M1,6 L11,6" stroke="#384a73" stroke-width="2" />';
+    } else {
+        secondSearch.style.display = "none";
+        this.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" stroke="#384a73" stroke-width="2" />';
+    }
+});
+
 
 // ~~~~~~~~~~ Columns to display ~~~~~~~~~~
 columnHeaders.addEventListener('change', function() {

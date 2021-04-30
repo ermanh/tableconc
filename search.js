@@ -2,21 +2,20 @@
 // - Refactor and clean code
 //      - Append "1" to the plain names
 //      - Move variable declarations to separate js file
+//      - Write unit tests for all functions
 // - Improve UI aesthetics/format/style
-//      - Prettify search form hiding control/mechanism
 //      - Improve column resizing aesthetics
-//      - "Choose File" button needs to be bigger
-//      - Light/Dark modes (later/last)
 //      - Create own custom buttons
+//      - Light/Dark modes (later/last)
 //      - Cross-browser aesthetics
-//      - Do not center non-searched columns
 // - Improve UX
-//      - (minor) Improve column resizing 
-//      - Anchored bottom button to go back to top OR sticky all top sections
 //      - If no singleton values in a column, drop-down menu to see only specific values
+//          - or maybe just for columns without concordance display
 //      - Sorting mechanism (for columns without concordance display)
+//      - Anchored bottom button to go back to top OR sticky all top sections
+//      - (minor) Improve column resizing 
+//      - If search begins or ends with a space character, change background-highlight color
 // - (minor) Maybe allow users to paste in data
-// - Write unit tests for all functions
 // - ? Export results feature
 
 const searchBox = document.getElementById("search-box");

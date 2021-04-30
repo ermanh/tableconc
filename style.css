@@ -9,7 +9,10 @@
     --hilite-bg-color-2: white;
 }
 
-
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 
 body {
     background-color: var(--hiders-hover-bg-color);
@@ -17,7 +20,6 @@ body {
     font-family: Arial, sans-serif;
     font-size: 0.95em;
     margin: 0;
-    width: 100%;
 }
 
 #results {
@@ -84,6 +86,40 @@ table.controls-container td {
     background-color: var(--hiders-hover-bg-color);
     color: var(--controls-bg-color);
     width: 100%;
+}
+
+#second-search {
+    display: none;
+}
+
+.second-search-hider-cell {
+    vertical-align: bottom;
+    padding: 0px;
+    width: 10px;
+}
+
+#second-search-hider {
+    background-color: var(--hiders-hover-bg-color);
+    border-radius: 2px;
+    color: var(--banner-bg-color);
+    width: 12px;
+    height: 12px;
+    margin: 1px 0 1px;
+    padding: 0;
+    font-size: 0.1em;
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+
+#second-search-hider path {
+    pointer-events: none;
+}
+
+#second-search-hider:hover {
+    background-color: yellow;
 }
 
 input[type="color"] {
@@ -218,13 +254,10 @@ td#search-logic {
     background-color: var(--controls-bg-color);
 }
 
-/* #search-button {
-    padding: 0.5em 0.65em;
+#search-button {
+    margin-left: 25px;
 }
 
-#search-button-outside {
-    padding: 0.5em 0.65em;
-} */
 
 #search-input, #search-input2 {
     font-size: 0.8em;
