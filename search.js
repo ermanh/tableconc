@@ -6,12 +6,10 @@
 // - Improve UI aesthetics/format/style
 //      - Improve column resizing aesthetics
 //      - Create own custom buttons
-//      - Light/Dark modes (later/last)
 //      - Cross-browser aesthetics
 // - Improve UX
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //          - or maybe just for columns without concordance display
-//      - Sorting mechanism (for columns without concordance display)
 //      - Allow user to left/center/right align
 //      - Anchored bottom button to go back to top OR sticky all top sections
 //      - (minor) Improve column resizing 
@@ -290,7 +288,7 @@ const concord = function () {
         .data(columnsToDisplay).enter()
         .append("th")
         .attr("class", function(d, i) {
-            return (i == 0) ? "result-index" : null;
+            return (i == 0) ? "result-index" : "sortable";
         })
         .html(function(d, i) { 
             // Add resize controller divs in header row
@@ -345,17 +343,14 @@ const concord = function () {
         sorters = document.querySelectorAll(".sort");
         sorters.forEach((sorter) => {
             sorter.addEventListener('click', function(e) {
-                text = this.innerHTML;
-                if (text == "-") { 
+                text = sorter.innerHTML;
+                if (text == "-" || text == "\u2191") { 
                     sorters.forEach((sorter) => { sorter.innerHTML = "-"; });
-                    this.innerHTML = "&darr;"; 
-                    sortRows(this.id.slice(1), "ascending");
+                    sorter.innerHTML = "&darr;"; 
+                    sortRows(sorter.id.slice(1), "ascending");
                 } else if (text == "\u2193") { 
-                    this.innerHTML = "&uarr;"; 
-                    sortRows(this.id.slice(1), "descending");
-                } else if (text == "\u2191") { 
-                    this.innerHTML = "-"; 
-                    concord();
+                    sorter.innerHTML = "&uarr;"; 
+                    sortRows(sorter.id.slice(1), "descending");
                 }
             });
         });

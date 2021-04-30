@@ -270,7 +270,7 @@ div.resize {
 div.sort {
     cursor: pointer;
     font-weight: 300;
-    font-size: 1.2em;
+    font-size: 1.25em;
     color: var(--column-controls-bg-color);
     user-select: none;
     -webkit-user-select: none; 
