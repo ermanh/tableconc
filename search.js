@@ -295,11 +295,11 @@ const concord = function () {
         .html(function(d, i) { 
             // Add resize controller divs in header row
             if (i == columnsToDisplay.length - 1) {
-                return `${d}<div class="sort">o</div>`;
+                return `${d}<div class="sort" id="i${i}">-</div>`;
             } else if (i == 0) {
                 return d;
             } else {
-                return `${d}<div class="sort">o</div><div class="resize"></div>`; 
+                return `${d}<div class="sort" id="i${i}">-</div><div class="resize"></div>`; 
             }
         });
         
@@ -309,7 +309,8 @@ const concord = function () {
 
         // Results
         matchedRows.forEach((index, resultIndex) => {
-            results.append("tr").selectAll("td")
+            results.append("tr").attr("class", "sortable-row")
+                .selectAll("td")
                 .data(function() {
                     // Add result index
                     let row = JSON.parse(JSON.stringify(newData[index]));
@@ -341,13 +342,21 @@ const concord = function () {
             makeResizable(div);
         });
         // Add sorter event listeners
-        document.querySelectorAll(".sort").forEach((sorter) => {
+        sorters = document.querySelectorAll(".sort");
+        sorters.forEach((sorter) => {
             sorter.addEventListener('click', function(e) {
-                console.log("You clicked a sorter", this.innerText);
                 text = this.innerHTML;
-                if (text == "o") { this.innerHTML = "&darr;"; }
-                if (text == "\u2193") { this.innerHTML = "&uarr;"; }
-                if (text == "\u2191") { this.innerHTML = "o"; }
+                if (text == "-") { 
+                    sorters.forEach((sorter) => { sorter.innerHTML = "-"; });
+                    this.innerHTML = "&darr;"; 
+                    sortRows(this.id.slice(1), "ascending");
+                } else if (text == "\u2193") { 
+                    this.innerHTML = "&uarr;"; 
+                    sortRows(this.id.slice(1), "descending");
+                } else if (text == "\u2191") { 
+                    this.innerHTML = "-"; 
+                    concord();
+                }
             });
         });
     } else {

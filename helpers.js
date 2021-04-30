@@ -151,13 +151,41 @@ function padConcordance(concordanceColumn, oneOrTwo, concordCutoffValue) {
             hilited.index + hilited[0].length, newHtml.length));
         newColumn.push(`${padStart}${beforeHilited}${hilited[0]}${afterHilited}${padEnd}`);
 
-        console.log('=== padConcordance ===');
-        console.log('html', html);
-        console.log('newHtml', newHtml);
-        console.log(`${beforeHilited}${hilited[0]}${afterHilited}`);
-        console.log('padStart', padStart);
-        console.log('padEnd', padEnd);
+        // console.log('=== padConcordance ===');
+        // console.log('html', html);
+        // console.log('newHtml', newHtml);
+        // console.log(`${beforeHilited}${hilited[0]}${afterHilited}`);
+        // console.log('padStart', padStart);
+        // console.log('padEnd', padEnd);
         // console.log();
     }
     return newColumn;
+}
+
+function sortRows(columnToSort, order) {
+    rows = document.querySelectorAll('tr.sortable-row');
+    // rows = d3.selectAll('tr.sortable-row');
+    newRows = Array();
+    Array.from(rows).forEach((row) => {
+        newRow = Array.from(row.children);
+        newRows.push(newRow);
+    });
+    newRows = newRows.sort((a, b) => {
+        if (order == "ascending") {
+            return a[columnToSort].__data__ > b[columnToSort].__data__;
+        } else if (order == "descending") {
+            return a[columnToSort].__data__ < b[columnToSort].__data__; 
+        }
+    });
+    newRows = newRows.map((row, i) => {
+        return row.map((item, j) => { 
+            return (j == 0) ? String(i + 1) : item.__data__; 
+        });
+    });
+    d3.selectAll('tr.sortable-row')
+        .data(newRows)
+        .selectAll('td')
+            .data(function(d) { return d; })
+            .html(function(d) { return d; });
+    // console.log(JSON.stringify(newRows));
 }
