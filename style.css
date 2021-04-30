@@ -205,6 +205,17 @@ tr.sticky {
     top: 0;
 }
 
+
+th.result-index, .result-index {
+    color: gray;
+    font-size: 1em;
+    text-align: right;
+    padding-right: 8px;
+    border: 0.5px solid lightgray;
+    border-collapse: collapse;
+    width: 15px;
+}
+
 th {
     background-color: var(--hiders-hover-bg-color);
     color: var(--banner-bg-color);
@@ -212,7 +223,7 @@ th {
     padding: 3px 12px;
     border: 0.5px solid lightgray;
     border-collapse: collapse;
-    min-width: 20px;
+    min-width: 10px;
 }
 
 td.results-td {

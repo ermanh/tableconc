@@ -278,37 +278,59 @@ const concord = function () {
     columnsToDisplay = columnNames.filter(function(d, i) {
         if (selectedColumns[i]) { return d; }
     });
+    selectedColumns.unshift(true);
+    columnsToDisplay.unshift(""); // Add result index column
     if (matchedRows.length > 0) {
+        
         // Column headers
         results.append("tr")
         .attr("class", "sticky")
         .selectAll("th")
         .data(columnsToDisplay).enter()
         .append("th")
+        .attr("class", function(d, i) {
+            return (i == 0) ? "result-index" : null;
+        })
         .html(function(d, i) { 
             // Add resize controller divs in header row
-            if (i == columnsToDisplay.length - 1) {
-                return d;
-            } else {
+            if (i !== 0 && i !== columnsToDisplay.length - 1) {
                 return `${d}<div class="resize"></div>`; 
+            } else {
+                return d;
             }
         });
+        
+        console.log('columnsToDisplay | selectedColumns');
+        console.log(JSON.stringify(columnsToDisplay));
+        console.log(JSON.stringify(selectedColumns));
+
         // Results
-        matchedRows.forEach((index) => {
+        matchedRows.forEach((index, resultIndex) => {
             results.append("tr").selectAll("td")
-                .data(newData[index].map(
-                    function(d, j) {
-                        if (columnsToSearchValues.includes(columnNames[j])) {
-                            return d;
+                .data(function() {
+                    // Add result index
+                    let row = JSON.parse(JSON.stringify(newData[index]));
+                    row.unshift(String(resultIndex + 1));
+                    row = row.map(function(d, j) {
+                        if (j !== 0) {
+                            if (columnsToSearchValues.includes(columnNames[j - 1])) {
+                                return d;
+                            } else {
+                                return escapeHTML(d);
+                            }
                         } else {
-                            return escapeHTML(d);
+                            return d;
                         }
                     }).filter(function(d, j) { 
                         if (selectedColumns[j]) { return d; }
-                    })
+                    });
+                    return row;
+                }
                 ).enter()
                 .append("td")
-                .attr("class", "results-td")
+                .attr("class", function(d, i) {
+                    return (i !== 0) ? "results-td" : "result-index";
+                })
                 .html(function(d) { return d; });
         }); 
         // Add resize event listeners
