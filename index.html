@@ -17,7 +17,11 @@
         <input id="column-headers" type="checkbox" checked>
         <label id="column-headers-label" for="column-headers">Contains column headers</label>
     </div>
-    <div id="hide-controls" class="hiders">H I D E&nbsp;&nbsp;&nbsp;S E A R C H</div>
+    <div id="hide-controls-div">
+        <div id="hide-controls" class="hiders">H I D E&nbsp;&nbsp;&nbsp;S E A R C H</div>
+        <div id="hide-column-controls" class="hiders">H I D E&nbsp;&nbsp;&nbsp;C O L U M N S</div>
+        <div id="results-number" class="hiders"></div>
+    </div>
     <div id="controls">
         <form id="search-box" onsubmit="return false;">
             <table><tr>
@@ -149,16 +153,13 @@
                 Search</button>
         </form>
     </div>
-    <div id="hide-column-controls" class="hiders">H I D E&nbsp;&nbsp;&nbsp;C O L U M N S</div>
     <div id="columnselect" class="section">
         <button id="search-button-outside" form="search-box" disabled>
             Reset</button>
-        Display columns:&nbsp;&nbsp;
+        &nbsp;Display columns:&nbsp;&nbsp;
         <text id="columns-to-show"></text>
     </div>
-
-    <div id="results" class="section">
-        <text id="results-number"></text>
+    <div id="results">
         <table id="results-table">
         </table>
     </div>

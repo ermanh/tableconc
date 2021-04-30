@@ -23,26 +23,28 @@ body {
 }
 
 #results {
-    border-top: 1px solid;
-    border-color: var(--column-controls-bg-color);
     color: black;
-    /* min-height: 800px; */
-    padding: 0.7em 0;
     width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 #results-number {
-    padding-left: 20px;
+    padding-left: 15px;
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 500;
 }
 
 #banner {
     background-color: var(--banner-bg-color);
-    padding: 18px 25px;
+    padding: 15px 23px 10px;
     width: 100%;
 }
 
 #title {
-    font-size: 1.7em;
+    font-size: 1.75em;
+    letter-spacing: 1px;
 }
 
 table.controls-container td {
@@ -54,38 +56,53 @@ table.controls-container td {
     position: relative;
 }
 
+#hide-controls-div {
+    background-color: var(--banner-bg-color);
+}
+
 .hiders {
     color: lightblue;
     text-align: center;
-    font-size: 0.75em;
+    font-size: 0.65em;
     font-weight: 1000;
-    padding: 2px 8px;
+    padding: 5px 0px;
+    /* border-top-left-radius: 5px;
+    border-top-right-radius: 5px; */
 }
 
 #hide-controls {
     background-color: var(--controls-bg-color);
-    width: 100%;
+    width: 145px;
+    display:inline-block;
     height: 12px;
-    display: block;
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
 }
 
 #hide-controls:hover {
     background-color: var(--hiders-hover-bg-color);
     color: var(--controls-bg-color);
-    width: 100%;
 }
 
 #hide-column-controls {
     background-color: var(--column-controls-bg-color);
-    width: 100%;
+    width: 145px;
+    display:inline-block;
     height: 12px;
-    display: block;
+    margin-left: -5px;
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
 }
 
 #hide-column-controls:hover {
     background-color: var(--hiders-hover-bg-color);
     color: var(--controls-bg-color);
-    width: 100%;
 }
 
 #second-search {
@@ -119,7 +136,7 @@ table.controls-container td {
 }
 
 #second-search-hider:hover {
-    background-color: yellow;
+    background-color: khaki;
 }
 
 input[type="color"] {
@@ -166,22 +183,21 @@ column-names, output {
 }
 
 form, div.section {
-    padding: 0 18px 8px;
+    padding: 7px 18px;
     width: 100%;
 }
 
 #columnselect {
     background-color: var(--column-controls-bg-color);
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-left: 40px;
 }
 
 table#results-table {
     border-collapse: collapse;
     font-family: monospace;
     font-size: 1.1em;
-    margin-top: -8px;
     width: 100%;
+    /* border-top: 3px solid gray; */
 }
 
 tr.sticky {
@@ -190,8 +206,8 @@ tr.sticky {
 }
 
 th {
-    background-color: var(--controls-bg-color);
-    color: white;
+    background-color: var(--hiders-hover-bg-color);
+    color: var(--banner-bg-color);
     position: relative;
     padding: 3px 12px;
     border: 0.5px solid lightgray;
@@ -203,7 +219,7 @@ td.results-td {
     background-color: white;
     color: black;
     position: relative;
-    padding: 3px 12px;
+    padding: 3px 15px;
     border: 0.5px solid lightgray;
     border-collapse: collapse;
     min-width: 20px;

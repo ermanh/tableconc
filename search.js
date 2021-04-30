@@ -275,7 +275,6 @@ const concord = function () {
     }
     const results = d3.select("#results-table");
     results.html(""); // clear results
-    results.append("br");
     columnsToDisplay = columnNames.filter(function(d, i) {
         if (selectedColumns[i]) { return d; }
     });
