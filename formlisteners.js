@@ -39,7 +39,12 @@ const bgColorPicker2 = document.getElementById("bg-picker-2");
 const bgColorPickerDiv2 = document.getElementById("bg-picker-div-2");
 
 
-// ~~~~~~~~~~ Hide Controls ~~~~~~~~~~
+// ~~~ Columns to display ~~~
+columnHeaders.addEventListener('change', function() {
+    if (chooseFile.value) { readFile(); }
+});
+
+// ~~~ Hide Controls ~~~
 hideControls.addEventListener('click', function() {
     if (controls.style.display != 'none') {
         controls.style.display = 'none';
@@ -72,11 +77,6 @@ secondSearchHider.addEventListener('click', function(e) {
     }
 });
 
-
-// ~~~~~~~~~~ Columns to display ~~~~~~~~~~
-columnHeaders.addEventListener('change', function() {
-    if (chooseFile.value) { readFile(); }
-});
 
 // ~~~~~~~~~~ SEARCH 1 ~~~~~~~~~~
 

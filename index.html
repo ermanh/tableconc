@@ -26,7 +26,7 @@
         <form id="search-box" onsubmit="return false;">
             <table><tr>
                 <table><tr>
-                    <td class="second-search-hider-cell">
+                    <td class="controls-first-column">
                         <div>
                             <svg id="second-search-hider" height="12" width="12">
                                 <path d="M1,6 L11,6 M6,1 L6,11" stroke="#384a73" stroke-width="2" />
@@ -42,7 +42,7 @@
                     <td>
                         <input id="full-words" type="checkbox" checked disabled>
                         <label id="full-words-label" for="full-words">
-                            Full word(s)
+                            Full words
                             <div class="infotip">
                                 &nbsp;i&nbsp;
                                 <span class="infotiptext">
@@ -90,7 +90,7 @@
                     </td>
                 </tr></table>
                 <table id="second-search"><tr>
-                    <td class="second-search-hider-cell"></td>
+                    <td class="controls-first-column"></td>
                     <td style="width: 250px;">
                         <label for="column-selection2">Search column</label>
                         <select name="column-selection2" id="column-selection2"></select>
@@ -100,7 +100,7 @@
                     <td>
                         <input id="full-words2" type="checkbox" checked disabled>
                         <label id="full-words-label2" for="full-words2">
-                            Full word(s)
+                            Full words
                             <div class="infotip">
                                 &nbsp;i&nbsp;
                                 <span class="infotiptext">
@@ -149,14 +149,19 @@
                 </tr></table>
             </tr></table>
             <table style="height: 5px;"></table>
-            <button id="search-button" disabled>
-                Search</button>
+            <table>
+                <tr>
+                    <td class="controls-first-column"></td>
+                    <td><button id="search-button" disabled>Search</button></td>
+                </tr>
+            </table>
+            
         </form>
     </div>
     <div id="columnselect" class="section">
         <button id="search-button-outside" form="search-box" disabled>
             Reset</button>
-        &nbsp;Display columns:&nbsp;&nbsp;
+        &nbsp;Display columns:&nbsp;&nbsp;&nbsp;&nbsp;
         <text id="columns-to-show"></text>
     </div>
     <div id="results">

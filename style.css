@@ -109,10 +109,9 @@ table.controls-container td {
     display: none;
 }
 
-.second-search-hider-cell {
+.controls-first-column {
     vertical-align: bottom;
-    padding: 0px;
-    width: 12px;
+    width: 15px;
 }
 
 #second-search-hider {
@@ -189,7 +188,12 @@ form, div.section {
 
 #columnselect {
     background-color: var(--column-controls-bg-color);
-    padding-left: 40px;
+    padding-left: 27px;
+}
+
+#column-control-button-adjuster {
+    padding: 0;
+    margin-left: -10px;
 }
 
 table#results-table {
@@ -263,8 +267,24 @@ div.resize {
     height: 100%;
 }
 
+div.sort {
+    cursor: pointer;
+    font-weight: 300;
+    font-size: 1.2em;
+    color: var(--column-controls-bg-color);
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    width: 5px;
+    height: 100%;
+    display: inline-block;
+    margin-left: 12px;
+}
+
 td {
-    padding: 0 0.75em;
+    padding: 0 0.75em 0 0.25em;
 }
 
 td.search-td {
@@ -286,9 +306,12 @@ td#search-logic {
 }
 
 #search-button {
-    margin-left: 25px;
+    margin-left: -3px;
 }
 
+#search-button-outside {
+    margin-left: 25px;
+}
 
 #search-input, #search-input2 {
     font-size: 0.8em;
@@ -343,3 +366,11 @@ td#search-logic {
 .infotip:hover .infotiptext {
     visibility: visible;
 }
+
+/* .th-sort-ascending {
+
+}
+
+.th-sort-descending {
+
+} */

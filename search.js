@@ -294,10 +294,12 @@ const concord = function () {
         })
         .html(function(d, i) { 
             // Add resize controller divs in header row
-            if (i !== 0 && i !== columnsToDisplay.length - 1) {
-                return `${d}<div class="resize"></div>`; 
-            } else {
+            if (i == columnsToDisplay.length - 1) {
+                return `${d}<div class="sort">o</div>`;
+            } else if (i == 0) {
                 return d;
+            } else {
+                return `${d}<div class="sort">o</div><div class="resize"></div>`; 
             }
         });
         
@@ -337,6 +339,16 @@ const concord = function () {
         // Add resize event listeners
         document.querySelectorAll("div.resize").forEach((div) => {
             makeResizable(div);
+        });
+        // Add sorter event listeners
+        document.querySelectorAll(".sort").forEach((sorter) => {
+            sorter.addEventListener('click', function(e) {
+                console.log("You clicked a sorter", this.innerText);
+                text = this.innerHTML;
+                if (text == "o") { this.innerHTML = "&darr;"; }
+                if (text == "\u2193") { this.innerHTML = "&uarr;"; }
+                if (text == "\u2191") { this.innerHTML = "o"; }
+            });
         });
     } else {
         var resultText = "No results for";
