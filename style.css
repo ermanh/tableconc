@@ -32,8 +32,10 @@ body {
 #results-number {
     padding-left: 15px;
     display: inline-block;
-    font-size: 0.85em;
-    font-weight: 500;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.9em;
+    font-weight: 300;
+    margin: -5px 0;
 }
 
 #banner {
@@ -200,7 +202,7 @@ table#results-table {
     border-collapse: collapse;
     font-family: monospace;
     font-size: 1.1em;
-    width: 100%;
+    width: 99.8%;
     /* border-top: 3px solid gray; */
 }
 
@@ -209,6 +211,16 @@ tr.sticky {
     top: 0;
 }
 
+#text-align-control {
+    cursor: pointer;
+    stroke: var(--banner-bg-color);
+    stroke-width: 2;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
 
 th.result-index, .result-index {
     background-color: lightslategray;
@@ -269,8 +281,8 @@ div.resize {
 
 div.sort {
     cursor: pointer;
-    font-weight: 300;
-    font-size: 1.25em;
+    font-weight: 500;
+    font-size: 1.5em;
     color: var(--column-controls-bg-color);
     user-select: none;
     -webkit-user-select: none; 

@@ -7,6 +7,7 @@
 //      - Improve column resizing aesthetics
 //      - Create own custom buttons
 //      - Cross-browser aesthetics
+//      - Dark mode
 // - Improve UX
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //          - or maybe just for columns without concordance display
@@ -278,7 +279,12 @@ const concord = function () {
         if (selectedColumns[i]) { return d; }
     });
     selectedColumns.unshift(true);
-    columnsToDisplay.unshift(""); // Add result index column
+    // Add result index column with text-align control
+    columnsToDisplay.unshift(`
+        <svg id="text-align-control" class="align-left" height="13", width="15">
+            <path d="M0,3 L8,3 M0,6 L13,6 M0,9 L8,9 M0,12 L13,12"/>
+        </svg>
+    `); 
     if (matchedRows.length > 0) {
         
         // Column headers
@@ -342,6 +348,8 @@ const concord = function () {
         // Add sorter event listeners
         sorters = document.querySelectorAll(".sort");
         sorters.forEach((sorter) => {
+            sorter.addEventListener('mouseover', () => sorter.style.color = "red");
+            sorter.addEventListener('mouseout', () => sorter.style.color = "steelblue");
             sorter.addEventListener('click', function(e) {
                 text = sorter.innerHTML;
                 if (text == "-" || text == "\u2191") { 
@@ -353,6 +361,25 @@ const concord = function () {
                     sortRows(sorter.id.slice(1), "descending");
                 }
             });
+        });
+        // Add text-align-control event listener
+        textAligner = document.getElementById("text-align-control");
+        textAligner.addEventListener("mouseover", () => textAligner.style.stroke = "yellow" );
+        textAligner.addEventListener("mouseout", () => textAligner.style.stroke = "#2a3347" );
+        textAligner.addEventListener("click", function() {
+            if (textAligner.classList.contains("align-left")) {
+                textAligner.innerHTML = `<path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
+                textAligner.classList.replace("align-left", "align-center");
+                d3.selectAll("td.results-td").style("text-align", "center");
+            } else if (textAligner.classList.contains("align-center")) {
+                textAligner.innerHTML = `<path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
+                textAligner.classList.replace("align-center", "align-right");
+                d3.selectAll("td.results-td").style("text-align", "right");
+            } else if (textAligner.classList.contains("align-right")) {
+                textAligner.innerHTML = `<path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
+                textAligner.classList.replace("align-right", "align-left");
+                d3.selectAll("td.results-td").style("text-align", "left");
+            }
         });
     } else {
         var resultText = "No results for";
