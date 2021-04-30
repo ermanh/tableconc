@@ -141,7 +141,7 @@ columnSelection.addEventListener('change', function() {
         colorPickerDiv1.style.opacity = "0.3";
         bgColorPickerDiv1.style.opacity = "0.3";
         colorPicker1.disabled = true;
-        bgColorPickerDiv1.disabled=true;
+        bgColorPicker1.disabled = true;
         if (columnSelection2.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
@@ -156,7 +156,7 @@ columnSelection.addEventListener('change', function() {
         colorPickerDiv1.style.opacity = "1";
         bgColorPickerDiv1.style.opacity = "1";
         colorPicker1.disabled = false;
-        bgColorPickerDiv1.disabled=false;
+        bgColorPicker1.disabled = false;
         searchButton.disabled = false;
         searchButtonOutside.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
@@ -175,7 +175,7 @@ columnSelection.addEventListener('change', function() {
 colorPicker1.addEventListener('change', function() {
     let newColor = colorPicker1.value;
     colorPickerDiv1.style.backgroundColor = newColor;
-    hilitedOnes = document.getElementsByClassName("hilite1");
+    var hilitedOnes = document.getElementsByClassName("hilite1");
     Array.from(hilitedOnes).forEach((el) => {
         el.style.color = newColor;
     });
@@ -185,10 +185,10 @@ colorPickerDiv1.style.backgroundColor = colorPicker1.value;
 bgColorPicker1.addEventListener('change', function() {
     let newColor = bgColorPicker1.value;
     bgColorPickerDiv1.style.backgroundColor = newColor;
-    hilitedOnes = document.getElementsByClassName("hilite1");
+    var hilitedOnes = document.getElementsByClassName("hilite1");
     Array.from(hilitedOnes).forEach((el) => {
         el.style.backgroundColor = newColor; 
-    })
+    });
 });
 bgColorPickerDiv1.style.backgroundColor = bgColorPicker1.value;
 
@@ -256,7 +256,7 @@ columnSelection2.addEventListener('change', function() {
         colorPickerDiv2.style.opacity = "0.3";
         bgColorPickerDiv2.style.opacity = "0.3";
         colorPicker2.disabled = true;
-        bgColorPickerDiv2.disabled=true;
+        bgColorPicker2.disabled = true;
         if (columnSelection.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
@@ -271,7 +271,7 @@ columnSelection2.addEventListener('change', function() {
         colorPickerDiv2.style.opacity = "1";
         bgColorPickerDiv2.style.opacity = "1";
         colorPicker2.disabled = false;
-        bgColorPickerDiv2.disabled=false;
+        bgColorPicker2.disabled = false;
         searchButton.disabled = false;
         columnSelection.childNodes.forEach(function(node) {
             if (node.value !== columnSelectionValue2) {
@@ -289,7 +289,7 @@ columnSelection2.addEventListener('change', function() {
 colorPicker2.addEventListener('change', function() {
     let newColor = colorPicker2.value;
     colorPickerDiv2.style.backgroundColor = newColor;
-    hilitedTwos = document.getElementsByClassName("hilite2");
+    var hilitedTwos = document.getElementsByClassName("hilite2");
     Array.from(hilitedTwos).forEach((el) => {
         el.style.color = newColor;
     });
@@ -299,7 +299,7 @@ colorPickerDiv2.style.backgroundColor = colorPicker2.value;
 bgColorPicker2.addEventListener('change', function() {
     let newColor = bgColorPicker2.value;
     bgColorPickerDiv2.style.backgroundColor = newColor;
-    hilitedTwos = document.getElementsByClassName("hilite2");
+    var hilitedTwos = document.getElementsByClassName("hilite2");
     Array.from(hilitedTwos).forEach((el) => {
         el.style.backgroundColor = newColor;
     });

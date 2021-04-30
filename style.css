@@ -112,7 +112,7 @@ table.controls-container td {
 .second-search-hider-cell {
     vertical-align: bottom;
     padding: 0px;
-    width: 10px;
+    width: 12px;
 }
 
 #second-search-hider {
@@ -151,7 +151,7 @@ input[type="color"] {
     float: left;
     height: 12px;
     width: 12px;
-    margin: 2px 0;
+    margin: 3px 0;
     border: 1px solid lightsteelblue;
     border-radius: 3px;
     opacity: 0.3;
@@ -207,13 +207,14 @@ tr.sticky {
 
 
 th.result-index, .result-index {
-    color: gray;
+    background-color: lightslategray;
+    color: lightsteelblue;
     font-size: 1em;
     text-align: right;
-    padding-right: 8px;
-    border: 0.5px solid lightgray;
+    padding: 0 8px 0 12px;
+    border: 0.5px solid lightsteelblue;
     border-collapse: collapse;
-    width: 15px;
+    width: 10px;
 }
 
 th {
@@ -234,7 +235,6 @@ td.results-td {
     border: 0.5px solid lightgray;
     border-collapse: collapse;
     min-width: 20px;
-    /* text-align: center; */
 }
 
 .hilite1 {
@@ -255,6 +255,10 @@ div.resize {
     right: 0;
     top: 0;
     user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
     width: 3px;
     height: 100%;
 }

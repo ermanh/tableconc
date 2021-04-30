@@ -12,6 +12,7 @@
 //      - If no singleton values in a column, drop-down menu to see only specific values
 //          - or maybe just for columns without concordance display
 //      - Sorting mechanism (for columns without concordance display)
+//      - Allow user to left/center/right align
 //      - Anchored bottom button to go back to top OR sticky all top sections
 //      - (minor) Improve column resizing 
 //      - If search begins or ends with a space character, change background-highlight color
