@@ -9,14 +9,13 @@
 //      - Cross-browser aesthetics
 //      - Dark mode
 // - Improve UX
-//      - If no singleton values in a column, drop-down menu to see only specific values
-//          - or maybe just for columns without concordance display
-//      - Allow user to left/center/right align
-//      - Anchored bottom button to go back to top OR sticky all top sections
-//      - (minor) Improve column resizing 
+//      - Add third search (maybe)
 //      - If search begins or ends with a space character, change background-highlight color
 // - (minor) Maybe allow users to paste in data
 // - ? Export results feature
+// - Bugs
+//      - sorting doesn't work on Chrome
+//      
 
 const searchBox = document.getElementById("search-box");
 
@@ -289,7 +288,7 @@ const concord = function () {
         
         // Column headers
         results.append("tr")
-        .attr("class", "sticky")
+        .attr("id", "sticky")
         .selectAll("th")
         .data(columnsToDisplay).enter()
         .append("th")
@@ -299,11 +298,11 @@ const concord = function () {
         .html(function(d, i) { 
             // Add resize controller divs in header row
             if (i == columnsToDisplay.length - 1) {
-                return `${d}<div class="sort" id="i${i}">-</div>`;
+                return `${d}<div class="sort" id="i${i}">&equiv;</div>`;
             } else if (i == 0) {
                 return d;
             } else {
-                return `${d}<div class="sort" id="i${i}">-</div><div class="resize"></div>`; 
+                return `${d}<div class="sort" id="i${i}">&equiv;</div><div class="resize"></div>`; 
             }
         });
         
@@ -341,6 +340,18 @@ const concord = function () {
                 })
                 .html(function(d) { return d; });
         }); 
+        // // ~~~~~~~~~~ Add stickifier ~~~~~~~~~~
+        // window.onscroll = function() { stickify(); };
+        // var bodyRect = document.body.getBoundingClientRect();
+        // var stickyRow = document.getElementById("sticky");
+        // var rowRect = stickyRow.getBoundingClientRect();
+        // const stickify = function() {
+        //     if (window.pageYOffset > (rowRect.top - bodyRect.top)) {
+        //         stickyRow.classList.add("sticky");
+        //     } else {
+        //         stickyRow.classList.remove("sticky");
+        //     }
+        // };
         // Add resize event listeners
         document.querySelectorAll("div.resize").forEach((div) => {
             makeResizable(div);
@@ -352,12 +363,12 @@ const concord = function () {
             sorter.addEventListener('mouseout', () => sorter.style.color = "steelblue");
             sorter.addEventListener('click', function(e) {
                 text = sorter.innerHTML;
-                if (text == "-" || text == "\u2191") { 
-                    sorters.forEach((sorter) => { sorter.innerHTML = "-"; });
-                    sorter.innerHTML = "&darr;"; 
+                if (text == "\u2261" || text == "\u25B2") { 
+                    sorters.forEach((sorter) => { sorter.innerHTML = "&equiv;"; });
+                    sorter.innerHTML = "&#x25BC;"; 
                     sortRows(sorter.id.slice(1), "ascending");
-                } else if (text == "\u2193") { 
-                    sorter.innerHTML = "&uarr;"; 
+                } else if (text == "\u25BC") { 
+                    sorter.innerHTML = "&#x25B2;"; 
                     sortRows(sorter.id.slice(1), "descending");
                 }
             });

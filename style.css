@@ -9,10 +9,9 @@
     --hilite-bg-color-2: white;
 }
 
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
+/* html, body {
+    width: 100%;
+} */
 
 body {
     background-color: var(--hiders-hover-bg-color);
@@ -24,7 +23,6 @@ body {
 
 #results {
     color: black;
-    width: 100%;
     padding: 0;
     margin: 0;
 }
@@ -40,8 +38,7 @@ body {
 
 #banner {
     background-color: var(--banner-bg-color);
-    padding: 15px 23px 10px;
-    width: 100%;
+    padding: 15px 0 10px 23px;
 }
 
 #title {
@@ -183,14 +180,20 @@ column-names, output {
     font-family: monospace;
 }
 
-form, div.section {
+form {
+    padding: 7px 0 7px 18px;
+}
+
+div.section {
     padding: 7px 18px;
-    width: 100%;
+    /* width: 100%; */
 }
 
 #columnselect {
     background-color: var(--column-controls-bg-color);
-    padding-left: 27px;
+    /* padding-left: 34px; */
+    padding: 7px 0 7px 27px;
+    margin: 0;
 }
 
 #column-control-button-adjuster {
@@ -206,10 +209,11 @@ table#results-table {
     /* border-top: 3px solid gray; */
 }
 
-tr.sticky {
-    position: sticky;
+/* .sticky {
+    position: fixed;
     top: 0;
-}
+    z-index: 1;
+} */
 
 #text-align-control {
     cursor: pointer;
@@ -236,11 +240,13 @@ th.result-index, .result-index {
 th {
     background-color: var(--hiders-hover-bg-color);
     color: var(--banner-bg-color);
-    position: relative;
+    position: sticky;
+    top: 0;
     padding: 3px 12px;
     border: 0.5px solid lightgray;
     border-collapse: collapse;
     min-width: 10px;
+    z-index: 1;
 }
 
 td.results-td {
@@ -282,17 +288,18 @@ div.resize {
 div.sort {
     cursor: pointer;
     font-weight: 500;
-    font-size: 1.5em;
+    font-size: 1.1em;
     color: var(--column-controls-bg-color);
     user-select: none;
     -webkit-user-select: none; 
     -moz-user-select: none; 
     -khtml-user-select: none;
     -ms-user-select: none;
+    padding: 0 12px;
     width: 5px;
     height: 100%;
     display: inline-block;
-    margin-left: 12px;
+    margin-left: 5px;
 }
 
 td {
@@ -328,7 +335,7 @@ td#search-logic {
 #search-input, #search-input2 {
     font-size: 0.8em;
     border-radius: 0.5em;
-    width: 265px;
+    width: 250px;
     margin: 5px 0;
 }
 
