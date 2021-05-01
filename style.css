@@ -39,11 +39,11 @@ body {
 #banner {
     background-color: var(--banner-bg-color);
     color:white;
-    padding: 15px 0 10px 23px;
+    padding: 18px 0 15px 23px;
 }
 
 #title {
-    font-size: 1.75em;
+    font-size: 2em;
     letter-spacing: 1px;
 }
 
@@ -52,7 +52,7 @@ body {
     width: 24px;
     position: fixed;
     top: 15px;
-    z-index: 1;
+    z-index: 100;
     user-select: none; 
     -webkit-user-select: none; 
     -moz-user-select: none; 
@@ -283,7 +283,7 @@ th {
     border: 0.5px solid lightgray;
     border-collapse: collapse;
     min-width: 10px;
-    z-index: 1;
+    z-index: 99;
 }
 
 td.results-td {
@@ -416,7 +416,7 @@ td#search-logic {
     padding: 5px 10px 7px 10px;
     margin: 2px;
     position: absolute;
-    z-index: 1;
+    z-index: 5;
 }
 
 .infotip:hover .infotiptext {

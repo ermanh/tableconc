@@ -7,15 +7,14 @@
 //      - Improve column resizing aesthetics
 //      - Create own custom buttons
 //      - Cross-browser aesthetics
-//      - Dark mode
+//      - Move the hiders to banner to shorten length
 // - Improve UX
-//      - Add third search (maybe)
+//      - Add third search
 //      - If search begins or ends with a space character, change background-highlight color
 // - (minor) Maybe allow users to paste in data
 // - ? Export results feature
 // - Bugs
 //      - sorting doesn't work on Chrome
-// - Make everything underlyingly black text, then controls turn white
 
 const searchBox = document.getElementById("search-box");
 const resultsNumberTimeout = 120;

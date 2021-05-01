@@ -11,7 +11,7 @@ const colors = {
         "fore": "#ffffff",          // white
         "back": "#2a3347",          // --banner-bg-color
         "tdBack": "#384a73",        // --controls-bg-color
-        "picker1": "#9acd32",       // yellowgreen
+        "picker1": "#ffff00",       // yellow
         "picker2": "#00ffff",       // cyan
         "bgPicker": "#384a73",      // --controls-bg-color
     }
