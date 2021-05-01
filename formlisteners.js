@@ -79,7 +79,7 @@ secondSearchHider.addEventListener('click', function(e) {
     }
 });
 
-// ~~~ Light/Dark Mode Control ~~~
+// ~~~ Light and Dark Mode Controls ~~~
 lightControl.addEventListener("mouseover", function() {
     if (lightControl.classList.contains("is-dark")) {
         lightControl.style.opacity = "1";
@@ -101,8 +101,11 @@ lightControl.addEventListener("click", function() {
         darkControl.style.backgroundColor = "#384a73";
         darkControl.style.fill = "orange";
         darkControl.style.opacity = "0.5";
+        enforceLightDarkMode();
+        enforceHilites();
     }
 });
+
 darkControl.addEventListener("mouseover", function() {
     if (darkControl.classList.contains("is-light")) {
         darkControl.style.opacity = "1";
@@ -124,6 +127,8 @@ darkControl.addEventListener("click", function() {
         lightControl.style.stroke = "orange";
         lightControl.style.fill = "orange";
         lightControl.style.opacity = "0.5";
+        enforceLightDarkMode();
+        enforceHilites();
     }
 });
 

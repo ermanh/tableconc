@@ -386,6 +386,7 @@ const concord = function () {
                 d3.selectAll("td.results-td").style("text-align", "left");
             }
         });
+        enforceLightDarkMode();
         enforceHilites();
     } else {
         var resultText = "No results for";

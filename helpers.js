@@ -1,3 +1,22 @@
+const colors = {
+    "light": {
+        "fore": "#000000",          // black
+        "back": "#b0c4de",          // lightsteelblue
+        "tdBack": "#ffffff",        // white
+        "picker1": "#ff0000",       // red
+        "picker2": "#0000ff",       // blue
+        "bgPicker": "#ffffff",      // white
+    }, 
+    "dark": {
+        "fore": "#ffffff",          // white
+        "back": "#2a3347",          // --banner-bg-color
+        "tdBack": "#384a73",        // --controls-bg-color
+        "picker1": "#9acd32",       // yellowgreen
+        "picker2": "#00ffff",       // cyan
+        "bgPicker": "#384a73",      // --controls-bg-color
+    }
+};
+
 function makeResizable(div) {
     // TODO: Can improve to prevent non-party columns from auto-resizing
     //       when past point of being able to resize current column
@@ -193,4 +212,56 @@ function enforceHilites() {
         el.style.color = colorPicker2.value;
         el.style.backgroundColor = bgColorPicker2.value;
     });
+}
+
+function enforceLightDarkMode() {
+    isDark = darkControl.classList.contains("is-dark");
+    document.body.style.backgroundColor = isDark ? colors.dark.back : colors.light.back;
+    document.body.style.color = isDark ? colors.dark.fore : colors.light.fore;
+    document.getElementById("results").style.color = isDark ? colors.dark.fore : colors.light.fore;
+    resultsTD = document.getElementsByClassName("results-td");
+    Array.from(resultsTD).forEach((cell) => {
+        cell.style.backgroundColor = isDark ? colors.dark.tdBack : colors.light.tdBack;
+        cell.style.color = isDark ? colors.dark.fore : colors.light.fore;
+        cell.style.border = isDark? "0.5px solid gray" : "0.5px solid lightgray";
+    });
+    if (isDark) {
+        // pickers 1
+        if (colorPicker1.value == colors.light.picker1) {
+            colorPicker1.value = colors.dark.picker1; 
+            colorPickerDiv1.style.backgroundColor = colors.dark.picker1;
+        }
+        if (bgColorPicker1.value == colors.light.bgPicker) { 
+            bgColorPicker1.value = colors.dark.bgPicker; 
+            bgColorPickerDiv1.style.backgroundColor = colors.dark.bgPicker;
+        }
+        // pickers 2
+        if (colorPicker2.value == colors.light.picker2) {
+            colorPicker2.value = colors.dark.picker2; 
+            colorPickerDiv2.style.backgroundColor = colors.dark.picker2;
+        }
+        if (bgColorPicker2.value == colors.light.bgPicker) { 
+            bgColorPicker2.value = colors.dark.bgPicker; 
+            bgColorPickerDiv2.style.backgroundColor = colors.dark.bgPicker;
+        }
+    } else {
+        // pickers 1
+        if (colorPicker1.value == colors.dark.picker1) {
+            colorPicker1.value = colors.light.picker1; 
+            colorPickerDiv1.style.backgroundColor = colors.light.picker1;
+        }
+        if (bgColorPicker1.value == colors.dark.bgPicker) { 
+            bgColorPicker1.value = colors.light.bgPicker; 
+            bgColorPickerDiv1.style.backgroundColor = colors.light.bgPicker;
+        }
+        // pickers 2
+        if (colorPicker2.value == colors.dark.picker2) {
+            colorPicker2.value = colors.light.picker2; 
+            colorPickerDiv2.style.backgroundColor = colors.light.picker2;
+        }
+        if (bgColorPicker2.value == colors.dark.bgPicker) { 
+            bgColorPicker2.value = colors.light.bgPicker; 
+            bgColorPickerDiv2.style.backgroundColor = colors.light.bgPicker;
+        }
+    }
 }
