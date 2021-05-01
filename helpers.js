@@ -150,14 +150,6 @@ function padConcordance(concordanceColumn, oneOrTwo, concordCutoffValue) {
         afterHilited = escapeHTML(newHtml.slice(
             hilited.index + hilited[0].length, newHtml.length));
         newColumn.push(`${padStart}${beforeHilited}${hilited[0]}${afterHilited}${padEnd}`);
-
-        // console.log('=== padConcordance ===');
-        // console.log('html', html);
-        // console.log('newHtml', newHtml);
-        // console.log(`${beforeHilited}${hilited[0]}${afterHilited}`);
-        // console.log('padStart', padStart);
-        // console.log('padEnd', padEnd);
-        // console.log();
     }
     return newColumn;
 }
@@ -186,6 +178,19 @@ function sortRows(columnToSort, order) {
         .data(newRows)
         .selectAll('td')
             .data(function(d) { return d; })
-            .html(function(d) { return d; });
-    // console.log(JSON.stringify(newRows));
+            .html(function(d) { return `<pre>${d}</pre>`; });
+    enforceHilites();
+}
+
+function enforceHilites() {
+    var hilitedOnes = document.getElementsByClassName("hilite1");
+    Array.from(hilitedOnes).forEach((el) => {
+        el.style.color = colorPicker1.value;
+        el.style.backgroundColor = bgColorPicker1.value;
+    });
+    var hilitedTwos = document.getElementsByClassName("hilite2");
+    Array.from(hilitedTwos).forEach((el) => {
+        el.style.color = colorPicker2.value;
+        el.style.backgroundColor = bgColorPicker2.value;
+    });
 }

@@ -18,6 +18,7 @@
 //      
 
 const searchBox = document.getElementById("search-box");
+const resultsNumberTimeout = 120;
 
 const concord = function () {
     var newData = JSON.parse(JSON.stringify(data));
@@ -270,7 +271,11 @@ const concord = function () {
     // Insert text and html
     numberOfResults = matchedRows.length;
     if (numberOfResults > 0) {
-        resultsNumber.text(`Total results: ${numberOfResults}`);
+        resultsNumber.text("");
+        setTimeout(
+            function() { resultsNumber.text(`Total results: ${numberOfResults}`); }, 
+            resultsNumberTimeout
+        );
     }
     const results = d3.select("#results-table");
     results.html(""); // clear results
@@ -298,11 +303,11 @@ const concord = function () {
         .html(function(d, i) { 
             // Add resize controller divs in header row
             if (i == columnsToDisplay.length - 1) {
-                return `${d}<div class="sort" id="i${i}">&equiv;</div>`;
+                return `<pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div>`;
             } else if (i == 0) {
                 return d;
             } else {
-                return `${d}<div class="sort" id="i${i}">&equiv;</div><div class="resize"></div>`; 
+                return `<pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div><div class="resize"></div>`; 
             }
         });
         
@@ -338,20 +343,9 @@ const concord = function () {
                 .attr("class", function(d, i) {
                     return (i !== 0) ? "results-td" : "result-index";
                 })
-                .html(function(d) { return d; });
+                .html(function(d) { return `<pre>${d}</pre>`; });
         }); 
-        // // ~~~~~~~~~~ Add stickifier ~~~~~~~~~~
-        // window.onscroll = function() { stickify(); };
-        // var bodyRect = document.body.getBoundingClientRect();
-        // var stickyRow = document.getElementById("sticky");
-        // var rowRect = stickyRow.getBoundingClientRect();
-        // const stickify = function() {
-        //     if (window.pageYOffset > (rowRect.top - bodyRect.top)) {
-        //         stickyRow.classList.add("sticky");
-        //     } else {
-        //         stickyRow.classList.remove("sticky");
-        //     }
-        // };
+
         // Add resize event listeners
         document.querySelectorAll("div.resize").forEach((div) => {
             makeResizable(div);
@@ -392,6 +386,7 @@ const concord = function () {
                 d3.selectAll("td.results-td").style("text-align", "left");
             }
         });
+        enforceHilites();
     } else {
         var resultText = "No results for";
         if (searchInputValue1 !== "") {
@@ -403,7 +398,11 @@ const concord = function () {
         if (searchInputValue2 !== "") {
             resultText = resultText + ` "${searchInputValue2}"`;
         }
-        resultsNumber.text(resultText);
+        resultsNumber.text("");
+        setTimeout(
+            function() { resultsNumber.text(resultText); }, 
+            resultsNumberTimeout
+        );
     }
 
 

@@ -206,14 +206,13 @@ table#results-table {
     font-family: monospace;
     font-size: 1.1em;
     width: 99.8%;
-    /* border-top: 3px solid gray; */
 }
 
-/* .sticky {
-    position: fixed;
-    top: 0;
-    z-index: 1;
-} */
+pre {
+    font-family: monospace;
+    font-size: 1.1em;
+    display: inline;
+}
 
 #text-align-control {
     cursor: pointer;
