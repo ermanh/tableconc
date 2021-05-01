@@ -15,7 +15,7 @@
 // - ? Export results feature
 // - Bugs
 //      - sorting doesn't work on Chrome
-//      
+// - Make everything underlyingly black text, then controls turn white
 
 const searchBox = document.getElementById("search-box");
 const resultsNumberTimeout = 120;
