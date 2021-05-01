@@ -22,12 +22,18 @@ const readFile = function () {
         // populate drop-down menu
         d3.select("#column-selection").html("");  // clear menu
         d3.select("#column-selection2").html("");  // clear menu
+        d3.select("#column-selection3").html("");  // clear menu
         d3.select("#column-selection").selectAll("option")
             .data(["(None)"].concat(columnNames)).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });
         d3.select("#column-selection2").selectAll("option")
+            .data(["(None)"].concat(columnNames)).enter()
+                .append("option")
+                .attr("value", function(d) { return d; })
+                .text(function(d) { return d; });
+        d3.select("#column-selection3").selectAll("option")
             .data(["(None)"].concat(columnNames)).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })

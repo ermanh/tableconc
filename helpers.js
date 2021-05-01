@@ -2,18 +2,26 @@ const colors = {
     "light": {
         "fore": "#000000",          // black
         "back": "#b0c4de",          // lightsteelblue
+        "thFore": "#2a3347",        // --banner-bg-color
+        "thBack": "#b0c4de",        // lightsteelblue
+        "thBorder": "#d3d3d3",      // lightgray
         "tdBack": "#ffffff",        // white
         "picker1": "#ff0000",       // red
-        "picker2": "#0000ff",       // blue
+        "picker2": "#0c5eec",       // medium blue
+        "picker3": "#00FF7F",       // spring green
         "bgPicker": "#ffffff",      // white
     }, 
     "dark": {
         "fore": "#ffffff",          // white
-        "back": "#2a3347",          // --banner-bg-color
-        "tdBack": "#384a73",        // --controls-bg-color
+        "back": "#363636",          // darker gray
+        "thFore": "#b0c4de",        // lightsteelblue
+        "thBack": "#363636",        // darker gray
+        "thBorder": "#808080",      // gray
+        "tdBack": "#444444",        // dark gray
         "picker1": "#ffff00",       // yellow
         "picker2": "#00ffff",       // cyan
-        "bgPicker": "#384a73",      // --controls-bg-color
+        "picker3": "#ff00ff",       // magenta
+        "bgPicker": "#444444",      // dark gray
     }
 };
 
@@ -212,6 +220,11 @@ function enforceHilites() {
         el.style.color = colorPicker2.value;
         el.style.backgroundColor = bgColorPicker2.value;
     });
+    var hilitedThrees = document.getElementsByClassName("hilite3");
+    Array.from(hilitedThrees).forEach((el) => {
+        el.style.color = colorPicker3.value;
+        el.style.backgroundColor = bgColorPicker3.value;
+    });
 }
 
 function enforceLightDarkMode() {
@@ -219,6 +232,12 @@ function enforceLightDarkMode() {
     document.body.style.backgroundColor = isDark ? colors.dark.back : colors.light.back;
     document.body.style.color = isDark ? colors.dark.fore : colors.light.fore;
     document.getElementById("results").style.color = isDark ? colors.dark.fore : colors.light.fore;
+    sortableTH = document.getElementsByClassName("sortable");
+    Array.from(sortableTH).forEach((th) => {
+        th.style.backgroundColor = isDark ? colors.dark.thBack : colors.light.thBack;
+        th.style.color = isDark ? colors.dark.thFore : colors.light.thFore;
+        th.style.border = isDark ? `0.5px solid ${colors.dark.thBorder}` : `0.5px solid ${colors.light.thBorder}`;
+    });
     resultsTD = document.getElementsByClassName("results-td");
     Array.from(resultsTD).forEach((cell) => {
         cell.style.backgroundColor = isDark ? colors.dark.tdBack : colors.light.tdBack;
@@ -244,6 +263,15 @@ function enforceLightDarkMode() {
             bgColorPicker2.value = colors.dark.bgPicker; 
             bgColorPickerDiv2.style.backgroundColor = colors.dark.bgPicker;
         }
+        // pickers 3
+        if (colorPicker3.value == colors.light.picker3) {
+            colorPicker3.value = colors.dark.picker3; 
+            colorPickerDiv3.style.backgroundColor = colors.dark.picker3;
+        }
+        if (bgColorPicker3.value == colors.light.bgPicker) { 
+            bgColorPicker3.value = colors.dark.bgPicker; 
+            bgColorPickerDiv3.style.backgroundColor = colors.dark.bgPicker;
+        }
     } else {
         // pickers 1
         if (colorPicker1.value == colors.dark.picker1) {
@@ -262,6 +290,15 @@ function enforceLightDarkMode() {
         if (bgColorPicker2.value == colors.dark.bgPicker) { 
             bgColorPicker2.value = colors.light.bgPicker; 
             bgColorPickerDiv2.style.backgroundColor = colors.light.bgPicker;
+        }
+        // pickers 3
+        if (colorPicker3.value == colors.dark.picker3) {
+            colorPicker3.value = colors.light.picker3; 
+            colorPickerDiv3.style.backgroundColor = colors.light.picker3;
+        }
+        if (bgColorPicker3.value == colors.dark.bgPicker) { 
+            bgColorPicker3.value = colors.light.bgPicker; 
+            bgColorPickerDiv3.style.backgroundColor = colors.light.bgPicker;
         }
     }
 }

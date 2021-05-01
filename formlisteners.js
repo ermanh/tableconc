@@ -9,6 +9,8 @@ const searchButton = document.getElementById("search-button");
 const searchButtonOutside = document.getElementById("search-button-outside");
 const secondSearch = document.getElementById("second-search");
 const secondSearchHider = document.getElementById("second-search-hider");
+const thirdSearch = document.getElementById("third-search");
+const thirdSearchHider = document.getElementById("third-search-hider");
 const lightControl = document.getElementById("light-control");
 const darkControl = document.getElementById("dark-control");
 
@@ -40,6 +42,20 @@ const colorPickerDiv2 = document.getElementById("picker-div-2");
 const bgColorPicker2 = document.getElementById("bg-picker-2");
 const bgColorPickerDiv2 = document.getElementById("bg-picker-div-2");
 
+const columnSelection3 = document.getElementById("column-selection3");
+const searchInput3 = document.getElementById("search-input3");
+const regexSelection3 = document.getElementById("regex3");
+const fullWords3 = document.getElementById("full-words3");
+const caseSensitive3 = document.getElementById("case-sensitive3");
+const matchWhere3 = document.getElementById("match-where3");
+const findall3 = document.getElementById("findall3");
+const concordanceDisplay3 = document.getElementById("concordance-display3");
+const concordanceCutoff3 = document.getElementById("concordance-cutoff3");
+const colorPicker3 = document.getElementById("picker-3");
+const colorPickerDiv3 = document.getElementById("picker-div-3");
+const bgColorPicker3 = document.getElementById("bg-picker-3");
+const bgColorPickerDiv3 = document.getElementById("bg-picker-div-3");
+
 
 // ~~~ Columns to display ~~~
 columnHeaders.addEventListener('change', function() {
@@ -67,15 +83,23 @@ hideColumnControls.addEventListener('click', function() {
     }
 });
 
-// ~~~ Second Search Hider ~~~
-secondSearchHider.addEventListener('click', function(e) {
-    e.preventDefault();
+// ~~~ Second & Third Search Hiders ~~~
+secondSearchHider.addEventListener('click', function() {
     if (secondSearch.style.display == "none") {
         secondSearch.style.display = "block";
-        this.innerHTML = '<path d="M1,6 L11,6" stroke="#384a73" stroke-width="2" />';
+        this.innerHTML = '<path d="M2,6 L10,6" stroke="#384a73" stroke-width="2" />';
     } else {
         secondSearch.style.display = "none";
-        this.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" stroke="#384a73" stroke-width="2" />';
+        this.innerHTML = '<path d="M2,6 L10,6 M6,2 L6,10" stroke="#384a73" stroke-width="2" />';
+    }
+});
+thirdSearchHider.addEventListener('click', function() {
+    if (thirdSearch.style.display == "none") {
+        thirdSearch.style.display = "block";
+        this.innerHTML = '<path d="M2,6 L10,6" stroke="#384a73" stroke-width="2" />';
+    } else {
+        thirdSearch.style.display = "none";
+        this.innerHTML = '<path d="M2,6 L10,6 M6,2 L6,10" stroke="#384a73" stroke-width="2" />';
     }
 });
 
@@ -180,9 +204,12 @@ findall.addEventListener('change', function() {
 // ~~~ Column Selection 1 ~~~
 columnSelection.addEventListener('change', function() {
     var columnSelectionValue = this.value;
+    var columnSelectionValue2 = columnSelection2.value;
+    var columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue == "(None)") {
         // Enable all selections in the other column selection
         columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
+        columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
         // Disable all selections
         searchInput.value = "";
         searchInput.disabled = true;
@@ -215,11 +242,18 @@ columnSelection.addEventListener('change', function() {
         searchButton.disabled = false;
         searchButtonOutside.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
-            if (node.value !== columnSelectionValue) {
+            if (![columnSelectionValue, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
             } else {
                 // Disable the selected option in the other search
+                node.disabled = true;
+            }
+        });
+        columnSelection3.childNodes.forEach(function(node) {
+            if (![columnSelectionValue, columnSelectionValue2].includes(node.value)) {
+                node.disabled = false;
+            } else {
                 node.disabled = true;
             }
         });
@@ -294,10 +328,13 @@ findall2.addEventListener('change', function() {
 
 // ~~~ Column Selection 2 ~~~
 columnSelection2.addEventListener('change', function() {
+    var columnSelectionValue = columnSelection.value;
     var columnSelectionValue2 = this.value;
+    var columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue2 == "(None)") {
         // Enable all selections in the other column selection
         columnSelection.childNodes.forEach(function(node) { node.disabled = false; });
+        columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
         // Disable all selections
         searchInput2.value = "";
         searchInput2.disabled = true;
@@ -329,7 +366,16 @@ columnSelection2.addEventListener('change', function() {
         bgColorPicker2.disabled = false;
         searchButton.disabled = false;
         columnSelection.childNodes.forEach(function(node) {
-            if (node.value !== columnSelectionValue2) {
+            if (![columnSelectionValue2, columnSelectionValue3].includes(node.value)) {
+                // Enable all options in the other search
+                node.disabled = false;
+            } else {
+                // Disable the selected option in the other search
+                node.disabled = true;
+            }
+        });
+        columnSelection3.childNodes.forEach(function(node) {
+            if (![columnSelectionValue, columnSelectionValue2].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
             } else {
@@ -360,3 +406,129 @@ bgColorPicker2.addEventListener('change', function() {
     });
 });
 bgColorPickerDiv2.style.backgroundColor = bgColorPicker2.value;
+
+
+// ~~~~~~~~~~ SEARCH 3 ~~~~~~~~~~
+
+// ~~~ Search Type 3 ~~~
+// Selecting "Regex"... 
+// - selects "Case-sensitive"
+// - deselects and disables "Full word(s)"
+regexSelection3.addEventListener('change', function() {
+    if (this.checked) {
+        caseSensitive3.checked = true;
+        fullWords3.checked = false;
+        fullWords3.disabled = true;
+        matchWhere3.disabled = true;
+    } else {
+        caseSensitive3.checked = false;
+        fullWords3.checked = true;
+        fullWords3.disabled = false;
+        matchWhere3.disabled = false;
+    }
+});
+
+// ~~~ Concordance Cutoff 3 ~~~
+concordanceDisplay3.addEventListener('change', function() {
+    if (this.checked) {
+        concordanceCutoff3.disabled = false;
+    } else {
+        concordanceCutoff3.disabled = true;
+    }
+});
+
+// ~~~ Findall 3 ~~~
+findall3.addEventListener('change', function() {
+    if (this.checked) {
+        concordanceDisplay3.checked = false;
+        concordanceDisplay3.disabled = true;
+        concordanceCutoff3.disabled = true;
+        matchWhere3.value = "match-anywhere2";
+        matchWhere3.disabled = true;
+    } else {
+        concordanceDisplay3.disabled = false;
+        concordanceCutoff3.disabled = false;
+        matchWhere3.disabled = false;
+    }
+});
+
+// ~~~ Column Selection 3 ~~~
+columnSelection3.addEventListener('change', function() {
+    var columnSelectionValue = columnSelection.value;
+    var columnSelectionValue2 = columnSelection2.value;
+    var columnSelectionValue3 = this.value;
+    if (columnSelectionValue3 == "(None)") {
+        // Enable all selections in the other column selection
+        columnSelection.childNodes.forEach(function(node) { node.disabled = false; });
+        columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
+        // Disable all selections
+        searchInput3.value = "";
+        searchInput3.disabled = true;
+        regexSelection3.disabled = true;
+        fullWords3.disabled = true;
+        caseSensitive3.disabled = true;
+        matchWhere3.disabled = true;
+        findall3.disabled = true;
+        concordanceDisplay3.disabled = true;
+        concordanceCutoff3.disabled = true;
+        colorPickerDiv3.style.opacity = "0.3";
+        bgColorPickerDiv3.style.opacity = "0.3";
+        colorPicker3.disabled = true;
+        bgColorPicker3.disabled = true;
+        if (columnSelection.value == "(None)") { searchButton.disabled = true; }
+    } else {
+        // Enable all selections
+        searchInput3.disabled = false;
+        regexSelection3.disabled = false;
+        fullWords3.disabled = false;
+        caseSensitive3.disabled = false;
+        matchWhere3.disabled = false;
+        findall3.disabled = false;
+        concordanceDisplay3.disabled = false;
+        if (concordanceDisplay3.checked) { concordanceCutoff3.disabled = false; }
+        colorPickerDiv3.style.opacity = "1";
+        bgColorPickerDiv3.style.opacity = "1";
+        colorPicker3.disabled = false;
+        bgColorPicker3.disabled = false;
+        searchButton.disabled = false;
+        columnSelection.childNodes.forEach(function(node) {
+            if (![columnSelectionValue2, columnSelectionValue3].includes(node.value)) {
+                // Enable all options in the other search
+                node.disabled = false;
+            } else {
+                // Disable the selected option in the other search
+                node.disabled = true;
+            }
+        });
+        columnSelection2.childNodes.forEach(function(node) {
+            if (![columnSelectionValue, columnSelectionValue3].includes(node.value)) {
+                // Enable all options in the other search
+                node.disabled = false;
+            } else {
+                // Disable the selected option in the other search
+                node.disabled = true;
+            }
+        });
+    }
+});
+
+// ~~~ Color Pickers 3 ~~~
+colorPicker3.addEventListener('change', function() {
+    let newColor = colorPicker3.value;
+    colorPickerDiv3.style.backgroundColor = newColor;
+    var hilitedThrees = document.getElementsByClassName("hilite3");
+    Array.from(hilitedThrees).forEach((el) => {
+        el.style.color = newColor;
+    });
+});
+colorPickerDiv3.style.backgroundColor = colorPicker3.value;
+
+bgColorPicker3.addEventListener('change', function() {
+    let newColor = bgColorPicker3.value;
+    bgColorPickerDiv3.style.backgroundColor = newColor;
+    var hilitedThrees = document.getElementsByClassName("hilite3");
+    Array.from(hilitedThrees).forEach((el) => {
+        el.style.backgroundColor = newColor;
+    });
+});
+bgColorPickerDiv3.style.backgroundColor = bgColorPicker3.value;

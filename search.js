@@ -44,6 +44,17 @@ const concord = function () {
     var concordDisplayChecked2 = document.getElementById("concordance-display2").checked;
     var concordCutoffValue2 = document.getElementById("concordance-cutoff2").value;
 
+    var columnToSearchValue3 = document.getElementById("column-selection3").value;
+    var searchInputValue3 = document.getElementById("search-input3").value;
+    var regexChecked3 = document.getElementById("regex3").checked;
+    var fullWordsChecked3 = document.getElementById("full-words3").checked;
+    var caseSensitiveChecked3 = document.getElementById("case-sensitive3").checked;
+    var matchWhereValue3 = document.getElementById("match-where3").value;
+    var findallChecked3 = document.getElementById("findall3").checked;
+    var concordDisplayChecked3 = document.getElementById("concordance-display3").checked;
+    var concordCutoffValue3 = document.getElementById("concordance-cutoff3").value;
+
+    // ------ stopped adding 3's here
     var columnsToSearchValues = [columnToSearchValue1, columnToSearchValue2];
 
     // THIS CAN BE MOVED TO A GLOBALS FILE
@@ -352,7 +363,7 @@ const concord = function () {
         // Add sorter event listeners
         sorters = document.querySelectorAll(".sort");
         sorters.forEach((sorter) => {
-            sorter.addEventListener('mouseover', () => sorter.style.color = "red");
+            sorter.addEventListener('mouseover', () => sorter.style.color = "coral");
             sorter.addEventListener('mouseout', () => sorter.style.color = "steelblue");
             sorter.addEventListener('click', function(e) {
                 text = sorter.innerHTML;
