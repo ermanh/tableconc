@@ -16,6 +16,14 @@
         <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
         <input id="column-headers" type="checkbox" checked>
         <label id="column-headers-label" for="column-headers">Contains column headers</label>
+        <svg id="light-control" class="light-dark-controls is-light">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12,2 L12,4 M12,22 L12,20  M2,12 L4,12 M22,12 L20,12
+                     M7,7 L5,5 M17,17 L19,19    M17,7 L19,5 M7,17 L5,19" />
+        </svg>
+        <svg id="dark-control" class="light-dark-controls is-light">
+            <path d="M7,5 C 23,1 23,23 7,19 C 15,19 15,5 7,5"/>
+        </svg>
     </div>
     <div id="hide-controls-div">
         <div id="hide-controls" class="hiders">H I D E&nbsp;&nbsp;&nbsp;S E A R C H</div>

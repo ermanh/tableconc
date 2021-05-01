@@ -9,6 +9,8 @@ const searchButton = document.getElementById("search-button");
 const searchButtonOutside = document.getElementById("search-button-outside");
 const secondSearch = document.getElementById("second-search");
 const secondSearchHider = document.getElementById("second-search-hider");
+const lightControl = document.getElementById("light-control");
+const darkControl = document.getElementById("dark-control");
 
 const columnSelection = document.getElementById("column-selection");
 const searchInput = document.getElementById("search-input");
@@ -74,6 +76,54 @@ secondSearchHider.addEventListener('click', function(e) {
     } else {
         secondSearch.style.display = "none";
         this.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" stroke="#384a73" stroke-width="2" />';
+    }
+});
+
+// ~~~ Light/Dark Mode Control ~~~
+lightControl.addEventListener("mouseover", function() {
+    if (lightControl.classList.contains("is-dark")) {
+        lightControl.style.opacity = "1";
+    }
+});
+lightControl.addEventListener("mouseout", function() {
+    if (lightControl.classList.contains("is-dark")) {
+        lightControl.style.opacity = "0.5";
+    }
+});
+lightControl.addEventListener("click", function() {
+    if (lightControl.classList.contains("is-dark")) {
+        lightControl.classList.replace("is-dark", "is-light");
+        lightControl.style.backgroundColor = "steelblue";
+        lightControl.style.stroke = "khaki";
+        lightControl.style.fill = "khaki";
+        lightControl.style.opacity = "1";
+        darkControl.classList.replace("is-dark", "is-light");
+        darkControl.style.backgroundColor = "#384a73";
+        darkControl.style.fill = "orange";
+        darkControl.style.opacity = "0.5";
+    }
+});
+darkControl.addEventListener("mouseover", function() {
+    if (darkControl.classList.contains("is-light")) {
+        darkControl.style.opacity = "1";
+    }
+});
+darkControl.addEventListener("mouseout", function() {
+    if (darkControl.classList.contains("is-light")) {
+        darkControl.style.opacity = "0.5";
+    }
+});
+darkControl.addEventListener("click", function() {
+    if (darkControl.classList.contains("is-light")) {
+        darkControl.classList.replace("is-light", "is-dark");
+        darkControl.style.backgroundColor = "steelblue";
+        darkControl.style.fill = "khaki";
+        darkControl.style.opacity = "1";
+        lightControl.classList.replace("is-light", "is-dark");
+        lightControl.style.backgroundColor = "#384a73";
+        lightControl.style.stroke = "orange";
+        lightControl.style.fill = "orange";
+        lightControl.style.opacity = "0.5";
     }
 });
 

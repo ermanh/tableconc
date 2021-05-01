@@ -38,13 +38,48 @@ body {
 
 #banner {
     background-color: var(--banner-bg-color);
-    color: white;
+    color:white;
     padding: 15px 0 10px 23px;
 }
 
 #title {
     font-size: 1.75em;
     letter-spacing: 1px;
+}
+
+.light-dark-controls {
+    height: 24px;
+    width: 24px;
+    position: fixed;
+    top: 15px;
+    z-index: 1;
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
+
+}
+
+#light-control {
+    stroke: khaki;
+    stroke-width: 1px;
+    fill: khaki;
+    position: fixed;
+    right: 39px;
+    background-color: steelblue;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#dark-control {
+    stroke-width: 0px;
+    fill: orange;
+    opacity: 0.5;
+    right: 15px;
+    background-color: var(--controls-bg-color);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 table.controls-container td {
