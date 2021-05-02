@@ -8,7 +8,7 @@ const colors = {
         "tdBack": "#ffffff",        // white
         "picker1": "#ff0000",       // red
         "picker2": "#0c5eec",       // medium blue
-        "picker3": "#00FF7F",       // spring green
+        "picker3": "#00ff7f",       // spring green
         "bgPicker": "#ffffff",      // white
     }, 
     "dark": {
@@ -18,7 +18,7 @@ const colors = {
         "thBack": "#363636",        // darker gray
         "thBorder": "#808080",      // gray
         "tdBack": "#444444",        // dark gray
-        "picker1": "#ffff00",       // yellow
+        "picker1": "#ffda0d",       // cadmium yellow
         "picker2": "#00ffff",       // cyan
         "picker3": "#ff00ff",       // magenta
         "bgPicker": "#444444",      // dark gray
@@ -293,7 +293,7 @@ function enforceLightDarkMode() {
         }
         // pickers 3
         if (colorPicker3.value == colors.dark.picker3) {
-            colorPicker3.value = colors.light.picker3; 
+            colorPicker3.value = colors.light.picker3;
             colorPickerDiv3.style.backgroundColor = colors.light.picker3;
         }
         if (bgColorPicker3.value == colors.dark.bgPicker) { 
