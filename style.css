@@ -337,8 +337,9 @@ div.resize {
     -moz-user-select: none; 
     -khtml-user-select: none;
     -ms-user-select: none;
-    width: 3px;
+    width: 4px;
     height: 100%;
+    /* margin-right: -4px; */
 }
 
 div.sort {
