@@ -7,9 +7,8 @@
 //      - Improve column resizing aesthetics
 //      - Create own custom buttons
 //      - Cross-browser aesthetics
-//      - Move the hiders to banner to shorten length
+//      - Move the hiders to banner to shorten height
 // - Improve UX
-//      - Add third search
 //      - If search begins or ends with a space character, change background-highlight color
 // - (minor) Maybe allow users to paste in data
 // - ? Export results feature

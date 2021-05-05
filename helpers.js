@@ -8,8 +8,10 @@ const colors = {
         "tdBack": "#ffffff",        // white
         "picker1": "#ff0000",       // red
         "picker2": "#0c5eec",       // medium blue
-        "picker3": "#00ff7f",       // spring green
-        "bgPicker": "#ffffff",      // white
+        "picker3": "#008000",       // green
+        "bgPicker1": "#fcdad8",     // light red
+        "bgPicker2": "#d3e2fa",     // light blue
+        "bgPicker3": "#e0edd3"      // light green
     }, 
     "dark": {
         "fore": "#ffffff",          // white
@@ -21,7 +23,9 @@ const colors = {
         "picker1": "#ffda0d",       // cadmium yellow
         "picker2": "#00ffff",       // cyan
         "picker3": "#ff00ff",       // magenta
-        "bgPicker": "#444444",      // dark gray
+        "bgPicker1": "#37342e",     // dark yellow
+        "bgPicker2": "#2a373f",     // dark cyan
+        "bgPicker3": "#342a37"      // dark magenta
     }
 };
 
@@ -252,27 +256,27 @@ function enforceLightDarkMode() {
             colorPicker1.value = colors.dark.picker1; 
             colorPickerDiv1.style.backgroundColor = colors.dark.picker1;
         }
-        if (bgColorPicker1.value == colors.light.bgPicker) { 
-            bgColorPicker1.value = colors.dark.bgPicker; 
-            bgColorPickerDiv1.style.backgroundColor = colors.dark.bgPicker;
+        if (bgColorPicker1.value == colors.light.bgPicker1) { 
+            bgColorPicker1.value = colors.dark.bgPicker1; 
+            bgColorPickerDiv1.style.backgroundColor = colors.dark.bgPicker1;
         }
         // pickers 2
         if (colorPicker2.value == colors.light.picker2) {
             colorPicker2.value = colors.dark.picker2; 
             colorPickerDiv2.style.backgroundColor = colors.dark.picker2;
         }
-        if (bgColorPicker2.value == colors.light.bgPicker) { 
-            bgColorPicker2.value = colors.dark.bgPicker; 
-            bgColorPickerDiv2.style.backgroundColor = colors.dark.bgPicker;
+        if (bgColorPicker2.value == colors.light.bgPicker2) { 
+            bgColorPicker2.value = colors.dark.bgPicker2; 
+            bgColorPickerDiv2.style.backgroundColor = colors.dark.bgPicker2;
         }
         // pickers 3
         if (colorPicker3.value == colors.light.picker3) {
             colorPicker3.value = colors.dark.picker3; 
             colorPickerDiv3.style.backgroundColor = colors.dark.picker3;
         }
-        if (bgColorPicker3.value == colors.light.bgPicker) { 
-            bgColorPicker3.value = colors.dark.bgPicker; 
-            bgColorPickerDiv3.style.backgroundColor = colors.dark.bgPicker;
+        if (bgColorPicker3.value == colors.light.bgPicker3) { 
+            bgColorPicker3.value = colors.dark.bgPicker3; 
+            bgColorPickerDiv3.style.backgroundColor = colors.dark.bgPicker3;
         }
     } else {
         // pickers 1
@@ -280,27 +284,27 @@ function enforceLightDarkMode() {
             colorPicker1.value = colors.light.picker1; 
             colorPickerDiv1.style.backgroundColor = colors.light.picker1;
         }
-        if (bgColorPicker1.value == colors.dark.bgPicker) { 
-            bgColorPicker1.value = colors.light.bgPicker; 
-            bgColorPickerDiv1.style.backgroundColor = colors.light.bgPicker;
+        if (bgColorPicker1.value == colors.dark.bgPicker1) { 
+            bgColorPicker1.value = colors.light.bgPicker1; 
+            bgColorPickerDiv1.style.backgroundColor = colors.light.bgPicker1;
         }
         // pickers 2
         if (colorPicker2.value == colors.dark.picker2) {
             colorPicker2.value = colors.light.picker2; 
             colorPickerDiv2.style.backgroundColor = colors.light.picker2;
         }
-        if (bgColorPicker2.value == colors.dark.bgPicker) { 
-            bgColorPicker2.value = colors.light.bgPicker; 
-            bgColorPickerDiv2.style.backgroundColor = colors.light.bgPicker;
+        if (bgColorPicker2.value == colors.dark.bgPicker2) { 
+            bgColorPicker2.value = colors.light.bgPicker2; 
+            bgColorPickerDiv2.style.backgroundColor = colors.light.bgPicker2;
         }
         // pickers 3
         if (colorPicker3.value == colors.dark.picker3) {
             colorPicker3.value = colors.light.picker3;
             colorPickerDiv3.style.backgroundColor = colors.light.picker3;
         }
-        if (bgColorPicker3.value == colors.dark.bgPicker) { 
-            bgColorPicker3.value = colors.light.bgPicker; 
-            bgColorPickerDiv3.style.backgroundColor = colors.light.bgPicker;
+        if (bgColorPicker3.value == colors.dark.bgPicker3) { 
+            bgColorPicker3.value = colors.light.bgPicker3; 
+            bgColorPickerDiv3.style.backgroundColor = colors.light.bgPicker3;
         }
     }
 }
