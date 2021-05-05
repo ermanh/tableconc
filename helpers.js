@@ -186,7 +186,6 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
 
 function sortRows(columnToSort, order) {
     rows = document.querySelectorAll('tr.sortable-row');
-    // rows = d3.selectAll('tr.sortable-row');
     newRows = Array();
     Array.from(rows).forEach((row) => {
         newRow = Array.from(row.children);

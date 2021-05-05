@@ -63,7 +63,6 @@ const concord = function () {
     for (let i = 0; i < columnNames.length; i++) {
         columnObject[columnNames[i]] = i;
     }
-    // console.log(JSON.stringify(columnObject));
     var matchedRows1 = Array();  // the rows where there is a match
     var searchColumnIndex1 = columnObject[columnToSearchValue1];  // index of the searched column
     var matchedRows2 = Array();
@@ -410,9 +409,9 @@ const concord = function () {
             }
         });
         
-        console.log('columnsToDisplay | selectedColumns');
-        console.log(JSON.stringify(columnsToDisplay));
-        console.log(JSON.stringify(selectedColumns));
+        // console.log('columnsToDisplay | selectedColumns');
+        // console.log(JSON.stringify(columnsToDisplay));
+        // console.log(JSON.stringify(selectedColumns));
 
         // Results
         matchedRows.forEach((index, resultIndex) => {
@@ -422,22 +421,22 @@ const concord = function () {
                     // Add result index
                     let row = JSON.parse(JSON.stringify(newData[index]));
                     row.unshift(String(resultIndex + 1));
-                    row = row.map(function(d, j) {
-                        if (j !== 0) {
-                            if (columnsToSearchValues.includes(columnNames[j - 1])) {
-                                return d;
-                            } else {
-                                return escapeHTML(d);
-                            }
-                        } else {
-                            return d;
-                        }
-                    }).filter(function(d, j) { 
+                    // row = row.map(function(d, j) {
+                    //     if (j !== 0) {
+                    //         if (columnsToSearchValues.includes(columnNames[j - 1])) {
+                    //             return d;
+                    //         } else {
+                    //             return d;
+                    //             // return escapeHTML(d);
+                    //         }
+                    //     } else {
+                    //         return d;
+                    //     }
+                    row = row.filter(function(d, j) { 
                         if (selectedColumns[j]) { return d; }
                     });
                     return row;
-                }
-                ).enter()
+                }).enter()
                 .append("td")
                 .attr("class", function(d, i) {
                     return (i !== 0) ? "results-td" : "result-index";
@@ -502,7 +501,7 @@ const concord = function () {
             }
         }
         if (searchInputValue3 !== "") {
-            resultText = resultText + ` "${searchInputValue3}"`;
+            resultText = resultText + `"${searchInputValue3}"`;
         }
         resultsNumber.text("");
         setTimeout(
@@ -510,7 +509,6 @@ const concord = function () {
             resultsNumberTimeout
         );
     }
-
 
     console.log("FINAL columnToSearchValue1", columnToSearchValue1);
     console.log("FINAL columnToSearchValue2", columnToSearchValue2);

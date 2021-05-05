@@ -443,7 +443,7 @@ findall3.addEventListener('change', function() {
         concordanceDisplay3.checked = false;
         concordanceDisplay3.disabled = true;
         concordanceCutoff3.disabled = true;
-        matchWhere3.value = "match-anywhere2";
+        matchWhere3.value = "match-anywhere3";
         matchWhere3.disabled = true;
     } else {
         concordanceDisplay3.disabled = false;
