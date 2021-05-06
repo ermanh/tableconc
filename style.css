@@ -325,13 +325,11 @@ td.results-td {
     background-color: var(--hilite-bg-color-3);
 }
 
-div.resize-right {
-    /* TODO: Make resizable "handle" more attractive, use hoverover tricks */
+div.resize-right, div.resize-left {
     background-color: lightgoldenrodyellow;
     opacity: 0.25;
     cursor: col-resize;
     position: absolute;
-    right: 0;
     top: 0;
     user-select: none;
     -webkit-user-select: none; 
@@ -340,24 +338,15 @@ div.resize-right {
     -ms-user-select: none;
     width: 3px;
     height: 100%;
+}
+
+div.resize-right {
+    right: 0;
     margin-right: -1px;
-    /* margin-right: -4px; */
 }
 
 div.resize-left {
-    background-color: lightgoldenrodyellow;
-    opacity: 0.25;
-    cursor: col-resize;
-    position: absolute;
     left: 0;
-    top: 0;
-    user-select: none;
-    -webkit-user-select: none; 
-    -moz-user-select: none; 
-    -khtml-user-select: none;
-    -ms-user-select: none;
-    width: 3px;
-    height: 100%;
     margin-left: -1px;
 }
 

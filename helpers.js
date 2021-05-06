@@ -30,8 +30,6 @@ const colors = {
 };
 
 function makeResizable(div, adjacentIsRight) {
-    // TODO: Can improve to prevent non-party columns from auto-resizing
-    //       when past point of being able to resize current column
     var position, thisColumn, adjacentColumn, thisWidth, adjacentWidth;
 
     var mousemoveListener = function(e) {
@@ -57,7 +55,6 @@ function makeResizable(div, adjacentIsRight) {
         document.addEventListener('mousemove', mousemoveListener);
         document.addEventListener('mouseup', mouseupListener);
     });
-
 }
 
 function escapeHTML(string) {
