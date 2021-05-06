@@ -29,15 +29,15 @@ const colors = {
     }
 };
 
-function makeResizable(div) {
+function makeResizable(div, adjacentIsRight) {
     // TODO: Can improve to prevent non-party columns from auto-resizing
     //       when past point of being able to resize current column
-    var position, thisColumn, nextColumn, thisWidth, nextWidth;
+    var position, thisColumn, adjacentColumn, thisWidth, adjacentWidth;
 
     var mousemoveListener = function(e) {
-        var traveled = e.pageX - position;
+        var traveled = adjacentIsRight ? e.pageX - position : position - e.pageX;
         thisColumn.style.width = `${thisWidth + traveled}px`;
-        nextColumn.style.width = `${nextWidth - traveled}px`; 
+        adjacentColumn.style.width = `${adjacentWidth - traveled}px`; 
     };
 
     var mouseupListener = function() {
@@ -51,9 +51,9 @@ function makeResizable(div) {
         document.getElementsByTagName("body")[0].style.cursor = "col-resize";
         position = e.pageX;
         thisColumn = div.parentElement;
-        nextColumn = thisColumn.nextElementSibling;
+        adjacentColumn = adjacentIsRight ? thisColumn.nextElementSibling : thisColumn.previousElementSibling;
         thisWidth = thisColumn.offsetWidth;
-        nextWidth = nextColumn.offsetWidth;
+        adjacentWidth = adjacentColumn.offsetWidth;
         document.addEventListener('mousemove', mousemoveListener);
         document.addEventListener('mouseup', mouseupListener);
     });

@@ -4,12 +4,10 @@
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
 // - Improve UI aesthetics/format/style
-//      - Improve column resizing aesthetics
 //      - Create own custom buttons
 //      - Cross-browser aesthetics
 //      - Move the hiders to banner to shorten height
-// - Improve UX
-//      - If search begins or ends with a space character, change background-highlight color
+//      - make mobile-friendly
 // - (minor) Maybe allow users to paste in data
 // - ? Export results feature
 // - Bugs
@@ -321,17 +319,6 @@ const concord = function () {
             matchedRows = matchedRows3;
         }
     }
-    // if (searchInputValue1 !== "" && searchInputValue2 == "" && searchInputValue3 == "") {
-    //     matchedRows = matchedRows1;
-    // } else if (searchInputValue1 == "" && searchInputValue2 !== "" && searchInputValue3 == "") {
-    //     matchedRows = matchedRows2;
-    // } else if (searchInputValue1 == "" && searchInputValue2 == "" && searchInputValue3 !== "") {
-    //     matchedRows = matchedRows3;
-    // } else if (searchInputValue1 !== "" && searchInputValue2 !== "") {
-    //     matchedRows = matchedRows1.filter(x => { 
-    //         return matchedRows2.includes(x); 
-    //     });
-    // }
 
     // Pad strings to be displayed
     if (matchedRows.length > 0) {
@@ -399,12 +386,20 @@ const concord = function () {
         })
         .html(function(d, i) { 
             // Add resize controller divs in header row
-            if (i == columnsToDisplay.length - 1) {
-                return `<pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div>`;
-            } else if (i == 0) {
+            if (i == 0) {
                 return d;
+            } else if (i == 1) {
+                if (i == columnsToDisplay.length - 1) {
+                    return `<pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div>`; 
+                } else {
+                    return `<pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div><div class="resize-right"></div>`; 
+                }
             } else {
-                return `<pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div><div class="resize"></div>`; 
+                if (i !== columnsToDisplay.length - 1) {
+                    return `<div class="resize-left"></div><pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div><div class="resize-right"></div>`; 
+                } else {
+                    return `<div class="resize-left"></div><pre>${d}</pre><div class="sort" id="i${i}">`;
+                }
             }
         });
         
@@ -444,8 +439,11 @@ const concord = function () {
         }); 
 
         // Add resize event listeners
-        document.querySelectorAll("div.resize").forEach((div) => {
-            makeResizable(div);
+        document.querySelectorAll("div.resize-right").forEach((div) => {
+            makeResizable(div, adjacentIsRight=true);
+        });
+        document.querySelectorAll("div.resize-left").forEach((div) => {
+            makeResizable(div, adjacentIsRight=false);
         });
         // Add sorter event listeners
         sorters = document.querySelectorAll(".sort");
