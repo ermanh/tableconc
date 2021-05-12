@@ -10,6 +10,7 @@
 //      - make mobile-friendly
 // - (minor) Maybe allow users to paste in data
 // - ? Export results feature
+// - Accept JSON and XML files
 // - Bugs
 //      - sorting doesn't work on Chrome
 

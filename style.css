@@ -43,12 +43,16 @@ body {
 #banner {
     background-color: var(--banner-bg-color);
     color:white;
-    padding: 18px 0 15px 23px;
+    padding: 12px 0 10px 23px;
 }
 
 #title {
-    font-size: 2em;
+    font-size: 1.5em;
     letter-spacing: 1px;
+}
+
+#column-headers-label {
+    font-size: 0.85em;
 }
 
 .light-dark-controls {
@@ -108,6 +112,29 @@ table.controls-container td {
     padding: 5px 0px;
     /* border-top-left-radius: 5px;
     border-top-right-radius: 5px; */
+}
+
+#hide-controls-new, #hide-column-controls-new {
+    height: 24px;
+    width: 24px;
+    background-color: lightsteelblue;
+    border-radius: 5px;
+    position: fixed;
+    top: 15px;
+    z-index: 100;
+    user-select: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+
+#hide-controls-new {
+    right: 107px;
+}
+
+#hide-column-controls-new {
+    right: 73px;
 }
 
 #hide-controls {

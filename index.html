@@ -12,10 +12,16 @@
 <body><div id="non-results">
     <div id="banner">
         <text id="title">TableConc</text>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input id="choose-file" type="file" accept=".csv,.tsv,.txt">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="choose-file" type="file" accept=".csv,.tsv,.txt,.json,.xml" style="width:200px;">
         <input id="column-headers" type="checkbox" checked>
-        <label id="column-headers-label" for="column-headers">Contains column headers</label>
+        <label id="column-headers-label" for="column-headers">Contains headers</label>
+        <svg id="hide-controls-new">
+            
+        </svg>
+        <svg id="hide-column-controls-new">
+
+        </svg>
         <svg id="light-control" class="light-dark-controls is-light">
             <circle cx="12" cy="12" r="5" />
             <path d="M12,2 L12,4 M12,22 L12,20  M2,12 L4,12 M22,12 L20,12
@@ -252,8 +258,23 @@
     <script src="helpers.js" charset="utf-8"></script>
     <script src="filehandler.js" charset="utf-8"></script>
     <script src="formlisteners.js" charset="utf-8"></script>
-    <!-- <script src="formlisteners2.js" charset="utf-8"></script> -->
     <script src="search.js" charset="utf-8"></script>
+
+    <script>
+        var json = [
+            { "One": "aaa", "Two": "bbb", "Three": "ccc" },
+            { "One": "abc", "Two": "bca", "Three": "cab" },
+            { "One": "abd", "Two": "bda", "Three": "cdb" },
+            { "One": "abd", "Two": "bda", "Three": "cdb", "Four": "Something new!" }
+        ]
+        var fields = Object.keys(json[3]); // need to check all fields
+        var replace = function(key, value) { return value === null ? '' : value }
+        var data = json.map(function(row) {
+            return fields.map(function(fieldName) { return row[fieldName] ? row[fieldName] : "" }); 
+        });
+        data.unshift(fields);
+        console.log(JSON.stringify(data));
+    </script>
 
 </div></body>
 
