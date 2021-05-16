@@ -11,30 +11,37 @@
 
 <body><div id="non-results">
     <div id="banner">
-        <text id="title">TableConc</text>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <!-- <text id="title"></text>
+        &nbsp;&nbsp; -->
+        <div id="light-container">
+            <svg id="light-control" class="light-dark-controls is-light">
+                <circle cx="12" cy="12" r="5" />
+                <path d="M12,2 L12,4 M12,22 L12,20  M2,12 L4,12 M22,12 L20,12
+                                         M7,7 L5,5 M17,17 L19,19    M17,7 L19,5 M7,17 L5,19" />
+            </svg>
+        </div>
+        <div id="dark-container">
+            <svg id="dark-control" class="light-dark-controls is-light">
+                <path d="M7,5 C 23,1 23,23 7,19 C 15,19 15,5 7,5" />
+            </svg>
+        </div>
+        <div class="control-container">
+            <svg id="hide-controls">
+                <circle cx="10" cy="10" r="5" />
+                <path d="M19,19 L13,13" />
+            </svg>
+        </div>
+        <div class="control-container">
+            <svg id="hide-column-controls">
+                <rect x="5" y="5" width="7" height="14" />
+                <rect x="12" y="5" width="7" height="14" />
+            </svg>
+        </div>
+        &nbsp;&nbsp;
         <input id="choose-file" type="file" accept=".csv,.tsv,.txt,.json,.xml" style="width:200px;">
         <input id="column-headers" type="checkbox" checked>
         <label id="column-headers-label" for="column-headers">Contains headers</label>
-        <svg id="hide-controls-new">
-            
-        </svg>
-        <svg id="hide-column-controls-new">
-
-        </svg>
-        <svg id="light-control" class="light-dark-controls is-light">
-            <circle cx="12" cy="12" r="5" />
-            <path d="M12,2 L12,4 M12,22 L12,20  M2,12 L4,12 M22,12 L20,12
-                     M7,7 L5,5 M17,17 L19,19    M17,7 L19,5 M7,17 L5,19" />
-        </svg>
-        <svg id="dark-control" class="light-dark-controls is-light">
-            <path d="M7,5 C 23,1 23,23 7,19 C 15,19 15,5 7,5"/>
-        </svg>
-    </div>
-    <div id="hide-controls-div">
-        <div id="hide-controls" class="hiders">H I D E&nbsp;&nbsp;&nbsp;S E A R C H</div>
-        <div id="hide-column-controls" class="hiders">H I D E&nbsp;&nbsp;&nbsp;C O L U M N S</div>
-        <div id="results-number" class="hiders"></div>
+        
     </div>
     <div id="controls">
         <form id="search-box" onsubmit="return false;">
@@ -43,12 +50,12 @@
                     <td class="controls-first-column">
                         <div>
                             <svg id="second-search-hider" height="12" width="12">
-                                <path d="M2,6 L10,6 M6,2 L6,10" stroke="#384a73" stroke-width="2" />
+                                <path d="M1,6 L11,6 M6,1 L6,11" />
                             </svg>
                         </div>
                         <div>
                             <svg id="third-search-hider" height="12" width="12">
-                                <path d="M2,6 L10,6 M6,2 L6,10" stroke="#384a73" stroke-width="2" />
+                                <path d="M1,6 L11,6 M6,1 L6,11" />
                             </svg>
                         </div>
                     </td>
@@ -244,6 +251,7 @@
         <text id="columns-to-show"></text>
     </div>
     <div id="results">
+        <div id="results-number"></div>
         <table id="results-table">
         </table>
     </div>

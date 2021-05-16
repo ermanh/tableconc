@@ -32,18 +32,18 @@ body {
 }
 
 #results-number {
-    padding-left: 15px;
+    padding: 8px 10px 8px 10px;
     display: inline-block;
-    font-family: 'Times New Roman', Times, serif;
+    /* font-family: 'Times New Roman', Times, serif; */
     font-size: 0.9em;
     font-weight: 300;
-    margin: -5px 0;
+    color: #303030;
 }
 
 #banner {
     background-color: var(--banner-bg-color);
     color:white;
-    padding: 12px 0 10px 23px;
+    padding: 12px 0 15px 10px;
 }
 
 #title {
@@ -55,12 +55,27 @@ body {
     font-size: 0.85em;
 }
 
+#light-container, #dark-container {
+    padding: 0;
+    width: 24px;
+    display: inline-block;
+}
+
+#light-container {
+    margin-left: 5px;
+    margin-right: -3px;
+}
+
+#dark-container {
+    margin-right: 5px;
+    margin-left: -2px;
+}
+
 .light-dark-controls {
     height: 24px;
     width: 24px;
     position: fixed;
-    top: 15px;
-    z-index: 100;
+    top: 13px;
     user-select: none; 
     -webkit-user-select: none; 
     -moz-user-select: none; 
@@ -73,8 +88,7 @@ body {
     stroke: khaki;
     stroke-width: 1px;
     fill: khaki;
-    position: fixed;
-    right: 39px;
+    z-index: 101;
     background-color: steelblue;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -83,8 +97,7 @@ body {
 #dark-control {
     stroke-width: 0px;
     fill: orange;
-    opacity: 0.5;
-    right: 15px;
+    z-index: 100;
     background-color: var(--controls-bg-color);
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -100,10 +113,6 @@ table.controls-container td {
     color: white;
 }
 
-#hide-controls-div {
-    background-color: var(--banner-bg-color);
-}
-
 .hiders {
     color: lightblue;
     text-align: center;
@@ -114,62 +123,39 @@ table.controls-container td {
     border-top-right-radius: 5px; */
 }
 
-#hide-controls-new, #hide-column-controls-new {
+.control-container {
+    padding: 0;
+    width: 28px;
+    display: inline-block;
+}
+
+#hide-controls, #hide-column-controls {
     height: 24px;
     width: 24px;
-    background-color: lightsteelblue;
     border-radius: 5px;
+    margin-top: 0;
     position: fixed;
-    top: 15px;
-    z-index: 100;
+    top: 13px;
     user-select: none; 
+    stroke: lightsteelblue;
+    stroke-width: 2px;
+    fill: none;
     -webkit-user-select: none; 
     -moz-user-select: none; 
     -khtml-user-select: none;
     -ms-user-select: none;
-}
-
-#hide-controls-new {
-    right: 107px;
-}
-
-#hide-column-controls-new {
-    right: 73px;
 }
 
 #hide-controls {
     background-color: var(--controls-bg-color);
-    width: 145px;
-    display:inline-block;
-    height: 12px;
-    user-select: none; 
-    -webkit-user-select: none; 
-    -moz-user-select: none; 
-    -khtml-user-select: none;
-    -ms-user-select: none;
-}
-
-#hide-controls:hover {
-    background-color: var(--hiders-hover-bg-color);
-    color: var(--controls-bg-color);
 }
 
 #hide-column-controls {
     background-color: var(--column-controls-bg-color);
-    width: 145px;
-    display:inline-block;
-    height: 12px;
-    margin-left: -5px;
-    user-select: none; 
-    -webkit-user-select: none; 
-    -moz-user-select: none; 
-    -khtml-user-select: none;
-    -ms-user-select: none;
 }
 
-#hide-column-controls:hover {
-    background-color: var(--hiders-hover-bg-color);
-    color: var(--controls-bg-color);
+#hide-controls:hover, #hide-column-controls:hover {
+    border: 1px solid lightsteelblue;
 }
 
 .controls-first-column {
@@ -182,9 +168,11 @@ table.controls-container td {
 }
 
 #second-search-hider, #third-search-hider {
-    background-color: var(--hiders-hover-bg-color);
+    /* background-color: var(--hiders-hover-bg-color); */
     border-radius: 2px;
-    color: var(--banner-bg-color);
+    border: 1px solid white;
+    /* color: var(--banner-bg-color); */
+    stroke-width: 2px;
     width: 12px;
     height: 12px;
     margin: 1px 0 1px;
@@ -195,6 +183,16 @@ table.controls-container td {
     -moz-user-select: none; 
     -khtml-user-select: none;
     -ms-user-select: none;
+}
+
+#second-search-hider {
+    stroke: #0c5eec;
+    background-color: #d3e2fa;
+}
+
+#third-search-hider {
+    stroke: #008000;
+    background-color: #e0edd3;
 }
 
 #second-search-hider path, #third-search-hider path {
@@ -261,7 +259,7 @@ div.section {
     background-color: var(--column-controls-bg-color);
     color: white;
     /* padding-left: 34px; */
-    padding: 7px 0 7px 27px;
+    padding: 8px 0 8px 27px;
     margin: 0;
 }
 
@@ -323,7 +321,7 @@ th {
     position: sticky;
     top: 0;
     padding: 3px 12px;
-    border: 0.5px solid lightgray;
+    border: 1px solid lightgray;
     border-collapse: collapse;
     z-index: 99;
 }

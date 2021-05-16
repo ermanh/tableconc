@@ -66,40 +66,40 @@ columnHeaders.addEventListener('change', function() {
 hideControls.addEventListener('click', function() {
     if (controls.style.display != 'none') {
         controls.style.display = 'none';
-        hideControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;S E A R C H';
+        // hideControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;S E A R C H';
     } else {
         controls.style.display = 'block';
-        hideControls.innerHTML = 'H I D E&nbsp;&nbsp;&nbsp;S E A R C H';
+        // hideControls.innerHTML = 'H I D E&nbsp;&nbsp;&nbsp;S E A R C H';
     }
     
 });
 hideColumnControls.addEventListener('click', function() {
     if (columnControls.style.display != 'none') {
         columnControls.style.display = 'none';
-        hideColumnControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;C O L U M N S';
+        // hideColumnControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;C O L U M N S';
     } else {
         columnControls.style.display = 'block';
-        hideColumnControls.innerHTML = 'H I D E&nbsp;&nbsp;&nbsp;C O L U M N S';
+        // hideColumnControls.innerHTML = 'H I D E&nbsp;&nbsp;&nbsp;C O L U M N S';
     }
 });
 
 // ~~~ Second & Third Search Hiders ~~~
 secondSearchHider.addEventListener('click', function() {
-    if (secondSearch.style.display == "none") {
-        secondSearch.style.display = "block";
-        this.innerHTML = '<path d="M2,6 L10,6" stroke="#384a73" stroke-width="2" />';
-    } else {
+    if (secondSearch.style.display == "block") {
         secondSearch.style.display = "none";
-        this.innerHTML = '<path d="M2,6 L10,6 M6,2 L6,10" stroke="#384a73" stroke-width="2" />';
+        this.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" />';
+    } else {
+        secondSearch.style.display = "block";
+        this.innerHTML = '<path d="M1,6 L11,6" />';
     }
 });
 thirdSearchHider.addEventListener('click', function() {
-    if (thirdSearch.style.display == "none") {
-        thirdSearch.style.display = "block";
-        this.innerHTML = '<path d="M2,6 L10,6" stroke="#384a73" stroke-width="2" />';
-    } else {
+    if (thirdSearch.style.display == "block") {
         thirdSearch.style.display = "none";
-        this.innerHTML = '<path d="M2,6 L10,6 M6,2 L6,10" stroke="#384a73" stroke-width="2" />';
+        this.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" />';
+    } else {
+        thirdSearch.style.display = "block";
+        this.innerHTML = '<path d="M1,6 L11,6" />';
     }
 });
 
@@ -394,6 +394,7 @@ colorPicker2.addEventListener('change', function() {
     Array.from(hilitedTwos).forEach((el) => {
         el.style.color = newColor;
     });
+    secondSearchHider.style.stroke = newColor;
 });
 colorPickerDiv2.style.backgroundColor = colorPicker2.value;
 
@@ -404,6 +405,7 @@ bgColorPicker2.addEventListener('change', function() {
     Array.from(hilitedTwos).forEach((el) => {
         el.style.backgroundColor = newColor;
     });
+    secondSearchHider.style.backgroundColor = newColor;
 });
 bgColorPickerDiv2.style.backgroundColor = bgColorPicker2.value;
 
@@ -520,6 +522,7 @@ colorPicker3.addEventListener('change', function() {
     Array.from(hilitedThrees).forEach((el) => {
         el.style.color = newColor;
     });
+    thirdSearchHider.style.stroke = newColor;
 });
 colorPickerDiv3.style.backgroundColor = colorPicker3.value;
 
@@ -530,5 +533,6 @@ bgColorPicker3.addEventListener('change', function() {
     Array.from(hilitedThrees).forEach((el) => {
         el.style.backgroundColor = newColor;
     });
+    thirdSearchHider.style.backgroundColor = newColor;
 });
 bgColorPickerDiv3.style.backgroundColor = bgColorPicker3.value;
