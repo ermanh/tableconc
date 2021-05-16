@@ -4,7 +4,7 @@ const colors = {
         "back": "#b0c4de",          // lightsteelblue
         "thFore": "#2a3347",        // --banner-bg-color
         "thBack": "#b0c4de",        // lightsteelblue
-        "thBorder": "#d3d3d3",      // lightgray
+        "thBorder": "#ffffff",      // white
         "tdBack": "#ffffff",        // white
         "picker1": "#ff0000",       // red
         "picker2": "#0c5eec",       // medium blue
@@ -237,11 +237,12 @@ function enforceLightDarkMode() {
     document.body.style.backgroundColor = isDark ? colors.dark.back : colors.light.back;
     document.body.style.color = isDark ? colors.dark.fore : colors.light.fore;
     document.getElementById("results").style.color = isDark ? colors.dark.fore : colors.light.fore;
+    document.getElementById("results-number").style.color = isDark ? "#b0c4de" : "#303030";
     sortableTH = document.getElementsByClassName("sortable");
     Array.from(sortableTH).forEach((th) => {
         th.style.backgroundColor = isDark ? colors.dark.thBack : colors.light.thBack;
         th.style.color = isDark ? colors.dark.thFore : colors.light.thFore;
-        th.style.border = isDark ? `0.5px solid ${colors.dark.thBorder}` : `0.5px solid ${colors.light.thBorder}`;
+        th.style.border = isDark ? `2px solid ${colors.dark.thBorder}` : `1px solid ${colors.light.thBorder}`;
     });
     resultsTD = document.getElementsByClassName("results-td");
     Array.from(resultsTD).forEach((cell) => {
