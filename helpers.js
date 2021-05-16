@@ -175,8 +175,8 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
             padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
         }
         
-        padStart = padStart + " "; // Add breaking space
-        padEnd = " " + padEnd; // Add breaking space
+        padStart = (padStart !== "") ? padStart.slice(0, padStart.length-6) + " " : padStart; // Add breaking space
+        padEnd = (padEnd !== "") ? " " + padEnd.slice(6) : padEnd; // Add breaking space
         newHtml = html.slice(sliceStartIndex, sliceEndIndex);
         hilited = hilitedRE.exec(newHtml);
         beforeHilited = escapeHTML(newHtml.slice(0, hilited.index));

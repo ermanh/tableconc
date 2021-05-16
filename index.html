@@ -39,9 +39,6 @@
         </div>
         &nbsp;&nbsp;
         <input id="choose-file" type="file" accept=".csv,.tsv,.txt,.json,.xml" style="width:200px;">
-        <input id="column-headers" type="checkbox" checked>
-        <label id="column-headers-label" for="column-headers">Contains headers</label>
-        
     </div>
     <div id="controls">
         <form id="search-box" onsubmit="return false;">
@@ -245,10 +242,22 @@
         </form>
     </div>
     <div id="columnselect">
-        <button id="search-button-outside" form="search-box" disabled>
-            Reset</button>
-        &nbsp;Display columns:&nbsp;&nbsp;&nbsp;&nbsp;
-        <text id="columns-to-show"></text>
+        <table>
+            <tr>
+                <td>
+                    <button id="search-button-outside" form="search-box" disabled>
+                        Reset</button>
+                </td>
+                <td style="border-right: 0.5px solid white;">
+                    <input id="column-headers" type="checkbox" checked>
+                    <label id="column-headers-label" for="column-headers">Contains headers</label>
+                </td>
+                <td>
+                    &nbsp;&nbsp;Display columns:&nbsp;
+                    <text id="columns-to-show"></text>
+                </td>
+            </tr>
+        </table>
     </div>
     <div id="results">
         <div id="results-number"></div>

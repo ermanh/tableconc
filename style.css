@@ -51,10 +51,6 @@ body {
     letter-spacing: 1px;
 }
 
-#column-headers-label {
-    font-size: 0.85em;
-}
-
 #light-container, #dark-container {
     padding: 0;
     width: 24px;
