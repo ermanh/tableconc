@@ -232,9 +232,9 @@ input[type="checkbox"]:disabled + label {
     color: gray;
 }
 
-select[for="match-where"]:disabled + label {
+/* select[for="match-where-1"]:disabled + label {
     color: gray;
-}
+} */
 
 column-names, output {
     display: block;
@@ -255,7 +255,7 @@ div.section {
     background-color: var(--column-controls-bg-color);
     color: white;
     /* padding-left: 34px; */
-    padding: 8px 0 8px 27px;
+    padding: 8px 0 8px 22px;
     margin: 0;
 }
 
@@ -419,14 +419,14 @@ td#search-logic {
     margin-left: 25px;
 }
 
-#search-input, #search-input2, #search-input3 {
+#search-input-1, #search-input-2, #search-input-3 {
     font-size: 0.8em;
     border-radius: 0.5em;
     width: 250px;
     margin: 5px 0;
 }
 
-#search-input:disabled, #search-input2:disabled, #search-input3:disabled {
+#search-input-1:disabled, #search-input-2:disabled, #search-input-3:disabled {
     background-color: lightgray;
 }
 

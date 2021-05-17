@@ -20,20 +20,20 @@ const readFile = function () {
         var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { return `Column ${i + 1}`; });
 
         // populate drop-down menu
-        d3.select("#column-selection").html("");  // clear menu
-        d3.select("#column-selection2").html("");  // clear menu
-        d3.select("#column-selection3").html("");  // clear menu
-        d3.select("#column-selection").selectAll("option")
+        d3.select("#column-selection-1").html("");  // clear menu
+        d3.select("#column-selection-2").html("");  // clear menu
+        d3.select("#column-selection-3").html("");  // clear menu
+        d3.select("#column-selection-1").selectAll("option")
             .data(["(None)"].concat(columnNames)).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });
-        d3.select("#column-selection2").selectAll("option")
+        d3.select("#column-selection-2").selectAll("option")
             .data(["(None)"].concat(columnNames)).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });
-        d3.select("#column-selection3").selectAll("option")
+        d3.select("#column-selection-3").selectAll("option")
             .data(["(None)"].concat(columnNames)).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })

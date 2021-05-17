@@ -1,61 +1,3 @@
-// ~~~~~~~~~~ All Elements ~~~~~~~~~~
-const controls = document.getElementById("controls");
-const hideControls = document.getElementById("hide-controls");
-const columnControls = document.getElementById("columnselect");
-const hideColumnControls = document.getElementById("hide-column-controls");
-const chooseFile = document.getElementById("choose-file");
-const columnHeaders = document.getElementById("column-headers");
-const searchButton = document.getElementById("search-button");
-const searchButtonOutside = document.getElementById("search-button-outside");
-const secondSearch = document.getElementById("second-search");
-const secondSearchHider = document.getElementById("second-search-hider");
-const thirdSearch = document.getElementById("third-search");
-const thirdSearchHider = document.getElementById("third-search-hider");
-const lightControl = document.getElementById("light-control");
-const darkControl = document.getElementById("dark-control");
-
-const columnSelection = document.getElementById("column-selection");
-const searchInput = document.getElementById("search-input");
-const regexSelection = document.getElementById("regex");
-const fullWords = document.getElementById("full-words");
-const caseSensitive = document.getElementById("case-sensitive");
-const matchWhere = document.getElementById("match-where");
-const findall = document.getElementById("findall");
-const concordanceDisplay = document.getElementById("concordance-display");
-const concordanceCutoff = document.getElementById("concordance-cutoff");
-const colorPicker1 = document.getElementById("picker-1");
-const colorPickerDiv1 = document.getElementById("picker-div-1");
-const bgColorPicker1 = document.getElementById("bg-picker-1");
-const bgColorPickerDiv1 = document.getElementById("bg-picker-div-1");
-
-const columnSelection2 = document.getElementById("column-selection2");
-const searchInput2 = document.getElementById("search-input2");
-const regexSelection2 = document.getElementById("regex2");
-const fullWords2 = document.getElementById("full-words2");
-const caseSensitive2 = document.getElementById("case-sensitive2");
-const matchWhere2 = document.getElementById("match-where2");
-const findall2 = document.getElementById("findall2");
-const concordanceDisplay2 = document.getElementById("concordance-display2");
-const concordanceCutoff2 = document.getElementById("concordance-cutoff2");
-const colorPicker2 = document.getElementById("picker-2");
-const colorPickerDiv2 = document.getElementById("picker-div-2");
-const bgColorPicker2 = document.getElementById("bg-picker-2");
-const bgColorPickerDiv2 = document.getElementById("bg-picker-div-2");
-
-const columnSelection3 = document.getElementById("column-selection3");
-const searchInput3 = document.getElementById("search-input3");
-const regexSelection3 = document.getElementById("regex3");
-const fullWords3 = document.getElementById("full-words3");
-const caseSensitive3 = document.getElementById("case-sensitive3");
-const matchWhere3 = document.getElementById("match-where3");
-const findall3 = document.getElementById("findall3");
-const concordanceDisplay3 = document.getElementById("concordance-display3");
-const concordanceCutoff3 = document.getElementById("concordance-cutoff3");
-const colorPicker3 = document.getElementById("picker-3");
-const colorPickerDiv3 = document.getElementById("picker-div-3");
-const bgColorPicker3 = document.getElementById("bg-picker-3");
-const bgColorPickerDiv3 = document.getElementById("bg-picker-div-3");
-
 
 // ~~~ Columns to display ~~~
 columnHeaders.addEventListener('change', function() {
@@ -163,63 +105,63 @@ darkControl.addEventListener("click", function() {
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
 // - deselects and disables "Full word(s)"
-regexSelection.addEventListener('change', function() {
+regexSelection1.addEventListener('change', function() {
     if (this.checked) {
-        caseSensitive.checked = true;
-        fullWords.checked = false;
-        fullWords.disabled = true;
-        matchWhere.disabled = true;
+        caseSensitive1.checked = true;
+        fullWords1.checked = false;
+        fullWords1.disabled = true;
+        matchWhere1.disabled = true;
     } else {
-        caseSensitive.checked = false;
-        fullWords.checked = true;
-        fullWords.disabled = false;
-        matchWhere.disabled = false;
+        caseSensitive1.checked = false;
+        fullWords1.checked = true;
+        fullWords1.disabled = false;
+        matchWhere1.disabled = false;
     }
 });
 
 // ~~~ Concordance Cutoff 1 ~~~
-concordanceDisplay.addEventListener('change', function() {
+concordanceDisplay1.addEventListener('change', function() {
     if (this.checked) {
-        concordanceCutoff.disabled = false;
+        concordanceCutoff1.disabled = false;
     } else {
-        concordanceCutoff.disabled = true;
+        concordanceCutoff1.disabled = true;
     }
 });
 
 // ~~~ Findall 1 ~~~
-findall.addEventListener('change', function() {
+findall1.addEventListener('change', function() {
     if (this.checked) {
-        concordanceDisplay.checked = false;
-        concordanceDisplay.disabled = true;
-        concordanceCutoff.disabled = true;
-        matchWhere.value = 'match-anywhere';
-        matchWhere.disabled = true;
+        concordanceDisplay1.checked = false;
+        concordanceDisplay1.disabled = true;
+        concordanceCutoff1.disabled = true;
+        matchWhere1.value = 'match-anywhere-1';
+        matchWhere1.disabled = true;
     } else {
-        concordanceDisplay.disabled = false;
-        concordanceCutoff.disabled = false;
-        matchWhere.disabled = false;
+        concordanceDisplay1.disabled = false;
+        concordanceCutoff1.disabled = false;
+        matchWhere1.disabled = false;
     }
 });
 
 // ~~~ Column Selection 1 ~~~
-columnSelection.addEventListener('change', function() {
-    var columnSelectionValue = this.value;
+columnSelection1.addEventListener('change', function() {
+    var columnSelectionValue1 = this.value;
     var columnSelectionValue2 = columnSelection2.value;
     var columnSelectionValue3 = columnSelection3.value;
-    if (columnSelectionValue == "(None)") {
+    if (columnSelectionValue1 == "(None)") {
         // Enable all selections in the other column selection
         columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
         // Disable all selections
-        searchInput.value = "";
-        searchInput.disabled = true;
-        regexSelection.disabled = true;
-        fullWords.disabled = true;
-        caseSensitive.disabled = true;
-        matchWhere.disabled = true;
-        findall.disabled = true;
-        concordanceDisplay.disabled = true;
-        concordanceCutoff.disabled = true;
+        searchInput1.value = "";
+        searchInput1.disabled = true;
+        regexSelection1.disabled = true;
+        fullWords1.disabled = true;
+        caseSensitive1.disabled = true;
+        matchWhere1.disabled = true;
+        findall1.disabled = true;
+        concordanceDisplay1.disabled = true;
+        concordanceCutoff1.disabled = true;
         colorPickerDiv1.style.opacity = "0.3";
         bgColorPickerDiv1.style.opacity = "0.3";
         colorPicker1.disabled = true;
@@ -227,14 +169,14 @@ columnSelection.addEventListener('change', function() {
         if (columnSelection2.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
-        searchInput.disabled = false;
-        regexSelection.disabled = false;
-        fullWords.disabled = false;
-        caseSensitive.disabled = false;
-        matchWhere.disabled = false;
-        findall.disabled = false;
-        concordanceDisplay.disabled = false;
-        if (concordanceDisplay.checked) { concordanceCutoff.disabled = false; }
+        searchInput1.disabled = false;
+        regexSelection1.disabled = false;
+        fullWords1.disabled = false;
+        caseSensitive1.disabled = false;
+        matchWhere1.disabled = false;
+        findall1.disabled = false;
+        concordanceDisplay1.disabled = false;
+        if (concordanceDisplay1.checked) { concordanceCutoff1.disabled = false; }
         colorPickerDiv1.style.opacity = "1";
         bgColorPickerDiv1.style.opacity = "1";
         colorPicker1.disabled = false;
@@ -242,7 +184,7 @@ columnSelection.addEventListener('change', function() {
         searchButton.disabled = false;
         searchButtonOutside.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
-            if (![columnSelectionValue, columnSelectionValue3].includes(node.value)) {
+            if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
             } else {
@@ -251,7 +193,7 @@ columnSelection.addEventListener('change', function() {
             }
         });
         columnSelection3.childNodes.forEach(function(node) {
-            if (![columnSelectionValue, columnSelectionValue2].includes(node.value)) {
+            if (![columnSelectionValue1, columnSelectionValue2].includes(node.value)) {
                 node.disabled = false;
             } else {
                 node.disabled = true;
@@ -317,7 +259,7 @@ findall2.addEventListener('change', function() {
         concordanceDisplay2.checked = false;
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
-        matchWhere2.value = "match-anywhere2";
+        matchWhere2.value = "match-anywhere-2";
         matchWhere2.disabled = true;
     } else {
         concordanceDisplay2.disabled = false;
@@ -328,12 +270,12 @@ findall2.addEventListener('change', function() {
 
 // ~~~ Column Selection 2 ~~~
 columnSelection2.addEventListener('change', function() {
-    var columnSelectionValue = columnSelection.value;
+    var columnSelectionValue1 = columnSelection1.value;
     var columnSelectionValue2 = this.value;
     var columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue2 == "(None)") {
         // Enable all selections in the other column selection
-        columnSelection.childNodes.forEach(function(node) { node.disabled = false; });
+        columnSelection1.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
         // Disable all selections
         searchInput2.value = "";
@@ -349,7 +291,7 @@ columnSelection2.addEventListener('change', function() {
         bgColorPickerDiv2.style.opacity = "0.3";
         colorPicker2.disabled = true;
         bgColorPicker2.disabled = true;
-        if (columnSelection.value == "(None)") { searchButton.disabled = true; }
+        if (columnSelection1.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
         searchInput2.disabled = false;
@@ -365,7 +307,7 @@ columnSelection2.addEventListener('change', function() {
         colorPicker2.disabled = false;
         bgColorPicker2.disabled = false;
         searchButton.disabled = false;
-        columnSelection.childNodes.forEach(function(node) {
+        columnSelection1.childNodes.forEach(function(node) {
             if (![columnSelectionValue2, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
@@ -375,7 +317,7 @@ columnSelection2.addEventListener('change', function() {
             }
         });
         columnSelection3.childNodes.forEach(function(node) {
-            if (![columnSelectionValue, columnSelectionValue2].includes(node.value)) {
+            if (![columnSelectionValue1, columnSelectionValue2].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
             } else {
@@ -445,7 +387,7 @@ findall3.addEventListener('change', function() {
         concordanceDisplay3.checked = false;
         concordanceDisplay3.disabled = true;
         concordanceCutoff3.disabled = true;
-        matchWhere3.value = "match-anywhere3";
+        matchWhere3.value = "match-anywhere-3";
         matchWhere3.disabled = true;
     } else {
         concordanceDisplay3.disabled = false;
@@ -456,12 +398,12 @@ findall3.addEventListener('change', function() {
 
 // ~~~ Column Selection 3 ~~~
 columnSelection3.addEventListener('change', function() {
-    var columnSelectionValue = columnSelection.value;
+    var columnSelectionValue1 = columnSelection1.value;
     var columnSelectionValue2 = columnSelection2.value;
     var columnSelectionValue3 = this.value;
     if (columnSelectionValue3 == "(None)") {
         // Enable all selections in the other column selection
-        columnSelection.childNodes.forEach(function(node) { node.disabled = false; });
+        columnSelection1.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
         // Disable all selections
         searchInput3.value = "";
@@ -477,7 +419,7 @@ columnSelection3.addEventListener('change', function() {
         bgColorPickerDiv3.style.opacity = "0.3";
         colorPicker3.disabled = true;
         bgColorPicker3.disabled = true;
-        if (columnSelection.value == "(None)") { searchButton.disabled = true; }
+        if (columnSelection1.value == "(None)") { searchButton.disabled = true; }
     } else {
         // Enable all selections
         searchInput3.disabled = false;
@@ -493,7 +435,7 @@ columnSelection3.addEventListener('change', function() {
         colorPicker3.disabled = false;
         bgColorPicker3.disabled = false;
         searchButton.disabled = false;
-        columnSelection.childNodes.forEach(function(node) {
+        columnSelection1.childNodes.forEach(function(node) {
             if (![columnSelectionValue2, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
@@ -503,7 +445,7 @@ columnSelection3.addEventListener('change', function() {
             }
         });
         columnSelection2.childNodes.forEach(function(node) {
-            if (![columnSelectionValue, columnSelectionValue3].includes(node.value)) {
+            if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
             } else {
