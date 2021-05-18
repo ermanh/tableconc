@@ -10,6 +10,7 @@
 // - (minor) Maybe allow users to paste in data
 // - ? Export results feature
 // - Accept JSON files
+// - Group function for each search
 // - Bugs
 //      - sorting doesn't work on Chrome
 

@@ -46,6 +46,16 @@ body {
     padding: 12px 0 15px 10px;
 }
 
+#controls {
+    background-color: var(--controls-bg-color);
+    /* padding: 5px 0 0; */
+    margin-left: -3px;
+}
+
+#column-select {
+    background-color: var(--column-controls-bg-color);
+}
+
 #title {
     font-size: 1.5em;
     letter-spacing: 1px;
@@ -99,13 +109,8 @@ body {
     border-bottom-right-radius: 5px;
 }
 
-table.controls-container td {
-    margin: 0;
-    padding: 0 12px 0 0;
-}
-
 #controls {
-    position: relative;
+    /* position: relative; */
     color: white;
 }
 
@@ -154,11 +159,6 @@ table.controls-container td {
     border: 1px solid lightsteelblue;
 }
 
-.controls-first-column {
-    vertical-align: bottom;
-    width: 15px;
-}
-
 #second-search, #third-search {
     display: none;
 }
@@ -171,9 +171,9 @@ table.controls-container td {
     stroke-width: 2px;
     width: 12px;
     height: 12px;
-    margin: 1px 0 1px;
+    margin: 0 0 -2px 3px;
     padding: 0;
-    font-size: 0.1em;
+    /* font-size: 0.1em; */
     user-select: none; 
     -webkit-user-select: none; 
     -moz-user-select: none; 
@@ -195,9 +195,9 @@ table.controls-container td {
     pointer-events: none;
 }
 
-#second-search-hider:hover, #third-search-hider:hover {
+/* #second-search-hider:hover, #third-search-hider:hover {
     background-color: khaki;
-}
+} */
 
 input[type="color"] {
     opacity: 0;
@@ -236,6 +236,11 @@ input[type="checkbox"]:disabled + label {
     color: gray;
 } */
 
+#column-selection-1, #column-selection-2, #column-selection-3 {
+    font-size: 1em;
+    margin: 5px 0 2px;
+}
+
 column-names, output {
     display: block;
     margin-top: 1em;
@@ -246,17 +251,12 @@ form {
     padding: 7px 0 7px 18px;
 }
 
-div.section {
-    padding: 7px 18px;
-    /* width: 100%; */
-}
-
 #columnselect {
     background-color: var(--column-controls-bg-color);
     color: white;
     /* padding-left: 34px; */
-    padding: 8px 0 8px 22px;
-    margin: 0;
+    padding: 8px 0;
+    margin-left: -9px;
 }
 
 #column-control-button-adjuster {
@@ -390,13 +390,12 @@ div.sort {
 }
 
 td {
-    padding: 0 0.75em 0 0.25em;
+    padding-right: 12px;
 }
 
 td.search-td {
     min-width: 300px;
     padding: 0 0.25em !important;
-
 }
 
 td#search-logic {
