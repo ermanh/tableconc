@@ -19,7 +19,7 @@ const resultsNumberTimeout = 120;
 
 const concord = function () {
     var newData = JSON.parse(JSON.stringify(data));
-    var columnHeaders = document.getElementById("column-headers").checked;
+    var columnHeadersChecked = document.getElementById("column-headers").checked;
     var resultsNumber = d3.select("#results-number");
 
     var columnToSearchValue1 = document.getElementById("column-selection-1").value;
@@ -55,8 +55,8 @@ const concord = function () {
     var columnsToSearchValues = [columnToSearchValue1, columnToSearchValue2];
 
     // THIS CAN BE MOVED TO A GLOBALS FILE
-    var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { return `Column ${i + 1}`; });
-    var startingRowIndex = columnHeaders ? 1 : 0;    
+    var columnNames = columnHeadersChecked ? data[0] : data[0].map((d, i) => { return `Column ${i + 1}`; });
+    var startingRowIndex = columnHeadersChecked ? 1 : 0;    
     var columnObject = {}; // {column name: index}
     for (let i = 0; i < columnNames.length; i++) {
         columnObject[columnNames[i]] = i;

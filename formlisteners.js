@@ -2,6 +2,9 @@
 // ~~~ Columns to display ~~~
 columnHeaders.addEventListener('change', function() {
     if (chooseFile.value) { readFile(); }
+    filterSelection1.innerHTML = "";
+    filterSelection2.innerHTML = "";
+    filterSelection3.innerHTML = "";
 });
 
 // ~~~ Hide Controls ~~~
@@ -101,6 +104,18 @@ darkControl.addEventListener("click", function() {
 
 // ~~~~~~~~~~ SEARCH 1 ~~~~~~~~~~
 
+// ~~~ Filter Control 1 ~~~
+filterControl1.addEventListener('change', function() {
+    if (this.checked) {
+        searchRow1.style.display = "none";
+        filterRow1.style.display = "block";
+        if (columnSelection1.innerHTML !== "") { populateFilterValues("1"); }
+    } else {
+        searchRow1.style.display = "block";
+        filterRow1.style.display = "none";
+    }
+});
+
 // ~~~ Search Type 1 ~~~
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
@@ -152,6 +167,8 @@ columnSelection1.addEventListener('change', function() {
         // Enable all selections in the other column selection
         columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
+        // Clear filter values
+        filterSelection1.innerHTML = "";
         // Disable all selections
         searchInput1.value = "";
         searchInput1.disabled = true;
@@ -168,6 +185,8 @@ columnSelection1.addEventListener('change', function() {
         bgColorPicker1.disabled = true;
         if (columnSelection2.value == "(None)") { searchButton.disabled = true; }
     } else {
+        // Populate filter values if "Filter by value" checked
+        if (filterControl1.checked) { populateFilterValues("1"); }
         // Enable all selections
         searchInput1.disabled = false;
         regexSelection1.disabled = false;
@@ -226,6 +245,18 @@ bgColorPickerDiv1.style.backgroundColor = bgColorPicker1.value;
 
 // ~~~~~~~~~~ SEARCH 2 ~~~~~~~~~~
 
+// ~~~ Filter Control 2 ~~~
+filterControl2.addEventListener('change', function() {
+    if (this.checked) {
+        searchRow2.style.display = "none";
+        filterRow2.style.display = "block";
+        if (columnSelection2.innerHTML !== "") { populateFilterValues("2"); }
+    } else {
+        searchRow2.style.display = "block";
+        filterRow2.style.display = "none";
+    }
+});
+
 // ~~~ Search Type 2 ~~~
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
@@ -277,6 +308,8 @@ columnSelection2.addEventListener('change', function() {
         // Enable all selections in the other column selection
         columnSelection1.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
+        // Clear filter values
+        filterSelection2.innerHTML = "";
         // Disable all selections
         searchInput2.value = "";
         searchInput2.disabled = true;
@@ -293,6 +326,8 @@ columnSelection2.addEventListener('change', function() {
         bgColorPicker2.disabled = true;
         if (columnSelection1.value == "(None)") { searchButton.disabled = true; }
     } else {
+        // Populate filter values if "Filter by value" checked
+        if (filterControl2.checked) { populateFilterValues("2"); }
         // Enable all selections
         searchInput2.disabled = false;
         regexSelection2.disabled = false;
@@ -354,6 +389,18 @@ bgColorPickerDiv2.style.backgroundColor = bgColorPicker2.value;
 
 // ~~~~~~~~~~ SEARCH 3 ~~~~~~~~~~
 
+// ~~~ Filter Control 3 ~~~
+filterControl3.addEventListener('change', function() {
+    if (this.checked) {
+        searchRow3.style.display = "none";
+        filterRow3.style.display = "block";
+        if (columnSelection3.innerHTML !== "") { populateFilterValues("3"); }
+    } else {
+        searchRow3.style.display = "block";
+        filterRow3.style.display = "none";
+    }
+});
+
 // ~~~ Search Type 3 ~~~
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
@@ -405,6 +452,8 @@ columnSelection3.addEventListener('change', function() {
         // Enable all selections in the other column selection
         columnSelection1.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
+        // Clear filter values
+        filterSelection3.innerHTML = "";
         // Disable all selections
         searchInput3.value = "";
         searchInput3.disabled = true;
@@ -421,6 +470,8 @@ columnSelection3.addEventListener('change', function() {
         bgColorPicker3.disabled = true;
         if (columnSelection1.value == "(None)") { searchButton.disabled = true; }
     } else {
+        // Populate filter values if "Filter by value" checked
+        if (filterControl3.checked) { populateFilterValues("3"); }
         // Enable all selections
         searchInput3.disabled = false;
         regexSelection3.disabled = false;

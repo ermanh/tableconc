@@ -1,3 +1,36 @@
+const colors = {
+    "light": {
+        "fore": "#000000",          // black
+        "back": "#b0c4de",          // lightsteelblue
+        "thFore": "#2a3347",        // --banner-bg-color
+        "thBack": "#b0c4de",        // lightsteelblue
+        "thBorder": "#ffffff",      // white
+        "tdBack": "#ffffff",        // white
+        "picker1": "#ff0000",       // red
+        "picker2": "#0c5eec",       // medium blue
+        "picker3": "#008000",       // green
+        "bgPicker1": "#fcdad8",     // light red
+        "bgPicker2": "#d3e2fa",     // light blue
+        "bgPicker3": "#e0edd3"      // light green
+    }, 
+    "dark": {
+        "fore": "#ffffff",          // white
+        "back": "#363636",          // darker gray
+        "thFore": "#b0c4de",        // lightsteelblue
+        "thBack": "#363636",        // darker gray
+        "thBorder": "#808080",      // gray
+        "tdBack": "#444444",        // dark gray
+        "picker1": "#ffda0d",       // cadmium yellow
+        "picker2": "#00ffff",       // cyan
+        "picker3": "#ff00ff",       // magenta
+        "bgPicker1": "#37342e",     // dark yellow
+        "bgPicker2": "#2a373f",     // dark cyan
+        "bgPicker3": "#342a37"      // dark magenta
+    }
+};
+
+const filterValueMaxLength = 200;
+
 // Top Stuff
 const lightControl = document.getElementById("light-control");
 const darkControl = document.getElementById("dark-control");
@@ -20,6 +53,10 @@ const searchButtonOutside = document.getElementById("search-button-outside");
 
 // Search One
 const columnSelection1 = document.getElementById("column-selection-1");
+const filterControl1 = document.getElementById("filter-control-1");
+const searchRow1 = document.getElementById("search-row-1");
+const filterRow1 = document.getElementById("filter-row-1");
+const filterSelection1 = document.getElementById("filter-selection-1");
 const searchInput1 = document.getElementById("search-input-1");
 const regexSelection1 = document.getElementById("regex-1");
 const fullWords1 = document.getElementById("full-words-1");
@@ -35,6 +72,10 @@ const bgColorPickerDiv1 = document.getElementById("bg-picker-div-1");
 
 // Search Two
 const columnSelection2 = document.getElementById("column-selection-2");
+const filterControl2 = document.getElementById("filter-control-2");
+const searchRow2 = document.getElementById("search-row-2");
+const filterRow2 = document.getElementById("filter-row-2");
+const filterSelection2 = document.getElementById("filter-selection-2");
 const searchInput2 = document.getElementById("search-input-2");
 const regexSelection2 = document.getElementById("regex-2");
 const fullWords2 = document.getElementById("full-words-2");
@@ -50,6 +91,10 @@ const bgColorPickerDiv2 = document.getElementById("bg-picker-div-2");
 
 // Search Three
 const columnSelection3 = document.getElementById("column-selection-3");
+const filterControl3 = document.getElementById("filter-control-3");
+const searchRow3 = document.getElementById("search-row-3");
+const filterRow3 = document.getElementById("filter-row-3");
+const filterSelection3 = document.getElementById("filter-selection-3");
 const searchInput3 = document.getElementById("search-input-3");
 const regexSelection3 = document.getElementById("regex-3");
 const fullWords3 = document.getElementById("full-words-3");

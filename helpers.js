@@ -1,33 +1,42 @@
-const colors = {
-    "light": {
-        "fore": "#000000",          // black
-        "back": "#b0c4de",          // lightsteelblue
-        "thFore": "#2a3347",        // --banner-bg-color
-        "thBack": "#b0c4de",        // lightsteelblue
-        "thBorder": "#ffffff",      // white
-        "tdBack": "#ffffff",        // white
-        "picker1": "#ff0000",       // red
-        "picker2": "#0c5eec",       // medium blue
-        "picker3": "#008000",       // green
-        "bgPicker1": "#fcdad8",     // light red
-        "bgPicker2": "#d3e2fa",     // light blue
-        "bgPicker3": "#e0edd3"      // light green
-    }, 
-    "dark": {
-        "fore": "#ffffff",          // white
-        "back": "#363636",          // darker gray
-        "thFore": "#b0c4de",        // lightsteelblue
-        "thBack": "#363636",        // darker gray
-        "thBorder": "#808080",      // gray
-        "tdBack": "#444444",        // dark gray
-        "picker1": "#ffda0d",       // cadmium yellow
-        "picker2": "#00ffff",       // cyan
-        "picker3": "#ff00ff",       // magenta
-        "bgPicker1": "#37342e",     // dark yellow
-        "bgPicker2": "#2a373f",     // dark cyan
-        "bgPicker3": "#342a37"      // dark magenta
+function populateFilterValues(whichFilter) {
+    var columnValue = document.getElementById(`column-selection-${whichFilter}`).value;
+    console.log(columnValue);
+    var columnIndex;
+    if (columnHeaders.checked) {
+        var columnObject = {};  // {column name: index}
+        for (let i = 0; i < data[0].length; i++) { columnObject[data[0][i]] = i; }
+        columnIndex = columnObject[columnValue];
+    } else {
+        columnIndex = RegExp(/\d+/).exec(columnValue)[0] - 1;
     }
-};
+
+    var startingRowIndex = columnHeaders.checked ? 1 : 0;
+    var valueCount = {};
+    for (i = startingRowIndex; i < data.length - startingRowIndex; i++) {
+        let datum = data[i][columnIndex];
+        if (Object.keys(valueCount).includes(datum)) {
+            valueCount[datum] += 1;
+        } else {
+            valueCount[datum] = 1;
+        }
+    }
+    var values = Object.keys(valueCount).sort((a, b) => { 
+        return a.toLowerCase() > b.toLowerCase(); 
+    });
+
+    var filterSelection = d3.select(`#filter-selection-${whichFilter}`);
+    filterSelection.html(""); // clear menu
+    filterSelection.selectAll("option")
+        .data(values).enter()
+            .append("option")
+            .attr("value", function(d) { return d; })
+            .text(function(d) { 
+                if (d.length > filterValueMaxLength) {
+                    return `${d.slice(0,filterValueMaxLength)} (${valueCount[d]})`;
+                }
+                return `${d} (${valueCount[d]})`; 
+            });
+}
 
 function makeResizable(div, adjacentIsRight) {
     var position, thisColumn, adjacentColumn, thisWidth, adjacentWidth;

@@ -44,19 +44,6 @@
         <form id="search-box" onsubmit="return false;">
             <table>
                 <tr>
-                    <!-- <td style="vertical-align: text-top;">
-                        <div style="height:6px;"></div>
-                        <div>
-                            <svg id="second-search-hider" height="12" width="12">
-                                <path d="M1,6 L11,6 M6,1 L6,11" />
-                            </svg>
-                        </div>
-                        <div>
-                            <svg id="third-search-hider" height="12" width="12">
-                                <path d="M1,6 L11,6 M6,1 L6,11" />
-                            </svg>
-                        </div>
-                    </td> -->
                     <td>
                         <table>
                             <tr style="height: 5px;">
@@ -64,11 +51,11 @@
                                     <label for="column-selection-1">Search column:</label>   
                                     <select name="column-selection-1" id="column-selection-1"></select>
                                     &nbsp;
-                                    <input id="filter-by-1" type="checkbox" disabled>
-                                    <label id="filter-by-label-1" for="filter-by-1">Filter by value</label>
+                                    <input id="filter-control-1" type="checkbox">
+                                    <label id="filter-control-label-1" for="filter-control-1">Filter by value</label>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr id="search-row-1">
                                 <td style="vertical-align: text-top;">
                                     <input id="search-input-1" class="search" type="search" placeholder="Search..." disabled>
                                 </td>
@@ -122,6 +109,11 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr id="filter-row-1">
+                                <td colspan="5">
+                                    <select name="filter-selection-1" id="filter-selection-1"></select>
+                                </td>
+                            </tr>
                         </table>
                         <table id="second-search">
                             <tr style="height: 5px;">
@@ -129,11 +121,11 @@
                                     <label for="column-selection-2">Search column:</label>
                                     <select name="column-selection-2" id="column-selection-2"></select>
                                     &nbsp;
-                                    <input id="filter-by-2" type="checkbox" disabled>
-                                    <label id="filter-by-label-2" for="filter-by-2">Filter by value</label>
+                                    <input id="filter-control-2" type="checkbox">
+                                    <label id="filter-control-label-2" for="filter-control-2">Filter by value</label>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr id="search-row-2">
                                 <td style="vertical-align: text-top;">
                                     <input id="search-input-2" class="search" type="search" placeholder="Search..." disabled>
                                 </td>
@@ -187,6 +179,11 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr id="filter-row-2">
+                                <td colspan="5">
+                                    <select name="filter-selection-2" id="filter-selection-2"></select>
+                                </td>
+                            </tr>
                         </table>
                         <table id="third-search">
                             <tr style="height: 5px;">
@@ -194,11 +191,11 @@
                                     <label for="column-selection-3">Search column:</label>
                                     <select name="column-selection-3" id="column-selection-3"></select>
                                     &nbsp;
-                                    <input id="filter-by-3" type="checkbox" disabled>
-                                    <label id="filter-by-label-3" for="filter-by-3">Filter by value</label>
+                                    <input id="filter-control-3" type="checkbox">
+                                    <label id="filter-control-label-3" for="filter-control-3">Filter by value</label>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr id="search-row-3">
                                 <td style="vertical-align: text-top;">
                                     <input id="search-input-3" class="search" type="search" placeholder="Search..." disabled>
                                 </td>
@@ -250,6 +247,11 @@
                                     <div id="bg-picker-div-3" class="picker-div">
                                         <input id="bg-picker-3" type="color" value="#e0edd3" disabled>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr id="filter-row-3">
+                                <td colspan="5">
+                                    <select name="filter-selection-3" id="filter-selection-3"></select>
                                 </td>
                             </tr>
                         </table>

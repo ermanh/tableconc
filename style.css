@@ -238,7 +238,7 @@ input[type="checkbox"]:disabled + label {
 
 #column-selection-1, #column-selection-2, #column-selection-3 {
     font-size: 1em;
-    margin: 5px 0 2px;
+    margin: 8px 0 2px;
 }
 
 column-names, output {
@@ -262,6 +262,10 @@ form {
 #column-control-button-adjuster {
     padding: 0;
     margin-left: -10px;
+}
+
+#filter-row-1, #filter-row-2, #filter-row-3 {
+    display: none;
 }
 
 table#results-table {
@@ -411,7 +415,7 @@ td#search-logic {
 }
 
 #search-button {
-    margin-left: -3px;
+    margin: 8px 0 3px -3px;
 }
 
 #search-button-outside {
