@@ -10,6 +10,7 @@
 // - (minor) Maybe allow users to paste in data
 // - ? Export results feature
 // - Accept JSON files
+//      - if JSON selected, disable column headers option (default checked)
 // - Group function for each search
 // - Need to figure out how to deal with empty values, in relation to:
 //      - option selection and match logic
@@ -17,6 +18,7 @@
 // - Fill in "resetAll" in helpers.js
 // - Bugs
 //      - sorting doesn't work on Chrome
+//      - switching CSV to JSON doesn't update the columns correctly
 
 const searchBox = document.getElementById("search-box");
 const resultsNumberTimeout = 120;
@@ -335,7 +337,7 @@ const concord = function () {
     
     // Matched rows logic
     var matchedRows;
-    if (searchInputValue1 !== "" || filterSelection1.value) {
+    if (searchInputValue1 !== "" || (filterSelection1.value && filterSelection1.value !== "")) {
         matchedRows = matchedRows1;
     }
     if (searchInputValue2 !== "" || filterSelection2.value) {
@@ -357,7 +359,7 @@ const concord = function () {
 
     // Pad strings to be displayed
     if (matchedRows.length > 0) {
-        if (!filterSelection1 && concordDisplayChecked1 && searchInputValue1 !== "") {
+        if (!filterControl1.checked && concordDisplayChecked1 && searchInputValue1 !== "") {
             var concordStrings1 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex1];
             });
@@ -366,7 +368,7 @@ const concord = function () {
                 newData[index][searchColumnIndex1] = concordStrings1.shift();
             });
         }
-        if (!filterSelection2 && concordDisplayChecked2 && searchInputValue2 !== "") {
+        if (!filterControl2.checked && concordDisplayChecked2 && searchInputValue2 !== "") {
             var concordStrings2 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex2];
             });
@@ -375,7 +377,7 @@ const concord = function () {
                 newData[index][searchColumnIndex2] = concordStrings2.shift();
             });
         }
-        if (!filterSelection3 || concordDisplayChecked3 && searchInputValue3 !== "") {
+        if (!filterControl3.checked && concordDisplayChecked3 && searchInputValue3 !== "") {
             var concordStrings3 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex3];
             });

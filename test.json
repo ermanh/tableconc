@@ -1,7 +1,8 @@
 [{
     "One": "good",
     "Two": "better", 
-    "Three": "best"
+    "Three": "best",
+    "Four": "bestest"
 },
 {
     "One": "jump",
@@ -11,7 +12,8 @@
 {
     "One": "I have a tangelo.", 
     "Two": "He doesn't have a tangelo.", 
-    "Three": "We have pomelos."
+    "Three": "We have pomelos.",
+    "Four": "And I have a lychee, mwahahaha."
 },
 {
     "One": "Citrus fruits are yummy.",
@@ -31,7 +33,7 @@
 {
     "One": "Give me freedom or give me death", 
     "Two": "The early bird gets the worm", 
-    "Three": "It's my way or the highway, Chuck.", 
+    "Three": "It's my way or the highway, Chuck." 
 },
 {
     "One": "Francis McDorman is the bomb.",
@@ -41,7 +43,7 @@
 {
     "One": "A rolling stone never gathers moss.",
     "Two": "Takenaka Carpentry Tools Museum",
-    "Three": "Klean Kanteen TKWide Insulated Water Bottles",
+    "Three": "Klean Kanteen TKWide Insulated Water Bottles"
 },
 {
     "One": "The Flying Chopstick",

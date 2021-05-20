@@ -5,13 +5,27 @@ var data;
 const readFile = function () {
     var reader = new FileReader();
     var columnHeaders = document.getElementById("column-headers").checked;
+    filetype = fileInput.files[0].type;
 
     reader.onload = function () {    
-        filetype = fileInput.files[0].type;
         if (filetype == "text/csv") {
             data = d3.csv.parseRows(reader.result);
         } else if (["text/tab-separated-values", "text/tsv"].includes(filetype)) {
             data = d3.tsv.parseRows(reader.result);
+        } else if (["application/json", "text/json"].includes(filetype)) {
+            var json = JSON.parse(reader.result);
+            var fields = Array();
+            json.forEach((rowObject) => {
+                Object.keys(rowObject).forEach((key) => {
+                    if (!fields.includes(key)) { fields.push(key); }
+                });
+            });
+            data = json.map(function(row) {
+                return fields.map(function(fieldName) { 
+                    return row[fieldName] ? row[fieldName] : ""; 
+                }); 
+            });
+            data.unshift(fields);
         } else if (filetype == "text/plain") {
             data = reader.result.split('\n');
             data = data.map((line) => { return [line]; });

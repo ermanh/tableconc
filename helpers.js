@@ -31,23 +31,24 @@ function populateFilterValues(whichFilter) {
     var values = Object.keys(valueCount).sort((a, b) => { 
         return a.toLowerCase() > b.toLowerCase(); 
     });
-    values.unshift("(none)");
+    if (values[0] !== "") { values.unshift(""); }
 
     var filterSelection = d3.select(`#filter-selection-${whichFilter}`);
     filterSelection.html(""); // clear menu
     filterSelection.selectAll("option")
         .data(values).enter()
             .append("option")
-            .attr("value", function(d) { 
-                return (d == "(none)") ? "" : d; 
-            })
+            .attr("value", function(d) { return d; })
             .text(function(d) { 
-                if (d == "(none)") {
-                    return d;
-                } else {
-                    if (d.length > filterValueMaxLength) {
-                        return `${d.slice(0,filterValueMaxLength)} (${valueCount[d]})`;
+                if (d.length > filterValueMaxLength) {
+                    return `${d.slice(0,filterValueMaxLength)} (${valueCount[d]})`;
+                }
+                if (d === "") {
+                    if (valueCount[d]) {
+                        return `(${valueCount[d]} empty)`;
                     }
+                    return "";
+                } else {
                     return `${d} (${valueCount[d]})`; 
                 }
             });
