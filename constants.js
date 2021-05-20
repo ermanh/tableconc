@@ -51,6 +51,9 @@ const thirdSearchHider = document.getElementById("third-search-hider");
 const searchButton = document.getElementById("search-button");
 const searchButtonOutside = document.getElementById("search-button-outside");
 
+const resultsNumber = document.getElementById("results-number");
+const resultsTable = document.getElementById("results-table");
+
 // Search One
 const columnSelection1 = document.getElementById("column-selection-1");
 const filterControl1 = document.getElementById("filter-control-1");

@@ -108,7 +108,7 @@ darkControl.addEventListener("click", function() {
 filterControl1.addEventListener('change', function() {
     if (this.checked) {
         searchRow1.style.display = "none";
-        filterRow1.style.display = "block";
+        filterRow1.style.display = "inline-block";
         if (columnSelection1.innerHTML !== "") { populateFilterValues("1"); }
     } else {
         searchRow1.style.display = "block";
@@ -163,7 +163,7 @@ columnSelection1.addEventListener('change', function() {
     var columnSelectionValue1 = this.value;
     var columnSelectionValue2 = columnSelection2.value;
     var columnSelectionValue3 = columnSelection3.value;
-    if (columnSelectionValue1 == "(None)") {
+    if (columnSelectionValue1 == "(none)") {
         // Enable all selections in the other column selection
         columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
@@ -183,7 +183,7 @@ columnSelection1.addEventListener('change', function() {
         bgColorPickerDiv1.style.opacity = "0.3";
         colorPicker1.disabled = true;
         bgColorPicker1.disabled = true;
-        if (columnSelection2.value == "(None)") { searchButton.disabled = true; }
+        if (columnSelection2.value == "(none)") { searchButton.disabled = true; }
     } else {
         // Populate filter values if "Filter by value" checked
         if (filterControl1.checked) { populateFilterValues("1"); }
@@ -249,7 +249,7 @@ bgColorPickerDiv1.style.backgroundColor = bgColorPicker1.value;
 filterControl2.addEventListener('change', function() {
     if (this.checked) {
         searchRow2.style.display = "none";
-        filterRow2.style.display = "block";
+        filterRow2.style.display = "inline-block";
         if (columnSelection2.innerHTML !== "") { populateFilterValues("2"); }
     } else {
         searchRow2.style.display = "block";
@@ -304,7 +304,7 @@ columnSelection2.addEventListener('change', function() {
     var columnSelectionValue1 = columnSelection1.value;
     var columnSelectionValue2 = this.value;
     var columnSelectionValue3 = columnSelection3.value;
-    if (columnSelectionValue2 == "(None)") {
+    if (columnSelectionValue2 == "(none)") {
         // Enable all selections in the other column selection
         columnSelection1.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
@@ -324,7 +324,7 @@ columnSelection2.addEventListener('change', function() {
         bgColorPickerDiv2.style.opacity = "0.3";
         colorPicker2.disabled = true;
         bgColorPicker2.disabled = true;
-        if (columnSelection1.value == "(None)") { searchButton.disabled = true; }
+        if (columnSelection1.value == "(none)") { searchButton.disabled = true; }
     } else {
         // Populate filter values if "Filter by value" checked
         if (filterControl2.checked) { populateFilterValues("2"); }
@@ -393,7 +393,7 @@ bgColorPickerDiv2.style.backgroundColor = bgColorPicker2.value;
 filterControl3.addEventListener('change', function() {
     if (this.checked) {
         searchRow3.style.display = "none";
-        filterRow3.style.display = "block";
+        filterRow3.style.display = "inline-block";
         if (columnSelection3.innerHTML !== "") { populateFilterValues("3"); }
     } else {
         searchRow3.style.display = "block";
@@ -448,7 +448,7 @@ columnSelection3.addEventListener('change', function() {
     var columnSelectionValue1 = columnSelection1.value;
     var columnSelectionValue2 = columnSelection2.value;
     var columnSelectionValue3 = this.value;
-    if (columnSelectionValue3 == "(None)") {
+    if (columnSelectionValue3 == "(none)") {
         // Enable all selections in the other column selection
         columnSelection1.childNodes.forEach(function(node) { node.disabled = false; });
         columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
@@ -468,7 +468,7 @@ columnSelection3.addEventListener('change', function() {
         bgColorPickerDiv3.style.opacity = "0.3";
         colorPicker3.disabled = true;
         bgColorPicker3.disabled = true;
-        if (columnSelection1.value == "(None)") { searchButton.disabled = true; }
+        if (columnSelection1.value == "(none)") { searchButton.disabled = true; }
     } else {
         // Populate filter values if "Filter by value" checked
         if (filterControl3.checked) { populateFilterValues("3"); }

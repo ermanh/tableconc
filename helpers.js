@@ -1,6 +1,14 @@
+function resetAll() {
+    filterSelection1.innerHTML = "";
+    filterSelection2.innerHTML = "";
+    filterSelection3.innerHTML = "";
+    resultsNumber.innerHTML = "";
+    resultsTable.innerHTML = "";
+}
+
 function populateFilterValues(whichFilter) {
     var columnValue = document.getElementById(`column-selection-${whichFilter}`).value;
-    console.log(columnValue);
+    if (columnValue == "(none)") { return null; }
     var columnIndex;
     if (columnHeaders.checked) {
         var columnObject = {};  // {column name: index}
@@ -23,18 +31,25 @@ function populateFilterValues(whichFilter) {
     var values = Object.keys(valueCount).sort((a, b) => { 
         return a.toLowerCase() > b.toLowerCase(); 
     });
+    values.unshift("(none)");
 
     var filterSelection = d3.select(`#filter-selection-${whichFilter}`);
     filterSelection.html(""); // clear menu
     filterSelection.selectAll("option")
         .data(values).enter()
             .append("option")
-            .attr("value", function(d) { return d; })
+            .attr("value", function(d) { 
+                return (d == "(none)") ? "" : d; 
+            })
             .text(function(d) { 
-                if (d.length > filterValueMaxLength) {
-                    return `${d.slice(0,filterValueMaxLength)} (${valueCount[d]})`;
+                if (d == "(none)") {
+                    return d;
+                } else {
+                    if (d.length > filterValueMaxLength) {
+                        return `${d.slice(0,filterValueMaxLength)} (${valueCount[d]})`;
+                    }
+                    return `${d} (${valueCount[d]})`; 
                 }
-                return `${d} (${valueCount[d]})`; 
             });
 }
 

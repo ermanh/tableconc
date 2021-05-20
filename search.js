@@ -11,6 +11,10 @@
 // - ? Export results feature
 // - Accept JSON files
 // - Group function for each search
+// - Need to figure out how to deal with empty values, in relation to:
+//      - option selection and match logic
+//      - being able to search for empty values
+// - Fill in "resetAll" in helpers.js
 // - Bugs
 //      - sorting doesn't work on Chrome
 
@@ -69,226 +73,254 @@ const concord = function () {
     var searchColumnIndex3 = columnObject[columnToSearchValue3];  // index of the searched column
 
     // PROCESS SEARCH INPUT 1
-    if (searchInputValue1 !== "") {
-        console.log("YAY");  
-        var re1;
-        var pattern1;
-        var flags1 = "";
-        var tagOpen1 = "<text class='hilite1'>";
-        var tagClose1 = "</text>";
-
-        // Construct regex
-        if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
-        if (findallChecked1) {
-            flags1 = `${flags1}g`;
-            if (regexChecked1) {
-                pattern1 = searchInputValue1;
-            } else {
-                pattern1 = RegExp.escape(searchInputValue1);
-                if (fullWordsChecked1) {
-                    pattern1 = fullwordBoundaries(pattern1, searchInputValue1);
-                }
-            }
-        } else {
-            if (regexChecked1) {
-                pattern1 = `^(.*?)(${searchInputValue1})(.*)$`;
-            } else {
-                pattern1 = RegExp.escape(searchInputValue1);
-                if (fullWordsChecked1) {
-                    pattern1 = fullwordBoundaries(pattern1, searchInputValue1);
-                }
-                if (matchWhereValue1 == "match-entire-1") {
-                    pattern1 = `^(${pattern1})$`;
-                } else if (matchWhereValue1 == "match-beginning-1") {
-                    pattern1 = `^(${pattern1})(.*)$`;
-                } else if (matchWhereValue1 == "match-end-1") {
-                    pattern1 = `^(.*?)(${pattern1})$`;
-                } else {
-                    pattern1 = `^(.*?)(${pattern1})(.*)$`;
-                }
+    if (filterControl1.checked) {
+        if (filterSelection1.value) {
+            for (let i = startingRowIndex; i < data.length; i++) {
+                let str = data[i][searchColumnIndex1];
+                if (str === filterSelection1.value) { matchedRows1.push(i); }
             }
         }
-        re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
-        
-        // Record matched rows and create array of color-coded strings
-        for (let i = startingRowIndex; i < data.length; i++) {
-            let str = data[i][searchColumnIndex1];
-            if (str.match(re1)) {
-                matchedRows1.push(i);
-                var htmlSafeString1;
-                if (regexChecked1 || matchWhereValue1 == "match-anywhere-1") {
-                    if (findallChecked1) {
-                        htmlSafeString1 = iterHtmlSafeReplace(str, re1, tagOpen1, tagClose1);
+    } else {
+        if (searchInputValue1 !== "") {
+            console.log("YAY");  
+            var re1;
+            var pattern1;
+            var flags1 = "";
+            var tagOpen1 = "<text class='hilite1'>";
+            var tagClose1 = "</text>";
+
+            // Construct regex
+            if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
+            if (findallChecked1) {
+                flags1 = `${flags1}g`;
+                if (regexChecked1) {
+                    pattern1 = searchInputValue1;
+                } else {
+                    pattern1 = RegExp.escape(searchInputValue1);
+                    if (fullWordsChecked1) {
+                        pattern1 = fullwordBoundaries(pattern1, searchInputValue1);
+                    }
+                }
+            } else {
+                if (regexChecked1) {
+                    pattern1 = `^(.*?)(${searchInputValue1})(.*)$`;
+                } else {
+                    pattern1 = RegExp.escape(searchInputValue1);
+                    if (fullWordsChecked1) {
+                        pattern1 = fullwordBoundaries(pattern1, searchInputValue1);
+                    }
+                    if (matchWhereValue1 == "match-entire-1") {
+                        pattern1 = `^(${pattern1})$`;
+                    } else if (matchWhereValue1 == "match-beginning-1") {
+                        pattern1 = `^(${pattern1})(.*)$`;
+                    } else if (matchWhereValue1 == "match-end-1") {
+                        pattern1 = `^(.*?)(${pattern1})$`;
                     } else {
-                        htmlSafeString1 = str.replace(re1, function(_, g1, g2, g3) {
-                            return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
+                        pattern1 = `^(.*?)(${pattern1})(.*)$`;
+                    }
+                }
+            }
+            re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
+            
+            // Record matched rows and create array of color-coded strings
+            for (let i = startingRowIndex; i < data.length; i++) {
+                let str = data[i][searchColumnIndex1];
+                if (str.match(re1)) {
+                    matchedRows1.push(i);
+                    var htmlSafeString1;
+                    if (regexChecked1 || matchWhereValue1 == "match-anywhere-1") {
+                        if (findallChecked1) {
+                            htmlSafeString1 = iterHtmlSafeReplace(str, re1, tagOpen1, tagClose1);
+                        } else {
+                            htmlSafeString1 = str.replace(re1, function(_, g1, g2, g3) {
+                                return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
+                            });
+                        }
+                    } else if (matchWhereValue1 == "match-entire-1") {
+                        htmlSafeString1 = str.replace(re1, function(_, g1) {
+                            return `${tagOpen1}${escapeHTML(g1)}${tagClose1}`;
+                        });
+                    } else if (matchWhereValue1 == "match-beginning-1") {
+                        htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
+                            return `${tagOpen1}${escapeHTML(g1)}${tagClose1}${escapeHTML(g2)}`;
+                        });
+                    } else if (matchWhereValue1 == "match-end-1") {
+                        htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
+                            return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}`;
                         });
                     }
-                } else if (matchWhereValue1 == "match-entire-1") {
-                    htmlSafeString1 = str.replace(re1, function(_, g1) {
-                        return `${tagOpen1}${escapeHTML(g1)}${tagClose1}`;
-                    });
-                } else if (matchWhereValue1 == "match-beginning-1") {
-                    htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
-                        return `${tagOpen1}${escapeHTML(g1)}${tagClose1}${escapeHTML(g2)}`;
-                    });
-                } else if (matchWhereValue1 == "match-end-1") {
-                    htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
-                        return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}`;
-                    });
-                }
-                newData[i][searchColumnIndex1] = htmlSafeString1;
-            } 
+                    newData[i][searchColumnIndex1] = htmlSafeString1;
+                } 
+            }
         }
     }
+    
 
 
     // PROCESS SEARCH INPUT 2
-    if (searchInputValue2 !== "") {
-        console.log("YAY-YAY");
-        var re2;
-        var pattern2;
-        var flags2 = "";
-        var tagOpen2 = "<text class='hilite2'>";
-        var tagClose2 = "</text>";
-
-        // Construct regex
-        if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
-        if (findallChecked2) { 
-            flags2 = `${flags2}g`;
-            if (regexChecked2) {
-                pattern2 = searchInputValue2;
-            } else {
-                pattern2 = RegExp.escape(searchInputValue2);
-                if (fullWordsChecked2) {
-                    pattern2 = fullwordBoundaries(pattern2, searchInputValue2);
-                }
-            }
-        } else {
-            if (regexChecked2) {
-                pattern2 = `^(.*?)(${searchInputValue2})(.*)$`; 
-            } else {
-                pattern2 = RegExp.escape(searchInputValue2);
-                if (fullWordsChecked2) {
-                    pattern2 = fullwordBoundaries(pattern2, searchInputValue2);
-                }
-                if (matchWhereValue2 == "match-entire-2") {
-                    pattern2 = `^(${pattern2})$`;
-                } else if (matchWhereValue2 == "match-beginning-2") {
-                    pattern2 = `^(${pattern2})(.*)$`;
-                } else if (matchWhereValue2 == "match-end-2") {
-                    pattern2 = `^(.*?)(${pattern2})$`;
-                } else {
-                    pattern2 = `^(.*?)(${pattern2})(.*)$`;
-                }
+    if (filterControl2.checked) {
+        if (filterSelection2.value) {
+            for (let i = startingRowIndex; i < data.length; i++) {
+                let str = data[i][searchColumnIndex2];
+                if (str === filterSelection2.value) { matchedRows2.push(i); }
             }
         }
-        re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
+    } else {
+        if (searchInputValue2 !== "") {
+            console.log("YAY-YAY");
+            var re2;
+            var pattern2;
+            var flags2 = "";
+            var tagOpen2 = "<text class='hilite2'>";
+            var tagClose2 = "</text>";
 
-        // Record matched rows and create array of color-coded strings
-        for (let i = startingRowIndex; i < data.length; i++) {
-            let str = data[i][searchColumnIndex2];
-            if (str.match(re2)) {
-                matchedRows2.push(i);
-                var htmlSafeString2;
-                if (regexChecked2 || matchWhereValue2 == "match-anywhere-2") {
-                    if (findallChecked2) {
-                        htmlSafeString2 = iterHtmlSafeReplace(str, re2, tagOpen2, tagClose2);
+            // Construct regex
+            if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
+            if (findallChecked2) { 
+                flags2 = `${flags2}g`;
+                if (regexChecked2) {
+                    pattern2 = searchInputValue2;
+                } else {
+                    pattern2 = RegExp.escape(searchInputValue2);
+                    if (fullWordsChecked2) {
+                        pattern2 = fullwordBoundaries(pattern2, searchInputValue2);
+                    }
+                }
+            } else {
+                if (regexChecked2) {
+                    pattern2 = `^(.*?)(${searchInputValue2})(.*)$`; 
+                } else {
+                    pattern2 = RegExp.escape(searchInputValue2);
+                    if (fullWordsChecked2) {
+                        pattern2 = fullwordBoundaries(pattern2, searchInputValue2);
+                    }
+                    if (matchWhereValue2 == "match-entire-2") {
+                        pattern2 = `^(${pattern2})$`;
+                    } else if (matchWhereValue2 == "match-beginning-2") {
+                        pattern2 = `^(${pattern2})(.*)$`;
+                    } else if (matchWhereValue2 == "match-end-2") {
+                        pattern2 = `^(.*?)(${pattern2})$`;
                     } else {
-                        htmlSafeString2 = str.replace(re2, function(_, g1, g2, g3) {
-                            return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;
+                        pattern2 = `^(.*?)(${pattern2})(.*)$`;
+                    }
+                }
+            }
+            re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
+
+            // Record matched rows and create array of color-coded strings
+            for (let i = startingRowIndex; i < data.length; i++) {
+                let str = data[i][searchColumnIndex2];
+                if (str.match(re2)) {
+                    matchedRows2.push(i);
+                    var htmlSafeString2;
+                    if (regexChecked2 || matchWhereValue2 == "match-anywhere-2") {
+                        if (findallChecked2) {
+                            htmlSafeString2 = iterHtmlSafeReplace(str, re2, tagOpen2, tagClose2);
+                        } else {
+                            htmlSafeString2 = str.replace(re2, function(_, g1, g2, g3) {
+                                return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;
+                            });
+                        }
+                    } else if (matchWhereValue2 == "match-entire-2") {
+                        htmlSafeString2 = str.replace(re2, function(_, g1) {
+                            return `${tagOpen2}${escapeHTML(g1)}${tagClose2}`;
+                        });
+                    } else if (matchWhereValue2 == "match-beginning-2") {
+                        htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
+                            return `${tagOpen2}${escapeHTML(g1)}${tagClose2}${escapeHTML(g2)}`;
+                        });
+                    } else if (matchWhereValue2 == "match-end-2") {
+                        htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
+                            return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}`;
                         });
                     }
-                } else if (matchWhereValue2 == "match-entire-2") {
-                    htmlSafeString2 = str.replace(re2, function(_, g1) {
-                        return `${tagOpen2}${escapeHTML(g1)}${tagClose2}`;
-                    });
-                } else if (matchWhereValue2 == "match-beginning-2") {
-                    htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
-                        return `${tagOpen2}${escapeHTML(g1)}${tagClose2}${escapeHTML(g2)}`;
-                    });
-                } else if (matchWhereValue2 == "match-end-2") {
-                    htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
-                        return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}`;
-                    });
-                }
-                newData[i][searchColumnIndex2] = htmlSafeString2;
-            } 
+                    newData[i][searchColumnIndex2] = htmlSafeString2;
+                } 
+            }
         }
     }
 
 
     // PROCESS SEARCH INPUT 3
-    if (searchInputValue3 !== "") {
-        console.log("YAY-YAY-YAY");
-        var re3;
-        var pattern3;
-        var flags3 = "";
-        var tagOpen3 = "<text class='hilite3'>";
-        var tagClose3 = "</text>";
-
-        // Construct regex
-        if (!caseSensitiveChecked3) { flags3 = `${flags3}i`; }
-        if (findallChecked3) { 
-            flags3 = `${flags3}g`;
-            if (regexChecked3) {
-                pattern3 = searchInputValue3;
-            } else {
-                pattern3 = RegExp.escape(searchInputValue3);
-                if (fullWordsChecked3) {
-                    pattern3 = fullwordBoundaries(pattern3, searchInputValue3);
-                }
-            }
-        } else {
-            if (regexChecked3) {
-                pattern3 = `^(.*?)(${searchInputValue3})(.*)$`; 
-            } else {
-                pattern3 = RegExp.escape(searchInputValue3);
-                if (fullWordsChecked3) {
-                    pattern3 = fullwordBoundaries(pattern3, searchInputValue3);
-                }
-                if (matchWhereValue3 == "match-entire-3") {
-                    pattern3 = `^(${pattern3})$`;
-                } else if (matchWhereValue3 == "match-beginning-3") {
-                    pattern3 = `^(${pattern3})(.*)$`;
-                } else if (matchWhereValue3 == "match-end-3") {
-                    pattern3 = `^(.*?)(${pattern3})$`;
-                } else {
-                    pattern3 = `^(.*?)(${pattern3})(.*)$`;
-                }
+    if (filterControl3.checked) {
+        if (filterSelection3.value) {
+            for (let i = startingRowIndex; i < data.length; i++) {
+                let str = data[i][searchColumnIndex3];
+                if (str === filterSelection3.value) { matchedRows3.push(i); }
             }
         }
-        re3 = (flags3 == "") ? RegExp(pattern3) : RegExp(pattern3, flags3);
+    } else {
+        if (searchInputValue3 !== "") {
+            console.log("YAY-YAY-YAY");
+            var re3;
+            var pattern3;
+            var flags3 = "";
+            var tagOpen3 = "<text class='hilite3'>";
+            var tagClose3 = "</text>";
 
-        // Record matched rows and create array of color-coded strings
-        for (let i = startingRowIndex; i < data.length; i++) {
-            let str = data[i][searchColumnIndex3];
-            if (str.match(re3)) {
-                matchedRows3.push(i);
-                var htmlSafeString3;
-                if (regexChecked3 || matchWhereValue3 == "match-anywhere-3") {
-                    if (findallChecked3) {
-                        htmlSafeString3 = iterHtmlSafeReplace(str, re3, tagOpen3, tagClose3);
+            // Construct regex
+            if (!caseSensitiveChecked3) { flags3 = `${flags3}i`; }
+            if (findallChecked3) { 
+                flags3 = `${flags3}g`;
+                if (regexChecked3) {
+                    pattern3 = searchInputValue3;
+                } else {
+                    pattern3 = RegExp.escape(searchInputValue3);
+                    if (fullWordsChecked3) {
+                        pattern3 = fullwordBoundaries(pattern3, searchInputValue3);
+                    }
+                }
+            } else {
+                if (regexChecked3) {
+                    pattern3 = `^(.*?)(${searchInputValue3})(.*)$`; 
+                } else {
+                    pattern3 = RegExp.escape(searchInputValue3);
+                    if (fullWordsChecked3) {
+                        pattern3 = fullwordBoundaries(pattern3, searchInputValue3);
+                    }
+                    if (matchWhereValue3 == "match-entire-3") {
+                        pattern3 = `^(${pattern3})$`;
+                    } else if (matchWhereValue3 == "match-beginning-3") {
+                        pattern3 = `^(${pattern3})(.*)$`;
+                    } else if (matchWhereValue3 == "match-end-3") {
+                        pattern3 = `^(.*?)(${pattern3})$`;
                     } else {
-                        htmlSafeString3 = str.replace(re3, function(_, g1, g2, g3) {
-                            return `${escapeHTML(g1)}${tagOpen3}${escapeHTML(g2)}${tagClose3}${escapeHTML(g3)}`;
+                        pattern3 = `^(.*?)(${pattern3})(.*)$`;
+                    }
+                }
+            }
+            re3 = (flags3 == "") ? RegExp(pattern3) : RegExp(pattern3, flags3);
+
+            // Record matched rows and create array of color-coded strings
+            for (let i = startingRowIndex; i < data.length; i++) {
+                let str = data[i][searchColumnIndex3];
+                if (str.match(re3)) {
+                    matchedRows3.push(i);
+                    var htmlSafeString3;
+                    if (regexChecked3 || matchWhereValue3 == "match-anywhere-3") {
+                        if (findallChecked3) {
+                            htmlSafeString3 = iterHtmlSafeReplace(str, re3, tagOpen3, tagClose3);
+                        } else {
+                            htmlSafeString3 = str.replace(re3, function(_, g1, g2, g3) {
+                                return `${escapeHTML(g1)}${tagOpen3}${escapeHTML(g2)}${tagClose3}${escapeHTML(g3)}`;
+                            });
+                        }
+                    } else if (matchWhereValue3 == "match-entire-3") {
+                        htmlSafeString3 = str.replace(re3, function(_, g1) {
+                            return `${tagOpen3}${escapeHTML(g1)}${tagClose3}`;
+                        });
+                    } else if (matchWhereValue3 == "match-beginning-3") {
+                        htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
+                            return `${tagOpen3}${escapeHTML(g1)}${tagClose3}${escapeHTML(g2)}`;
+                        });
+                    } else if (matchWhereValue3 == "match-end-3") {
+                        htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
+                            return `${escapeHTML(g1)}${tagOpen3}${escapeHTML(g2)}${tagClose3}`;
                         });
                     }
-                } else if (matchWhereValue3 == "match-entire-3") {
-                    htmlSafeString3 = str.replace(re3, function(_, g1) {
-                        return `${tagOpen3}${escapeHTML(g1)}${tagClose3}`;
-                    });
-                } else if (matchWhereValue3 == "match-beginning-3") {
-                    htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
-                        return `${tagOpen3}${escapeHTML(g1)}${tagClose3}${escapeHTML(g2)}`;
-                    });
-                } else if (matchWhereValue3 == "match-end-3") {
-                    htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
-                        return `${escapeHTML(g1)}${tagOpen3}${escapeHTML(g2)}${tagClose3}`;
-                    });
-                }
-                newData[i][searchColumnIndex3] = htmlSafeString3;
-            } 
+                    newData[i][searchColumnIndex3] = htmlSafeString3;
+                } 
+            }
         }
     }
     
@@ -303,18 +335,20 @@ const concord = function () {
     
     // Matched rows logic
     var matchedRows;
-    if (searchInputValue1 !== "") {
+    if (searchInputValue1 !== "" || filterSelection1.value) {
         matchedRows = matchedRows1;
     }
-    if (searchInputValue2 !== "") {
-        if (searchInputValue1 !== "") {
+    if (searchInputValue2 !== "" || filterSelection2.value) {
+        if (searchInputValue1 !== "" || filterSelection1.value) {
             matchedRows = matchedRows.filter(x => matchedRows2.includes(x));
         } else {
             matchedRows = matchedRows2;
         }
     }
-    if (searchInputValue3 !== "") {
-        if (searchInputValue1 !== "" || searchInputValue2 !== "") {
+    if (searchInputValue3 !== "" || filterSelection3.value) {
+        if (searchInputValue1 !== "" || filterSelection1.value || 
+            searchInputValue2 !== "" || filterSelection2.value)
+        {
             matchedRows = matchedRows.filter(x => matchedRows3.includes(x));
         } else {
             matchedRows = matchedRows3;
@@ -323,7 +357,7 @@ const concord = function () {
 
     // Pad strings to be displayed
     if (matchedRows.length > 0) {
-        if (concordDisplayChecked1 && searchInputValue1 !== "") {
+        if (!filterSelection1 && concordDisplayChecked1 && searchInputValue1 !== "") {
             var concordStrings1 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex1];
             });
@@ -332,7 +366,7 @@ const concord = function () {
                 newData[index][searchColumnIndex1] = concordStrings1.shift();
             });
         }
-        if (concordDisplayChecked2 && searchInputValue2 !== "") {
+        if (!filterSelection2 && concordDisplayChecked2 && searchInputValue2 !== "") {
             var concordStrings2 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex2];
             });
@@ -341,7 +375,7 @@ const concord = function () {
                 newData[index][searchColumnIndex2] = concordStrings2.shift();
             });
         }
-        if (concordDisplayChecked3 && searchInputValue3 !== "") {
+        if (!filterSelection3 || concordDisplayChecked3 && searchInputValue3 !== "") {
             var concordStrings3 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex3];
             });
@@ -351,7 +385,6 @@ const concord = function () {
             });
         }
     }
-    // ------ stopped adding 3's here
     
     // Insert text and html
     numberOfResults = matchedRows.length;
@@ -404,10 +437,6 @@ const concord = function () {
             }
         });
         
-        // console.log('columnsToDisplay | selectedColumns');
-        // console.log(JSON.stringify(columnsToDisplay));
-        // console.log(JSON.stringify(selectedColumns));
-
         // Results
         matchedRows.forEach((index, resultIndex) => {
             results.append("tr").attr("class", "sortable-row")
@@ -416,17 +445,6 @@ const concord = function () {
                     // Add result index
                     let row = JSON.parse(JSON.stringify(newData[index]));
                     row.unshift(String(resultIndex + 1));
-                    // row = row.map(function(d, j) {
-                    //     if (j !== 0) {
-                    //         if (columnsToSearchValues.includes(columnNames[j - 1])) {
-                    //             return d;
-                    //         } else {
-                    //             return d;
-                    //             // return escapeHTML(d);
-                    //         }
-                    //     } else {
-                    //         return d;
-                    //     }
                     row = row.filter(function(d, j) { 
                         if (selectedColumns[j]) { return d; }
                     });
@@ -485,21 +503,26 @@ const concord = function () {
         enforceLightDarkMode();
         enforceHilites();
     } else {
-        var resultText = "No results for";
-        if (searchInputValue1 !== "") {
-            resultText = resultText + ` "${searchInputValue1}"`;
-            if (searchInputValue2 !== "" || searchInputValue3 !== "") {
+        var resultText = "No results for ";
+        if (searchInputValue1 !== "" || filterSelection1.value) {
+            var value1 = (searchInputValue1 !== "") ? searchInputValue1 : filterSelection1.value;
+            resultText = resultText + `"${value1}"`;
+            if (searchInputValue2 !== "" || filterSelection2.value ||
+                searchInputValue3 !== "" || filterSelection3.value) 
+            {
                 resultText = resultText + " and ";
             }
         }
-        if (searchInputValue2 !== "") {
-            resultText = resultText + `"${searchInputValue2}"`;
-            if (searchInputValue3 !== "") {
+        if (searchInputValue2 !== "" || filterSelection2.value) {
+            var value2 = (searchInputValue2 !== "") ? searchInputValue2 : filterSelection2.value;
+            resultText = resultText + `"${value2}"`;
+            if (searchInputValue3 !== "" || filterSelection3.value) {
                 resultText = resultText + " and ";
             }
         }
-        if (searchInputValue3 !== "") {
-            resultText = resultText + `"${searchInputValue3}"`;
+        if (searchInputValue3 !== "" || filterSelection3.value) {
+            var value3 = (searchInputValue3 !== "") ? searchInputValue3 : filterSelection3.value;
+            resultText = resultText + `"${value3}"`;
         }
         resultsNumber.text("");
         setTimeout(

@@ -16,7 +16,7 @@ const readFile = function () {
             data = reader.result.split('\n');
             data = data.map((line) => { return [line]; });
         }
-        // THIS CAN BE MOVED TO A GLOBALS FILE
+            
         var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { return `Column ${i + 1}`; });
 
         // populate drop-down menu
@@ -24,17 +24,17 @@ const readFile = function () {
         d3.select("#column-selection-2").html("");  // clear menu
         d3.select("#column-selection-3").html("");  // clear menu
         d3.select("#column-selection-1").selectAll("option")
-            .data(["(None)"].concat(columnNames)).enter()
+            .data(["(none)"].concat(columnNames)).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });
         d3.select("#column-selection-2").selectAll("option")
-            .data(["(None)"].concat(columnNames)).enter()
+            .data(["(none)"].concat(columnNames)).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });
         d3.select("#column-selection-3").selectAll("option")
-            .data(["(None)"].concat(columnNames)).enter()
+            .data(["(none)"].concat(columnNames)).enter()
                 .append("option")
                 .attr("value", function(d) { return d; })
                 .text(function(d) { return d; });
