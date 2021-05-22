@@ -10,7 +10,6 @@
 // - (minor) Maybe allow users to paste in data
 // - ? Export results feature
 // - Accept JSON files
-//      - if JSON selected, disable column headers option (default checked)
 // - Group function for each search
 // - Need to figure out how to deal with empty values, in relation to:
 //      - option selection and match logic

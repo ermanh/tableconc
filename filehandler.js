@@ -14,6 +14,33 @@ const readFile = function () {
             data = d3.tsv.parseRows(reader.result);
         } else if (["application/json", "text/json"].includes(filetype)) {
             var json = JSON.parse(reader.result);
+            
+            // Validate json file first
+            let errorMessage = `<text style='color:crimson'>
+                JSON file must be an array of objects.<br>For example:<br><br>
+                &nbsp;&nbsp;[<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Column 1": "one",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Column 2": "two"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Column 1": "alpha",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Column 2": "beta"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;]<br>
+                </text>`;
+            if (!Array.isArray(json)) {
+                resultsNumber.innerHTML = errorMessage;
+                return false;
+            }
+            let jsonSet = json.reduce(
+                (set, item) => { return set.add(typeof(item)); }, 
+                new Set());
+            if(!(jsonSet.size == 1 && jsonSet.has("object"))) {
+                resultsNumber.innerHTML = errorMessage;
+                return false;
+            }
+
             var fields = Array();
             json.forEach((rowObject) => {
                 Object.keys(rowObject).forEach((key) => {
@@ -22,7 +49,15 @@ const readFile = function () {
             });
             data = json.map(function(row) {
                 return fields.map(function(fieldName) { 
-                    return row[fieldName] ? row[fieldName] : ""; 
+                    if (row[fieldName]) {
+                        if (typeof(row[fieldName]) == "string") {
+                            return row[fieldName];
+                        } else {
+                            return JSON.stringify(row[fieldName]);
+                        }
+                    } else {
+                        return ""; 
+                    }
                 }); 
             });
             data.unshift(fields);
@@ -31,7 +66,9 @@ const readFile = function () {
             data = data.map((line) => { return [line]; });
         }
             
-        var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { return `Column ${i + 1}`; });
+        var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { 
+            return `Column ${i + 1}`; 
+        });
 
         // populate drop-down menu
         d3.select("#column-selection-1").html("");  // clear menu
