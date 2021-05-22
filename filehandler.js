@@ -69,13 +69,20 @@ const readFile = function () {
         var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { 
             return `Column ${i + 1}`; 
         });
+        
         // Rename empty column names
         columnNames = renameColumnNames(columnNames);
+
         // Rename duplicate column names
         while (columnNamesHaveDuplicates(columnNames)) { 
             columnNames = renameColumnNames(columnNames); 
         }
         data[0] = columnNames;
+
+        // Replace null or undefined values with empty strings
+        data.forEach((row, i) => {
+            row.forEach((item, j) => { if (!item) { data[i][j] = ""; } });
+        });
 
         // populate drop-down menu
         d3.select("#column-selection-1").html("");  // clear menu
@@ -113,8 +120,6 @@ const readFile = function () {
 };
 
 fileInput.addEventListener('change', function() {
-    readFile();
-
     let filetype = fileInput.files[0].type;
     if (["application/json", "text/json"].includes(filetype)) {
         columnHeaders.checked = true;
@@ -122,6 +127,14 @@ fileInput.addEventListener('change', function() {
     } else {
         columnHeaders.disabled = false;
     }
+    // Clear selections and results
+    filterSelection1.innerHTML = "";
+    filterSelection2.innerHTML = "";
+    filterSelection3.innerHTML = "";
+    resultsNumber.innerHTML = "";
+    resultsTable.innerHTML = "";
+
+    readFile();    
 });
 
 

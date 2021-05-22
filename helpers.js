@@ -1,11 +1,3 @@
-function resetAll() {
-    filterSelection1.innerHTML = "";
-    filterSelection2.innerHTML = "";
-    filterSelection3.innerHTML = "";
-    resultsNumber.innerHTML = "";
-    resultsTable.innerHTML = "";
-}
-
 function columnNamesHaveDuplicates(columnNames) {
     let columnNamesSet = new Set();
     columnNames.forEach((name) => {
@@ -35,6 +27,7 @@ function renameColumnNames(columnNames) {
 function populateFilterValues(whichFilter) {
     var columnValue = document.getElementById(`column-selection-${whichFilter}`).value;
     if (columnValue == "(none)") { return null; }
+
     var columnIndex;
     if (columnHeaders.checked) {
         var columnObject = {};  // {column name: index}
@@ -46,7 +39,7 @@ function populateFilterValues(whichFilter) {
 
     var startingRowIndex = columnHeaders.checked ? 1 : 0;
     var valueCount = {};
-    for (i = startingRowIndex; i < data.length - startingRowIndex; i++) {
+    for (i = startingRowIndex; i < data.length; i++) {
         let datum = data[i][columnIndex];
         if (Object.keys(valueCount).includes(datum)) {
             valueCount[datum] += 1;
@@ -57,7 +50,7 @@ function populateFilterValues(whichFilter) {
     var values = Object.keys(valueCount).sort((a, b) => { 
         return a.toLowerCase() > b.toLowerCase(); 
     });
-    if (values[0] !== "") { values.unshift(""); }
+    // if (values[0] !== "") { values.unshift(""); }
 
     var filterSelection = d3.select(`#filter-selection-${whichFilter}`);
     filterSelection.html(""); // clear menu
@@ -67,16 +60,11 @@ function populateFilterValues(whichFilter) {
             .attr("value", function(d) { return d; })
             .text(function(d) { 
                 if (d.length > filterValueMaxLength) {
-                    return `${d.slice(0,filterValueMaxLength)} (${valueCount[d]})`;
+                    return `${d.slice(0,filterValueMaxLength)} (
+                            ${valueCount[d]})`;
                 }
-                if (d === "") {
-                    if (valueCount[d]) {
-                        return `(${valueCount[d]} empty)`;
-                    }
-                    return "";
-                } else {
-                    return `${d} (${valueCount[d]})`; 
-                }
+                if (d === "") { return `(empty) (${valueCount[d]})`; } 
+                return `${d} (${valueCount[d]})`; 
             });
 }
 
@@ -150,18 +138,18 @@ function fullwordBoundaries(pattern, searchInputValue) {
 }
 
 function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
-    // concordCutoffValue: the number of char spaces to each side of the searched pattern
+    // concordCutoffValue: no. of spaces to each side of the searched pattern
     let beforeRE;
     let hilitedRE;
     if (oneTwoOrThree == "one") {
         beforeRE = RegExp(/^(.*?)<text class='hilite1'>/);
-        hilitedRE = RegExp(/<text class='hilite1'>.+?<\/text>/);
+        hilitedRE = RegExp(/<text class='hilite1'>.*?<\/text>/);
     } else if (oneTwoOrThree == "two") {
         beforeRE = RegExp(/^(.*?)<text class='hilite2'>/);
-        hilitedRE = RegExp(/<text class='hilite2'>.+?<\/text>/);
+        hilitedRE = RegExp(/<text class='hilite2'>.*?<\/text>/);
     } else if (oneTwoOrThree == "three") {
         beforeRE = RegExp(/^(.*?)<text class='hilite3'>/);
-        hilitedRE = RegExp(/<text class='hilite3'>.+?<\/text>/);
+        hilitedRE = RegExp(/<text class='hilite3'>.*?<\/text>/);
     }
     let afterRE = RegExp(/.*?<\/text>(.*)$/);
     var beforeLengths = concordanceColumn.map((el) => {
@@ -180,7 +168,6 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
         afterHilited = unescapeHTML(htmlOriginal.slice(
             hilited.index + hilited[0].length, htmlOriginal.length));
         var html = `${beforeHilited}${hilited[0]}${afterHilited}`;
-        // var html = concordanceColumn[i];
         var sliceStartIndex = 0;
         var sliceEndIndex = html.length;
         var startCutoffDiff;  // number of &nbps; to add at the beginning
@@ -195,7 +182,8 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
             let cutIntoStart = (concordCutoffValue < beforeLengths[i]);
             if (concordCutoffValue < maxBefore) {
                 if (cutIntoStart) {
-                    padStart = padStart + '<text style="color:gray">&hellip;</text>';
+                    padStart = padStart + `<text style="color:gray">
+                                           &hellip;</text>`;
                 } else {
                     padStart = padStart + '&nbsp;';
                 }
@@ -214,26 +202,32 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
             let cutIntoEnd = (concordCutoffValue < afterLengths[i]);
             if (concordCutoffValue < maxAfter) {
                 if (cutIntoEnd) {
-                    padEnd = '<text style="color:gray">&hellip;</text>' + padEnd;
+                    padEnd = `<text style="color:gray">
+                              &hellip;</text>` + padEnd;
                 } else {
                     padEnd = '&nbsp;' + padEnd;
                 }
             }
             if (cutIntoEnd) {
-                sliceEndIndex = sliceEndIndex - (afterLengths[i] - concordCutoffValue);
+                sliceEndIndex = sliceEndIndex - (afterLengths[i] - 
+                                                 concordCutoffValue);
             }
         } else {
             padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
         }
         
-        padStart = (padStart !== "") ? padStart.slice(0, padStart.length-6) + " " : padStart; // Add breaking space
-        padEnd = (padEnd !== "") ? " " + padEnd.slice(6) : padEnd; // Add breaking space
+        // Add breaking space
+        padStart = (padStart !== "") ? padStart.slice(
+            0, padStart.length-6) + " " : padStart;
+        padEnd = (padEnd !== "") ? " " + padEnd.slice(6) : padEnd;
+
         newHtml = html.slice(sliceStartIndex, sliceEndIndex);
         hilited = hilitedRE.exec(newHtml);
         beforeHilited = escapeHTML(newHtml.slice(0, hilited.index));
         afterHilited = escapeHTML(newHtml.slice(
             hilited.index + hilited[0].length, newHtml.length));
-        newColumn.push(`${padStart}${beforeHilited}${hilited[0]}${afterHilited}${padEnd}`);
+        newColumn.push(`${padStart}${beforeHilited}${hilited[0]}
+                        ${afterHilited}${padEnd}`);
     }
     return newColumn;
 }
@@ -358,4 +352,8 @@ function enforceLightDarkMode() {
             bgColorPickerDiv3.style.backgroundColor = colors.light.bgPicker3;
         }
     }
+}
+
+function resetAll() {
+
 }

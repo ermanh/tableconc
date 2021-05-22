@@ -1,25 +1,20 @@
 //// TODOs
 // - Refactor and clean code
-//      - Append "1" to the plain names
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
 // - Improve UI aesthetics/format/style
 //      - Create own custom buttons
 //      - Cross-browser aesthetics
 //      - make mobile-friendly
-// - (minor) Maybe allow users to paste in data
-// - Group function for each search
-// - Empty strings
-//      - Can search empty strings only using group function
-// - Need to figure out how to deal with empty values, in relation to:
-//      - option selection and match logic
-//      - being able to search for empty values
-// - Fill in "resetAll" in helpers.js
+// - A show everything button (e.g., for inspecting data)
+// - Pagination
+//      - limit the number of results shown
+//      - limit the number of filter values in drop-down menu
 // - Bugs
 //      - sorting doesn't work on Chrome
-//      - switching CSV to JSON doesn't update the columns correctly
 //      - last column missing sortable (until click one of the existing sortables)
 // - ? Export results feature
+
 
 const searchBox = document.getElementById("search-box");
 const resultsNumberTimeout = 120;
@@ -77,10 +72,10 @@ const concord = function () {
 
     // PROCESS SEARCH INPUT 1
     if (filterControl1.checked) {
-        if (filterSelection1.value) {
+        if (filterSelection1.value || filterSelection1.value == "") {
             for (let i = startingRowIndex; i < data.length; i++) {
                 let str = data[i][searchColumnIndex1];
-                if (str === filterSelection1.value) { matchedRows1.push(i); }
+                if (str == filterSelection1.value) { matchedRows1.push(i); }
             }
         }
     } else {
@@ -162,7 +157,7 @@ const concord = function () {
 
     // PROCESS SEARCH INPUT 2
     if (filterControl2.checked) {
-        if (filterSelection2.value) {
+        if (filterSelection2.value || filterSelection2.value == "") {
             for (let i = startingRowIndex; i < data.length; i++) {
                 let str = data[i][searchColumnIndex2];
                 if (str === filterSelection2.value) { matchedRows2.push(i); }
@@ -246,7 +241,7 @@ const concord = function () {
 
     // PROCESS SEARCH INPUT 3
     if (filterControl3.checked) {
-        if (filterSelection3.value) {
+        if (filterSelection3.value || filterSelection3.value == "") {
             for (let i = startingRowIndex; i < data.length; i++) {
                 let str = data[i][searchColumnIndex3];
                 if (str === filterSelection3.value) { matchedRows3.push(i); }
@@ -338,24 +333,28 @@ const concord = function () {
     
     // Matched rows logic
     var matchedRows;
-    if (searchInputValue1 !== "" || (filterSelection1.value && filterSelection1.value !== "")) {
-        matchedRows = matchedRows1;
+    let inputValid1 = (
+        (!filterControl1.checked && searchInputValue1 !== "") ||
+        (filterControl1.checked && typeof(filterSelection1.value) == "string")
+    );
+    let inputValid2 = (
+        (!filterControl2.checked && searchInputValue2 !== "") ||
+        (filterControl2.checked && typeof(filterSelection2.value) == "string")
+    );
+    let inputValid3 = (
+        (!filterControl3.checked && searchInputValue3 !== "") ||
+        (filterControl3.checked && typeof(filterSelection3.value) == "string")
+    );
+    if (inputValid1) { matchedRows = matchedRows1; }
+    if (inputValid2) {
+        matchedRows = inputValid1 ? 
+            matchedRows.filter(x => matchedRows2.includes(x)) :
+            matchedRows2;
     }
-    if (searchInputValue2 !== "" || filterSelection2.value) {
-        if (searchInputValue1 !== "" || filterSelection1.value) {
-            matchedRows = matchedRows.filter(x => matchedRows2.includes(x));
-        } else {
-            matchedRows = matchedRows2;
-        }
-    }
-    if (searchInputValue3 !== "" || filterSelection3.value) {
-        if (searchInputValue1 !== "" || filterSelection1.value || 
-            searchInputValue2 !== "" || filterSelection2.value)
-        {
-            matchedRows = matchedRows.filter(x => matchedRows3.includes(x));
-        } else {
-            matchedRows = matchedRows3;
-        }
+    if (inputValid3) {
+        matchedRows = (inputValid1 || inputValid2) ?
+            matchedRows.filter(x => matchedRows3.includes(x)) :
+            matchedRows3;
     }
 
     // Pad strings to be displayed
@@ -394,12 +393,13 @@ const concord = function () {
     if (numberOfResults > 0) {
         resultsNumber.text("");
         setTimeout(
-            function() { resultsNumber.text(`Total results: ${numberOfResults}`); }, 
+            () => { resultsNumber.text(`Total results: ${numberOfResults}`); }, 
             resultsNumberTimeout
         );
     }
     const results = d3.select("#results-table");
     results.html(""); // clear results
+    
     columnsToDisplay = columnNames.filter(function(d, i) {
         if (selectedColumns[i]) { return d; }
     });
@@ -410,6 +410,7 @@ const concord = function () {
             <path d="M0,3 L8,3 M0,6 L13,6 M0,9 L8,9 M0,12 L13,12"/>
         </svg>
     `); 
+
     if (matchedRows.length > 0) {
         
         // Column headers
@@ -427,32 +428,39 @@ const concord = function () {
                 return d;
             } else if (i == 1) {
                 if (i == columnsToDisplay.length - 1) {
-                    return `<pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div>`; 
+                    return `<pre>${d}</pre>
+                            <div class="sort" id="i${i}">&equiv;</div>`; 
                 } else {
-                    return `<pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div><div class="resize-right"></div>`; 
+                    return `<pre>${d}</pre>
+                            <div class="sort" id="i${i}">&equiv;</div>
+                            <div class="resize-right"></div>`; 
                 }
             } else {
                 if (i !== columnsToDisplay.length - 1) {
-                    return `<div class="resize-left"></div><pre>${d}</pre><div class="sort" id="i${i}">&equiv;</div><div class="resize-right"></div>`; 
+                    return `<div class="resize-left"></div>
+                            <pre>${d}</pre>
+                            <div class="sort" id="i${i}">&equiv;</div>
+                            <div class="resize-right"></div>`; 
                 } else {
-                    return `<div class="resize-left"></div><pre>${d}</pre><div class="sort" id="i${i}">`;
+                    return `<div class="resize-left"></div>
+                            <pre>${d}</pre>
+                            <div class="sort" id="i${i}">`;
                 }
             }
         });
         
         // Results
-        matchedRows.forEach((index, resultIndex) => {
+        matchedRows.forEach((rowIndex, resultIndex) => {
+            let row = JSON.parse(JSON.stringify(newData[rowIndex]));
+            console.log("row 1", JSON.stringify(row));
+            row.unshift(String(resultIndex + 1));
+            console.log("row 2", JSON.stringify(row));
+            row = row.filter(function(d, j) { return selectedColumns[j]; });
+            console.log(JSON.stringify(selectedColumns));
+            console.log("row 3", JSON.stringify(row));
             results.append("tr").attr("class", "sortable-row")
                 .selectAll("td")
-                .data(function() {
-                    // Add result index
-                    let row = JSON.parse(JSON.stringify(newData[index]));
-                    row.unshift(String(resultIndex + 1));
-                    row = row.filter(function(d, j) { 
-                        if (selectedColumns[j]) { return d; }
-                    });
-                    return row;
-                }).enter()
+                .data(row).enter()
                 .append("td")
                 .attr("class", function(d, i) {
                     return (i !== 0) ? "results-td" : "result-index";
@@ -470,12 +478,15 @@ const concord = function () {
         // Add sorter event listeners
         sorters = document.querySelectorAll(".sort");
         sorters.forEach((sorter) => {
-            sorter.addEventListener('mouseover', () => sorter.style.color = "coral");
-            sorter.addEventListener('mouseout', () => sorter.style.color = "steelblue");
+            sorter.addEventListener('mouseover', 
+                () => sorter.style.color = "coral");
+            sorter.addEventListener('mouseout', 
+                () => sorter.style.color = "steelblue");
             sorter.addEventListener('click', function(e) {
                 text = sorter.innerHTML;
                 if (text == "\u2261" || text == "\u25B2") { 
-                    sorters.forEach((sorter) => { sorter.innerHTML = "&equiv;"; });
+                    sorters.forEach((sorter) => { 
+                        sorter.innerHTML = "&equiv;"; });
                     sorter.innerHTML = "&#x25BC;"; 
                     sortRows(sorter.id.slice(1), "ascending");
                 } else if (text == "\u25BC") { 
@@ -486,19 +497,24 @@ const concord = function () {
         });
         // Add text-align-control event listener
         textAligner = document.getElementById("text-align-control");
-        textAligner.addEventListener("mouseover", () => textAligner.style.stroke = "yellow" );
-        textAligner.addEventListener("mouseout", () => textAligner.style.stroke = "#2a3347" );
+        textAligner.addEventListener("mouseover", 
+            () => textAligner.style.stroke = "yellow" );
+        textAligner.addEventListener("mouseout", 
+            () => textAligner.style.stroke = "#2a3347" );
         textAligner.addEventListener("click", function() {
             if (textAligner.classList.contains("align-left")) {
-                textAligner.innerHTML = `<path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
+                textAligner.innerHTML = `
+                    <path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
                 textAligner.classList.replace("align-left", "align-center");
                 d3.selectAll("td.results-td").style("text-align", "center");
             } else if (textAligner.classList.contains("align-center")) {
-                textAligner.innerHTML = `<path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
+                textAligner.innerHTML = `
+                    <path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
                 textAligner.classList.replace("align-center", "align-right");
                 d3.selectAll("td.results-td").style("text-align", "right");
             } else if (textAligner.classList.contains("align-right")) {
-                textAligner.innerHTML = `<path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
+                textAligner.innerHTML = `
+                    <path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
                 textAligner.classList.replace("align-right", "align-left");
                 d3.selectAll("td.results-td").style("text-align", "left");
             }

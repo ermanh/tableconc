@@ -450,8 +450,8 @@ columnSelection3.addEventListener('change', function() {
     var columnSelectionValue3 = this.value;
     if (columnSelectionValue3 == "(none)") {
         // Enable all selections in the other column selection
-        columnSelection1.childNodes.forEach(function(node) { node.disabled = false; });
-        columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
+        columnSelection1.childNodes.forEach(node => { node.disabled = false; });
+        columnSelection2.childNodes.forEach(node => { node.disabled = false; });
         // Clear filter values
         filterSelection3.innerHTML = "";
         // Disable all selections

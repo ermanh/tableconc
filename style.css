@@ -458,7 +458,7 @@ td#search-logic {
 
 .infotiptext {
     visibility: hidden;
-    min-width: 180px;
+    min-width: 115px;
     background-color: #dfe2f5;
     opacity: 0.85;
     color: #1e1f21;
