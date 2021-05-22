@@ -7,7 +7,8 @@
 {
     "One": "jump",
     "Two": "leap", 
-    "Three": "skip"
+    "Three": "skip",
+    "Four": ["bleu", "blanc", "rouge"]
 },
 {
     "One": "I have a tangelo.", 

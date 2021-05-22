@@ -229,7 +229,7 @@ input.search {
 }
 
 input[type="checkbox"]:disabled + label {
-    color: gray;
+    color: darkgray;
 }
 
 /* select[for="match-where-1"]:disabled + label {

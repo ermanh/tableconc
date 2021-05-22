@@ -69,6 +69,16 @@ const readFile = function () {
     reader.readAsText(fileInput.files[0]);
 };
 
-fileInput.addEventListener('change', readFile);
+fileInput.addEventListener('change', function() {
+    readFile();
+
+    let filetype = fileInput.files[0].type;
+    if (["application/json", "text/json"].includes(filetype)) {
+        columnHeaders.checked = true;
+        columnHeaders.disabled = true;
+    } else {
+        columnHeaders.disabled = false;
+    }
+});
 
 
