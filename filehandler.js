@@ -69,6 +69,13 @@ const readFile = function () {
         var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { 
             return `Column ${i + 1}`; 
         });
+        // Rename empty column names
+        columnNames = renameColumnNames(columnNames);
+        // Rename duplicate column names
+        while (columnNamesHaveDuplicates(columnNames)) { 
+            columnNames = renameColumnNames(columnNames); 
+        }
+        data[0] = columnNames;
 
         // populate drop-down menu
         d3.select("#column-selection-1").html("");  // clear menu
@@ -101,7 +108,6 @@ const readFile = function () {
         columnsToShow.insert("label")
             .attr("for", function(d) { return "to-show-" + d; })
             .html(function(d) { return d + "&nbsp;&nbsp;"; });
-
     };
     reader.readAsText(fileInput.files[0]);
 };

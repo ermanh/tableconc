@@ -6,6 +6,32 @@ function resetAll() {
     resultsTable.innerHTML = "";
 }
 
+function columnNamesHaveDuplicates(columnNames) {
+    let columnNamesSet = new Set();
+    columnNames.forEach((name) => {
+        columnNamesSet.add(name);
+    });
+    return columnNamesSet.size !== columnNames.length;
+}
+
+function renameColumnNames(columnNames) {
+    let newColumnNames = Array();
+    let dictionary = {};
+    columnNames.forEach((name) => {
+        console.log(name);
+        let newName = name;
+        if (RegExp(/^\s*$/).exec(newName)) { newName = "Unnamed"; }
+        if (!dictionary[newName]) {
+            dictionary[newName] = 1;
+            newColumnNames.push(newName);
+        } else {
+            dictionary[newName] += 1;
+            newColumnNames.push(`${newName} (${dictionary[newName]})`);
+        }
+    });
+    return newColumnNames;
+}
+
 function populateFilterValues(whichFilter) {
     var columnValue = document.getElementById(`column-selection-${whichFilter}`).value;
     if (columnValue == "(none)") { return null; }

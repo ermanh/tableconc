@@ -8,9 +8,9 @@
 //      - Cross-browser aesthetics
 //      - make mobile-friendly
 // - (minor) Maybe allow users to paste in data
-// - ? Export results feature
-// - Accept JSON files
 // - Group function for each search
+// - Empty strings
+//      - Can search empty strings only using group function
 // - Need to figure out how to deal with empty values, in relation to:
 //      - option selection and match logic
 //      - being able to search for empty values
@@ -18,6 +18,8 @@
 // - Bugs
 //      - sorting doesn't work on Chrome
 //      - switching CSV to JSON doesn't update the columns correctly
+//      - last column missing sortable (until click one of the existing sortables)
+// - ? Export results feature
 
 const searchBox = document.getElementById("search-box");
 const resultsNumberTimeout = 120;
