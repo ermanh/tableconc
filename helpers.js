@@ -143,13 +143,13 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
     let hilitedRE;
     if (oneTwoOrThree == "one") {
         beforeRE = RegExp(/^(.*?)<text class='hilite1'>/);
-        hilitedRE = RegExp(/<text class='hilite1'>.*?<\/text>/);
+        hilitedRE = RegExp(/<text class='hilite1'>.+?<\/text>/);
     } else if (oneTwoOrThree == "two") {
         beforeRE = RegExp(/^(.*?)<text class='hilite2'>/);
-        hilitedRE = RegExp(/<text class='hilite2'>.*?<\/text>/);
+        hilitedRE = RegExp(/<text class='hilite2'>.+?<\/text>/);
     } else if (oneTwoOrThree == "three") {
         beforeRE = RegExp(/^(.*?)<text class='hilite3'>/);
-        hilitedRE = RegExp(/<text class='hilite3'>.*?<\/text>/);
+        hilitedRE = RegExp(/<text class='hilite3'>.+?<\/text>/);
     }
     let afterRE = RegExp(/.*?<\/text>(.*)$/);
     var beforeLengths = concordanceColumn.map((el) => {
@@ -174,6 +174,8 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
         var endCutoffDiff;  // number of &nbps; to add at the end
         var padStart;
         var padEnd;
+        var ellipsisHTML = '<text style="color:gray">&hellip;</text>';
+        var ellipsisRegExp = RegExp(RegExp.escape(ellipsisHTML));
 
         if (concordCutoffValue < maxBefore && concordCutoffValue > 0) {
             startCutoffDiff = concordCutoffValue - beforeLengths[i];
@@ -182,8 +184,7 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
             let cutIntoStart = (concordCutoffValue < beforeLengths[i]);
             if (concordCutoffValue < maxBefore) {
                 if (cutIntoStart) {
-                    padStart = padStart + `<text style="color:gray">
-                                           &hellip;</text>`;
+                    padStart = padStart + ellipsisHTML;
                 } else {
                     padStart = padStart + '&nbsp;';
                 }
@@ -202,8 +203,7 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
             let cutIntoEnd = (concordCutoffValue < afterLengths[i]);
             if (concordCutoffValue < maxAfter) {
                 if (cutIntoEnd) {
-                    padEnd = `<text style="color:gray">
-                              &hellip;</text>` + padEnd;
+                    padEnd = ellipsisHTML + padEnd;
                 } else {
                     padEnd = '&nbsp;' + padEnd;
                 }
@@ -217,17 +217,27 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
         }
         
         // Add breaking space
-        padStart = (padStart !== "") ? padStart.slice(
-            0, padStart.length-6) + " " : padStart;
-        padEnd = (padEnd !== "") ? " " + padEnd.slice(6) : padEnd;
+        if (padStart !== "") { 
+            if (ellipsisRegExp.exec(padStart)) {
+                padStart = padStart.replace(ellipsisRegExp, " " + ellipsisHTML);
+            } else {
+                padStart += " "; 
+            }
+        }
+        if (padEnd !== "") { 
+            if (ellipsisRegExp.exec(padEnd)) {
+                padEnd = padEnd.replace(ellipsisRegExp, ellipsisHTML + " ");
+            } else {
+                padEnd = " " + padEnd; 
+            }
+        }
 
         newHtml = html.slice(sliceStartIndex, sliceEndIndex);
         hilited = hilitedRE.exec(newHtml);
         beforeHilited = escapeHTML(newHtml.slice(0, hilited.index));
         afterHilited = escapeHTML(newHtml.slice(
             hilited.index + hilited[0].length, newHtml.length));
-        newColumn.push(`${padStart}${beforeHilited}${hilited[0]}
-                        ${afterHilited}${padEnd}`);
+        newColumn.push(`${padStart}${beforeHilited}${hilited[0]}${afterHilited}${padEnd}`);
     }
     return newColumn;
 }

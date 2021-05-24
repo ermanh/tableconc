@@ -13,6 +13,7 @@
 // - Bugs
 //      - sorting doesn't work on Chrome
 //      - last column missing sortable (until click one of the existing sortables)
+//      - tons of indenting/spaces added to the the right of the highlighted match 
 // - ? Export results feature
 
 
@@ -21,54 +22,22 @@ const resultsNumberTimeout = 120;
 
 const concord = function () {
     var newData = JSON.parse(JSON.stringify(data));
-    var columnHeadersChecked = document.getElementById("column-headers").checked;
-    var resultsNumber = d3.select("#results-number");
-
-    var columnToSearchValue1 = document.getElementById("column-selection-1").value;
-    var searchInputValue1 = document.getElementById("search-input-1").value;
-    var regexChecked1 = document.getElementById("regex-1").checked;
-    var fullWordsChecked1 = document.getElementById("full-words-1").checked;
-    var caseSensitiveChecked1 = document.getElementById("case-sensitive-1").checked;
-    var matchWhereValue1 = document.getElementById("match-where-1").value;
-    var findallChecked1 = document.getElementById("findall-1").checked;
-    var concordDisplayChecked1 = document.getElementById("concordance-display-1").checked;
-    var concordCutoffValue1 = document.getElementById("concordance-cutoff-1").value;
-
-    var columnToSearchValue2 = document.getElementById("column-selection-2").value;
-    var searchInputValue2 = document.getElementById("search-input-2").value;
-    var regexChecked2 = document.getElementById("regex-2").checked;
-    var fullWordsChecked2 = document.getElementById("full-words-2").checked;
-    var caseSensitiveChecked2 = document.getElementById("case-sensitive-2").checked;
-    var matchWhereValue2 = document.getElementById("match-where-2").value;
-    var findallChecked2 = document.getElementById("findall-2").checked;
-    var concordDisplayChecked2 = document.getElementById("concordance-display-2").checked;
-    var concordCutoffValue2 = document.getElementById("concordance-cutoff-2").value;
-
-    var columnToSearchValue3 = document.getElementById("column-selection-3").value;
-    var searchInputValue3 = document.getElementById("search-input-3").value;
-    var regexChecked3 = document.getElementById("regex-3").checked;
-    var fullWordsChecked3 = document.getElementById("full-words-3").checked;
-    var caseSensitiveChecked3 = document.getElementById("case-sensitive-3").checked;
-    var matchWhereValue3 = document.getElementById("match-where-3").value;
-    var findallChecked3 = document.getElementById("findall-3").checked;
-    var concordDisplayChecked3 = document.getElementById("concordance-display-3").checked;
-    var concordCutoffValue3 = document.getElementById("concordance-cutoff-3").value;
-
-    var columnsToSearchValues = [columnToSearchValue1, columnToSearchValue2];
+    // var columnsToSearchValues = [columnSelection1.value, columnSelection2.value];
 
     // THIS CAN BE MOVED TO A GLOBALS FILE
-    var columnNames = columnHeadersChecked ? data[0] : data[0].map((d, i) => { return `Column ${i + 1}`; });
-    var startingRowIndex = columnHeadersChecked ? 1 : 0;    
+    var columnNames = columnHeaders.checked ? data[0] : data[0].map(
+        (d, i) => { return `Column ${i + 1}`; });
+    var startingRowIndex = columnHeaders.checked ? 1 : 0;    
     var columnObject = {}; // {column name: index}
     for (let i = 0; i < columnNames.length; i++) {
         columnObject[columnNames[i]] = i;
     }
     var matchedRows1 = Array();  // the rows where there is a match
-    var searchColumnIndex1 = columnObject[columnToSearchValue1];  // index of the searched column
+    var searchColumnIndex1 = columnObject[columnSelection1.value];
     var matchedRows2 = Array();
-    var searchColumnIndex2 = columnObject[columnToSearchValue2];  // index of the searched column
+    var searchColumnIndex2 = columnObject[columnSelection2.value];
     var matchedRows3 = Array();
-    var searchColumnIndex3 = columnObject[columnToSearchValue3];  // index of the searched column
+    var searchColumnIndex3 = columnObject[columnSelection3.value];
 
     // PROCESS SEARCH INPUT 1
     if (filterControl1.checked) {
@@ -79,7 +48,7 @@ const concord = function () {
             }
         }
     } else {
-        if (searchInputValue1 !== "") {
+        if (searchInput1.value !== "") {
             console.log("YAY");  
             var re1;
             var pattern1;
@@ -88,30 +57,30 @@ const concord = function () {
             var tagClose1 = "</text>";
 
             // Construct regex
-            if (!caseSensitiveChecked1) { flags1 = `${flags1}i`; }
-            if (findallChecked1) {
+            if (!caseSensitive1.checked) { flags1 = `${flags1}i`; }
+            if (findall1.checked) {
                 flags1 = `${flags1}g`;
-                if (regexChecked1) {
-                    pattern1 = searchInputValue1;
+                if (regexSelection1.checked) {
+                    pattern1 = searchInput1.value;
                 } else {
-                    pattern1 = RegExp.escape(searchInputValue1);
-                    if (fullWordsChecked1) {
-                        pattern1 = fullwordBoundaries(pattern1, searchInputValue1);
+                    pattern1 = RegExp.escape(searchInput1.value);
+                    if (fullWords1.checked) {
+                        pattern1 = fullwordBoundaries(pattern1, searchInput1.value);
                     }
                 }
             } else {
-                if (regexChecked1) {
-                    pattern1 = `^(.*?)(${searchInputValue1})(.*)$`;
+                if (regexSelection1.checked) {
+                    pattern1 = `^(.*?)(${searchInput1.value})(.*)$`;
                 } else {
-                    pattern1 = RegExp.escape(searchInputValue1);
-                    if (fullWordsChecked1) {
-                        pattern1 = fullwordBoundaries(pattern1, searchInputValue1);
+                    pattern1 = RegExp.escape(searchInput1.value);
+                    if (fullWords1.checked) {
+                        pattern1 = fullwordBoundaries(pattern1, searchInput1.value);
                     }
-                    if (matchWhereValue1 == "match-entire-1") {
+                    if (matchWhere1.value == "match-entire-1") {
                         pattern1 = `^(${pattern1})$`;
-                    } else if (matchWhereValue1 == "match-beginning-1") {
+                    } else if (matchWhere1.value == "match-beginning-1") {
                         pattern1 = `^(${pattern1})(.*)$`;
-                    } else if (matchWhereValue1 == "match-end-1") {
+                    } else if (matchWhere1.value == "match-end-1") {
                         pattern1 = `^(.*?)(${pattern1})$`;
                     } else {
                         pattern1 = `^(.*?)(${pattern1})(.*)$`;
@@ -126,23 +95,23 @@ const concord = function () {
                 if (str.match(re1)) {
                     matchedRows1.push(i);
                     var htmlSafeString1;
-                    if (regexChecked1 || matchWhereValue1 == "match-anywhere-1") {
-                        if (findallChecked1) {
+                    if (regexSelection1.checked || matchWhere1.value == "match-anywhere-1") {
+                        if (findall1.checked) {
                             htmlSafeString1 = iterHtmlSafeReplace(str, re1, tagOpen1, tagClose1);
                         } else {
                             htmlSafeString1 = str.replace(re1, function(_, g1, g2, g3) {
                                 return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
                             });
                         }
-                    } else if (matchWhereValue1 == "match-entire-1") {
+                    } else if (matchWhere1.value == "match-entire-1") {
                         htmlSafeString1 = str.replace(re1, function(_, g1) {
                             return `${tagOpen1}${escapeHTML(g1)}${tagClose1}`;
                         });
-                    } else if (matchWhereValue1 == "match-beginning-1") {
+                    } else if (matchWhere1.value == "match-beginning-1") {
                         htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
                             return `${tagOpen1}${escapeHTML(g1)}${tagClose1}${escapeHTML(g2)}`;
                         });
-                    } else if (matchWhereValue1 == "match-end-1") {
+                    } else if (matchWhere1.value == "match-end-1") {
                         htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
                             return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}`;
                         });
@@ -153,8 +122,6 @@ const concord = function () {
         }
     }
     
-
-
     // PROCESS SEARCH INPUT 2
     if (filterControl2.checked) {
         if (filterSelection2.value || filterSelection2.value == "") {
@@ -164,7 +131,7 @@ const concord = function () {
             }
         }
     } else {
-        if (searchInputValue2 !== "") {
+        if (searchInput2.value !== "") {
             console.log("YAY-YAY");
             var re2;
             var pattern2;
@@ -173,30 +140,30 @@ const concord = function () {
             var tagClose2 = "</text>";
 
             // Construct regex
-            if (!caseSensitiveChecked2) { flags2 = `${flags2}i`; }
-            if (findallChecked2) { 
+            if (!caseSensitive2.checked) { flags2 = `${flags2}i`; }
+            if (findall2.checked) { 
                 flags2 = `${flags2}g`;
-                if (regexChecked2) {
-                    pattern2 = searchInputValue2;
+                if (regexSelection2.checked) {
+                    pattern2 = searchInput2.value;
                 } else {
-                    pattern2 = RegExp.escape(searchInputValue2);
-                    if (fullWordsChecked2) {
-                        pattern2 = fullwordBoundaries(pattern2, searchInputValue2);
+                    pattern2 = RegExp.escape(searchInput2.value);
+                    if (fullWords2.checked) {
+                        pattern2 = fullwordBoundaries(pattern2, searchInput2.value);
                     }
                 }
             } else {
-                if (regexChecked2) {
-                    pattern2 = `^(.*?)(${searchInputValue2})(.*)$`; 
+                if (regexSelection2.checked) {
+                    pattern2 = `^(.*?)(${searchInput2.value})(.*)$`; 
                 } else {
-                    pattern2 = RegExp.escape(searchInputValue2);
-                    if (fullWordsChecked2) {
-                        pattern2 = fullwordBoundaries(pattern2, searchInputValue2);
+                    pattern2 = RegExp.escape(searchInput2.value);
+                    if (fullWords2.checked) {
+                        pattern2 = fullwordBoundaries(pattern2, searchInput2.value);
                     }
-                    if (matchWhereValue2 == "match-entire-2") {
+                    if (matchWhere2.value == "match-entire-2") {
                         pattern2 = `^(${pattern2})$`;
-                    } else if (matchWhereValue2 == "match-beginning-2") {
+                    } else if (matchWhere2.value == "match-beginning-2") {
                         pattern2 = `^(${pattern2})(.*)$`;
-                    } else if (matchWhereValue2 == "match-end-2") {
+                    } else if (matchWhere2.value == "match-end-2") {
                         pattern2 = `^(.*?)(${pattern2})$`;
                     } else {
                         pattern2 = `^(.*?)(${pattern2})(.*)$`;
@@ -211,23 +178,23 @@ const concord = function () {
                 if (str.match(re2)) {
                     matchedRows2.push(i);
                     var htmlSafeString2;
-                    if (regexChecked2 || matchWhereValue2 == "match-anywhere-2") {
-                        if (findallChecked2) {
+                    if (regexSelection2.checked || matchWhere2.value == "match-anywhere-2") {
+                        if (findall2.checked) {
                             htmlSafeString2 = iterHtmlSafeReplace(str, re2, tagOpen2, tagClose2);
                         } else {
                             htmlSafeString2 = str.replace(re2, function(_, g1, g2, g3) {
                                 return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;
                             });
                         }
-                    } else if (matchWhereValue2 == "match-entire-2") {
+                    } else if (matchWhere2.value == "match-entire-2") {
                         htmlSafeString2 = str.replace(re2, function(_, g1) {
                             return `${tagOpen2}${escapeHTML(g1)}${tagClose2}`;
                         });
-                    } else if (matchWhereValue2 == "match-beginning-2") {
+                    } else if (matchWhere2.value == "match-beginning-2") {
                         htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
                             return `${tagOpen2}${escapeHTML(g1)}${tagClose2}${escapeHTML(g2)}`;
                         });
-                    } else if (matchWhereValue2 == "match-end-2") {
+                    } else if (matchWhere2.value == "match-end-2") {
                         htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
                             return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}`;
                         });
@@ -238,7 +205,6 @@ const concord = function () {
         }
     }
 
-
     // PROCESS SEARCH INPUT 3
     if (filterControl3.checked) {
         if (filterSelection3.value || filterSelection3.value == "") {
@@ -248,7 +214,7 @@ const concord = function () {
             }
         }
     } else {
-        if (searchInputValue3 !== "") {
+        if (searchInput3.value !== "") {
             console.log("YAY-YAY-YAY");
             var re3;
             var pattern3;
@@ -257,30 +223,30 @@ const concord = function () {
             var tagClose3 = "</text>";
 
             // Construct regex
-            if (!caseSensitiveChecked3) { flags3 = `${flags3}i`; }
-            if (findallChecked3) { 
+            if (!caseSensitive3.checked) { flags3 = `${flags3}i`; }
+            if (findall3.checked) { 
                 flags3 = `${flags3}g`;
-                if (regexChecked3) {
-                    pattern3 = searchInputValue3;
+                if (regexSelection3.checked) {
+                    pattern3 = searchInput3.value;
                 } else {
-                    pattern3 = RegExp.escape(searchInputValue3);
-                    if (fullWordsChecked3) {
-                        pattern3 = fullwordBoundaries(pattern3, searchInputValue3);
+                    pattern3 = RegExp.escape(searchInput3.value);
+                    if (fullWords3.checked) {
+                        pattern3 = fullwordBoundaries(pattern3, searchInput3.value);
                     }
                 }
             } else {
-                if (regexChecked3) {
-                    pattern3 = `^(.*?)(${searchInputValue3})(.*)$`; 
+                if (regexSelection3.checked) {
+                    pattern3 = `^(.*?)(${searchInput3.value})(.*)$`; 
                 } else {
-                    pattern3 = RegExp.escape(searchInputValue3);
-                    if (fullWordsChecked3) {
-                        pattern3 = fullwordBoundaries(pattern3, searchInputValue3);
+                    pattern3 = RegExp.escape(searchInput3.value);
+                    if (fullWords3.checked) {
+                        pattern3 = fullwordBoundaries(pattern3, searchInput3.value);
                     }
-                    if (matchWhereValue3 == "match-entire-3") {
+                    if (matchWhere3.value == "match-entire-3") {
                         pattern3 = `^(${pattern3})$`;
-                    } else if (matchWhereValue3 == "match-beginning-3") {
+                    } else if (matchWhere3.value == "match-beginning-3") {
                         pattern3 = `^(${pattern3})(.*)$`;
-                    } else if (matchWhereValue3 == "match-end-3") {
+                    } else if (matchWhere3.value == "match-end-3") {
                         pattern3 = `^(.*?)(${pattern3})$`;
                     } else {
                         pattern3 = `^(.*?)(${pattern3})(.*)$`;
@@ -295,23 +261,23 @@ const concord = function () {
                 if (str.match(re3)) {
                     matchedRows3.push(i);
                     var htmlSafeString3;
-                    if (regexChecked3 || matchWhereValue3 == "match-anywhere-3") {
-                        if (findallChecked3) {
+                    if (regexSelection3.checked || matchWhere3.value == "match-anywhere-3") {
+                        if (findall3.checked) {
                             htmlSafeString3 = iterHtmlSafeReplace(str, re3, tagOpen3, tagClose3);
                         } else {
                             htmlSafeString3 = str.replace(re3, function(_, g1, g2, g3) {
                                 return `${escapeHTML(g1)}${tagOpen3}${escapeHTML(g2)}${tagClose3}${escapeHTML(g3)}`;
                             });
                         }
-                    } else if (matchWhereValue3 == "match-entire-3") {
+                    } else if (matchWhere3.value == "match-entire-3") {
                         htmlSafeString3 = str.replace(re3, function(_, g1) {
                             return `${tagOpen3}${escapeHTML(g1)}${tagClose3}`;
                         });
-                    } else if (matchWhereValue3 == "match-beginning-3") {
+                    } else if (matchWhere3.value == "match-beginning-3") {
                         htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
                             return `${tagOpen3}${escapeHTML(g1)}${tagClose3}${escapeHTML(g2)}`;
                         });
-                    } else if (matchWhereValue3 == "match-end-3") {
+                    } else if (matchWhere3.value == "match-end-3") {
                         htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
                             return `${escapeHTML(g1)}${tagOpen3}${escapeHTML(g2)}${tagClose3}`;
                         });
@@ -334,15 +300,15 @@ const concord = function () {
     // Matched rows logic
     var matchedRows;
     let inputValid1 = (
-        (!filterControl1.checked && searchInputValue1 !== "") ||
+        (!filterControl1.checked && searchInput1.value !== "") ||
         (filterControl1.checked && typeof(filterSelection1.value) == "string")
     );
     let inputValid2 = (
-        (!filterControl2.checked && searchInputValue2 !== "") ||
+        (!filterControl2.checked && searchInput2.value !== "") ||
         (filterControl2.checked && typeof(filterSelection2.value) == "string")
     );
     let inputValid3 = (
-        (!filterControl3.checked && searchInputValue3 !== "") ||
+        (!filterControl3.checked && searchInput3.value !== "") ||
         (filterControl3.checked && typeof(filterSelection3.value) == "string")
     );
     if (inputValid1) { matchedRows = matchedRows1; }
@@ -359,29 +325,29 @@ const concord = function () {
 
     // Pad strings to be displayed
     if (matchedRows.length > 0) {
-        if (!filterControl1.checked && concordDisplayChecked1 && searchInputValue1 !== "") {
+        if (!filterControl1.checked && concordanceDisplay1.checked && searchInput1.value !== "") {
             var concordStrings1 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex1];
             });
-            concordStrings1 = padConcordance(concordStrings1, 'one', concordCutoffValue1);
+            concordStrings1 = padConcordance(concordStrings1, 'one', concordanceCutoff1.value);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex1] = concordStrings1.shift();
             });
         }
-        if (!filterControl2.checked && concordDisplayChecked2 && searchInputValue2 !== "") {
+        if (!filterControl2.checked && concordanceDisplay2.checked && searchInput2.value !== "") {
             var concordStrings2 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex2];
             });
-            concordStrings2 = padConcordance(concordStrings2, 'two', concordCutoffValue2);
+            concordStrings2 = padConcordance(concordStrings2, 'two', concordanceCutoff2.value);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex2] = concordStrings2.shift();
             });
         }
-        if (!filterControl3.checked && concordDisplayChecked3 && searchInputValue3 !== "") {
+        if (!filterControl3.checked && concordanceDisplay3.checked && searchInput3.value !== "") {
             var concordStrings3 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex3];
             });
-            concordStrings3 = padConcordance(concordStrings3, 'three', concordCutoffValue3);
+            concordStrings3 = padConcordance(concordStrings3, 'three', concordanceCutoff3.value);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex3] = concordStrings3.shift();
             });
@@ -391,9 +357,9 @@ const concord = function () {
     // Insert text and html
     numberOfResults = matchedRows.length;
     if (numberOfResults > 0) {
-        resultsNumber.text("");
+        resultsNumber.textContent = "";
         setTimeout(
-            () => { resultsNumber.text(`Total results: ${numberOfResults}`); }, 
+            () => { resultsNumber.textContent = `Total results: ${numberOfResults}`; }, 
             resultsNumberTimeout
         );
     }
@@ -452,12 +418,8 @@ const concord = function () {
         // Results
         matchedRows.forEach((rowIndex, resultIndex) => {
             let row = JSON.parse(JSON.stringify(newData[rowIndex]));
-            console.log("row 1", JSON.stringify(row));
             row.unshift(String(resultIndex + 1));
-            console.log("row 2", JSON.stringify(row));
             row = row.filter(function(d, j) { return selectedColumns[j]; });
-            console.log(JSON.stringify(selectedColumns));
-            console.log("row 3", JSON.stringify(row));
             results.append("tr").attr("class", "sortable-row")
                 .selectAll("td")
                 .data(row).enter()
@@ -523,36 +485,36 @@ const concord = function () {
         enforceHilites();
     } else {
         var resultText = "No results for ";
-        if (searchInputValue1 !== "" || filterSelection1.value) {
-            var value1 = (searchInputValue1 !== "") ? searchInputValue1 : filterSelection1.value;
+        if (searchInput1.value !== "" || filterSelection1.value) {
+            var value1 = (searchInput1.value !== "") ? searchInput1.value : filterSelection1.value;
             resultText = resultText + `"${value1}"`;
-            if (searchInputValue2 !== "" || filterSelection2.value ||
-                searchInputValue3 !== "" || filterSelection3.value) 
+            if (searchInput2.value !== "" || filterSelection2.value ||
+                searchInput3.value !== "" || filterSelection3.value) 
             {
                 resultText = resultText + " and ";
             }
         }
-        if (searchInputValue2 !== "" || filterSelection2.value) {
-            var value2 = (searchInputValue2 !== "") ? searchInputValue2 : filterSelection2.value;
+        if (searchInput2.value !== "" || filterSelection2.value) {
+            var value2 = (searchInput2.value !== "") ? searchInput2.value : filterSelection2.value;
             resultText = resultText + `"${value2}"`;
-            if (searchInputValue3 !== "" || filterSelection3.value) {
+            if (searchInput3.value !== "" || filterSelection3.value) {
                 resultText = resultText + " and ";
             }
         }
-        if (searchInputValue3 !== "" || filterSelection3.value) {
-            var value3 = (searchInputValue3 !== "") ? searchInputValue3 : filterSelection3.value;
+        if (searchInput3.value !== "" || filterSelection3.value) {
+            var value3 = (searchInput3.value !== "") ? searchInput3.value : filterSelection3.value;
             resultText = resultText + `"${value3}"`;
         }
-        resultsNumber.text("");
+        resultsNumber.textContent = "";
         setTimeout(
-            function() { resultsNumber.text(resultText); }, 
+            function() { resultsNumber.textContent = resultText; }, 
             resultsNumberTimeout
         );
     }
 
-    console.log("FINAL columnToSearchValue1", columnToSearchValue1);
-    console.log("FINAL columnToSearchValue2", columnToSearchValue2);
-    console.log("FINAL columnToSearchValue3", columnToSearchValue3);
+    console.log("FINAL columnSelection1.value", columnSelection1.value);
+    console.log("FINAL columnSelection2.value", columnSelection2.value);
+    console.log("FINAL columnSelection3.value", columnSelection3.value);
 };
 
 searchBox.addEventListener('submit', concord);
