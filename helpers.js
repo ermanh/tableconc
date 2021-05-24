@@ -217,19 +217,15 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
         }
         
         // Add breaking space
-        if (padStart !== "") { 
-            if (ellipsisRegExp.exec(padStart)) {
-                padStart = padStart.replace(ellipsisRegExp, " " + ellipsisHTML);
-            } else {
-                padStart += " "; 
-            }
+        if (ellipsisRegExp.exec(padStart)) {
+            padStart = padStart.replace(ellipsisRegExp, " " + ellipsisHTML);
+        } else {
+            padStart += " "; 
         }
-        if (padEnd !== "") { 
-            if (ellipsisRegExp.exec(padEnd)) {
-                padEnd = padEnd.replace(ellipsisRegExp, ellipsisHTML + " ");
-            } else {
-                padEnd = " " + padEnd; 
-            }
+        if (ellipsisRegExp.exec(padEnd)) {
+            padEnd = padEnd.replace(ellipsisRegExp, ellipsisHTML + " ");
+        } else {
+            padEnd = " &nbsp;" + padEnd; 
         }
 
         newHtml = html.slice(sliceStartIndex, sliceEndIndex);

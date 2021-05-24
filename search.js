@@ -13,7 +13,6 @@
 // - Bugs
 //      - sorting doesn't work on Chrome
 //      - last column missing sortable (until click one of the existing sortables)
-//      - tons of indenting/spaces added to the the right of the highlighted match 
 // - ? Export results feature
 
 
