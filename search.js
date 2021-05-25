@@ -13,21 +13,21 @@
 // - Bugs
 //      - sorting doesn't work on Chrome
 //      - last column missing sortable (until click one of the existing sortables)
+//      - second and third search hiders don't auto change colors 
+//          when switching to dark mode
 // - ? Export results feature
 
 
 const searchBox = document.getElementById("search-box");
-const resultsNumberTimeout = 120;
+const resultsNumberTimeout = 100;
 
 const concord = function () {
     var newData = JSON.parse(JSON.stringify(data));
-    // var columnsToSearchValues = [columnSelection1.value, columnSelection2.value];
 
-    // THIS CAN BE MOVED TO A GLOBALS FILE
     var columnNames = columnHeaders.checked ? data[0] : data[0].map(
         (d, i) => { return `Column ${i + 1}`; });
     var startingRowIndex = columnHeaders.checked ? 1 : 0;    
-    var columnObject = {}; // {column name: index}
+    var columnObject = {};  // {column name: index}
     for (let i = 0; i < columnNames.length; i++) {
         columnObject[columnNames[i]] = i;
     }
@@ -40,7 +40,7 @@ const concord = function () {
 
     // PROCESS SEARCH INPUT 1
     if (filterControl1.checked) {
-        if (filterSelection1.value || filterSelection1.value == "") {
+        if (typeof(filterSelection1.value == "string")) {
             for (let i = startingRowIndex; i < data.length; i++) {
                 let str = data[i][searchColumnIndex1];
                 if (str == filterSelection1.value) { matchedRows1.push(i); }
@@ -64,7 +64,8 @@ const concord = function () {
                 } else {
                     pattern1 = RegExp.escape(searchInput1.value);
                     if (fullWords1.checked) {
-                        pattern1 = fullwordBoundaries(pattern1, searchInput1.value);
+                        pattern1 = fullwordBoundaries(pattern1, 
+                                                      searchInput1.value);
                     }
                 }
             } else {
@@ -73,7 +74,8 @@ const concord = function () {
                 } else {
                     pattern1 = RegExp.escape(searchInput1.value);
                     if (fullWords1.checked) {
-                        pattern1 = fullwordBoundaries(pattern1, searchInput1.value);
+                        pattern1 = fullwordBoundaries(pattern1, 
+                                                      searchInput1.value);
                     }
                     if (matchWhere1.value == "match-entire-1") {
                         pattern1 = `^(${pattern1})$`;
@@ -94,12 +96,19 @@ const concord = function () {
                 if (str.match(re1)) {
                     matchedRows1.push(i);
                     var htmlSafeString1;
-                    if (regexSelection1.checked || matchWhere1.value == "match-anywhere-1") {
+                    if (regexSelection1.checked || 
+                        matchWhere1.value == "match-anywhere-1") 
+                    {
                         if (findall1.checked) {
-                            htmlSafeString1 = iterHtmlSafeReplace(str, re1, tagOpen1, tagClose1);
+                            htmlSafeString1 = iterHtmlSafeReplace(
+                                str, re1, tagOpen1, tagClose1);
                         } else {
-                            htmlSafeString1 = str.replace(re1, function(_, g1, g2, g3) {
-                                return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}${escapeHTML(g3)}`;
+                            htmlSafeString1 = str.replace(
+                                re1, function(_, g1, g2, g3) 
+                            {
+                                return `${escapeHTML(g1)}${tagOpen1}` + 
+                                       `${escapeHTML(g2)}${tagClose1}` + 
+                                       `${escapeHTML(g3)}`;
                             });
                         }
                     } else if (matchWhere1.value == "match-entire-1") {
@@ -108,11 +117,13 @@ const concord = function () {
                         });
                     } else if (matchWhere1.value == "match-beginning-1") {
                         htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
-                            return `${tagOpen1}${escapeHTML(g1)}${tagClose1}${escapeHTML(g2)}`;
+                            return `${tagOpen1}${escapeHTML(g1)}${tagClose1}` +
+                                   `${escapeHTML(g2)}`;
                         });
                     } else if (matchWhere1.value == "match-end-1") {
                         htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
-                            return `${escapeHTML(g1)}${tagOpen1}${escapeHTML(g2)}${tagClose1}`;
+                            return `${escapeHTML(g1)}${tagOpen1}` + 
+                                   `${escapeHTML(g2)}${tagClose1}`;
                         });
                     }
                     newData[i][searchColumnIndex1] = htmlSafeString1;
@@ -123,7 +134,7 @@ const concord = function () {
     
     // PROCESS SEARCH INPUT 2
     if (filterControl2.checked) {
-        if (filterSelection2.value || filterSelection2.value == "") {
+        if (typeof(filterSelection2.value) == "string") {
             for (let i = startingRowIndex; i < data.length; i++) {
                 let str = data[i][searchColumnIndex2];
                 if (str === filterSelection2.value) { matchedRows2.push(i); }
@@ -147,7 +158,8 @@ const concord = function () {
                 } else {
                     pattern2 = RegExp.escape(searchInput2.value);
                     if (fullWords2.checked) {
-                        pattern2 = fullwordBoundaries(pattern2, searchInput2.value);
+                        pattern2 = fullwordBoundaries(pattern2, 
+                                                      searchInput2.value);
                     }
                 }
             } else {
@@ -156,7 +168,8 @@ const concord = function () {
                 } else {
                     pattern2 = RegExp.escape(searchInput2.value);
                     if (fullWords2.checked) {
-                        pattern2 = fullwordBoundaries(pattern2, searchInput2.value);
+                        pattern2 = fullwordBoundaries(pattern2, 
+                                                      searchInput2.value);
                     }
                     if (matchWhere2.value == "match-entire-2") {
                         pattern2 = `^(${pattern2})$`;
@@ -177,12 +190,19 @@ const concord = function () {
                 if (str.match(re2)) {
                     matchedRows2.push(i);
                     var htmlSafeString2;
-                    if (regexSelection2.checked || matchWhere2.value == "match-anywhere-2") {
+                    if (regexSelection2.checked || 
+                        matchWhere2.value == "match-anywhere-2") 
+                    {
                         if (findall2.checked) {
-                            htmlSafeString2 = iterHtmlSafeReplace(str, re2, tagOpen2, tagClose2);
+                            htmlSafeString2 = iterHtmlSafeReplace(
+                                str, re2, tagOpen2, tagClose2);
                         } else {
-                            htmlSafeString2 = str.replace(re2, function(_, g1, g2, g3) {
-                                return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}${escapeHTML(g3)}`;
+                            htmlSafeString2 = str.replace(
+                                re2, function(_, g1, g2, g3) 
+                            {
+                                return `${escapeHTML(g1)}${tagOpen2}` + 
+                                       `${escapeHTML(g2)}${tagClose2}` + 
+                                       `${escapeHTML(g3)}`;
                             });
                         }
                     } else if (matchWhere2.value == "match-entire-2") {
@@ -191,11 +211,13 @@ const concord = function () {
                         });
                     } else if (matchWhere2.value == "match-beginning-2") {
                         htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
-                            return `${tagOpen2}${escapeHTML(g1)}${tagClose2}${escapeHTML(g2)}`;
+                            return `${tagOpen2}${escapeHTML(g1)}${tagClose2}` +
+                                   `${escapeHTML(g2)}`;
                         });
                     } else if (matchWhere2.value == "match-end-2") {
                         htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
-                            return `${escapeHTML(g1)}${tagOpen2}${escapeHTML(g2)}${tagClose2}`;
+                            return `${escapeHTML(g1)}${tagOpen2}` + 
+                                   `${escapeHTML(g2)}${tagClose2}`;
                         });
                     }
                     newData[i][searchColumnIndex2] = htmlSafeString2;
@@ -206,7 +228,7 @@ const concord = function () {
 
     // PROCESS SEARCH INPUT 3
     if (filterControl3.checked) {
-        if (filterSelection3.value || filterSelection3.value == "") {
+        if (typeof(filterSelection3.value) == "string") {
             for (let i = startingRowIndex; i < data.length; i++) {
                 let str = data[i][searchColumnIndex3];
                 if (str === filterSelection3.value) { matchedRows3.push(i); }
@@ -230,7 +252,8 @@ const concord = function () {
                 } else {
                     pattern3 = RegExp.escape(searchInput3.value);
                     if (fullWords3.checked) {
-                        pattern3 = fullwordBoundaries(pattern3, searchInput3.value);
+                        pattern3 = fullwordBoundaries(pattern3, 
+                                                      searchInput3.value);
                     }
                 }
             } else {
@@ -239,7 +262,8 @@ const concord = function () {
                 } else {
                     pattern3 = RegExp.escape(searchInput3.value);
                     if (fullWords3.checked) {
-                        pattern3 = fullwordBoundaries(pattern3, searchInput3.value);
+                        pattern3 = fullwordBoundaries(pattern3, 
+                                                      searchInput3.value);
                     }
                     if (matchWhere3.value == "match-entire-3") {
                         pattern3 = `^(${pattern3})$`;
@@ -260,12 +284,19 @@ const concord = function () {
                 if (str.match(re3)) {
                     matchedRows3.push(i);
                     var htmlSafeString3;
-                    if (regexSelection3.checked || matchWhere3.value == "match-anywhere-3") {
+                    if (regexSelection3.checked || 
+                        matchWhere3.value == "match-anywhere-3") 
+                    {
                         if (findall3.checked) {
-                            htmlSafeString3 = iterHtmlSafeReplace(str, re3, tagOpen3, tagClose3);
+                            htmlSafeString3 = iterHtmlSafeReplace(
+                                str, re3, tagOpen3, tagClose3);
                         } else {
-                            htmlSafeString3 = str.replace(re3, function(_, g1, g2, g3) {
-                                return `${escapeHTML(g1)}${tagOpen3}${escapeHTML(g2)}${tagClose3}${escapeHTML(g3)}`;
+                            htmlSafeString3 = str.replace(
+                                re3, function(_, g1, g2, g3) 
+                            {
+                                return `${escapeHTML(g1)}${tagOpen3}` +
+                                       `${escapeHTML(g2)}${tagClose3}` + 
+                                       `${escapeHTML(g3)}`;
                             });
                         }
                     } else if (matchWhere3.value == "match-entire-3") {
@@ -274,11 +305,13 @@ const concord = function () {
                         });
                     } else if (matchWhere3.value == "match-beginning-3") {
                         htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
-                            return `${tagOpen3}${escapeHTML(g1)}${tagClose3}${escapeHTML(g2)}`;
+                            return `${tagOpen3}${escapeHTML(g1)}${tagClose3}` + 
+                                   `${escapeHTML(g2)}`;
                         });
                     } else if (matchWhere3.value == "match-end-3") {
                         htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
-                            return `${escapeHTML(g1)}${tagOpen3}${escapeHTML(g2)}${tagClose3}`;
+                            return `${escapeHTML(g1)}` + 
+                                   `${tagOpen3}${escapeHTML(g2)}${tagClose3}`;
                         });
                     }
                     newData[i][searchColumnIndex3] = htmlSafeString3;
@@ -287,7 +320,6 @@ const concord = function () {
         }
     }
     
-
     //// Display results
     
     // Get array of trues and falses on which columns to display
@@ -324,29 +356,38 @@ const concord = function () {
 
     // Pad strings to be displayed
     if (matchedRows.length > 0) {
-        if (!filterControl1.checked && concordanceDisplay1.checked && searchInput1.value !== "") {
+        if (!filterControl1.checked && concordanceDisplay1.checked && 
+            searchInput1.value !== "") 
+        {
             var concordStrings1 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex1];
             });
-            concordStrings1 = padConcordance(concordStrings1, 'one', concordanceCutoff1.value);
+            concordStrings1 = padConcordance(
+                concordStrings1, 'one', concordanceCutoff1.value);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex1] = concordStrings1.shift();
             });
         }
-        if (!filterControl2.checked && concordanceDisplay2.checked && searchInput2.value !== "") {
+        if (!filterControl2.checked && concordanceDisplay2.checked && 
+            searchInput2.value !== "") 
+        {
             var concordStrings2 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex2];
             });
-            concordStrings2 = padConcordance(concordStrings2, 'two', concordanceCutoff2.value);
+            concordStrings2 = padConcordance(
+                concordStrings2, 'two', concordanceCutoff2.value);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex2] = concordStrings2.shift();
             });
         }
-        if (!filterControl3.checked && concordanceDisplay3.checked && searchInput3.value !== "") {
+        if (!filterControl3.checked && concordanceDisplay3.checked && 
+            searchInput3.value !== "") 
+        {
             var concordStrings3 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex3];
             });
-            concordStrings3 = padConcordance(concordStrings3, 'three', concordanceCutoff3.value);
+            concordStrings3 = padConcordance(
+                concordStrings3, 'three', concordanceCutoff3.value);
             matchedRows.forEach((index) => {
                 newData[index][searchColumnIndex3] = concordStrings3.shift();
             });
@@ -358,7 +399,8 @@ const concord = function () {
     if (numberOfResults > 0) {
         resultsNumber.textContent = "";
         setTimeout(
-            () => { resultsNumber.textContent = `Total results: ${numberOfResults}`; }, 
+            () => { resultsNumber.textContent = `Total results: ` + 
+                                                `${numberOfResults}`; }, 
             resultsNumberTimeout
         );
     }
@@ -485,7 +527,9 @@ const concord = function () {
     } else {
         var resultText = "No results for ";
         if (searchInput1.value !== "" || filterSelection1.value) {
-            var value1 = (searchInput1.value !== "") ? searchInput1.value : filterSelection1.value;
+            var value1 = (searchInput1.value !== "") ? 
+                searchInput1.value : 
+                filterSelection1.value;
             resultText = resultText + `"${value1}"`;
             if (searchInput2.value !== "" || filterSelection2.value ||
                 searchInput3.value !== "" || filterSelection3.value) 
@@ -494,14 +538,18 @@ const concord = function () {
             }
         }
         if (searchInput2.value !== "" || filterSelection2.value) {
-            var value2 = (searchInput2.value !== "") ? searchInput2.value : filterSelection2.value;
+            var value2 = (searchInput2.value !== "") ? 
+                searchInput2.value : 
+                filterSelection2.value;
             resultText = resultText + `"${value2}"`;
             if (searchInput3.value !== "" || filterSelection3.value) {
                 resultText = resultText + " and ";
             }
         }
         if (searchInput3.value !== "" || filterSelection3.value) {
-            var value3 = (searchInput3.value !== "") ? searchInput3.value : filterSelection3.value;
+            var value3 = (searchInput3.value !== "") ? 
+                searchInput3.value : 
+                filterSelection3.value;
             resultText = resultText + `"${value3}"`;
         }
         resultsNumber.textContent = "";
