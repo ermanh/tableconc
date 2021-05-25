@@ -1,16 +1,13 @@
 function columnNamesHaveDuplicates(columnNames) {
     let columnNamesSet = new Set();
-    columnNames.forEach((name) => {
-        columnNamesSet.add(name);
-    });
+    columnNames.forEach(name => { columnNamesSet.add(name); });
     return columnNamesSet.size !== columnNames.length;
 }
 
 function renameColumnNames(columnNames) {
     let newColumnNames = Array();
     let dictionary = {};
-    columnNames.forEach((name) => {
-        console.log(name);
+    columnNames.forEach(name => {
         let newName = name;
         if (RegExp(/^\s*$/).exec(newName)) { newName = "Unnamed"; }
         if (!dictionary[newName]) {
@@ -25,13 +22,16 @@ function renameColumnNames(columnNames) {
 }
 
 function populateFilterValues(whichFilter) {
-    var columnValue = document.getElementById(`column-selection-${whichFilter}`).value;
+    var columnValue = document.getElementById(
+        `column-selection-${whichFilter}`).value;
     if (columnValue == "(none)") { return null; }
 
     var columnIndex;
     if (columnHeaders.checked) {
         var columnObject = {};  // {column name: index}
-        for (let i = 0; i < data[0].length; i++) { columnObject[data[0][i]] = i; }
+        for (let i = 0; i < data[0].length; i++) { 
+            columnObject[data[0][i]] = i; 
+        }
         columnIndex = columnObject[columnValue];
     } else {
         columnIndex = RegExp(/\d+/).exec(columnValue)[0] - 1;
@@ -50,7 +50,6 @@ function populateFilterValues(whichFilter) {
     var values = Object.keys(valueCount).sort((a, b) => { 
         return a.toLowerCase() > b.toLowerCase(); 
     });
-    // if (values[0] !== "") { values.unshift(""); }
 
     var filterSelection = d3.select(`#filter-selection-${whichFilter}`);
     filterSelection.html(""); // clear menu
@@ -58,10 +57,10 @@ function populateFilterValues(whichFilter) {
         .data(values).enter()
             .append("option")
             .attr("value", function(d) { return d; })
-            .text(function(d) { 
+            .text(d => { 
                 if (d.length > filterValueMaxLength) {
-                    return `${d.slice(0,filterValueMaxLength)} (
-                            ${valueCount[d]})`;
+                    return `${d.slice(0,filterValueMaxLength)} ` + 
+                           `(${valueCount[d]})`;
                 }
                 if (d === "") { return `(empty) (${valueCount[d]})`; } 
                 return `${d} (${valueCount[d]})`; 
@@ -72,7 +71,9 @@ function makeResizable(div, adjacentIsRight) {
     var position, thisColumn, adjacentColumn, thisWidth, adjacentWidth;
 
     var mousemoveListener = function(e) {
-        var traveled = adjacentIsRight ? e.pageX - position : position - e.pageX;
+        var traveled = adjacentIsRight ? 
+            e.pageX - position : 
+            position - e.pageX;
         thisColumn.style.width = `${thisWidth + traveled}px`;
         adjacentColumn.style.width = `${adjacentWidth - traveled}px`; 
     };
@@ -88,7 +89,9 @@ function makeResizable(div, adjacentIsRight) {
         document.getElementsByTagName("body")[0].style.cursor = "col-resize";
         position = e.pageX;
         thisColumn = div.parentElement;
-        adjacentColumn = adjacentIsRight ? thisColumn.nextElementSibling : thisColumn.previousElementSibling;
+        adjacentColumn = adjacentIsRight ? 
+            thisColumn.nextElementSibling : 
+            thisColumn.previousElementSibling;
         thisWidth = thisColumn.offsetWidth;
         adjacentWidth = adjacentColumn.offsetWidth;
         document.addEventListener('mousemove', mousemoveListener);
@@ -123,11 +126,13 @@ function iterHtmlSafeReplace(string, re, tagOpen, tagClose) {
         match = myArray[0];
         index = myArray.index;
         preMatch = string.slice(prevIndex + prevMatchLength, index);
-        newString += `${escapeHTML(preMatch)}${tagOpen}${escapeHTML(match)}${tagClose}`;
+        newString += `${escapeHTML(preMatch)}` +
+                     `${tagOpen}${escapeHTML(match)}${tagClose}`;
         prevIndex = index;
         prevMatchLength = match.length;
     }
-    newString += `${escapeHTML(string.slice(prevIndex + prevMatchLength, string.length))}`;
+    newString += escapeHTML(
+        string.slice(prevIndex + prevMatchLength, string.length));
     return newString;
 }
 
@@ -183,11 +188,8 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
             padStart = '&nbsp;'.repeat(startCutoffDiff);
             let cutIntoStart = (concordCutoffValue < beforeLengths[i]);
             if (concordCutoffValue < maxBefore) {
-                if (cutIntoStart) {
-                    padStart = padStart + ellipsisHTML;
-                } else {
-                    padStart = padStart + '&nbsp;';
-                }
+                padStart = cutIntoStart ? 
+                    padStart + ellipsisHTML : padStart + '&nbsp;';
             } 
             if (cutIntoStart) {
                 sliceStartIndex = beforeLengths[i] - concordCutoffValue;
@@ -202,15 +204,11 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
             padEnd = '&nbsp;'.repeat(endCutoffDiff);
             let cutIntoEnd = (concordCutoffValue < afterLengths[i]);
             if (concordCutoffValue < maxAfter) {
-                if (cutIntoEnd) {
-                    padEnd = ellipsisHTML + padEnd;
-                } else {
-                    padEnd = '&nbsp;' + padEnd;
-                }
+                padEnd = cutIntoEnd ?
+                    ellipsisHTML + padEnd : '&nbsp;' + padEnd;
             }
             if (cutIntoEnd) {
-                sliceEndIndex = sliceEndIndex - (afterLengths[i] - 
-                                                 concordCutoffValue);
+                sliceEndIndex -= (afterLengths[i] - concordCutoffValue);
             }
         } else {
             padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
@@ -233,7 +231,8 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
         beforeHilited = escapeHTML(newHtml.slice(0, hilited.index));
         afterHilited = escapeHTML(newHtml.slice(
             hilited.index + hilited[0].length, newHtml.length));
-        newColumn.push(`${padStart}${beforeHilited}${hilited[0]}${afterHilited}${padEnd}`);
+        newColumn.push(`${padStart}${beforeHilited}${hilited[0]}` + 
+                       `${afterHilited}${padEnd}`);
     }
     return newColumn;
 }
@@ -285,21 +284,32 @@ function enforceHilites() {
 
 function enforceLightDarkMode() {
     isDark = darkControl.classList.contains("is-dark");
-    document.body.style.backgroundColor = isDark ? colors.dark.back : colors.light.back;
-    document.body.style.color = isDark ? colors.dark.fore : colors.light.fore;
-    document.getElementById("results").style.color = isDark ? colors.dark.fore : colors.light.fore;
-    document.getElementById("results-number").style.color = isDark ? "#b0c4de" : "#303030";
+    document.body.style.backgroundColor = isDark ? 
+        colors.dark.back : colors.light.back;
+    document.body.style.color = isDark ? 
+        colors.dark.fore : colors.light.fore;
+    document.getElementById("results").style.color = isDark ? 
+        colors.dark.fore : colors.light.fore;
+    document.getElementById("results-number").style.color = isDark ? 
+        "#b0c4de" : "#303030";
     sortableTH = document.getElementsByClassName("sortable");
     Array.from(sortableTH).forEach((th) => {
-        th.style.backgroundColor = isDark ? colors.dark.thBack : colors.light.thBack;
-        th.style.color = isDark ? colors.dark.thFore : colors.light.thFore;
-        th.style.border = isDark ? `2px solid ${colors.dark.thBorder}` : `1px solid ${colors.light.thBorder}`;
+        th.style.backgroundColor = isDark ? 
+            colors.dark.thBack : colors.light.thBack;
+        th.style.color = isDark ? 
+            colors.dark.thFore : colors.light.thFore;
+        th.style.border = isDark ? 
+            `2px solid ${colors.dark.thBorder}` : 
+            `1px solid ${colors.light.thBorder}`;
     });
     resultsTD = document.getElementsByClassName("results-td");
     Array.from(resultsTD).forEach((cell) => {
-        cell.style.backgroundColor = isDark ? colors.dark.tdBack : colors.light.tdBack;
-        cell.style.color = isDark ? colors.dark.fore : colors.light.fore;
-        cell.style.border = isDark? "0.5px solid gray" : "0.5px solid lightgray";
+        cell.style.backgroundColor = isDark ? 
+            colors.dark.tdBack : colors.light.tdBack;
+        cell.style.color = isDark ? 
+            colors.dark.fore : colors.light.fore;
+        cell.style.border = isDark? 
+            "0.5px solid gray" : "0.5px solid lightgray";
     });
     if (isDark) {
         // pickers 1

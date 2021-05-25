@@ -15,6 +15,7 @@
 //      - last column missing sortable (until click one of the existing sortables)
 //      - second and third search hiders don't auto change colors 
 //          when switching to dark mode
+//      - when header unchecked, actual column row data should not be replaced also
 // - ? Export results feature
 
 

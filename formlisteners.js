@@ -11,20 +11,16 @@ columnHeaders.addEventListener('change', function() {
 hideControls.addEventListener('click', function() {
     if (controls.style.display != 'none') {
         controls.style.display = 'none';
-        // hideControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;S E A R C H';
     } else {
         controls.style.display = 'block';
-        // hideControls.innerHTML = 'H I D E&nbsp;&nbsp;&nbsp;S E A R C H';
     }
     
 });
 hideColumnControls.addEventListener('click', function() {
     if (columnControls.style.display != 'none') {
         columnControls.style.display = 'none';
-        // hideColumnControls.innerHTML = 'S H O W&nbsp;&nbsp;&nbsp;C O L U M N S';
     } else {
         columnControls.style.display = 'block';
-        // hideColumnControls.innerHTML = 'H I D E&nbsp;&nbsp;&nbsp;C O L U M N S';
     }
 });
 
@@ -165,8 +161,8 @@ columnSelection1.addEventListener('change', function() {
     var columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue1 == "(none)") {
         // Enable all selections in the other column selection
-        columnSelection2.childNodes.forEach(function(node) { node.disabled = false; });
-        columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
+        columnSelection2.childNodes.forEach(node => { node.disabled = false; });
+        columnSelection3.childNodes.forEach(node => { node.disabled = false; });
         // Clear filter values
         filterSelection1.innerHTML = "";
         // Disable all selections
@@ -306,8 +302,8 @@ columnSelection2.addEventListener('change', function() {
     var columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue2 == "(none)") {
         // Enable all selections in the other column selection
-        columnSelection1.childNodes.forEach(function(node) { node.disabled = false; });
-        columnSelection3.childNodes.forEach(function(node) { node.disabled = false; });
+        columnSelection1.childNodes.forEach(node => { node.disabled = false; });
+        columnSelection3.childNodes.forEach(node => { node.disabled = false; });
         // Clear filter values
         filterSelection2.innerHTML = "";
         // Disable all selections
@@ -512,8 +508,8 @@ colorPicker3.addEventListener('change', function() {
     let newColor = colorPicker3.value;
     colorPickerDiv3.style.backgroundColor = newColor;
     var hilitedThrees = document.getElementsByClassName("hilite3");
-    Array.from(hilitedThrees).forEach((el) => {
-        el.style.color = newColor;
+    Array.from(hilitedThrees).forEach(el => { 
+        el.style.color = newColor; 
     });
     thirdSearchHider.style.stroke = newColor;
 });
@@ -523,7 +519,7 @@ bgColorPicker3.addEventListener('change', function() {
     let newColor = bgColorPicker3.value;
     bgColorPickerDiv3.style.backgroundColor = newColor;
     var hilitedThrees = document.getElementsByClassName("hilite3");
-    Array.from(hilitedThrees).forEach((el) => {
+    Array.from(hilitedThrees).forEach(el => { 
         el.style.backgroundColor = newColor;
     });
     thirdSearchHider.style.backgroundColor = newColor;
