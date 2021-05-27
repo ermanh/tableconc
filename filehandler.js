@@ -77,7 +77,8 @@ const readFile = function () {
         while (columnNamesHaveDuplicates(columnNames)) { 
             columnNames = renameColumnNames(columnNames); 
         }
-        data[0] = columnNames;
+        // if (columnHeaders) { data[0] = columnNames; }
+        // data[0] = columnNames;
 
         // Replace null or undefined values with empty strings
         data.forEach((row, i) => {
