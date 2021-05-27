@@ -321,23 +321,27 @@ function enforceLightDarkMode() {
             bgColorPicker1.value = colors.dark.bgPicker1; 
             bgColorPickerDiv1.style.backgroundColor = colors.dark.bgPicker1;
         }
-        // pickers 2
+        // pickers 2, second search hider
         if (colorPicker2.value == colors.light.picker2) {
             colorPicker2.value = colors.dark.picker2; 
             colorPickerDiv2.style.backgroundColor = colors.dark.picker2;
+            secondSearchHider.style.stroke = colors.dark.picker2;
         }
         if (bgColorPicker2.value == colors.light.bgPicker2) { 
             bgColorPicker2.value = colors.dark.bgPicker2; 
             bgColorPickerDiv2.style.backgroundColor = colors.dark.bgPicker2;
+            secondSearchHider.style.backgroundColor = colors.dark.bgPicker2;
         }
-        // pickers 3
+        // pickers 3, third search hider
         if (colorPicker3.value == colors.light.picker3) {
             colorPicker3.value = colors.dark.picker3; 
             colorPickerDiv3.style.backgroundColor = colors.dark.picker3;
+            thirdSearchHider.style.stroke = colors.dark.picker3;
         }
         if (bgColorPicker3.value == colors.light.bgPicker3) { 
             bgColorPicker3.value = colors.dark.bgPicker3; 
             bgColorPickerDiv3.style.backgroundColor = colors.dark.bgPicker3;
+            thirdSearchHider.style.backgroundColor = colors.dark.bgPicker3;
         }
     } else {
         // pickers 1
@@ -349,23 +353,27 @@ function enforceLightDarkMode() {
             bgColorPicker1.value = colors.light.bgPicker1; 
             bgColorPickerDiv1.style.backgroundColor = colors.light.bgPicker1;
         }
-        // pickers 2
+        // pickers 2, second search hider
         if (colorPicker2.value == colors.dark.picker2) {
             colorPicker2.value = colors.light.picker2; 
             colorPickerDiv2.style.backgroundColor = colors.light.picker2;
+            secondSearchHider.style.stroke = colors.light.picker2;
         }
         if (bgColorPicker2.value == colors.dark.bgPicker2) { 
             bgColorPicker2.value = colors.light.bgPicker2; 
             bgColorPickerDiv2.style.backgroundColor = colors.light.bgPicker2;
+            secondSearchHider.style.backgroundColor = colors.light.bgPicker2;
         }
-        // pickers 3
+        // pickers 3, third search hider
         if (colorPicker3.value == colors.dark.picker3) {
             colorPicker3.value = colors.light.picker3;
             colorPickerDiv3.style.backgroundColor = colors.light.picker3;
+            thirdSearchHider.style.stroke = colors.light.picker3;
         }
         if (bgColorPicker3.value == colors.dark.bgPicker3) { 
             bgColorPicker3.value = colors.light.bgPicker3; 
             bgColorPickerDiv3.style.backgroundColor = colors.light.bgPicker3;
+            thirdSearchHider.style.backgroundColor = colors.light.bgPicker3;
         }
     }
 }

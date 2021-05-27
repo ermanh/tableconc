@@ -12,8 +12,6 @@
 //      - limit the number of filter values in drop-down menu
 // - Bugs
 //      - sorting doesn't work on Chrome
-//      - second and third search hiders don't auto change colors 
-//          when switching to dark mode
 //      - when header unchecked, actual column row data should not be replaced also
 // - ? Export results feature
 
