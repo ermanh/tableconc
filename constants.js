@@ -49,10 +49,19 @@ const thirdSearch = document.getElementById("third-search");
 const thirdSearchHider = document.getElementById("third-search-hider");
 
 const searchButton = document.getElementById("search-button");
-const searchButtonOutside = document.getElementById("search-button-outside");
+const resetButton = document.getElementById("reset-button");
 
-const resultsNumber = document.getElementById("results-number");
+const resultsDiv = document.getElementById("results");
 const resultsTable = document.getElementById("results-table");
+const resultsHeader = document.getElementById("results-header");
+const resultsNumber = document.getElementById("results-number");
+const rowStart = document.getElementById("row-start");
+const showRows = document.getElementById("show-rows");
+const showingStart = document.getElementById("showing-start");
+const showingEnd = document.getElementById("showing-end");
+const previousPage = document.getElementById("previous-page");
+const nextPage = document.getElementById("next-page");
+
 
 // Search One
 const columnSelection1 = document.getElementById("column-selection-1");

@@ -197,7 +197,7 @@ columnSelection1.addEventListener('change', function() {
         colorPicker1.disabled = false;
         bgColorPicker1.disabled = false;
         searchButton.disabled = false;
-        searchButtonOutside.disabled = false;
+        resetButton.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
             if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
@@ -525,3 +525,34 @@ bgColorPicker3.addEventListener('change', function() {
     thirdSearchHider.style.backgroundColor = newColor;
 });
 bgColorPickerDiv3.style.backgroundColor = bgColorPicker3.value;
+
+
+// Showing controls
+rowStart.addEventListener("keypress", function(e) {
+    if (!/^\d$/.test(e.key)) { e.preventDefault(); } 
+});
+rowStart.addEventListener("focusout", function() {
+    value = Number(rowStart.value);
+    if (value == 0) {
+        rowStart.value = "1";
+    } else if (value > Number(resultsNumber.textContent)) {
+        rowStart.value = resultsNumber.textContent;
+    }
+});
+
+showRows.addEventListener("keypress", function(e) {
+    if (!/^\d$/.test(e.key)) { e.preventDefault(); }
+});
+showRows.addEventListener("focusout", function() {
+    value = Number(showRows.value);
+    if (value > 5000) { 
+        showRows.value = "5000"; 
+    } else if (value == 0) {
+        showRows.value = "1";
+    }
+});
+
+showingStart.addEventListener('DOMSubtreeModified', function() {
+    previousPage.disabled = (showingStart.textContent == rowStart.value) ?
+        true : false;
+});

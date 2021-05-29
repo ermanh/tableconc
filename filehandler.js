@@ -1,6 +1,7 @@
 // CAN BE MOVED TO GLOBALS FILE, "clashing" with `chooseFile` in formlisteners.js
 const fileInput = document.getElementById("choose-file");
 var data;
+var matchedData = Array();
 
 const readFile = function () {
     var reader = new FileReader();

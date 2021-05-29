@@ -3,9 +3,7 @@
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
 // - Improve UI aesthetics/format/style
-//      - Create own custom buttons
 //      - Cross-browser aesthetics
-//      - make mobile-friendly
 // - A show everything button (e.g., for inspecting data)
 // - Pagination
 //      - limit the number of results shown
@@ -397,8 +395,7 @@ const concord = function () {
     if (numberOfResults > 0) {
         resultsNumber.textContent = "";
         setTimeout(
-            () => { resultsNumber.textContent = `Total results: ` + 
-                                                `${numberOfResults}`; }, 
+            () => { resultsNumber.textContent = `${numberOfResults}`; }, 
             resultsNumberTimeout
         );
     }
@@ -455,10 +452,18 @@ const concord = function () {
         });
         
         // Results
+        matchedData = Array();
         matchedRows.forEach((rowIndex, resultIndex) => {
             let row = JSON.parse(JSON.stringify(newData[rowIndex]));
             row.unshift(String(resultIndex + 1));
             row = row.filter(function(d, j) { return selectedColumns[j]; });
+            matchedData.push(row);
+        });
+        let showStart = rowStart.value - 1;
+        let showEnd = showStart + Math.min(showRows.value, matchedData.length);
+        showEnd = showEnd > matchedData.length ? matchedData.length : showEnd;
+        console.log(showStart, showEnd);
+        matchedData.slice(showStart, showEnd).forEach((row) => {
             results.append("tr").attr("class", "sortable-row")
                 .selectAll("td")
                 .data(row).enter()
@@ -468,6 +473,8 @@ const concord = function () {
                 })
                 .html(function(d) { return `<pre>${d}</pre>`; });
         }); 
+        showingStart.textContent = `${showStart + 1}`;
+        showingEnd.textContent = `${showEnd}`;
 
         // Add resize event listeners
         document.querySelectorAll("div.resize-right").forEach((div) => {
@@ -523,7 +530,7 @@ const concord = function () {
         enforceLightDarkMode();
         enforceHilites();
     } else {
-        var resultText = "No results for ";
+        var resultText = "None for ";
         if (searchInput1.value !== "" || filterSelection1.value) {
             var value1 = (searchInput1.value !== "") ? 
                 searchInput1.value : 

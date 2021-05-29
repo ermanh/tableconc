@@ -286,12 +286,10 @@ function enforceLightDarkMode() {
     isDark = darkControl.classList.contains("is-dark");
     document.body.style.backgroundColor = isDark ? 
         colors.dark.back : colors.light.back;
-    document.body.style.color = isDark ? 
-        colors.dark.fore : colors.light.fore;
-    document.getElementById("results").style.color = isDark ? 
-        colors.dark.fore : colors.light.fore;
-    document.getElementById("results-number").style.color = isDark ? 
-        "#b0c4de" : "#303030";
+    document.body.style.color = isDark ? colors.dark.fore : colors.light.fore;
+    resultsDiv.style.color = isDark ? colors.dark.fore : colors.light.fore;
+    resultsHeader.style.color = isDark ? "#b8ffff" : "#0047ab";
+    
     sortableTH = document.getElementsByClassName("sortable");
     Array.from(sortableTH).forEach((th) => {
         th.style.backgroundColor = isDark ? 
@@ -378,6 +376,3 @@ function enforceLightDarkMode() {
     }
 }
 
-function resetAll() {
-
-}
