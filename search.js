@@ -12,7 +12,7 @@
 //      - limit the number of filter values in drop-down menu
 // - Bugs
 //      - sorting doesn't work on Chrome
-//      - when header unchecked, actual column row data should not be replaced also
+//      - reset should not redo search, but work on existing data
 // - ? Export results feature
 
 

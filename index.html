@@ -38,7 +38,7 @@
             </svg>
         </div>
         &nbsp;&nbsp;
-        <input id="choose-file" type="file" accept=".csv,.tsv,.txt,.json,.xml" style="width:200px;">
+        <input id="choose-file" type="file" accept=".csv,.tsv,.txt,.json" style="width:200px;">
     </div>
     <div id="controls">
         <form id="search-box" onsubmit="return false;">
@@ -65,7 +65,7 @@
                                 </td>
                             </tr>
                             <tr id="search-row-1">
-                                <td style="vertical-align: text-top;">
+                                <td style="vertical-align: top;" rowspan="2">
                                     <input id="search-input-1" class="search" type="search" placeholder="Search..." disabled>
                                 </td>
                                 <td>
@@ -79,20 +79,14 @@
                                             </span>
                                         </div>
                                     </label>
-                                    <br>
-                                    <input id="regex-1" type="checkbox" disabled>
-                                    <label id="regex-label-1" for="regex-1">Regular expression</label>
                                 </td>
                                 <td>
                                     <select name="match-where-1" id="match-where-1" disabled>
                                         <option value="match-anywhere-1">Match anywhere</option>
-                                        <option value="match-entire-1">Match exact</option>
+                                        <option value="match-entire-1">Full match</option>
                                         <option value="match-beginning-1">Match beginning</option>
                                         <option value="match-end-1">Match end</option>
                                     </select>
-                                    <br>
-                                    <input id="case-sensitive-1" type="checkbox" disabled>
-                                    <label for="case-sensitive-1">Case-sensitive</label>
                                 </td>
                                 <td>
                                     <input id="concordance-display-1" type="checkbox" checked disabled>
@@ -105,14 +99,27 @@
                                             of the matched pattern
                                         </span>
                                     </div>
-                                    <br>
-                                    <input id="findall-1" type="checkbox" disabled>
-                                    <label for="findall-1">Find all instances</label>
                                 </td>
                                 <td style="width: 12px;">
                                     <div id="picker-div-1" class="picker-div">
                                         <input id="picker-1" type="color" value="#ff0000" disabled>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="regex-1" type="checkbox" disabled>
+                                    <label id="regex-label-1" for="regex-1">Regular expression</label>
+                                </td>
+                                <td>
+                                    <input id="case-sensitive-1" type="checkbox" disabled>
+                                    <label for="case-sensitive-1">Case-sensitive</label>
+                                </td>
+                                <td>
+                                    <input id="findall-1" type="checkbox" disabled>
+                                    <label for="findall-1">Find all instances</label>
+                                </td>
+                                <td>
                                     <div id="bg-picker-div-1" class="picker-div">
                                         <input id="bg-picker-1" type="color" value="#fcdad8" disabled>
                                     </div>
@@ -131,7 +138,7 @@
                                 </td>
                             </tr>
                             <tr id="search-row-2">
-                                <td style="vertical-align: text-top;">
+                                <td style="vertical-align: top;" rowspan="2">
                                     <input id="search-input-2" class="search" type="search" placeholder="Search..." disabled>
                                 </td>
                                 <td>
@@ -145,20 +152,14 @@
                                             </span>
                                         </div>
                                     </label>
-                                    <br>
-                                    <input id="regex-2" type="checkbox" disabled>
-                                    <label id="regex-label-2" for="regex-2">Regular expression</label>
                                 </td>
                                 <td>
                                     <select name="match-where-2" id="match-where-2" disabled>
                                         <option value="match-anywhere-2">Match anywhere</option>
-                                        <option value="match-entire-2">Match exact</option>
+                                        <option value="match-entire-2">Full match</option>
                                         <option value="match-beginning-2">Match beginning</option>
                                         <option value="match-end-2">Match end</option>
                                     </select>
-                                    <br>
-                                    <input id="case-sensitive-2" type="checkbox" disabled>
-                                    <label for="case-sensitive-2">Case-sensitive</label>
                                 </td>
                                 <td>
                                     <input id="concordance-display-2" type="checkbox" checked disabled>
@@ -171,14 +172,27 @@
                                             of the matched pattern
                                         </span>
                                     </div>
-                                    <br>
-                                    <input id="findall-2" type="checkbox" disabled>
-                                    <label for="findall-2">Find all instances</label>
                                 </td>
                                 <td style="width: 12px;">
                                     <div id="picker-div-2" class="picker-div">
                                         <input id="picker-2" type="color" value="#0c5eec" disabled>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="regex-2" type="checkbox" disabled>
+                                    <label id="regex-label-2" for="regex-2">Regular expression</label>
+                                </td>
+                                <td>
+                                    <input id="case-sensitive-2" type="checkbox" disabled>
+                                    <label for="case-sensitive-2">Case-sensitive</label>
+                                </td>
+                                <td>
+                                    <input id="findall-2" type="checkbox" disabled>
+                                    <label for="findall-2">Find all instances</label>
+                                </td>
+                                <td>
                                     <div id="bg-picker-div-2" class="picker-div">
                                         <input id="bg-picker-2" type="color" value="#d3e2fa" disabled>
                                     </div>
@@ -197,7 +211,7 @@
                                 </td>
                             </tr>
                             <tr id="search-row-3">
-                                <td style="vertical-align: text-top;">
+                                <td style="vertical-align: top;" rowspan="2">
                                     <input id="search-input-3" class="search" type="search" placeholder="Search..." disabled>
                                 </td>
                                 <td>
@@ -211,20 +225,14 @@
                                             </span>
                                         </div>
                                     </label>
-                                    <br>
-                                    <input id="regex-3" type="checkbox" disabled>
-                                    <label id="regex-label-3" for="regex-3">Regular expression</label>
                                 </td>
                                 <td>
                                     <select name="match-where-3" id="match-where-3" disabled>
                                         <option value="match-anywhere-3">Match anywhere</option>
-                                        <option value="match-entire-3">Match exact</option>
+                                        <option value="match-entire-3">Full match</option>
                                         <option value="match-beginning-3">Match beginning</option>
                                         <option value="match-end-3">Match end</option>
                                     </select>
-                                    <br>
-                                    <input id="case-sensitive-3" type="checkbox" disabled>
-                                    <label for="case-sensitive-3">Case-sensitive</label>
                                 </td>
                                 <td>
                                     <input id="concordance-display-3" type="checkbox" checked disabled>
@@ -237,14 +245,27 @@
                                             of the matched pattern
                                         </span>
                                     </div>
-                                    <br>
-                                    <input id="findall-3" type="checkbox" disabled>
-                                    <label for="findall-3">Find all instances</label>
                                 </td>
                                 <td style="width: 12px;">
                                     <div id="picker-div-3" class="picker-div">
                                         <input id="picker-3" type="color" value="#008000" disabled>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="regex-3" type="checkbox" disabled>
+                                    <label id="regex-label-3" for="regex-3">Regular expression</label>
+                                </td>
+                                <td>
+                                    <input id="case-sensitive-3" type="checkbox" disabled>
+                                    <label for="case-sensitive-3">Case-sensitive</label>
+                                </td>
+                                <td>
+                                    <input id="findall-3" type="checkbox" disabled>
+                                    <label for="findall-3">Find all instances</label>
+                                </td>
+                                <td>
                                     <div id="bg-picker-div-3" class="picker-div">
                                         <input id="bg-picker-3" type="color" value="#e0edd3" disabled>
                                     </div>
