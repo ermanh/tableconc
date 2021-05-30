@@ -53,9 +53,9 @@ const resetButton = document.getElementById("reset-button");
 
 const resultsDiv = document.getElementById("results");
 const resultsTable = document.getElementById("results-table");
+const resultsTableD3 = d3.select("#results-table");
 const resultsHeader = document.getElementById("results-header");
 const resultsNumber = document.getElementById("results-number");
-const rowStart = document.getElementById("row-start");
 const showRows = document.getElementById("show-rows");
 const showingStart = document.getElementById("showing-start");
 const showingEnd = document.getElementById("showing-end");

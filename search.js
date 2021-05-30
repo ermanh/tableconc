@@ -17,6 +17,75 @@
 const searchBox = document.getElementById("search-box");
 const resultsNumberTimeout = 100;
 
+function insertResults(rows) {
+    resultsTableD3.selectAll("tr.sortable-row").remove();
+    rows.forEach((row) => {
+        resultsTableD3.append("tr").attr("class", "sortable-row")
+            .selectAll("td")
+            .data(row).enter()
+            .append("td")
+            .attr("class", function(d, i) {
+                return (i !== 0) ? "results-td" : "result-index";
+            })
+            .html(function(d) { return `<pre>${d}</pre>`; });
+    }); 
+
+    // Add resize event listeners
+    document.querySelectorAll("div.resize-right").forEach((div) => {
+        makeResizable(div, adjacentIsRight=true);
+    });
+    document.querySelectorAll("div.resize-left").forEach((div) => {
+        makeResizable(div, adjacentIsRight=false);
+    });
+    // Add sorter event listeners
+    sorters = document.querySelectorAll(".sort");
+    sorters.forEach((sorter) => {
+        sorter.addEventListener('mouseover', 
+            () => sorter.style.color = "coral");
+        sorter.addEventListener('mouseout', 
+            () => sorter.style.color = "steelblue");
+        sorter.addEventListener('click', function(e) {
+            text = sorter.innerHTML;
+            if (text == "\u2261" || text == "\u25B2") { 
+                sorters.forEach((sorter) => { 
+                    sorter.innerHTML = "&equiv;"; });
+                sorter.innerHTML = "&#x25BC;"; 
+                sortRows(sorter.id.slice(1), "ascending");
+            } else if (text == "\u25BC") { 
+                sorter.innerHTML = "&#x25B2;"; 
+                sortRows(sorter.id.slice(1), "descending");
+            }
+        });
+    });
+    // Add text-align-control event listener
+    textAligner = document.getElementById("text-align-control");
+    textAligner.addEventListener("mouseover", 
+        () => textAligner.style.stroke = "yellow" );
+    textAligner.addEventListener("mouseout", 
+        () => textAligner.style.stroke = "#2a3347" );
+    textAligner.addEventListener("click", function() {
+        if (textAligner.classList.contains("align-left")) {
+            textAligner.innerHTML = `
+                <path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
+            textAligner.classList.replace("align-left", "align-center");
+            d3.selectAll("td.results-td").style("text-align", "center");
+        } else if (textAligner.classList.contains("align-center")) {
+            textAligner.innerHTML = `
+                <path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
+            textAligner.classList.replace("align-center", "align-right");
+            d3.selectAll("td.results-td").style("text-align", "right");
+        } else if (textAligner.classList.contains("align-right")) {
+            textAligner.innerHTML = `
+                <path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
+            textAligner.classList.replace("align-right", "align-left");
+            d3.selectAll("td.results-td").style("text-align", "left");
+        }
+    });
+    enforceLightDarkMode();
+    enforceHilites();
+}
+
+
 const concord = function () {
     var newData = JSON.parse(JSON.stringify(data));
 
@@ -399,8 +468,7 @@ const concord = function () {
             resultsNumberTimeout
         );
     }
-    const results = d3.select("#results-table");
-    results.html(""); // clear results
+    resultsTableD3.html(""); // clear results
     
     columnsToDisplay = columnNames.filter(function(d, i) {
         if (selectedColumns[i]) { return d; }
@@ -416,7 +484,7 @@ const concord = function () {
     if (matchedRows.length > 0) {
         
         // Column headers
-        results.append("tr")
+        resultsTableD3.append("tr")
         .attr("id", "sticky")
         .selectAll("th")
         .data(columnsToDisplay).enter()
@@ -459,76 +527,78 @@ const concord = function () {
             row = row.filter(function(d, j) { return selectedColumns[j]; });
             matchedData.push(row);
         });
-        let showStart = rowStart.value - 1;
+        let showStart = showingStart.value - 1;
         let showEnd = showStart + Math.min(showRows.value, matchedData.length);
         showEnd = showEnd > matchedData.length ? matchedData.length : showEnd;
-        console.log(showStart, showEnd);
-        matchedData.slice(showStart, showEnd).forEach((row) => {
-            results.append("tr").attr("class", "sortable-row")
-                .selectAll("td")
-                .data(row).enter()
-                .append("td")
-                .attr("class", function(d, i) {
-                    return (i !== 0) ? "results-td" : "result-index";
-                })
-                .html(function(d) { return `<pre>${d}</pre>`; });
-        }); 
-        showingStart.textContent = `${showStart + 1}`;
+        showingStart.value = showStart + 1;
         showingEnd.textContent = `${showEnd}`;
+        
+        insertResults(matchedData.slice(showStart, showEnd));
 
-        // Add resize event listeners
-        document.querySelectorAll("div.resize-right").forEach((div) => {
-            makeResizable(div, adjacentIsRight=true);
-        });
-        document.querySelectorAll("div.resize-left").forEach((div) => {
-            makeResizable(div, adjacentIsRight=false);
-        });
-        // Add sorter event listeners
-        sorters = document.querySelectorAll(".sort");
-        sorters.forEach((sorter) => {
-            sorter.addEventListener('mouseover', 
-                () => sorter.style.color = "coral");
-            sorter.addEventListener('mouseout', 
-                () => sorter.style.color = "steelblue");
-            sorter.addEventListener('click', function(e) {
-                text = sorter.innerHTML;
-                if (text == "\u2261" || text == "\u25B2") { 
-                    sorters.forEach((sorter) => { 
-                        sorter.innerHTML = "&equiv;"; });
-                    sorter.innerHTML = "&#x25BC;"; 
-                    sortRows(sorter.id.slice(1), "ascending");
-                } else if (text == "\u25BC") { 
-                    sorter.innerHTML = "&#x25B2;"; 
-                    sortRows(sorter.id.slice(1), "descending");
-                }
-            });
-        });
-        // Add text-align-control event listener
-        textAligner = document.getElementById("text-align-control");
-        textAligner.addEventListener("mouseover", 
-            () => textAligner.style.stroke = "yellow" );
-        textAligner.addEventListener("mouseout", 
-            () => textAligner.style.stroke = "#2a3347" );
-        textAligner.addEventListener("click", function() {
-            if (textAligner.classList.contains("align-left")) {
-                textAligner.innerHTML = `
-                    <path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
-                textAligner.classList.replace("align-left", "align-center");
-                d3.selectAll("td.results-td").style("text-align", "center");
-            } else if (textAligner.classList.contains("align-center")) {
-                textAligner.innerHTML = `
-                    <path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
-                textAligner.classList.replace("align-center", "align-right");
-                d3.selectAll("td.results-td").style("text-align", "right");
-            } else if (textAligner.classList.contains("align-right")) {
-                textAligner.innerHTML = `
-                    <path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
-                textAligner.classList.replace("align-right", "align-left");
-                d3.selectAll("td.results-td").style("text-align", "left");
-            }
-        });
-        enforceLightDarkMode();
-        enforceHilites();
+        // matchedData.slice(showStart, showEnd).forEach((row) => {
+        //     results.append("tr").attr("class", "sortable-row")
+        //         .selectAll("td")
+        //         .data(row).enter()
+        //         .append("td")
+        //         .attr("class", function(d, i) {
+        //             return (i !== 0) ? "results-td" : "result-index";
+        //         })
+        //         .html(function(d) { return `<pre>${d}</pre>`; });
+        // }); 
+
+        // // Add resize event listeners
+        // document.querySelectorAll("div.resize-right").forEach((div) => {
+        //     makeResizable(div, adjacentIsRight=true);
+        // });
+        // document.querySelectorAll("div.resize-left").forEach((div) => {
+        //     makeResizable(div, adjacentIsRight=false);
+        // });
+        // // Add sorter event listeners
+        // sorters = document.querySelectorAll(".sort");
+        // sorters.forEach((sorter) => {
+        //     sorter.addEventListener('mouseover', 
+        //         () => sorter.style.color = "coral");
+        //     sorter.addEventListener('mouseout', 
+        //         () => sorter.style.color = "steelblue");
+        //     sorter.addEventListener('click', function(e) {
+        //         text = sorter.innerHTML;
+        //         if (text == "\u2261" || text == "\u25B2") { 
+        //             sorters.forEach((sorter) => { 
+        //                 sorter.innerHTML = "&equiv;"; });
+        //             sorter.innerHTML = "&#x25BC;"; 
+        //             sortRows(sorter.id.slice(1), "ascending");
+        //         } else if (text == "\u25BC") { 
+        //             sorter.innerHTML = "&#x25B2;"; 
+        //             sortRows(sorter.id.slice(1), "descending");
+        //         }
+        //     });
+        // });
+        // // Add text-align-control event listener
+        // textAligner = document.getElementById("text-align-control");
+        // textAligner.addEventListener("mouseover", 
+        //     () => textAligner.style.stroke = "yellow" );
+        // textAligner.addEventListener("mouseout", 
+        //     () => textAligner.style.stroke = "#2a3347" );
+        // textAligner.addEventListener("click", function() {
+        //     if (textAligner.classList.contains("align-left")) {
+        //         textAligner.innerHTML = `
+        //             <path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
+        //         textAligner.classList.replace("align-left", "align-center");
+        //         d3.selectAll("td.results-td").style("text-align", "center");
+        //     } else if (textAligner.classList.contains("align-center")) {
+        //         textAligner.innerHTML = `
+        //             <path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
+        //         textAligner.classList.replace("align-center", "align-right");
+        //         d3.selectAll("td.results-td").style("text-align", "right");
+        //     } else if (textAligner.classList.contains("align-right")) {
+        //         textAligner.innerHTML = `
+        //             <path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
+        //         textAligner.classList.replace("align-right", "align-left");
+        //         d3.selectAll("td.results-td").style("text-align", "left");
+        //     }
+        // });
+        // enforceLightDarkMode();
+        // enforceHilites();
     } else {
         var resultText = "None for ";
         if (searchInput1.value !== "" || filterSelection1.value) {

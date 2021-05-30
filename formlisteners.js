@@ -528,15 +528,15 @@ bgColorPickerDiv3.style.backgroundColor = bgColorPicker3.value;
 
 
 // Showing controls
-rowStart.addEventListener("keypress", function(e) {
+showingStart.addEventListener("keypress", function(e) {
     if (!/^\d$/.test(e.key)) { e.preventDefault(); } 
 });
-rowStart.addEventListener("focusout", function() {
-    value = Number(rowStart.value);
-    if (value == 0) {
-        rowStart.value = "1";
+showingStart.addEventListener("focusout", function() {
+    value = showingStart.value;
+    if (value <= 0) {
+        showingStart.value = 1;
     } else if (value > Number(resultsNumber.textContent)) {
-        rowStart.value = resultsNumber.textContent;
+        showingStart.value = Number(resultsNumber.textContent);
     }
 });
 
@@ -552,7 +552,49 @@ showRows.addEventListener("focusout", function() {
     }
 });
 
-showingStart.addEventListener('DOMSubtreeModified', function() {
-    previousPage.disabled = (showingStart.textContent == rowStart.value) ?
-        true : false;
+showingStart.addEventListener('input', function() {
+    previousPage.disabled = (Number(showingStart.value) <= 1) ? true : false;
 });
+
+// MutationObserver for showingEnd
+const showingEndConfig = { 
+    characterData: false, attributes: false, childList: true, subtree: false };
+const showingEndCallback = (mutations, observer) => {
+    nextPage.disabled = Number(showingEnd.textContent) >= matchedData.length;
+};
+const showingEndObserver = new MutationObserver(showingEndCallback);
+showingEndObserver.observe(showingEnd, showingEndConfig);
+
+previousPage.addEventListener('click', () => {
+    let underThreshold = Number(showingStart.value) - Number(showRows.value) < 1;
+    let showStart = underThreshold ? 
+        1 : Number(showingStart.value) - Number(showRows.value);
+    let aboveThreshold = showStart + Number(showRows.value) > matchedData.length;
+    let showEnd = aboveThreshold ? 
+        matchedData.length - 1 : showStart + Number(showRows.value) - 1;
+    showingStart.value = String(showStart);
+    showingEnd.textContent = String(showEnd);
+    insertResults(matchedData.slice(showStart - 1, showEnd));
+
+    previousPage.disabled = showStart <= 1;
+    nextPage.disabled = showEnd >= matchedData.length;
+});
+nextPage.addEventListener('click', () => {
+    let showStart = Number(showingStart.value) + Number(showRows.value);
+    let showEnd = showStart + Number(showRows.value) - 1;
+    if (showStart > matchedData.length) { 
+        showStart = matchedData.length;
+    }
+    if (showEnd > matchedData.length) {
+        showEnd = matchedData.length;
+    }
+    showingStart.value = String(showStart);
+    showingEnd.textContent = String(showEnd);
+    insertResults(matchedData.slice(showStart - 1, showEnd));
+
+    previousPage.disabled = showStart <= 1;
+    nextPage.disabled = showEnd >= matchedData.length;
+});
+
+
+

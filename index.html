@@ -308,20 +308,17 @@
     </div>
     <div id="results">
         <div id="results-header">
-            <label id="row-start-label" for="row-start">Start:</label>
-            <input id="row-start" type="number" value="1">
-            &nbsp;
-            <label id="show-rows-label" for="show-rows">Show:</label>
-            <input id="show-rows" type="number" value="500" max="5000">
-            &nbsp;&nbsp;
-            Showing:
+            <label id="showing-start-label" for="showing-start">Showing:</label>
             <span id="showing">
-                <span id="showing-start"></span>
-                -
+                <input id="showing-start" type="number" value="1">
+                to&nbsp;
                 <span id="showing-end"></span>
             </span>&nbsp;
             <button id="previous-page" disabled>&lt;</button>
             <button id="next-page" disabled>&gt;</button>
+            &nbsp;&nbsp;
+            <label id="show-rows-label" for="show-rows">Rows:</label>
+            <input id="show-rows" type="number" value="500">
             &nbsp;&nbsp;&nbsp;
             Total results:
             <span id="results-number"></span>

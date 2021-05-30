@@ -31,12 +31,6 @@ body {
     margin: 0;
 }
 
-#results input {
-    border-radius: 5px;
-    padding: 1px 5px;
-    width: 50px;
-}
-
 #results-header {
     padding: 8px 10px 8px 15px;
     font-size: 0.9em;
@@ -44,11 +38,36 @@ body {
     color: #0047ab;
 }
 
-#showing, #results-number {
+#results-number {
+    color: #0047ab;
+    background-color: #f0f4f9;
+    padding: 3px 5px 2px 0;
+    border-radius: 3px;
+}
+
+#showing {
+    color: black;
+    font-weight: 200;
+    font-size: 0.85em;
+    background-color: #f0f4f9;
+    padding: 3px 5px 2px 0;
+    border-radius: 3px;
+}
+
+#results-number {
     color: #0047ab;
     background-color: #f0f4f9;
     padding: 0 5px;
     border-radius: 3px;
+}
+
+#showing-start, #show-rows {
+    border-radius: 5px;
+    padding: 0px 3px;
+    width: 40px;
+    border: 1px solid #f0f4f9;
+    background-color: #f0f4f9;
+    text-align: center;
 }
 
 #previous-page, #next-page {
