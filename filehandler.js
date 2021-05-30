@@ -1,7 +1,9 @@
 // CAN BE MOVED TO GLOBALS FILE, "clashing" with `chooseFile` in formlisteners.js
 const fileInput = document.getElementById("choose-file");
 var data;
+var newData;
 var matchedData = Array();
+var matchedRows;
 
 const readFile = function () {
     var reader = new FileReader();
@@ -112,11 +114,26 @@ const readFile = function () {
             .data(columnNames).enter();
         columnsToShow.append("input")
             .attr("id", function(d) { return "to-show-" + d; })
+            .attr("class", function() { return "column-to-show"; })
             .attr("type", "checkbox")
             .property("checked", true);
         columnsToShow.insert("label")
             .attr("for", function(d) { return "to-show-" + d; })
             .html(function(d) { return d + "&nbsp;&nbsp;"; });
+        
+        // add column listeners
+        columnsToShowNodes = document.getElementsByClassName("column-to-show");
+        Array.from(columnsToShowNodes).forEach(node => {
+            node.addEventListener("change", () => {
+                let [selectedColumns, 
+                     columnsToDisplay] = prepareColumns(columnNames);
+                insertColumnHeaders(columnsToDisplay);
+                matchedData = setMatchedData(matchedRows, selectedColumns);
+                let [showStart, 
+                     showEnd] = determineRowsToShow(matchedData.length);
+                insertResults(matchedData.slice(showStart, showEnd));
+            });
+        });
     };
     reader.readAsText(fileInput.files[0]);
 };

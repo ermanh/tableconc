@@ -4,15 +4,94 @@
 //      - Write unit tests for all functions
 // - Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics
-// - A show everything button (e.g., for inspecting data)
+// - A show everything button (e.g., for inspecting data) ?
+// - anchor results-header (for scrolling)
+//      - make sure results-header still above anchored <th> row
 // - Bugs
 //      - sorting doesn't work on Chrome
-//      - reset should not redo search, but work on existing data
 // - ? Export results feature
 
 
 const searchBox = document.getElementById("search-box");
 const resultsNumberTimeout = 100;
+
+
+function prepareColumns(columnNames) {
+    const selectedColumns = Array();  // Array of trues and falses
+    d3.select('#columns-to-show').selectAll('input').each(function (d, i) { 
+        selectedColumns.push(this.checked);
+    });
+    const columnsToDisplay = columnNames.filter(function(d, i) {
+        if (selectedColumns[i]) { return d; }
+    });
+    selectedColumns.unshift(true);
+    // Add result index column with text-align control
+    columnsToDisplay.unshift(`
+        <svg id="text-align-control" class="align-left" height="13", width="15">
+            <path d="M0,3 L8,3 M0,6 L13,6 M0,9 L8,9 M0,12 L13,12"/>
+        </svg>
+    `); 
+    return [selectedColumns, columnsToDisplay];
+}
+
+function insertColumnHeaders(columnsToDisplay) {
+    resultsTable.innerHTML = "";
+    resultsTableD3.append("tr")
+        .attr("id", "sticky")
+        .selectAll("th")
+        .data(columnsToDisplay).enter()
+        .append("th")
+        .attr("class", function(d, i) {
+            return (i == 0) ? "result-index" : "sortable";
+        })
+        .html(function(d, i) { 
+            // Add resize and sorter controller divs in header row
+            if (i == 0) {
+                return d;
+            } else if (i == 1) {
+                if (i == columnsToDisplay.length - 1) {
+                    return `<pre>${d}</pre>
+                            <div class="sort" id="i${i}">&equiv;</div>`; 
+                } else {
+                    return `<pre>${d}</pre>
+                            <div class="sort" id="i${i}">&equiv;</div>
+                            <div class="resize-right"></div>`; 
+                }
+            } else {
+                if (i !== columnsToDisplay.length - 1) {
+                    return `<div class="resize-left"></div>
+                            <pre>${d}</pre>
+                            <div class="sort" id="i${i}">&equiv;</div>
+                            <div class="resize-right"></div>`; 
+                } else {
+                    return `<div class="resize-left"></div>
+                            <pre>${d}</pre>
+                            <div class="sort" id="i${i}">&equiv;</div>`;
+                }
+            }
+        });
+}
+
+function setMatchedData(matchedRows, selectedColumns) {
+    let matchedData = Array();
+    matchedRows.forEach((rowIndex, resultIndex) => {
+            let row = JSON.parse(JSON.stringify(newData[rowIndex]));
+            row.unshift(String(resultIndex + 1));
+            row = row.filter(function(d, j) { return selectedColumns[j]; });
+            matchedData.push(row);
+        });
+    return matchedData;
+}
+
+function determineRowsToShow(totalRows) {
+    let showStart = showingStart.value - 1;
+    let showEnd = showStart + Math.min(showRows.value, totalRows);
+    showEnd = showEnd > totalRows ? totalRows : showEnd;
+    showingStart.value = showStart + 1;
+    showingEnd.textContent = `${showEnd}`;
+    return [showStart, showEnd]; 
+}
+
 
 function insertResults(rows) {
     resultsTableD3.selectAll("tr.sortable-row").remove();
@@ -86,7 +165,7 @@ function insertResults(rows) {
 
 
 const concord = function () {
-    var newData = JSON.parse(JSON.stringify(data));
+    newData = JSON.parse(JSON.stringify(data));
 
     var columnNames = columnHeaders.checked ? data[0] : data[0].map(
         (d, i) => { return `Column ${i + 1}`; });
@@ -386,14 +465,7 @@ const concord = function () {
     
     //// Display results
     
-    // Get array of trues and falses on which columns to display
-    var selectedColumns = Array();
-    d3.select('#columns-to-show').selectAll('input').each(function (d, i) { 
-        selectedColumns.push(this.checked);
-    });
-    
     // Matched rows logic
-    var matchedRows;
     let inputValid1 = (
         (!filterControl1.checked && searchInput1.value !== "") ||
         (filterControl1.checked && typeof(filterSelection1.value) == "string")
@@ -458,7 +530,7 @@ const concord = function () {
         }
     }
     
-    // Insert text and html
+    // Show number of matched results
     numberOfResults = matchedRows.length;
     if (numberOfResults > 0) {
         resultsNumber.textContent = "";
@@ -467,137 +539,29 @@ const concord = function () {
             resultsNumberTimeout
         );
     }
-    resultsTableD3.html(""); // clear results
     
-    columnsToDisplay = columnNames.filter(function(d, i) {
-        if (selectedColumns[i]) { return d; }
-    });
-    selectedColumns.unshift(true);
-    // Add result index column with text-align control
-    columnsToDisplay.unshift(`
-        <svg id="text-align-control" class="align-left" height="13", width="15">
-            <path d="M0,3 L8,3 M0,6 L13,6 M0,9 L8,9 M0,12 L13,12"/>
-        </svg>
-    `); 
-
     if (matchedRows.length > 0) {
+        // Prepare columns
+        const [selectedColumns, columnsToDisplay] = prepareColumns(columnNames);
+    
+        // Insert column headers
+        insertColumnHeaders(columnsToDisplay);
         
-        // Column headers
-        resultsTableD3.append("tr")
-        .attr("id", "sticky")
-        .selectAll("th")
-        .data(columnsToDisplay).enter()
-        .append("th")
-        .attr("class", function(d, i) {
-            return (i == 0) ? "result-index" : "sortable";
-        })
-        .html(function(d, i) { 
-            // Add resize and sorter controller divs in header row
-            if (i == 0) {
-                return d;
-            } else if (i == 1) {
-                if (i == columnsToDisplay.length - 1) {
-                    return `<pre>${d}</pre>
-                            <div class="sort" id="i${i}">&equiv;</div>`; 
-                } else {
-                    return `<pre>${d}</pre>
-                            <div class="sort" id="i${i}">&equiv;</div>
-                            <div class="resize-right"></div>`; 
-                }
-            } else {
-                if (i !== columnsToDisplay.length - 1) {
-                    return `<div class="resize-left"></div>
-                            <pre>${d}</pre>
-                            <div class="sort" id="i${i}">&equiv;</div>
-                            <div class="resize-right"></div>`; 
-                } else {
-                    return `<div class="resize-left"></div>
-                            <pre>${d}</pre>
-                            <div class="sort" id="i${i}">&equiv;</div>`;
-                }
-            }
-        });
+        // Array for only the matched data
+        matchedData = setMatchedData(matchedRows, selectedColumns);
+        // matchedRows.forEach((rowIndex, resultIndex) => {
+        //     let row = JSON.parse(JSON.stringify(newData[rowIndex]));
+        //     row.unshift(String(resultIndex + 1));
+        //     row = row.filter(function(d, j) { return selectedColumns[j]; });
+        //     matchedData.push(row);
+        // });
+
+        // Determine which rows to show on page
+        const [showStart, showEnd] = determineRowsToShow(matchedData.length);
         
-        // Results
-        matchedData = Array();
-        matchedRows.forEach((rowIndex, resultIndex) => {
-            let row = JSON.parse(JSON.stringify(newData[rowIndex]));
-            row.unshift(String(resultIndex + 1));
-            row = row.filter(function(d, j) { return selectedColumns[j]; });
-            matchedData.push(row);
-        });
-        let showStart = showingStart.value - 1;
-        let showEnd = showStart + Math.min(showRows.value, matchedData.length);
-        showEnd = showEnd > matchedData.length ? matchedData.length : showEnd;
-        showingStart.value = showStart + 1;
-        showingEnd.textContent = `${showEnd}`;
-        
+        // Insert results into table
         insertResults(matchedData.slice(showStart, showEnd));
 
-        // matchedData.slice(showStart, showEnd).forEach((row) => {
-        //     results.append("tr").attr("class", "sortable-row")
-        //         .selectAll("td")
-        //         .data(row).enter()
-        //         .append("td")
-        //         .attr("class", function(d, i) {
-        //             return (i !== 0) ? "results-td" : "result-index";
-        //         })
-        //         .html(function(d) { return `<pre>${d}</pre>`; });
-        // }); 
-
-        // // Add resize event listeners
-        // document.querySelectorAll("div.resize-right").forEach((div) => {
-        //     makeResizable(div, adjacentIsRight=true);
-        // });
-        // document.querySelectorAll("div.resize-left").forEach((div) => {
-        //     makeResizable(div, adjacentIsRight=false);
-        // });
-        // // Add sorter event listeners
-        // sorters = document.querySelectorAll(".sort");
-        // sorters.forEach((sorter) => {
-        //     sorter.addEventListener('mouseover', 
-        //         () => sorter.style.color = "coral");
-        //     sorter.addEventListener('mouseout', 
-        //         () => sorter.style.color = "steelblue");
-        //     sorter.addEventListener('click', function(e) {
-        //         text = sorter.innerHTML;
-        //         if (text == "\u2261" || text == "\u25B2") { 
-        //             sorters.forEach((sorter) => { 
-        //                 sorter.innerHTML = "&equiv;"; });
-        //             sorter.innerHTML = "&#x25BC;"; 
-        //             sortRows(sorter.id.slice(1), "ascending");
-        //         } else if (text == "\u25BC") { 
-        //             sorter.innerHTML = "&#x25B2;"; 
-        //             sortRows(sorter.id.slice(1), "descending");
-        //         }
-        //     });
-        // });
-        // // Add text-align-control event listener
-        // textAligner = document.getElementById("text-align-control");
-        // textAligner.addEventListener("mouseover", 
-        //     () => textAligner.style.stroke = "yellow" );
-        // textAligner.addEventListener("mouseout", 
-        //     () => textAligner.style.stroke = "#2a3347" );
-        // textAligner.addEventListener("click", function() {
-        //     if (textAligner.classList.contains("align-left")) {
-        //         textAligner.innerHTML = `
-        //             <path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
-        //         textAligner.classList.replace("align-left", "align-center");
-        //         d3.selectAll("td.results-td").style("text-align", "center");
-        //     } else if (textAligner.classList.contains("align-center")) {
-        //         textAligner.innerHTML = `
-        //             <path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
-        //         textAligner.classList.replace("align-center", "align-right");
-        //         d3.selectAll("td.results-td").style("text-align", "right");
-        //     } else if (textAligner.classList.contains("align-right")) {
-        //         textAligner.innerHTML = `
-        //             <path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
-        //         textAligner.classList.replace("align-right", "align-left");
-        //         d3.selectAll("td.results-td").style("text-align", "left");
-        //     }
-        // });
-        // enforceLightDarkMode();
-        // enforceHilites();
     } else {
         var resultText = "None for ";
         if (searchInput1.value !== "" || filterSelection1.value) {

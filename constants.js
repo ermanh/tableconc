@@ -49,7 +49,6 @@ const thirdSearch = document.getElementById("third-search");
 const thirdSearchHider = document.getElementById("third-search-hider");
 
 const searchButton = document.getElementById("search-button");
-const applyColumnView = document.getElementById("apply-column-view");
 
 const resultsDiv = document.getElementById("results");
 const resultsTable = document.getElementById("results-table");

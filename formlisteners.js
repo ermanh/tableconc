@@ -197,7 +197,6 @@ columnSelection1.addEventListener('change', function() {
         colorPicker1.disabled = false;
         bgColorPicker1.disabled = false;
         searchButton.disabled = false;
-        applyColumnView.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
             if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
