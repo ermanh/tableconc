@@ -32,7 +32,7 @@ body {
 }
 
 #results-header {
-    padding: 8px 10px 8px 15px;
+    padding: 10px 10px 10px 18px;
     font-size: 0.9em;
     font-weight: 300;
     color: #0047ab;
@@ -92,10 +92,6 @@ body {
     background-color: var(--controls-bg-color);
     /* padding: 5px 0 0; */
     margin-left: -3px;
-}
-
-#column-select {
-    background-color: var(--column-controls-bg-color);
 }
 
 #title {
@@ -491,7 +487,7 @@ td#search-logic {
     margin: 8px 0 3px -3px;
 }
 
-#reset-button {
+#apply-column-view {
     margin-left: 25px;
 }
 

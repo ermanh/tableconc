@@ -197,7 +197,7 @@ columnSelection1.addEventListener('change', function() {
         colorPicker1.disabled = false;
         bgColorPicker1.disabled = false;
         searchButton.disabled = false;
-        resetButton.disabled = false;
+        applyColumnView.disabled = false;
         columnSelection2.childNodes.forEach(function(node) {
             if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
@@ -527,17 +527,37 @@ bgColorPicker3.addEventListener('change', function() {
 bgColorPickerDiv3.style.backgroundColor = bgColorPicker3.value;
 
 
-// Showing controls
+// ~~~ Showing controls ~~~
+const updatePageView = () => {
+    if (resultsTable.innerHTML !== "") {
+        let showStart = Number(showingStart.value);
+        let showEnd = showStart + Number(showRows.value) - 1;
+        if (showEnd > matchedData.length && matchedData.length > 0) { 
+            showEnd = matchedData.length; 
+        }
+        showingEnd.textContent = String(showEnd);
+        insertResults(matchedData.slice(showStart - 1, showEnd));
+    }
+};
+
 showingStart.addEventListener("keypress", function(e) {
     if (!/^\d$/.test(e.key)) { e.preventDefault(); } 
 });
 showingStart.addEventListener("focusout", function() {
-    value = showingStart.value;
+    value = Number(showingStart.value);
     if (value <= 0) {
         showingStart.value = 1;
-    } else if (value > Number(resultsNumber.textContent)) {
-        showingStart.value = Number(resultsNumber.textContent);
+    } else {
+        if (resultsNumber.textContent !== "" && 
+            value > Number(resultsNumber.textContent)) 
+        {
+            showingStart.value = resultsNumber.textContent;
+        }
     }
+});
+showingStart.addEventListener('input', () => {
+    previousPage.disabled = (Number(showingStart.value) <= 1) ? true : false;
+    updatePageView();
 });
 
 showRows.addEventListener("keypress", function(e) {
@@ -547,13 +567,15 @@ showRows.addEventListener("focusout", function() {
     value = Number(showRows.value);
     if (value > 5000) { 
         showRows.value = "5000"; 
-    } else if (value == 0) {
+    } else if (value <= 0) {
         showRows.value = "1";
     }
 });
-
-showingStart.addEventListener('input', function() {
-    previousPage.disabled = (Number(showingStart.value) <= 1) ? true : false;
+showRows.addEventListener('input', () => {
+    nextPage.disabled = (Number(showingStart.value) + Number(showRows.value) >=
+        matchedData.length) || 
+        (Number(showingEnd.textContent) >= matchedData.length);
+    updatePageView();
 });
 
 // MutationObserver for showingEnd
@@ -571,7 +593,7 @@ previousPage.addEventListener('click', () => {
         1 : Number(showingStart.value) - Number(showRows.value);
     let aboveThreshold = showStart + Number(showRows.value) > matchedData.length;
     let showEnd = aboveThreshold ? 
-        matchedData.length - 1 : showStart + Number(showRows.value) - 1;
+        matchedData.length : showStart + Number(showRows.value) - 1;
     showingStart.value = String(showStart);
     showingEnd.textContent = String(showEnd);
     insertResults(matchedData.slice(showStart - 1, showEnd));

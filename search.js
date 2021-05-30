@@ -5,9 +5,6 @@
 // - Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics
 // - A show everything button (e.g., for inspecting data)
-// - Pagination
-//      - limit the number of results shown
-//      - limit the number of filter values in drop-down menu
 // - Bugs
 //      - sorting doesn't work on Chrome
 //      - reset should not redo search, but work on existing data
@@ -59,28 +56,30 @@ function insertResults(rows) {
     });
     // Add text-align-control event listener
     textAligner = document.getElementById("text-align-control");
-    textAligner.addEventListener("mouseover", 
-        () => textAligner.style.stroke = "yellow" );
-    textAligner.addEventListener("mouseout", 
-        () => textAligner.style.stroke = "#2a3347" );
-    textAligner.addEventListener("click", function() {
-        if (textAligner.classList.contains("align-left")) {
-            textAligner.innerHTML = `
-                <path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
-            textAligner.classList.replace("align-left", "align-center");
-            d3.selectAll("td.results-td").style("text-align", "center");
-        } else if (textAligner.classList.contains("align-center")) {
-            textAligner.innerHTML = `
-                <path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
-            textAligner.classList.replace("align-center", "align-right");
-            d3.selectAll("td.results-td").style("text-align", "right");
-        } else if (textAligner.classList.contains("align-right")) {
-            textAligner.innerHTML = `
-                <path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
-            textAligner.classList.replace("align-right", "align-left");
-            d3.selectAll("td.results-td").style("text-align", "left");
-        }
-    });
+    if (textAligner) {
+        textAligner.addEventListener("mouseover", 
+            () => textAligner.style.stroke = "yellow" );
+        textAligner.addEventListener("mouseout", 
+            () => textAligner.style.stroke = "#2a3347" );
+        textAligner.addEventListener("click", function() {
+            if (textAligner.classList.contains("align-left")) {
+                textAligner.innerHTML = `
+                    <path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
+                textAligner.classList.replace("align-left", "align-center");
+                d3.selectAll("td.results-td").style("text-align", "center");
+            } else if (textAligner.classList.contains("align-center")) {
+                textAligner.innerHTML = `
+                    <path d="M5,3 L13,3 M1,6 L13,6 M5,9 L13,9 M1,12 L13,12"/>`;
+                textAligner.classList.replace("align-center", "align-right");
+                d3.selectAll("td.results-td").style("text-align", "right");
+            } else if (textAligner.classList.contains("align-right")) {
+                textAligner.innerHTML = `
+                    <path d="M0,3 L8,3 M0,6 L12,6 M0,9 L8,9 M0,12 L12,12"/>`;
+                textAligner.classList.replace("align-right", "align-left");
+                d3.selectAll("td.results-td").style("text-align", "left");
+            }
+        });
+    }
     enforceLightDarkMode();
     enforceHilites();
 }

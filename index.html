@@ -39,6 +39,8 @@
         </div>
         &nbsp;&nbsp;
         <input id="choose-file" type="file" accept=".csv,.tsv,.txt,.json" style="width:200px;">
+        <input id="column-headers" type="checkbox" checked>
+        <label id="column-headers-label" for="column-headers">Contains headers</label>
     </div>
     <div id="controls">
         <form id="search-box" onsubmit="return false;">
@@ -292,12 +294,7 @@
         <table>
             <tr>
                 <td>
-                    <button id="reset-button" disabled>
-                        Reset</button>
-                </td>
-                <td style="border-right: 0.5px solid white;">
-                    <input id="column-headers" type="checkbox" checked>
-                    <label id="column-headers-label" for="column-headers">Contains headers</label>
+                    <button id="apply-column-view" disabled>Apply</button>
                 </td>
                 <td>
                     &nbsp;&nbsp;Display columns:&nbsp;
@@ -310,15 +307,15 @@
         <div id="results-header">
             <label id="showing-start-label" for="showing-start">Showing:</label>
             <span id="showing">
-                <input id="showing-start" type="number" value="1">
+                <input id="showing-start" type="number" value="1" min="1">
                 to&nbsp;
-                <span id="showing-end"></span>
+                <span id="showing-end">500</span>
             </span>&nbsp;
             <button id="previous-page" disabled>&lt;</button>
             <button id="next-page" disabled>&gt;</button>
             &nbsp;&nbsp;
             <label id="show-rows-label" for="show-rows">Rows:</label>
-            <input id="show-rows" type="number" value="500">
+            <input id="show-rows" type="number" value="500" min="1">
             &nbsp;&nbsp;&nbsp;
             Total results:
             <span id="results-number"></span>
