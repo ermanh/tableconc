@@ -5,8 +5,6 @@
 // - Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics
 // - A show everything button (e.g., for inspecting data) ?
-// - anchor results-header (for scrolling)
-//      - make sure results-header still above anchored <th> row
 // - Bugs
 //      - sorting doesn't work on Chrome
 // - ? Export results feature
@@ -100,7 +98,7 @@ function insertResults(rows) {
             .selectAll("td")
             .data(row).enter()
             .append("td")
-            .attr("class", function(d, i) {
+            .attr("class", (d, i) => {
                 return (i !== 0) ? "results-td" : "result-index";
             })
             .html(function(d) { return `<pre>${d}</pre>`; });
@@ -481,13 +479,11 @@ const concord = function () {
     if (inputValid1) { matchedRows = matchedRows1; }
     if (inputValid2) {
         matchedRows = inputValid1 ? 
-            matchedRows.filter(x => matchedRows2.includes(x)) :
-            matchedRows2;
+            matchedRows.filter(x => matchedRows2.includes(x)) : matchedRows2;
     }
     if (inputValid3) {
         matchedRows = (inputValid1 || inputValid2) ?
-            matchedRows.filter(x => matchedRows3.includes(x)) :
-            matchedRows3;
+            matchedRows.filter(x => matchedRows3.includes(x)) : matchedRows3;
     }
 
     // Pad strings to be displayed
@@ -543,31 +539,21 @@ const concord = function () {
     if (matchedRows.length > 0) {
         // Prepare columns
         const [selectedColumns, columnsToDisplay] = prepareColumns(columnNames);
-    
         // Insert column headers
         insertColumnHeaders(columnsToDisplay);
-        
         // Array for only the matched data
         matchedData = setMatchedData(matchedRows, selectedColumns);
-        // matchedRows.forEach((rowIndex, resultIndex) => {
-        //     let row = JSON.parse(JSON.stringify(newData[rowIndex]));
-        //     row.unshift(String(resultIndex + 1));
-        //     row = row.filter(function(d, j) { return selectedColumns[j]; });
-        //     matchedData.push(row);
-        // });
-
         // Determine which rows to show on page
         const [showStart, showEnd] = determineRowsToShow(matchedData.length);
-        
         // Insert results into table
         insertResults(matchedData.slice(showStart, showEnd));
 
     } else {
+        resultsTable.innerHTML = "";
         var resultText = "None for ";
         if (searchInput1.value !== "" || filterSelection1.value) {
             var value1 = (searchInput1.value !== "") ? 
-                searchInput1.value : 
-                filterSelection1.value;
+                searchInput1.value : filterSelection1.value;
             resultText = resultText + `"${value1}"`;
             if (searchInput2.value !== "" || filterSelection2.value ||
                 searchInput3.value !== "" || filterSelection3.value) 
@@ -577,8 +563,7 @@ const concord = function () {
         }
         if (searchInput2.value !== "" || filterSelection2.value) {
             var value2 = (searchInput2.value !== "") ? 
-                searchInput2.value : 
-                filterSelection2.value;
+                searchInput2.value : filterSelection2.value;
             resultText = resultText + `"${value2}"`;
             if (searchInput3.value !== "" || filterSelection3.value) {
                 resultText = resultText + " and ";
@@ -586,8 +571,7 @@ const concord = function () {
         }
         if (searchInput3.value !== "" || filterSelection3.value) {
             var value3 = (searchInput3.value !== "") ? 
-                searchInput3.value : 
-                filterSelection3.value;
+                searchInput3.value : filterSelection3.value;
             resultText = resultText + `"${value3}"`;
         }
         resultsNumber.textContent = "";

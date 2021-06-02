@@ -289,6 +289,10 @@ function enforceLightDarkMode() {
     document.body.style.color = isDark ? colors.dark.fore : colors.light.fore;
     resultsDiv.style.color = isDark ? colors.dark.fore : colors.light.fore;
     resultsHeader.style.color = isDark ? "#b8ffff" : "#0047ab";
+    resultsHeader.style.backgroundColor = isDark ? 
+        colors.dark.back : colors.light.back;
+    resultsHeader.style.borderBottom = isDark ? 
+        "1px solid gray" : "1px solid white";
     
     sortableTH = document.getElementsByClassName("sortable");
     Array.from(sortableTH).forEach((th) => {

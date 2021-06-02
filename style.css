@@ -18,6 +18,12 @@ html, body {
     width: 100%;
 }
 
+/* #sticky-div {
+    position: absolute;
+    top: 0;
+    width: 100%;
+} */
+
 body {
     background-color: var(--hiders-hover-bg-color);
     color: black;
@@ -29,13 +35,19 @@ body {
     color: black;
     padding: 0;
     margin: 0;
+    position: relative;
 }
 
 #results-header {
     padding: 10px 10px 10px 19px;
     font-size: 0.9em;
     font-weight: 300;
+    background-color: var(--hiders-hover-bg-color);
     color: #0047ab;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 0.5px solid white;
 }
 
 #results-number {
@@ -85,7 +97,7 @@ body {
 #banner {
     background-color: var(--banner-bg-color);
     color:white;
-    padding: 12px 0 15px 10px;
+    padding: 12px 0 10px 10px;
 }
 
 #controls {
@@ -118,21 +130,19 @@ body {
 .light-dark-controls {
     height: 24px;
     width: 24px;
-    position: fixed;
-    top: 13px;
     user-select: none; 
     -webkit-user-select: none; 
     -moz-user-select: none; 
     -khtml-user-select: none;
     -ms-user-select: none;
-
+    border-top: 1px solid var(--banner-bg-color);
+    border-bottom: 1px solid var(--banner-bg-color);
 }
 
 #light-control {
     stroke: khaki;
     stroke-width: 1px;
     fill: khaki;
-    z-index: 101;
     background-color: steelblue;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -141,10 +151,14 @@ body {
 #dark-control {
     stroke-width: 0px;
     fill: orange;
-    z-index: 100;
     background-color: var(--controls-bg-color);
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+#file-div {
+    display: inline-block;
+    vertical-align: top;
 }
 
 #controls {
@@ -173,8 +187,6 @@ body {
     width: 24px;
     border-radius: 5px;
     margin-top: 0;
-    position: fixed;
-    top: 13px;
     user-select: none; 
     stroke: lightsteelblue;
     stroke-width: 2px;
@@ -183,6 +195,7 @@ body {
     -moz-user-select: none; 
     -khtml-user-select: none;
     -ms-user-select: none;
+    border: 1px solid var(--banner-bg-color);
 }
 
 #hide-controls {
@@ -387,7 +400,7 @@ th {
     background-color: var(--hiders-hover-bg-color);
     color: var(--banner-bg-color);
     position: sticky;
-    top: 0;
+    top: 38px;
     padding: 3px 12px;
     border: 1px solid white;
     border-collapse: collapse;
@@ -399,7 +412,9 @@ td.results-td {
     color: black;
     position: relative;
     padding: 3px 15px;
-    border: 0.5px solid lightgray;
+    border-bottom: 0.5px solid lightgray;
+    border-left: 0.5px solid lightgray;
+    border-right: 0.5px solid lightgray;
     border-collapse: collapse;
 }
 
