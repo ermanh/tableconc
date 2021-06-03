@@ -244,13 +244,17 @@ function sortRows(columnToSort, order) {
         newRow = Array.from(row.children);
         newRows.push(newRow);
     });
+    console.log(JSON.stringify(newRows));
     newRows = newRows.sort((a, b) => {
+        let aString = a[columnToSort].__data__;
+        let bString = b[columnToSort].__data__;
         if (order == "ascending") {
-            return a[columnToSort].__data__ > b[columnToSort].__data__;
+            return aString.localeCompare(bString);
         } else if (order == "descending") {
-            return a[columnToSort].__data__ < b[columnToSort].__data__; 
+            return bString.localeCompare(aString);
         }
     });
+    console.log(JSON.stringify(newRows));
     newRows = newRows.map((row, i) => {
         return row.map((item, j) => { 
             return (j == 0) ? String(i + 1) : item.__data__; 

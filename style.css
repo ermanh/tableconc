@@ -400,7 +400,7 @@ th {
     background-color: var(--hiders-hover-bg-color);
     color: var(--banner-bg-color);
     position: sticky;
-    top: 38px;
+    top: 36px;
     padding: 3px 12px;
     border: 1px solid white;
     border-collapse: collapse;

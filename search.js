@@ -1,12 +1,11 @@
 //// TODOs
+// - favicon
 // - Refactor and clean code
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
 // - Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics
 // - A show everything button (e.g., for inspecting data) ?
-// - Bugs
-//      - sorting doesn't work on Chrome
 // - ? Export results feature
 
 
