@@ -12,9 +12,9 @@ const readFile = function () {
 
     reader.onload = function () {    
         if (filetype == "text/csv") {
-            data = d3.csv.parseRows(reader.result);
+            data = d3.csvParseRows(reader.result);
         } else if (["text/tab-separated-values", "text/tsv"].includes(filetype)) {
-            data = d3.tsv.parseRows(reader.result);
+            data = d3.tsvParseRows(reader.result);
         } else if (["application/json", "text/json"].includes(filetype)) {
             var json = JSON.parse(reader.result);
             
@@ -66,9 +66,9 @@ const readFile = function () {
             data.unshift(fields);
         } else if (filetype == "text/plain") {
             data = reader.result.split('\n');
-            data = data.map((line) => { return [line]; });
+            data = data.map((line) => [line]);
         }
-            
+
         var columnNames = columnHeaders ? data[0] : data[0].map((d, i) => { 
             return `Column ${i + 1}`; 
         });
@@ -95,35 +95,35 @@ const readFile = function () {
         d3.select("#column-selection-1").selectAll("option")
             .data(["(none)"].concat(columnNames)).enter()
                 .append("option")
-                .attr("value", function(d) { return d; })
-                .text(function(d) { return d; });
+                .attr("value", (d) => d)
+                .text((d) => d);
         d3.select("#column-selection-2").selectAll("option")
             .data(["(none)"].concat(columnNames)).enter()
                 .append("option")
-                .attr("value", function(d) { return d; })
-                .text(function(d) { return d; });
+                .attr("value", (d) => d)
+                .text((d) => d);
         d3.select("#column-selection-3").selectAll("option")
             .data(["(none)"].concat(columnNames)).enter()
                 .append("option")
-                .attr("value", function(d) { return d; })
-                .text(function(d) { return d; });
+                .attr("value", (d) => d)
+                .text((d) => d);
 
         // columns to display
         d3.select("#columns-to-show").html("");  // clear checkboxes
         var columnsToShow = d3.select("#columns-to-show").selectAll("input")
-            .data(columnNames).enter();
+            .data(columnNames).enter().append("span");
         columnsToShow.append("input")
-            .attr("id", function(d) { return "to-show-" + d; })
-            .attr("class", function() { return "column-to-show"; })
+            .attr("id", (d) => `to-show-${d}`)
+            .attr("class", () => "column-to-show")
             .attr("type", "checkbox")
             .property("checked", true);
         columnsToShow.insert("label")
-            .attr("for", function(d) { return "to-show-" + d; })
-            .html(function(d) { return d + "&nbsp;&nbsp;"; });
+            .attr("for", (d) => `to-show-${d}`)
+            .html((d) => ` ${d}&nbsp;&nbsp;&nbsp;`);
         
         // add column listeners
         columnsToShowNodes = document.getElementsByClassName("column-to-show");
-        Array.from(columnsToShowNodes).forEach(node => {
+        Array.from(columnsToShowNodes).forEach((node) => {
             node.addEventListener("change", () => {
                 let [selectedColumns, 
                      columnsToDisplay] = prepareColumns(columnNames);
@@ -138,7 +138,7 @@ const readFile = function () {
     reader.readAsText(fileInput.files[0]);
 };
 
-fileInput.addEventListener('change', function() {
+fileInput.addEventListener('change', () => {
     let filetype = fileInput.files[0].type;
     if (["application/json", "text/json"].includes(filetype)) {
         columnHeaders.checked = true;

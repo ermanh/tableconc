@@ -7,6 +7,7 @@
 //      - Cross-browser aesthetics
 // - A show everything button (e.g., for inspecting data) ?
 // - ? Export results feature
+// - Filter selection - limit to values greater than 1 (or other threshold)
 
 
 const searchBox = document.getElementById("search-box");
@@ -202,7 +203,7 @@ const concord = function () {
                 if (regexSelection1.checked) {
                     pattern1 = searchInput1.value;
                 } else {
-                    pattern1 = RegExp.escape(searchInput1.value);
+                    pattern1 = escapeRegExp(searchInput1.value);
                     if (fullWords1.checked) {
                         pattern1 = fullwordBoundaries(pattern1, 
                                                       searchInput1.value);
@@ -212,7 +213,7 @@ const concord = function () {
                 if (regexSelection1.checked) {
                     pattern1 = `^(.*?)(${searchInput1.value})(.*)$`;
                 } else {
-                    pattern1 = RegExp.escape(searchInput1.value);
+                    pattern1 = escapeRegExp(searchInput1.value);
                     if (fullWords1.checked) {
                         pattern1 = fullwordBoundaries(pattern1, 
                                                       searchInput1.value);
@@ -296,7 +297,7 @@ const concord = function () {
                 if (regexSelection2.checked) {
                     pattern2 = searchInput2.value;
                 } else {
-                    pattern2 = RegExp.escape(searchInput2.value);
+                    pattern2 = escapeRegExp(searchInput2.value);
                     if (fullWords2.checked) {
                         pattern2 = fullwordBoundaries(pattern2, 
                                                       searchInput2.value);
@@ -306,7 +307,7 @@ const concord = function () {
                 if (regexSelection2.checked) {
                     pattern2 = `^(.*?)(${searchInput2.value})(.*)$`; 
                 } else {
-                    pattern2 = RegExp.escape(searchInput2.value);
+                    pattern2 = escapeRegExp(searchInput2.value);
                     if (fullWords2.checked) {
                         pattern2 = fullwordBoundaries(pattern2, 
                                                       searchInput2.value);
@@ -390,7 +391,7 @@ const concord = function () {
                 if (regexSelection3.checked) {
                     pattern3 = searchInput3.value;
                 } else {
-                    pattern3 = RegExp.escape(searchInput3.value);
+                    pattern3 = escapeRegExp(searchInput3.value);
                     if (fullWords3.checked) {
                         pattern3 = fullwordBoundaries(pattern3, 
                                                       searchInput3.value);
@@ -400,7 +401,7 @@ const concord = function () {
                 if (regexSelection3.checked) {
                     pattern3 = `^(.*?)(${searchInput3.value})(.*)$`; 
                 } else {
-                    pattern3 = RegExp.escape(searchInput3.value);
+                    pattern3 = escapeRegExp(searchInput3.value);
                     if (fullWords3.checked) {
                         pattern3 = fullwordBoundaries(pattern3, 
                                                       searchInput3.value);

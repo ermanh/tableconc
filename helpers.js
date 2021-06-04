@@ -1,3 +1,7 @@
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function columnNamesHaveDuplicates(columnNames) {
     let columnNamesSet = new Set();
     columnNames.forEach(name => { columnNamesSet.add(name); });
@@ -180,7 +184,7 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
         var padStart;
         var padEnd;
         var ellipsisHTML = '<text style="color:gray">&hellip;</text>';
-        var ellipsisRegExp = RegExp(RegExp.escape(ellipsisHTML));
+        var ellipsisRegExp = RegExp(escapeRegExp(ellipsisHTML));
 
         if (concordCutoffValue < maxBefore && concordCutoffValue > 0) {
             startCutoffDiff = concordCutoffValue - beforeLengths[i];
