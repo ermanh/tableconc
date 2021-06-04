@@ -5,12 +5,12 @@ var newData;
 var matchedData = Array();
 var matchedRows;
 
-const readFile = function () {
+function readFile() {
     var reader = new FileReader();
     var columnHeaders = document.getElementById("column-headers").checked;
     filetype = fileInput.files[0].type;
 
-    reader.onload = function () {    
+    reader.onload = () => {    
         if (filetype == "text/csv") {
             data = d3.csvParseRows(reader.result);
         } else if (["text/tab-separated-values", "text/tsv"].includes(filetype)) {
@@ -50,8 +50,8 @@ const readFile = function () {
                     if (!fields.includes(key)) { fields.push(key); }
                 });
             });
-            data = json.map(function(row) {
-                return fields.map(function(fieldName) { 
+            data = json.map((row) => {
+                return fields.map((fieldName) => { 
                     if (row[fieldName]) {
                         if (typeof(row[fieldName]) == "string") {
                             return row[fieldName];

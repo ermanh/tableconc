@@ -1,13 +1,19 @@
 //// TODOs
 // - favicon
-// - Refactor and clean code
+// Refactor and clean code
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
-// - Improve UI aesthetics/format/style
+// Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics
 // - A show everything button (e.g., for inspecting data) ?
 // - ? Export results feature
-// - Filter selection - limit to values greater than 1 (or other threshold)
+// Enhancements
+//      - Filter selection - limit to values greater than 1 (or other threshold)
+//      - Full match should disable:
+//          - Full words, Concordance, Find all instances
+//      - match-beginning and match-end should disable:
+//          - Find all instances
+//      - Disabling findall should select concordance again
 
 
 const searchBox = document.getElementById("search-box");
@@ -16,10 +22,10 @@ const resultsNumberTimeout = 100;
 
 function prepareColumns(columnNames) {
     const selectedColumns = Array();  // Array of trues and falses
-    d3.select('#columns-to-show').selectAll('input').each(function (d, i) { 
-        selectedColumns.push(this.checked);
-    });
-    const columnsToDisplay = columnNames.filter(function(d, i) {
+    inputs = document.getElementById("columns-to-show")
+                .getElementsByTagName("input");
+    Array.from(inputs).forEach((input) => selectedColumns.push(input.checked));
+    const columnsToDisplay = columnNames.filter((d, i) => {
         if (selectedColumns[i]) { return d; }
     });
     selectedColumns.unshift(true);
@@ -39,10 +45,10 @@ function insertColumnHeaders(columnsToDisplay) {
         .selectAll("th")
         .data(columnsToDisplay).enter()
         .append("th")
-        .attr("class", function(d, i) {
+        .attr("class", (d, i) => {
             return (i == 0) ? "result-index" : "sortable";
         })
-        .html(function(d, i) { 
+        .html((d, i) => { 
             // Add resize and sorter controller divs in header row
             if (i == 0) {
                 return d;
@@ -75,7 +81,7 @@ function setMatchedData(matchedRows, selectedColumns) {
     matchedRows.forEach((rowIndex, resultIndex) => {
             let row = JSON.parse(JSON.stringify(newData[rowIndex]));
             row.unshift(String(resultIndex + 1));
-            row = row.filter(function(d, j) { return selectedColumns[j]; });
+            row = row.filter((d, j) => selectedColumns[j]);
             matchedData.push(row);
         });
     return matchedData;
@@ -98,10 +104,8 @@ function insertResults(rows) {
             .selectAll("td")
             .data(row).enter()
             .append("td")
-            .attr("class", (d, i) => {
-                return (i !== 0) ? "results-td" : "result-index";
-            })
-            .html(function(d) { return `<pre>${d}</pre>`; });
+            .attr("class", (d, i) => (i !== 0) ? "results-td" : "result-index")
+            .html((d) => `<pre>${d}</pre>`);
     }); 
 
     // Add resize event listeners
@@ -118,7 +122,7 @@ function insertResults(rows) {
             () => sorter.style.color = "coral");
         sorter.addEventListener('mouseout', 
             () => sorter.style.color = "steelblue");
-        sorter.addEventListener('click', function(e) {
+        sorter.addEventListener('click', (e) => {
             text = sorter.innerHTML;
             if (text == "\u2261" || text == "\u25B2") { 
                 sorters.forEach((sorter) => { 
@@ -138,7 +142,7 @@ function insertResults(rows) {
             () => textAligner.style.stroke = "yellow" );
         textAligner.addEventListener("mouseout", 
             () => textAligner.style.stroke = "#2a3347" );
-        textAligner.addEventListener("click", function() {
+        textAligner.addEventListener("click", () => {
             if (textAligner.classList.contains("align-left")) {
                 textAligner.innerHTML = `
                     <path d="M3,3 L10,3 M0,6 L13,6 M3,9 L10,9 M0,12 L13,12"/>`;
@@ -162,7 +166,7 @@ function insertResults(rows) {
 }
 
 
-const concord = function () {
+function concord() {
     newData = JSON.parse(JSON.stringify(data));
 
     var columnNames = columnHeaders.checked ? data[0] : data[0].map(
@@ -245,7 +249,7 @@ const concord = function () {
                                 str, re1, tagOpen1, tagClose1);
                         } else {
                             htmlSafeString1 = str.replace(
-                                re1, function(_, g1, g2, g3) 
+                                re1, (_, g1, g2, g3) =>
                             {
                                 return `${escapeHTML(g1)}${tagOpen1}` + 
                                        `${escapeHTML(g2)}${tagClose1}` + 
@@ -253,16 +257,16 @@ const concord = function () {
                             });
                         }
                     } else if (matchWhere1.value == "match-entire-1") {
-                        htmlSafeString1 = str.replace(re1, function(_, g1) {
+                        htmlSafeString1 = str.replace(re1, (_, g1) => {
                             return `${tagOpen1}${escapeHTML(g1)}${tagClose1}`;
                         });
                     } else if (matchWhere1.value == "match-beginning-1") {
-                        htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
+                        htmlSafeString1 = str.replace(re1, (_, g1, g2) => {
                             return `${tagOpen1}${escapeHTML(g1)}${tagClose1}` +
                                    `${escapeHTML(g2)}`;
                         });
                     } else if (matchWhere1.value == "match-end-1") {
-                        htmlSafeString1 = str.replace(re1, function(_, g1, g2) {
+                        htmlSafeString1 = str.replace(re1, (_, g1, g2) => {
                             return `${escapeHTML(g1)}${tagOpen1}` + 
                                    `${escapeHTML(g2)}${tagClose1}`;
                         });
@@ -339,7 +343,7 @@ const concord = function () {
                                 str, re2, tagOpen2, tagClose2);
                         } else {
                             htmlSafeString2 = str.replace(
-                                re2, function(_, g1, g2, g3) 
+                                re2, (_, g1, g2, g3) =>
                             {
                                 return `${escapeHTML(g1)}${tagOpen2}` + 
                                        `${escapeHTML(g2)}${tagClose2}` + 
@@ -347,16 +351,16 @@ const concord = function () {
                             });
                         }
                     } else if (matchWhere2.value == "match-entire-2") {
-                        htmlSafeString2 = str.replace(re2, function(_, g1) {
+                        htmlSafeString2 = str.replace(re2, (_, g1) => {
                             return `${tagOpen2}${escapeHTML(g1)}${tagClose2}`;
                         });
                     } else if (matchWhere2.value == "match-beginning-2") {
-                        htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
+                        htmlSafeString2 = str.replace(re2, (_, g1, g2) => {
                             return `${tagOpen2}${escapeHTML(g1)}${tagClose2}` +
                                    `${escapeHTML(g2)}`;
                         });
                     } else if (matchWhere2.value == "match-end-2") {
-                        htmlSafeString2 = str.replace(re2, function(_, g1, g2) {
+                        htmlSafeString2 = str.replace(re2, (_, g1, g2) => {
                             return `${escapeHTML(g1)}${tagOpen2}` + 
                                    `${escapeHTML(g2)}${tagClose2}`;
                         });
@@ -433,7 +437,7 @@ const concord = function () {
                                 str, re3, tagOpen3, tagClose3);
                         } else {
                             htmlSafeString3 = str.replace(
-                                re3, function(_, g1, g2, g3) 
+                                re3, (_, g1, g2, g3) =>
                             {
                                 return `${escapeHTML(g1)}${tagOpen3}` +
                                        `${escapeHTML(g2)}${tagClose3}` + 
@@ -441,16 +445,16 @@ const concord = function () {
                             });
                         }
                     } else if (matchWhere3.value == "match-entire-3") {
-                        htmlSafeString3 = str.replace(re3, function(_, g1) {
+                        htmlSafeString3 = str.replace(re3, (_, g1) => {
                             return `${tagOpen3}${escapeHTML(g1)}${tagClose3}`;
                         });
                     } else if (matchWhere3.value == "match-beginning-3") {
-                        htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
+                        htmlSafeString3 = str.replace(re3, (_, g1, g2) => {
                             return `${tagOpen3}${escapeHTML(g1)}${tagClose3}` + 
                                    `${escapeHTML(g2)}`;
                         });
                     } else if (matchWhere3.value == "match-end-3") {
-                        htmlSafeString3 = str.replace(re3, function(_, g1, g2) {
+                        htmlSafeString3 = str.replace(re3, (_, g1, g2) => {
                             return `${escapeHTML(g1)}` + 
                                    `${tagOpen3}${escapeHTML(g2)}${tagClose3}`;
                         });
@@ -479,11 +483,11 @@ const concord = function () {
     if (inputValid1) { matchedRows = matchedRows1; }
     if (inputValid2) {
         matchedRows = inputValid1 ? 
-            matchedRows.filter(x => matchedRows2.includes(x)) : matchedRows2;
+            matchedRows.filter((x) => matchedRows2.includes(x)) : matchedRows2;
     }
     if (inputValid3) {
         matchedRows = (inputValid1 || inputValid2) ?
-            matchedRows.filter(x => matchedRows3.includes(x)) : matchedRows3;
+            matchedRows.filter((x) => matchedRows3.includes(x)) : matchedRows3;
     }
 
     // Pad strings to be displayed
@@ -576,7 +580,7 @@ const concord = function () {
         }
         resultsNumber.textContent = "";
         setTimeout(
-            function() { resultsNumber.textContent = resultText; }, 
+            () => { resultsNumber.textContent = resultText; }, 
             resultsNumberTimeout
         );
     }

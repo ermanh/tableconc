@@ -4,14 +4,14 @@ function escapeRegExp(string) {
 
 function columnNamesHaveDuplicates(columnNames) {
     let columnNamesSet = new Set();
-    columnNames.forEach(name => { columnNamesSet.add(name); });
+    columnNames.forEach((name) => columnNamesSet.add(name));
     return columnNamesSet.size !== columnNames.length;
 }
 
 function renameColumnNames(columnNames) {
     let newColumnNames = Array();
     let dictionary = {};
-    columnNames.forEach(name => {
+    columnNames.forEach((name) => {
         let newName = name;
         if (RegExp(/^\s*$/).exec(newName)) { newName = "Unnamed"; }
         if (!dictionary[newName]) {
@@ -60,8 +60,8 @@ function populateFilterValues(whichFilter) {
     filterSelection.selectAll("option")
         .data(values).enter()
             .append("option")
-            .attr("value", function(d) { return d; })
-            .text(d => { 
+            .attr("value", (d) => d)
+            .text((d) => { 
                 if (d.length > filterValueMaxLength) {
                     return `${d.slice(0,filterValueMaxLength)} ` + 
                            `(${valueCount[d]})`;
@@ -74,7 +74,7 @@ function populateFilterValues(whichFilter) {
 function makeResizable(div, adjacentIsRight) {
     var position, thisColumn, adjacentColumn, thisWidth, adjacentWidth;
 
-    var mousemoveListener = function(e) {
+    var mousemoveListener = (e) => {
         var traveled = adjacentIsRight ? 
             e.pageX - position : 
             position - e.pageX;
@@ -82,13 +82,13 @@ function makeResizable(div, adjacentIsRight) {
         adjacentColumn.style.width = `${adjacentWidth - traveled}px`; 
     };
 
-    var mouseupListener = function() {
+    var mouseupListener = () => {
         document.getElementsByTagName("body")[0].style.cursor = "auto";
         document.removeEventListener('mousemove', mousemoveListener);
         document.removeEventListener('mouseup', mouseupListener);
     };
 
-    div.addEventListener('mousedown', function (e) {
+    div.addEventListener('mousedown', (e) => {
         e.preventDefault();
         document.getElementsByTagName("body")[0].style.cursor = "col-resize";
         position = e.pageX;
@@ -267,8 +267,8 @@ function sortRows(columnToSort, order) {
     d3.selectAll('tr.sortable-row')
         .data(newRows)
         .selectAll('td')
-            .data(function(d) { return d; })
-            .html(function(d) { return `<pre>${d}</pre>`; });
+            .data((d) => d)
+            .html((d) => `<pre>${d}</pre>`);
     enforceHilites();
 }
 

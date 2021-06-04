@@ -1,6 +1,6 @@
 
 // ~~~ Columns to display ~~~
-columnHeaders.addEventListener('change', function() {
+columnHeaders.addEventListener('change', () => {
     if (chooseFile.value) { readFile(); }
     filterSelection1.innerHTML = "";
     filterSelection2.innerHTML = "";
@@ -8,7 +8,7 @@ columnHeaders.addEventListener('change', function() {
 });
 
 // ~~~ Hide Controls ~~~
-hideControls.addEventListener('click', function() {
+hideControls.addEventListener('click', () => {
     if (controls.style.display != 'none') {
         controls.style.display = 'none';
     } else {
@@ -16,7 +16,7 @@ hideControls.addEventListener('click', function() {
     }
     
 });
-hideColumnControls.addEventListener('click', function() {
+hideColumnControls.addEventListener('click', () => {
     if (columnControls.style.display != 'none') {
         columnControls.style.display = 'none';
     } else {
@@ -25,37 +25,37 @@ hideColumnControls.addEventListener('click', function() {
 });
 
 // ~~~ Second & Third Search Hiders ~~~
-secondSearchHider.addEventListener('click', function() {
+secondSearchHider.addEventListener('click', () => {
     if (secondSearch.style.display == "block") {
         secondSearch.style.display = "none";
-        this.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" />';
+        secondSearchHider.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" />';
     } else {
         secondSearch.style.display = "block";
-        this.innerHTML = '<path d="M1,6 L11,6" />';
+        secondSearchHider.innerHTML = '<path d="M1,6 L11,6" />';
     }
 });
-thirdSearchHider.addEventListener('click', function() {
+thirdSearchHider.addEventListener('click', () => {
     if (thirdSearch.style.display == "block") {
         thirdSearch.style.display = "none";
-        this.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" />';
+        thirdSearchHider.innerHTML = '<path d="M1,6 L11,6 M6,1 L6,11" />';
     } else {
         thirdSearch.style.display = "block";
-        this.innerHTML = '<path d="M1,6 L11,6" />';
+        thirdSearchHider.innerHTML = '<path d="M1,6 L11,6" />';
     }
 });
 
 // ~~~ Light and Dark Mode Controls ~~~
-lightControl.addEventListener("mouseover", function() {
+lightControl.addEventListener("mouseover", () => {
     if (lightControl.classList.contains("is-dark")) {
         lightControl.style.opacity = "1";
     }
 });
-lightControl.addEventListener("mouseout", function() {
+lightControl.addEventListener("mouseout", () => {
     if (lightControl.classList.contains("is-dark")) {
         lightControl.style.opacity = "0.5";
     }
 });
-lightControl.addEventListener("click", function() {
+lightControl.addEventListener("click", () => {
     if (lightControl.classList.contains("is-dark")) {
         lightControl.classList.replace("is-dark", "is-light");
         lightControl.style.backgroundColor = "steelblue";
@@ -71,17 +71,17 @@ lightControl.addEventListener("click", function() {
     }
 });
 
-darkControl.addEventListener("mouseover", function() {
+darkControl.addEventListener("mouseover", () => {
     if (darkControl.classList.contains("is-light")) {
         darkControl.style.opacity = "1";
     }
 });
-darkControl.addEventListener("mouseout", function() {
+darkControl.addEventListener("mouseout", () => {
     if (darkControl.classList.contains("is-light")) {
         darkControl.style.opacity = "0.5";
     }
 });
-darkControl.addEventListener("click", function() {
+darkControl.addEventListener("click", () => {
     if (darkControl.classList.contains("is-light")) {
         darkControl.classList.replace("is-light", "is-dark");
         darkControl.style.backgroundColor = "steelblue";
@@ -101,8 +101,8 @@ darkControl.addEventListener("click", function() {
 // ~~~~~~~~~~ SEARCH 1 ~~~~~~~~~~
 
 // ~~~ Filter Control 1 ~~~
-filterControl1.addEventListener('change', function() {
-    if (this.checked) {
+filterControl1.addEventListener('change', () => {
+    if (filterControl1.checked) {
         searchRow1.style.display = "none";
         filterRow1.style.display = "inline-block";
         if (columnSelection1.innerHTML !== "") { populateFilterValues("1"); }
@@ -116,8 +116,8 @@ filterControl1.addEventListener('change', function() {
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
 // - deselects and disables "Full word(s)"
-regexSelection1.addEventListener('change', function() {
-    if (this.checked) {
+regexSelection1.addEventListener('change', () => {
+    if (regexSelection1.checked) {
         caseSensitive1.checked = true;
         fullWords1.checked = false;
         fullWords1.disabled = true;
@@ -131,8 +131,8 @@ regexSelection1.addEventListener('change', function() {
 });
 
 // ~~~ Concordance Cutoff 1 ~~~
-concordanceDisplay1.addEventListener('change', function() {
-    if (this.checked) {
+concordanceDisplay1.addEventListener('change', () => {
+    if (concordanceDisplay1.checked) {
         concordanceCutoff1.disabled = false;
     } else {
         concordanceCutoff1.disabled = true;
@@ -140,8 +140,8 @@ concordanceDisplay1.addEventListener('change', function() {
 });
 
 // ~~~ Findall 1 ~~~
-findall1.addEventListener('change', function() {
-    if (this.checked) {
+findall1.addEventListener('change', () => {
+    if (findall1.checked) {
         concordanceDisplay1.checked = false;
         concordanceDisplay1.disabled = true;
         concordanceCutoff1.disabled = true;
@@ -155,14 +155,14 @@ findall1.addEventListener('change', function() {
 });
 
 // ~~~ Column Selection 1 ~~~
-columnSelection1.addEventListener('change', function() {
-    var columnSelectionValue1 = this.value;
+columnSelection1.addEventListener('change', () => {
+    var columnSelectionValue1 = columnSelection1.value;
     var columnSelectionValue2 = columnSelection2.value;
     var columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue1 == "(none)") {
         // Enable all selections in the other column selection
-        columnSelection2.childNodes.forEach(node => { node.disabled = false; });
-        columnSelection3.childNodes.forEach(node => { node.disabled = false; });
+        columnSelection2.childNodes.forEach((node) => node.disabled = false);
+        columnSelection3.childNodes.forEach((node) => node.disabled = false);
         // Clear filter values
         filterSelection1.innerHTML = "";
         // Disable all selections
@@ -197,7 +197,7 @@ columnSelection1.addEventListener('change', function() {
         colorPicker1.disabled = false;
         bgColorPicker1.disabled = false;
         searchButton.disabled = false;
-        columnSelection2.childNodes.forEach(function(node) {
+        columnSelection2.childNodes.forEach((node) => {
             if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
@@ -206,7 +206,7 @@ columnSelection1.addEventListener('change', function() {
                 node.disabled = true;
             }
         });
-        columnSelection3.childNodes.forEach(function(node) {
+        columnSelection3.childNodes.forEach((node) => {
             if (![columnSelectionValue1, columnSelectionValue2].includes(node.value)) {
                 node.disabled = false;
             } else {
@@ -217,7 +217,7 @@ columnSelection1.addEventListener('change', function() {
 });
 
 // ~~~ Color Pickers 1 ~~~
-colorPicker1.addEventListener('change', function() {
+colorPicker1.addEventListener('change', () => {
     let newColor = colorPicker1.value;
     colorPickerDiv1.style.backgroundColor = newColor;
     var hilitedOnes = document.getElementsByClassName("hilite1");
@@ -227,7 +227,7 @@ colorPicker1.addEventListener('change', function() {
 });
 colorPickerDiv1.style.backgroundColor = colorPicker1.value;
 
-bgColorPicker1.addEventListener('change', function() {
+bgColorPicker1.addEventListener('change', () => {
     let newColor = bgColorPicker1.value;
     bgColorPickerDiv1.style.backgroundColor = newColor;
     var hilitedOnes = document.getElementsByClassName("hilite1");
@@ -241,8 +241,8 @@ bgColorPickerDiv1.style.backgroundColor = bgColorPicker1.value;
 // ~~~~~~~~~~ SEARCH 2 ~~~~~~~~~~
 
 // ~~~ Filter Control 2 ~~~
-filterControl2.addEventListener('change', function() {
-    if (this.checked) {
+filterControl2.addEventListener('change', () => {
+    if (filterControl2.checked) {
         searchRow2.style.display = "none";
         filterRow2.style.display = "inline-block";
         if (columnSelection2.innerHTML !== "") { populateFilterValues("2"); }
@@ -256,8 +256,8 @@ filterControl2.addEventListener('change', function() {
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
 // - deselects and disables "Full word(s)"
-regexSelection2.addEventListener('change', function() {
-    if (this.checked) {
+regexSelection2.addEventListener('change', () => {
+    if (regexSelection2.checked) {
         caseSensitive2.checked = true;
         fullWords2.checked = false;
         fullWords2.disabled = true;
@@ -271,8 +271,8 @@ regexSelection2.addEventListener('change', function() {
 });
 
 // ~~~ Concordance Cutoff 2 ~~~
-concordanceDisplay2.addEventListener('change', function() {
-    if (this.checked) {
+concordanceDisplay2.addEventListener('change', () => {
+    if (concordanceDisplay2.checked) {
         concordanceCutoff2.disabled = false;
     } else {
         concordanceCutoff2.disabled = true;
@@ -280,8 +280,8 @@ concordanceDisplay2.addEventListener('change', function() {
 });
 
 // ~~~ Findall 2 ~~~
-findall2.addEventListener('change', function() {
-    if (this.checked) {
+findall2.addEventListener('change', () => {
+    if (findall2.checked) {
         concordanceDisplay2.checked = false;
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
@@ -295,14 +295,14 @@ findall2.addEventListener('change', function() {
 });
 
 // ~~~ Column Selection 2 ~~~
-columnSelection2.addEventListener('change', function() {
+columnSelection2.addEventListener('change', () => {
     var columnSelectionValue1 = columnSelection1.value;
-    var columnSelectionValue2 = this.value;
+    var columnSelectionValue2 = columnSelection2.value;
     var columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue2 == "(none)") {
         // Enable all selections in the other column selection
-        columnSelection1.childNodes.forEach(node => { node.disabled = false; });
-        columnSelection3.childNodes.forEach(node => { node.disabled = false; });
+        columnSelection1.childNodes.forEach((node) => node.disabled = false);
+        columnSelection3.childNodes.forEach((node) => node.disabled = false);
         // Clear filter values
         filterSelection2.innerHTML = "";
         // Disable all selections
@@ -337,7 +337,7 @@ columnSelection2.addEventListener('change', function() {
         colorPicker2.disabled = false;
         bgColorPicker2.disabled = false;
         searchButton.disabled = false;
-        columnSelection1.childNodes.forEach(function(node) {
+        columnSelection1.childNodes.forEach((node) => {
             if (![columnSelectionValue2, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
@@ -346,7 +346,7 @@ columnSelection2.addEventListener('change', function() {
                 node.disabled = true;
             }
         });
-        columnSelection3.childNodes.forEach(function(node) {
+        columnSelection3.childNodes.forEach((node) => {
             if (![columnSelectionValue1, columnSelectionValue2].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
@@ -359,7 +359,7 @@ columnSelection2.addEventListener('change', function() {
 });
 
 // ~~~ Color Pickers 2 ~~~
-colorPicker2.addEventListener('change', function() {
+colorPicker2.addEventListener('change', () => {
     let newColor = colorPicker2.value;
     colorPickerDiv2.style.backgroundColor = newColor;
     var hilitedTwos = document.getElementsByClassName("hilite2");
@@ -370,7 +370,7 @@ colorPicker2.addEventListener('change', function() {
 });
 colorPickerDiv2.style.backgroundColor = colorPicker2.value;
 
-bgColorPicker2.addEventListener('change', function() {
+bgColorPicker2.addEventListener('change', () => {
     let newColor = bgColorPicker2.value;
     bgColorPickerDiv2.style.backgroundColor = newColor;
     var hilitedTwos = document.getElementsByClassName("hilite2");
@@ -385,8 +385,8 @@ bgColorPickerDiv2.style.backgroundColor = bgColorPicker2.value;
 // ~~~~~~~~~~ SEARCH 3 ~~~~~~~~~~
 
 // ~~~ Filter Control 3 ~~~
-filterControl3.addEventListener('change', function() {
-    if (this.checked) {
+filterControl3.addEventListener('change', () => {
+    if (filterControl3.checked) {
         searchRow3.style.display = "none";
         filterRow3.style.display = "inline-block";
         if (columnSelection3.innerHTML !== "") { populateFilterValues("3"); }
@@ -400,8 +400,8 @@ filterControl3.addEventListener('change', function() {
 // Selecting "Regex"... 
 // - selects "Case-sensitive"
 // - deselects and disables "Full word(s)"
-regexSelection3.addEventListener('change', function() {
-    if (this.checked) {
+regexSelection3.addEventListener('change', () => {
+    if (regexSelection3.checked) {
         caseSensitive3.checked = true;
         fullWords3.checked = false;
         fullWords3.disabled = true;
@@ -415,8 +415,8 @@ regexSelection3.addEventListener('change', function() {
 });
 
 // ~~~ Concordance Cutoff 3 ~~~
-concordanceDisplay3.addEventListener('change', function() {
-    if (this.checked) {
+concordanceDisplay3.addEventListener('change', () => {
+    if (concordanceDisplay3.checked) {
         concordanceCutoff3.disabled = false;
     } else {
         concordanceCutoff3.disabled = true;
@@ -424,8 +424,8 @@ concordanceDisplay3.addEventListener('change', function() {
 });
 
 // ~~~ Findall 3 ~~~
-findall3.addEventListener('change', function() {
-    if (this.checked) {
+findall3.addEventListener('change', () => {
+    if (findall3.checked) {
         concordanceDisplay3.checked = false;
         concordanceDisplay3.disabled = true;
         concordanceCutoff3.disabled = true;
@@ -439,14 +439,14 @@ findall3.addEventListener('change', function() {
 });
 
 // ~~~ Column Selection 3 ~~~
-columnSelection3.addEventListener('change', function() {
+columnSelection3.addEventListener('change', () => {
     var columnSelectionValue1 = columnSelection1.value;
     var columnSelectionValue2 = columnSelection2.value;
-    var columnSelectionValue3 = this.value;
+    var columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue3 == "(none)") {
         // Enable all selections in the other column selection
-        columnSelection1.childNodes.forEach(node => { node.disabled = false; });
-        columnSelection2.childNodes.forEach(node => { node.disabled = false; });
+        columnSelection1.childNodes.forEach((node) => node.disabled = false);
+        columnSelection2.childNodes.forEach((node) => node.disabled = false);
         // Clear filter values
         filterSelection3.innerHTML = "";
         // Disable all selections
@@ -481,7 +481,7 @@ columnSelection3.addEventListener('change', function() {
         colorPicker3.disabled = false;
         bgColorPicker3.disabled = false;
         searchButton.disabled = false;
-        columnSelection1.childNodes.forEach(function(node) {
+        columnSelection1.childNodes.forEach((node) => {
             if (![columnSelectionValue2, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
@@ -490,7 +490,7 @@ columnSelection3.addEventListener('change', function() {
                 node.disabled = true;
             }
         });
-        columnSelection2.childNodes.forEach(function(node) {
+        columnSelection2.childNodes.forEach((node) => {
             if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
                 // Enable all options in the other search
                 node.disabled = false;
@@ -503,22 +503,22 @@ columnSelection3.addEventListener('change', function() {
 });
 
 // ~~~ Color Pickers 3 ~~~
-colorPicker3.addEventListener('change', function() {
+colorPicker3.addEventListener('change', () => {
     let newColor = colorPicker3.value;
     colorPickerDiv3.style.backgroundColor = newColor;
     var hilitedThrees = document.getElementsByClassName("hilite3");
-    Array.from(hilitedThrees).forEach(el => { 
+    Array.from(hilitedThrees).forEach((el) => { 
         el.style.color = newColor; 
     });
     thirdSearchHider.style.stroke = newColor;
 });
 colorPickerDiv3.style.backgroundColor = colorPicker3.value;
 
-bgColorPicker3.addEventListener('change', function() {
+bgColorPicker3.addEventListener('change', () => {
     let newColor = bgColorPicker3.value;
     bgColorPickerDiv3.style.backgroundColor = newColor;
     var hilitedThrees = document.getElementsByClassName("hilite3");
-    Array.from(hilitedThrees).forEach(el => { 
+    Array.from(hilitedThrees).forEach((el) => { 
         el.style.backgroundColor = newColor;
     });
     thirdSearchHider.style.backgroundColor = newColor;
@@ -527,7 +527,7 @@ bgColorPickerDiv3.style.backgroundColor = bgColorPicker3.value;
 
 
 // ~~~ Showing controls ~~~
-const updatePageView = () => {
+function updatePageView() {
     if (resultsTable.innerHTML !== "") {
         let showStart = Number(showingStart.value);
         let showEnd = showStart + Number(showRows.value) - 1;
@@ -539,10 +539,10 @@ const updatePageView = () => {
     }
 };
 
-showingStart.addEventListener("keypress", function(e) {
+showingStart.addEventListener("keypress", (e) => {
     if (!/^\d$/.test(e.key)) { e.preventDefault(); } 
 });
-showingStart.addEventListener("focusout", function() {
+showingStart.addEventListener("focusout", () => {
     value = Number(showingStart.value);
     if (value <= 0) {
         showingStart.value = 1;
@@ -559,10 +559,10 @@ showingStart.addEventListener('input', () => {
     updatePageView();
 });
 
-showRows.addEventListener("keypress", function(e) {
+showRows.addEventListener("keypress", (e) => {
     if (!/^\d$/.test(e.key)) { e.preventDefault(); }
 });
-showRows.addEventListener("focusout", function() {
+showRows.addEventListener("focusout", () => {
     value = Number(showRows.value);
     if (value > 5000) { 
         showRows.value = "5000"; 
