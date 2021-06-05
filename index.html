@@ -53,14 +53,6 @@
                             <table>
                                 <tr style="height: 5px;">
                                     <td colspan="6">
-                                        <div class="infotip">
-                                            &nbsp;i&nbsp;
-                                            <span class="infotiptext">
-                                                To search empty values, select a column, select "Filter by value", 
-                                                and then select the "(empty)" value (if available).
-                                            </span>
-                                        </div>
-                                        &nbsp;
                                         <label for="column-selection-1">Search column:</label>   
                                         <select name="column-selection-1" id="column-selection-1"></select>
                                         &nbsp;
@@ -83,7 +75,7 @@
                                                         <div class="infotip">
                                                             &nbsp;i&nbsp;
                                                             <span class="infotiptext">
-                                                                If selected, searching "tab" won't match "tabs" or "table"
+                                                                If selected, searching "tab" won't match "tabs" or "stable"
                                                             </span>
                                                         </div>
                                                     </label>
@@ -103,7 +95,7 @@
                                                     <div class="infotip">
                                                         &nbsp;i&nbsp;
                                                         <span class="infotiptext">
-                                                            Sets the maximum number of characters on each side
+                                                            Sets the maximum number of characters displayed on each side
                                                             of the matched pattern
                                                         </span>
                                                     </div>
@@ -159,12 +151,6 @@
                                                     <input id="full-words-2" type="checkbox" checked disabled>
                                                     <label id="full-words-label-2" for="full-words-2">
                                                         Full words
-                                                        <div class="infotip">
-                                                            &nbsp;i&nbsp;
-                                                            <span class="infotiptext">
-                                                                If selected, searching "know" won't match "known" or "knowledge"
-                                                            </span>
-                                                        </div>
                                                     </label>
                                                 </td>
                                                 <td>
@@ -179,13 +165,6 @@
                                                     <input id="concordance-display-2" type="checkbox" checked disabled>
                                                     <label for="concordance-display-2">Concordance</label>
                                                     <input class="cutoff" id="concordance-cutoff-2" type="number" value="50" disabled>
-                                                    <div class="infotip">
-                                                        &nbsp;i&nbsp;
-                                                        <span class="infotiptext">
-                                                            Sets the maximum length displayed on each side
-                                                            of the matched pattern
-                                                        </span>
-                                                    </div>
                                                 </td>
                                                 <td style="width: 12px;">
                                                     <div id="picker-div-2" class="picker-div">
@@ -238,12 +217,6 @@
                                                     <input id="full-words-3" type="checkbox" checked disabled>
                                                     <label id="full-words-label-3" for="full-words-3">
                                                         Full words
-                                                        <div class="infotip">
-                                                            &nbsp;i&nbsp;
-                                                            <span class="infotiptext">
-                                                                If selected, searching "know" won't match "known" or "knowledge"
-                                                            </span>
-                                                        </div>
                                                     </label>
                                                 </td>
                                                 <td>
@@ -258,13 +231,6 @@
                                                     <input id="concordance-display-3" type="checkbox" checked disabled>
                                                     <label for="concordance-display-3">Concordance</label>
                                                     <input class="cutoff" id="concordance-cutoff-3" type="number" value="50" disabled>
-                                                    <div class="infotip">
-                                                        &nbsp;i&nbsp;
-                                                        <span class="infotiptext">
-                                                            Sets the maximum length displayed on each side
-                                                            of the matched pattern
-                                                        </span>
-                                                    </div>
                                                 </td>
                                                 <td style="width: 12px;">
                                                     <div id="picker-div-3" class="picker-div">
@@ -336,17 +302,9 @@
         </table>
     </div>
 
-    <!-- <script src="./d3/d3.min.js" charset="utf-8"></script> -->
     <script src="./d3/d3-selection/d3-selection.min.js" charset="utf-8"></script>
     <script src="./d3/d3-dsv/d3-dsv.min.js" charset="utf-8"></script>
-    <!-- <script src="./d3-fetch/d3-fetch.min.js" charset="utf-8"></script> -->
-    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script> -->
-    <script>
-        var $j = jQuery.noConflict();
-        $j(document).ready(function() {});
-    </script>
+
     <script src="./constants.js" charset="utf-8"></script>
     <script src="./helpers.js" charset="utf-8"></script>
     <script src="./filehandler.js" charset="utf-8"></script>

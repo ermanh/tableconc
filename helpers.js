@@ -59,16 +59,15 @@ function populateFilterValues(whichFilter) {
     filterSelection.html(""); // clear menu
     filterSelection.selectAll("option")
         .data(values).enter()
-            .append("option")
-            .attr("value", (d) => d)
-            .text((d) => { 
-                if (d.length > filterValueMaxLength) {
-                    return `${d.slice(0,filterValueMaxLength)} ` + 
-                           `(${valueCount[d]})`;
-                }
-                if (d === "") { return `(empty) (${valueCount[d]})`; } 
-                return `${d} (${valueCount[d]})`; 
-            });
+        .append("option")
+        .attr("value", (d) => d)
+        .text((d) => { 
+            if (d.length > filterValueMaxLength) {
+                return `${d.slice(0,filterValueMaxLength)} (${valueCount[d]})`;
+            }
+            if (d === "") { return `(empty) (${valueCount[d]})`; } 
+            return `${d} (${valueCount[d]})`; 
+        });
 }
 
 function makeResizable(div, adjacentIsRight) {

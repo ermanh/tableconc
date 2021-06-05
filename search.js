@@ -8,8 +8,6 @@
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
 // - A show everything button (e.g., for inspecting data) ?
-// - ? Export results feature
-// - Can remove jQuery?
 // Enhancements
 //      - Filter selection - limit to values greater than 1 (or other threshold)
 
