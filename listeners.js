@@ -204,9 +204,9 @@ findall1.addEventListener('change', () => {
 
 // ~~~ Column Selection 1 ~~~
 columnSelection1.addEventListener('change', () => {
-    var columnSelectionValue1 = columnSelection1.value;
-    var columnSelectionValue2 = columnSelection2.value;
-    var columnSelectionValue3 = columnSelection3.value;
+    let columnSelectionValue1 = columnSelection1.value;
+    let columnSelectionValue2 = columnSelection2.value;
+    let columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue1 == "(none)") {
         // Enable all selections in the other column selection
         columnSelection2.childNodes.forEach((node) => node.disabled = false);
@@ -270,7 +270,7 @@ columnSelection1.addEventListener('change', () => {
 colorPicker1.addEventListener('change', () => {
     let newColor = colorPicker1.value;
     colorPickerDiv1.style.backgroundColor = newColor;
-    var hilitedOnes = document.getElementsByClassName("hilite1");
+    let hilitedOnes = document.getElementsByClassName("hilite1");
     Array.from(hilitedOnes).forEach((el) => {
         el.style.color = newColor;
     });
@@ -280,7 +280,7 @@ colorPickerDiv1.style.backgroundColor = colorPicker1.value;
 bgColorPicker1.addEventListener('change', () => {
     let newColor = bgColorPicker1.value;
     bgColorPickerDiv1.style.backgroundColor = newColor;
-    var hilitedOnes = document.getElementsByClassName("hilite1");
+    let hilitedOnes = document.getElementsByClassName("hilite1");
     Array.from(hilitedOnes).forEach((el) => {
         el.style.backgroundColor = newColor; 
     });
@@ -393,9 +393,9 @@ findall2.addEventListener('change', () => {
 
 // ~~~ Column Selection 2 ~~~
 columnSelection2.addEventListener('change', () => {
-    var columnSelectionValue1 = columnSelection1.value;
-    var columnSelectionValue2 = columnSelection2.value;
-    var columnSelectionValue3 = columnSelection3.value;
+    let columnSelectionValue1 = columnSelection1.value;
+    let columnSelectionValue2 = columnSelection2.value;
+    let columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue2 == "(none)") {
         // Enable all selections in the other column selection
         columnSelection1.childNodes.forEach((node) => node.disabled = false);
@@ -461,7 +461,7 @@ columnSelection2.addEventListener('change', () => {
 colorPicker2.addEventListener('change', () => {
     let newColor = colorPicker2.value;
     colorPickerDiv2.style.backgroundColor = newColor;
-    var hilitedTwos = document.getElementsByClassName("hilite2");
+    let hilitedTwos = document.getElementsByClassName("hilite2");
     Array.from(hilitedTwos).forEach((el) => {
         el.style.color = newColor;
     });
@@ -472,7 +472,7 @@ colorPickerDiv2.style.backgroundColor = colorPicker2.value;
 bgColorPicker2.addEventListener('change', () => {
     let newColor = bgColorPicker2.value;
     bgColorPickerDiv2.style.backgroundColor = newColor;
-    var hilitedTwos = document.getElementsByClassName("hilite2");
+    let hilitedTwos = document.getElementsByClassName("hilite2");
     Array.from(hilitedTwos).forEach((el) => {
         el.style.backgroundColor = newColor;
     });
@@ -586,9 +586,9 @@ findall3.addEventListener('change', () => {
 
 // ~~~ Column Selection 3 ~~~
 columnSelection3.addEventListener('change', () => {
-    var columnSelectionValue1 = columnSelection1.value;
-    var columnSelectionValue2 = columnSelection2.value;
-    var columnSelectionValue3 = columnSelection3.value;
+    let columnSelectionValue1 = columnSelection1.value;
+    let columnSelectionValue2 = columnSelection2.value;
+    let columnSelectionValue3 = columnSelection3.value;
     if (columnSelectionValue3 == "(none)") {
         // Enable all selections in the other column selection
         columnSelection1.childNodes.forEach((node) => node.disabled = false);
@@ -654,7 +654,7 @@ columnSelection3.addEventListener('change', () => {
 colorPicker3.addEventListener('change', () => {
     let newColor = colorPicker3.value;
     colorPickerDiv3.style.backgroundColor = newColor;
-    var hilitedThrees = document.getElementsByClassName("hilite3");
+    let hilitedThrees = document.getElementsByClassName("hilite3");
     Array.from(hilitedThrees).forEach((el) => { 
         el.style.color = newColor; 
     });
@@ -665,7 +665,7 @@ colorPickerDiv3.style.backgroundColor = colorPicker3.value;
 bgColorPicker3.addEventListener('change', () => {
     let newColor = bgColorPicker3.value;
     bgColorPickerDiv3.style.backgroundColor = newColor;
-    var hilitedThrees = document.getElementsByClassName("hilite3");
+    let hilitedThrees = document.getElementsByClassName("hilite3");
     Array.from(hilitedThrees).forEach((el) => { 
         el.style.backgroundColor = newColor;
     });
@@ -675,18 +675,6 @@ bgColorPickerDiv3.style.backgroundColor = bgColorPicker3.value;
 
 
 // ~~~ Showing controls ~~~
-function updatePageView() {
-    if (resultsTable.innerHTML !== "") {
-        let showStart = Number(showingStart.value);
-        let showEnd = showStart + Number(showRows.value) - 1;
-        if (showEnd > matchedData.length && matchedData.length > 0) { 
-            showEnd = matchedData.length; 
-        }
-        showingEnd.textContent = String(showEnd);
-        insertResults(matchedData.slice(showStart - 1, showEnd));
-    }
-};
-
 showingStart.addEventListener("keypress", (e) => {
     if (!/^\d$/.test(e.key)) { e.preventDefault(); } 
 });
@@ -735,10 +723,12 @@ const showingEndObserver = new MutationObserver(showingEndCallback);
 showingEndObserver.observe(showingEnd, showingEndConfig);
 
 previousPage.addEventListener('click', () => {
-    let underThreshold = Number(showingStart.value) - Number(showRows.value) < 1;
+    let underThreshold = (Number(showingStart.value) - 
+                          Number(showRows.value)) < 1;
     let showStart = underThreshold ? 
         1 : Number(showingStart.value) - Number(showRows.value);
-    let aboveThreshold = showStart + Number(showRows.value) > matchedData.length;
+    let aboveThreshold = (showStart + 
+                          Number(showRows.value)) > matchedData.length;
     let showEnd = aboveThreshold ? 
         matchedData.length : showStart + Number(showRows.value) - 1;
     showingStart.value = String(showStart);
@@ -747,7 +737,7 @@ previousPage.addEventListener('click', () => {
 
     previousPage.disabled = showStart <= 1;
     nextPage.disabled = showEnd >= matchedData.length;
-});
+});å
 nextPage.addEventListener('click', () => {
     let showStart = Number(showingStart.value) + Number(showRows.value);
     let showEnd = showStart + Number(showRows.value) - 1;

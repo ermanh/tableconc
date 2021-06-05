@@ -5,19 +5,21 @@
 //      - create a main.js for all the major actions, keep simple and short
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
+//      - Remove unused variables and code
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
 // Enhancements
+// Testing
+//      - Use significantly larger csv, tsv, json, and plain text files
+//      - Include data containing html and chars that need escaping
+//      - Test on some malformed/invalid csv, tsv, json files
 
-
-const searchBox = document.getElementById("search-box");
 const resultsNumberTimeout = 100;
-
 
 function prepareColumns(columnNames) {
     const selectedColumns = Array();  // Array of trues and falses
     inputs = document.getElementById("columns-to-show")
-                .getElementsByTagName("input");
+                     .getElementsByTagName("input");
     Array.from(inputs).forEach((input) => selectedColumns.push(input.checked));
     const columnsToDisplay = columnNames.filter((d, i) => {
         if (selectedColumns[i]) { return d; }
@@ -90,26 +92,43 @@ function determineRowsToShow(totalRows) {
     return [showStart, showEnd]; 
 }
 
-
-function insertResults(rows) {
-    resultsTableD3.selectAll("tr.sortable-row").remove();
-    rows.forEach((row) => {
-        resultsTableD3.append("tr").attr("class", "sortable-row")
-            .selectAll("td")
-            .data(row).enter()
-            .append("td")
-            .attr("class", (d, i) => (i !== 0) ? "results-td" : "result-index")
+function sortRows(columnToSort, order) {
+    rows = document.querySelectorAll('tr.sortable-row');
+    newRows = Array();
+    Array.from(rows).forEach((row) => {
+        newRow = Array.from(row.children);
+        newRows.push(newRow);
+    });
+    newRows = newRows.sort((a, b) => {
+        let aString = a[columnToSort].__data__;
+        let bString = b[columnToSort].__data__;
+        if (order == "ascending") {
+            return aString.localeCompare(bString);
+        } else if (order == "descending") {
+            return bString.localeCompare(aString);
+        }
+    });
+    newRows = newRows.map((row, i) => {
+        return row.map((item, j) => (j == 0) ? String(i + 1) : item.__data__);
+    });
+    d3.selectAll('tr.sortable-row')
+        .data(newRows)
+        .selectAll('td')
+            .data((d) => d)
             .html((d) => `<pre>${d}</pre>`);
-    }); 
+    enforceHilites();
+}
 
-    // Add resize event listeners
+function addResizerListeners() {
     document.querySelectorAll("div.resize-right").forEach((div) => {
         makeResizable(div, adjacentIsRight=true);
     });
     document.querySelectorAll("div.resize-left").forEach((div) => {
         makeResizable(div, adjacentIsRight=false);
     });
-    // Add sorter event listeners
+}
+
+function addSorterListeners() {
     sorters = document.querySelectorAll(".sort");
     sorters.forEach((sorter) => {
         sorter.addEventListener('mouseover', 
@@ -119,8 +138,7 @@ function insertResults(rows) {
         sorter.addEventListener('click', (e) => {
             text = sorter.innerHTML;
             if (text == "\u2261" || text == "\u25B2") { 
-                sorters.forEach((sorter) => { 
-                    sorter.innerHTML = "&equiv;"; });
+                sorters.forEach((sorter) => sorter.innerHTML = "&equiv;");
                 sorter.innerHTML = "&#x25BC;"; 
                 sortRows(sorter.id.slice(1), "ascending");
             } else if (text == "\u25BC") { 
@@ -129,7 +147,9 @@ function insertResults(rows) {
             }
         });
     });
-    // Add text-align-control event listener
+}
+
+function addTextAlignerListeners() {
     textAligner = document.getElementById("text-align-control");
     if (textAligner) {
         textAligner.addEventListener("mouseover", 
@@ -155,6 +175,21 @@ function insertResults(rows) {
             }
         });
     }
+}
+
+function insertResults(rows) {
+    resultsTableD3.selectAll("tr.sortable-row").remove();
+    rows.forEach((row) => {
+        resultsTableD3.append("tr")
+            .attr("class", "sortable-row")
+            .selectAll("td").data(row).enter()
+                .append("td")
+                .attr("class", (d, i) => (i !== 0) ? "results-td" : "result-index")
+                .html((d) => `<pre>${d}</pre>`);
+    }); 
+    addResizerListeners();
+    addSorterListeners();
+    addTextAlignerListeners();
     enforceLightDarkMode();
     enforceHilites();
 }
@@ -163,19 +198,19 @@ function insertResults(rows) {
 function concord() {
     newData = JSON.parse(JSON.stringify(data));
 
-    var columnNames = columnHeaders.checked ? data[0] : data[0].map(
+    let columnNames = columnHeaders.checked ? data[0] : data[0].map(
         (d, i) => { return `Column ${i + 1}`; });
-    var startingRowIndex = columnHeaders.checked ? 1 : 0;    
-    var columnObject = {};  // {column name: index}
+    let startingRowIndex = columnHeaders.checked ? 1 : 0;    
+    let columnObject = {};  // {column name: index}
     for (let i = 0; i < columnNames.length; i++) {
         columnObject[columnNames[i]] = i;
     }
-    var matchedRows1 = Array();  // the rows where there is a match
-    var searchColumnIndex1 = columnObject[columnSelection1.value];
-    var matchedRows2 = Array();
-    var searchColumnIndex2 = columnObject[columnSelection2.value];
-    var matchedRows3 = Array();
-    var searchColumnIndex3 = columnObject[columnSelection3.value];
+    let matchedRows1 = Array();  // the rows where there is a match
+    let searchColumnIndex1 = columnObject[columnSelection1.value];
+    let matchedRows2 = Array();
+    let searchColumnIndex2 = columnObject[columnSelection2.value];
+    let matchedRows3 = Array();
+    let searchColumnIndex3 = columnObject[columnSelection3.value];
 
     // PROCESS SEARCH INPUT 1
     if (filterControl1.checked) {
@@ -188,11 +223,11 @@ function concord() {
     } else {
         if (searchInput1.value !== "") {
             console.log("YAY");  
-            var re1;
-            var pattern1;
-            var flags1 = "";
-            var tagOpen1 = "<text class='hilite1'>";
-            var tagClose1 = "</text>";
+            let re1;
+            let pattern1;
+            let flags1 = "";
+            let tagOpen1 = "<text class='hilite1'>";
+            let tagClose1 = "</text>";
 
             // Construct regex
             if (!caseSensitive1.checked) { flags1 = `${flags1}i`; }
@@ -234,7 +269,7 @@ function concord() {
                 let str = data[i][searchColumnIndex1];
                 if (str.match(re1)) {
                     matchedRows1.push(i);
-                    var htmlSafeString1;
+                    let htmlSafeString1;
                     if (regexSelection1.checked || 
                         matchWhere1.value == "match-anywhere-1") 
                     {
@@ -282,11 +317,11 @@ function concord() {
     } else {
         if (searchInput2.value !== "") {
             console.log("YAY-YAY");
-            var re2;
-            var pattern2;
-            var flags2 = "";
-            var tagOpen2 = "<text class='hilite2'>";
-            var tagClose2 = "</text>";
+            let re2;
+            let pattern2;
+            let flags2 = "";
+            let tagOpen2 = "<text class='hilite2'>";
+            let tagClose2 = "</text>";
 
             // Construct regex
             if (!caseSensitive2.checked) { flags2 = `${flags2}i`; }
@@ -328,7 +363,7 @@ function concord() {
                 let str = data[i][searchColumnIndex2];
                 if (str.match(re2)) {
                     matchedRows2.push(i);
-                    var htmlSafeString2;
+                    let htmlSafeString2;
                     if (regexSelection2.checked || 
                         matchWhere2.value == "match-anywhere-2") 
                     {
@@ -376,11 +411,11 @@ function concord() {
     } else {
         if (searchInput3.value !== "") {
             console.log("YAY-YAY-YAY");
-            var re3;
-            var pattern3;
-            var flags3 = "";
-            var tagOpen3 = "<text class='hilite3'>";
-            var tagClose3 = "</text>";
+            let re3;
+            let pattern3;
+            let flags3 = "";
+            let tagOpen3 = "<text class='hilite3'>";
+            let tagClose3 = "</text>";
 
             // Construct regex
             if (!caseSensitive3.checked) { flags3 = `${flags3}i`; }
@@ -422,7 +457,7 @@ function concord() {
                 let str = data[i][searchColumnIndex3];
                 if (str.match(re3)) {
                     matchedRows3.push(i);
-                    var htmlSafeString3;
+                    let htmlSafeString3;
                     if (regexSelection3.checked || 
                         matchWhere3.value == "match-anywhere-3") 
                     {
@@ -489,7 +524,7 @@ function concord() {
         if (!filterControl1.checked && concordanceDisplay1.checked && 
             searchInput1.value !== "") 
         {
-            var concordStrings1 = matchedRows.map((index) => {
+            let concordStrings1 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex1];
             });
             concordStrings1 = padConcordance(
@@ -501,7 +536,7 @@ function concord() {
         if (!filterControl2.checked && concordanceDisplay2.checked && 
             searchInput2.value !== "") 
         {
-            var concordStrings2 = matchedRows.map((index) => {
+            let concordStrings2 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex2];
             });
             concordStrings2 = padConcordance(
@@ -513,7 +548,7 @@ function concord() {
         if (!filterControl3.checked && concordanceDisplay3.checked && 
             searchInput3.value !== "") 
         {
-            var concordStrings3 = matchedRows.map((index) => {
+            let concordStrings3 = matchedRows.map((index) => {
                 return newData[index][searchColumnIndex3];
             });
             concordStrings3 = padConcordance(
@@ -548,9 +583,9 @@ function concord() {
 
     } else {
         resultsTable.innerHTML = "";
-        var resultText = "None for ";
+        let resultText = "None for ";
         if (searchInput1.value !== "" || filterSelection1.value) {
-            var value1 = (searchInput1.value !== "") ? 
+            let value1 = (searchInput1.value !== "") ? 
                 searchInput1.value : filterSelection1.value;
             resultText = resultText + `"${value1}"`;
             if (searchInput2.value !== "" || filterSelection2.value ||
@@ -560,7 +595,7 @@ function concord() {
             }
         }
         if (searchInput2.value !== "" || filterSelection2.value) {
-            var value2 = (searchInput2.value !== "") ? 
+            let value2 = (searchInput2.value !== "") ? 
                 searchInput2.value : filterSelection2.value;
             resultText = resultText + `"${value2}"`;
             if (searchInput3.value !== "" || filterSelection3.value) {
@@ -568,7 +603,7 @@ function concord() {
             }
         }
         if (searchInput3.value !== "" || filterSelection3.value) {
-            var value3 = (searchInput3.value !== "") ? 
+            let value3 = (searchInput3.value !== "") ? 
                 searchInput3.value : filterSelection3.value;
             resultText = resultText + `"${value3}"`;
         }

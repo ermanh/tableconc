@@ -46,6 +46,7 @@ const secondSearchHider = document.getElementById("second-search-hider");
 const thirdSearch = document.getElementById("third-search");
 const thirdSearchHider = document.getElementById("third-search-hider");
 
+const searchBox = document.getElementById("search-box");
 const searchButton = document.getElementById("search-button");
 
 const resultsDiv = document.getElementById("results");

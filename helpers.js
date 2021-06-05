@@ -27,46 +27,39 @@ function renameColumnNames(columnNames) {
 
 function populateFilterValues(whichFilter, minQuantity) {
     let filterValueMaxLength = 200;
-    var columnValue = document.getElementById(
+    let columnValue = document.getElementById(
         `column-selection-${whichFilter}`).value;
     if (columnValue == "(none)") { return null; }
 
-    var columnIndex;
+    let columnIndex;
     if (columnHeaders.checked) {
-        var columnObject = {};  // {column name: index}
-        for (let i = 0; i < data[0].length; i++) { 
-            columnObject[data[0][i]] = i; 
-        }
-        columnIndex = columnObject[columnValue];
+        let dictionary = {};  // {column name: index}
+        for (let i = 0; i < data[0].length; i++) { dictionary[data[0][i]] = i; }
+        columnIndex = dictionary[columnValue];
     } else {
         columnIndex = RegExp(/\d+/).exec(columnValue)[0] - 1;
     }
 
-    var startingRowIndex = columnHeaders.checked ? 1 : 0;
-    var valueCount = {};
+    let startingRowIndex = columnHeaders.checked ? 1 : 0;
+    let valueCount = {};
     for (i = startingRowIndex; i < data.length; i++) {
         let datum = data[i][columnIndex];
-        if (Object.keys(valueCount).includes(datum)) {
-            valueCount[datum] += 1;
-        } else {
-            valueCount[datum] = 1;
-        }
+        valueCount[datum] = (valueCount[datum] || 0) + 1;
     }
-    var values = Object.keys(valueCount).sort((a, b) => { 
-        return a.toLowerCase() > b.toLowerCase(); 
+    let values = Object.keys(valueCount).sort((a, b) => { 
+        return a.toLowerCase().localeCompare(b.toLowerCase()); 
     });
     values = values.filter((value) => valueCount[value] >= Number(minQuantity));
 
-    var filterSelection = d3.select(`#filter-selection-${whichFilter}`);
+    let filterSelection = d3.select(`#filter-selection-${whichFilter}`);
     filterSelection.html(""); // clear menu
-    filterSelection.selectAll("option")
-        .data(values).enter()
+    filterSelection.selectAll("option").data(values).enter()
         .append("option")
         .attr("value", (d) => d)
         .text((d) => {
             if (d.length > filterValueMaxLength) {
-            return `${d.slice(0,filterValueMaxLength)}&hellip; ` +
-                `(${valueCount[d]})`;
+                return `${d.slice(0,filterValueMaxLength)}&hellip; ` +
+                    `(${valueCount[d]})`;
             }
             if (d === "") { return `(empty) (${valueCount[d]})`; } 
             return `${d} (${valueCount[d]})`; 
@@ -74,17 +67,16 @@ function populateFilterValues(whichFilter, minQuantity) {
 }
 
 function makeResizable(div, adjacentIsRight) {
-    var position, thisColumn, adjacentColumn, thisWidth, adjacentWidth;
+    let position, thisColumn, adjacentColumn, thisWidth, adjacentWidth;
 
-    var mousemoveListener = (e) => {
-        var traveled = adjacentIsRight ? 
-            e.pageX - position : 
-            position - e.pageX;
+    let mousemoveListener = (e) => {
+        let traveled = adjacentIsRight ? 
+            e.pageX - position : position - e.pageX;
         thisColumn.style.width = `${thisWidth + traveled}px`;
         adjacentColumn.style.width = `${adjacentWidth - traveled}px`; 
     };
 
-    var mouseupListener = () => {
+    let mouseupListener = () => {
         document.getElementsByTagName("body")[0].style.cursor = "auto";
         document.removeEventListener('mousemove', mousemoveListener);
         document.removeEventListener('mouseup', mouseupListener);
@@ -96,8 +88,7 @@ function makeResizable(div, adjacentIsRight) {
         position = e.pageX;
         thisColumn = div.parentElement;
         adjacentColumn = adjacentIsRight ? 
-            thisColumn.nextElementSibling : 
-            thisColumn.previousElementSibling;
+            thisColumn.nextElementSibling : thisColumn.previousElementSibling;
         thisWidth = thisColumn.offsetWidth;
         adjacentWidth = adjacentColumn.offsetWidth;
         document.addEventListener('mousemove', mousemoveListener);
@@ -124,10 +115,10 @@ function unescapeHTML(string) {
 }
 
 function iterHtmlSafeReplace(string, re, tagOpen, tagClose) {
-    var newString = '';
-    var myArray;
-    var prevIndex = 0;
-    var prevMatchLength = 0;
+    let newString = '';
+    let myArray;
+    let prevIndex = 0;
+    let prevMatchLength = 0;
     while ((myArray = re.exec(string)) !== null) {
         match = myArray[0];
         index = myArray.index;
@@ -143,15 +134,76 @@ function iterHtmlSafeReplace(string, re, tagOpen, tagClose) {
 }
 
 function fullwordBoundaries(pattern, searchInputValue) {
-    var beginning = searchInputValue.match(/^\w/) ? "\\b" : "";
-    var end = searchInputValue.match(/\w$/) ? "\\b" : "";
+    let beginning = searchInputValue.match(/^\w/) ? "\\b" : "";
+    let end = searchInputValue.match(/\w$/) ? "\\b" : "";
     return `${beginning}${pattern}${end}`;
 }
 
-function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
-    // concordCutoffValue: no. of spaces to each side of the searched pattern
-    let beforeRE;
-    let hilitedRE;
+function formatPadStart(
+    i, concordCutoffValue, maxBefore, beforeLengths, 
+    ellipsisHTML, ellipsisRegExp, sliceStartIndex
+) {
+    let padStart;
+    let sliceStartIndexNew = sliceStartIndex;
+    if (concordCutoffValue < maxBefore && concordCutoffValue > 0) {
+        // number of &nbps; to add at the beginning
+        let startCutoffDiff = concordCutoffValue - beforeLengths[i];
+        if (startCutoffDiff < 0) { startCutoffDiff = 0; }               
+        padStart = '&nbsp;'.repeat(startCutoffDiff);
+        
+        let cutIntoStart = (concordCutoffValue < beforeLengths[i]);
+        if (concordCutoffValue < maxBefore) {
+            padStart = cutIntoStart ? 
+                padStart + ellipsisHTML : padStart + '&nbsp;';
+        } 
+        if (cutIntoStart) {
+            sliceStartIndexNew = beforeLengths[i] - concordCutoffValue;
+        }
+    } else {
+        padStart = '&nbsp;'.repeat(maxBefore - beforeLengths[i]);
+    }
+    // Add breaking space
+    if (ellipsisRegExp.exec(padStart)) {
+        padStart = padStart.replace(ellipsisRegExp, " " + ellipsisHTML);
+    } else {
+        padStart += " "; 
+    }
+    return [padStart, sliceStartIndex];
+}
+
+function formatPadEnd(
+    i, concordCutoffValue, maxAfter, afterLengths, 
+    ellipsisHTML, ellipsisRegExp, sliceEndIndex
+) {
+    let padEnd;
+    let sliceEndIndexNew = sliceEndIndex;
+    if (concordCutoffValue < maxAfter && concordCutoffValue > 0) {
+        // number of &nbps; to add at the end
+        let endCutoffDiff = concordCutoffValue - afterLengths[i];
+        if (endCutoffDiff < 0) { endCutoffDiff = 0; }
+        padEnd = '&nbsp;'.repeat(endCutoffDiff);
+        
+        let cutIntoEnd = (concordCutoffValue < afterLengths[i]);
+        if (concordCutoffValue < maxAfter) {
+            padEnd = cutIntoEnd ? ellipsisHTML + padEnd : '&nbsp;' + padEnd;
+        }
+        if (cutIntoEnd) {
+            sliceEndIndexNew -= (afterLengths[i] - concordCutoffValue);
+        }
+    } else {
+        padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
+    }
+    // Add breaking space
+    if (ellipsisRegExp.exec(padEnd)) {
+        padEnd = padEnd.replace(ellipsisRegExp, ellipsisHTML + " ");
+    } else {
+        padEnd = " &nbsp;" + padEnd; 
+    }
+    return [padEnd, sliceEndIndexNew];
+}
+
+function getHiliteRegExps(oneTwoOrThree) {
+    let beforeRE, hilitedRE;
     if (oneTwoOrThree == "one") {
         beforeRE = RegExp(/^(.*?)<text class='hilite1'>/);
         hilitedRE = RegExp(/<text class='hilite1'>.+?<\/text>/);
@@ -162,76 +214,37 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
         beforeRE = RegExp(/^(.*?)<text class='hilite3'>/);
         hilitedRE = RegExp(/<text class='hilite3'>.+?<\/text>/);
     }
+    return [beforeRE, hilitedRE];
+}
+
+function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
+    // concordCutoffValue: no. of spaces to each side of the searched pattern
+    let ellipsisHTML = '<text style="color:gray">&hellip;</text>';
+    let ellipsisRegExp = RegExp(escapeRegExp(ellipsisHTML));
+    let [beforeRE, hilitedRE] = getHiliteRegExps(oneTwoOrThree);
     let afterRE = RegExp(/.*?<\/text>(.*)$/);
-    var beforeLengths = concordanceColumn.map((el) => {
+    let beforeLengths = concordanceColumn.map((el) => {
         return unescapeHTML(beforeRE.exec(el).pop()).length;
     });
-    var afterLengths = concordanceColumn.map((el) => {
+    let afterLengths = concordanceColumn.map((el) => {
         return unescapeHTML(afterRE.exec(el).pop()).length;
     });
-    var maxBefore = beforeLengths.reduce((a, b) => { return Math.max(a, b); });
-    var maxAfter = afterLengths.reduce((a, b) => { return Math.max(a, b); });
-    var newColumn = Array();
+    let maxBefore = beforeLengths.reduce((a, b) => Math.max(a, b));
+    let maxAfter = afterLengths.reduce((a, b) => Math.max(a, b));
+    let newColumn = Array();
     for (let i = 0; i < concordanceColumn.length; i++) {
         htmlOriginal = concordanceColumn[i];
         hilited = hilitedRE.exec(htmlOriginal);
         beforeHilited = unescapeHTML(htmlOriginal.slice(0, hilited.index));
         afterHilited = unescapeHTML(htmlOriginal.slice(
             hilited.index + hilited[0].length, htmlOriginal.length));
-        var html = `${beforeHilited}${hilited[0]}${afterHilited}`;
-        var sliceStartIndex = 0;
-        var sliceEndIndex = html.length;
-        var startCutoffDiff;  // number of &nbps; to add at the beginning
-        var endCutoffDiff;  // number of &nbps; to add at the end
-        var padStart;
-        var padEnd;
-        var ellipsisHTML = '<text style="color:gray">&hellip;</text>';
-        var ellipsisRegExp = RegExp(escapeRegExp(ellipsisHTML));
+        let html = `${beforeHilited}${hilited[0]}${afterHilited}`;
 
-        if (concordCutoffValue < maxBefore && concordCutoffValue > 0) {
-            startCutoffDiff = concordCutoffValue - beforeLengths[i];
-            if (startCutoffDiff < 0) { startCutoffDiff = 0; }               
-            padStart = '&nbsp;'.repeat(startCutoffDiff);
-            let cutIntoStart = (concordCutoffValue < beforeLengths[i]);
-            if (concordCutoffValue < maxBefore) {
-                padStart = cutIntoStart ? 
-                    padStart + ellipsisHTML : padStart + '&nbsp;';
-            } 
-            if (cutIntoStart) {
-                sliceStartIndex = beforeLengths[i] - concordCutoffValue;
-            }
-        } else {
-            padStart = '&nbsp;'.repeat(maxBefore - beforeLengths[i]);
-        }
+        let [padStart, sliceStartIndex] = formatPadStart(i, concordCutoffValue, 
+            maxBefore, beforeLengths, ellipsisHTML, ellipsisRegExp, 0);
+        let [padEnd, sliceEndIndex] = formatPadEnd(i, concordCutoffValue, 
+            maxAfter, afterLengths, ellipsisHTML, ellipsisRegExp, html.length);
         
-        if (concordCutoffValue < maxAfter && concordCutoffValue > 0) {
-            endCutoffDiff = concordCutoffValue - afterLengths[i];
-            if (endCutoffDiff < 0) { endCutoffDiff = 0; }
-            padEnd = '&nbsp;'.repeat(endCutoffDiff);
-            let cutIntoEnd = (concordCutoffValue < afterLengths[i]);
-            if (concordCutoffValue < maxAfter) {
-                padEnd = cutIntoEnd ?
-                    ellipsisHTML + padEnd : '&nbsp;' + padEnd;
-            }
-            if (cutIntoEnd) {
-                sliceEndIndex -= (afterLengths[i] - concordCutoffValue);
-            }
-        } else {
-            padEnd = '&nbsp;'.repeat(maxAfter - afterLengths[i]);
-        }
-        
-        // Add breaking space
-        if (ellipsisRegExp.exec(padStart)) {
-            padStart = padStart.replace(ellipsisRegExp, " " + ellipsisHTML);
-        } else {
-            padStart += " "; 
-        }
-        if (ellipsisRegExp.exec(padEnd)) {
-            padEnd = padEnd.replace(ellipsisRegExp, ellipsisHTML + " ");
-        } else {
-            padEnd = " &nbsp;" + padEnd; 
-        }
-
         newHtml = html.slice(sliceStartIndex, sliceEndIndex);
         hilited = hilitedRE.exec(newHtml);
         beforeHilited = escapeHTML(newHtml.slice(0, hilited.index));
@@ -243,49 +256,18 @@ function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
     return newColumn;
 }
 
-function sortRows(columnToSort, order) {
-    rows = document.querySelectorAll('tr.sortable-row');
-    newRows = Array();
-    Array.from(rows).forEach((row) => {
-        newRow = Array.from(row.children);
-        newRows.push(newRow);
-    });
-    console.log(JSON.stringify(newRows));
-    newRows = newRows.sort((a, b) => {
-        let aString = a[columnToSort].__data__;
-        let bString = b[columnToSort].__data__;
-        if (order == "ascending") {
-            return aString.localeCompare(bString);
-        } else if (order == "descending") {
-            return bString.localeCompare(aString);
-        }
-    });
-    console.log(JSON.stringify(newRows));
-    newRows = newRows.map((row, i) => {
-        return row.map((item, j) => { 
-            return (j == 0) ? String(i + 1) : item.__data__; 
-        });
-    });
-    d3.selectAll('tr.sortable-row')
-        .data(newRows)
-        .selectAll('td')
-            .data((d) => d)
-            .html((d) => `<pre>${d}</pre>`);
-    enforceHilites();
-}
-
 function enforceHilites() {
-    var hilitedOnes = document.getElementsByClassName("hilite1");
+    let hilitedOnes = document.getElementsByClassName("hilite1");
     Array.from(hilitedOnes).forEach((el) => {
         el.style.color = colorPicker1.value;
         el.style.backgroundColor = bgColorPicker1.value;
     });
-    var hilitedTwos = document.getElementsByClassName("hilite2");
+    let hilitedTwos = document.getElementsByClassName("hilite2");
     Array.from(hilitedTwos).forEach((el) => {
         el.style.color = colorPicker2.value;
         el.style.backgroundColor = bgColorPicker2.value;
     });
-    var hilitedThrees = document.getElementsByClassName("hilite3");
+    let hilitedThrees = document.getElementsByClassName("hilite3");
     Array.from(hilitedThrees).forEach((el) => {
         el.style.color = colorPicker3.value;
         el.style.backgroundColor = bgColorPicker3.value;
@@ -390,3 +372,14 @@ function enforceLightDarkMode() {
     }
 }
 
+function updatePageView() {
+    if (resultsTable.innerHTML !== "") {
+        let showStart = Number(showingStart.value);
+        let showEnd = showStart + Number(showRows.value) - 1;
+        if (showEnd > matchedData.length && matchedData.length > 0) { 
+            showEnd = matchedData.length; 
+        }
+        showingEnd.textContent = String(showEnd);
+        insertResults(matchedData.slice(showStart - 1, showEnd));
+    }
+}
