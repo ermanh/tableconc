@@ -1,19 +1,17 @@
 //// TODOs
-// - favicon
+// Favicon
 // Refactor and clean code
+//      - Break up long functions
+//      - create a main.js for all the major actions, keep simple and short
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
 // Improve UI aesthetics/format/style
-//      - Cross-browser aesthetics
+//      - Cross-browser aesthetics (mostly/basically done)
 // - A show everything button (e.g., for inspecting data) ?
 // - ? Export results feature
+// - Can remove jQuery?
 // Enhancements
 //      - Filter selection - limit to values greater than 1 (or other threshold)
-//      - Full match should disable:
-//          - Full words, Concordance, Find all instances
-//      - match-beginning and match-end should disable:
-//          - Find all instances
-//      - Disabling findall should select concordance again
 
 
 const searchBox = document.getElementById("search-box");

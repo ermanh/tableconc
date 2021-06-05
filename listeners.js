@@ -130,6 +130,30 @@ regexSelection1.addEventListener('change', () => {
     }
 });
 
+// ~~~ Match Where 1 ~~~
+matchWhere1.addEventListener('change', () => {
+    let value = matchWhere1.value;
+    if (value == "match-entire-1") {
+        fullWords1.disabled = true;
+        concordanceDisplay1.disabled = true;
+        concordanceCutoff1.disabled = true;
+        regexSelection1.disabled = true;
+        findall1.disabled = true;
+    } else if (["match-beginning-1", "match-end-1"].includes(value)) {
+        fullWords1.disabled = false;
+        concordanceDisplay1.disabled = false;
+        concordanceCutoff1.disabled = false;
+        regexSelection1.disabled = true;
+        findall1.disabled = true;
+    } else if (value == "match-anywhere-1") {
+        fullWords1.disabled = false;
+        concordanceDisplay1.disabled = false;
+        concordanceCutoff1.disabled = false;
+        regexSelection1.disabled = false;
+        findall1.disabled = false;
+    }
+});
+
 // ~~~ Concordance Cutoff 1 ~~~
 concordanceDisplay1.addEventListener('change', () => {
     if (concordanceDisplay1.checked) {
@@ -146,11 +170,19 @@ findall1.addEventListener('change', () => {
         concordanceDisplay1.disabled = true;
         concordanceCutoff1.disabled = true;
         matchWhere1.value = 'match-anywhere-1';
-        matchWhere1.disabled = true;
+        matchEntire1.disabled = true;
+        matchBeginning1.disabled = true;
+        matchEnd1.disabled = true;
     } else {
+        concordanceDisplay1.checked = true;
         concordanceDisplay1.disabled = false;
         concordanceCutoff1.disabled = false;
-        matchWhere1.disabled = false;
+        matchEntire1.disabled = false;
+        matchBeginning1.disabled = false;
+        matchEnd1.disabled = false;
+        if (regexSelection1.checked == false) {
+            matchWhere1.disabled = false;
+        }
     }
 });
 
@@ -270,6 +302,30 @@ regexSelection2.addEventListener('change', () => {
     }
 });
 
+// ~~~ Match Where 2 ~~~
+matchWhere2.addEventListener('change', () => {
+    let value = matchWhere2.value;
+    if (value == "match-entire-2") {
+        fullWords2.disabled = true;
+        concordanceDisplay2.disabled = true;
+        concordanceCutoff2.disabled = true;
+        regexSelection2.disabled = true;
+        findall2.disabled = true;
+    } else if (["match-beginning-2", "match-end-2"].includes(value)) {
+        fullWords2.disabled = false;
+        concordanceDisplay2.disabled = false;
+        concordanceCutoff2.disabled = false;
+        regexSelection2.disabled = true;
+        findall2.disabled = true;
+    } else if (value == "match-anywhere-2") {
+        fullWords2.disabled = false;
+        concordanceDisplay2.disabled = false;
+        concordanceCutoff2.disabled = false;
+        regexSelection2.disabled = false;
+        findall2.disabled = false;
+    }
+});
+
 // ~~~ Concordance Cutoff 2 ~~~
 concordanceDisplay2.addEventListener('change', () => {
     if (concordanceDisplay2.checked) {
@@ -286,11 +342,19 @@ findall2.addEventListener('change', () => {
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
         matchWhere2.value = "match-anywhere-2";
-        matchWhere2.disabled = true;
+        matchEntire2.disabled = true;
+        matchBeginning2.disabled = true;
+        matchEnd2.disabled = true;
     } else {
+        concordanceDisplay2.checked = true;
         concordanceDisplay2.disabled = false;
         concordanceCutoff2.disabled = false;
-        matchWhere2.disabled = false;
+        matchEntire2.disabled = false;
+        matchBeginning2.disabled = false;
+        matchEnd2.disabled = false;
+        if (regexSelection2.checked == false) {
+            matchWhere2.disabled = false;
+        }
     }
 });
 
@@ -414,6 +478,30 @@ regexSelection3.addEventListener('change', () => {
     }
 });
 
+// ~~~ Match Where 1 ~~~
+matchWhere3.addEventListener('change', () => {
+    let value = matchWhere3.value;
+    if (value == "match-entire-3") {
+        fullWords3.disabled = true;
+        concordanceDisplay3.disabled = true;
+        concordanceCutoff3.disabled = true;
+        regexSelection3.disabled = true;
+        findall3.disabled = true;
+    } else if (["match-beginning-3", "match-end-3"].includes(value)) {
+        fullWords3.disabled = false;
+        concordanceDisplay3.disabled = false;
+        concordanceCutoff3.disabled = false;
+        regexSelection3.disabled = true;
+        findall3.disabled = true;
+    } else if (value == "match-anywhere-3") {
+        fullWords3.disabled = false;
+        concordanceDisplay3.disabled = false;
+        concordanceCutoff3.disabled = false;
+        regexSelection3.disabled = false;
+        findall3.disabled = false;
+    }
+});
+
 // ~~~ Concordance Cutoff 3 ~~~
 concordanceDisplay3.addEventListener('change', () => {
     if (concordanceDisplay3.checked) {
@@ -430,11 +518,19 @@ findall3.addEventListener('change', () => {
         concordanceDisplay3.disabled = true;
         concordanceCutoff3.disabled = true;
         matchWhere3.value = "match-anywhere-3";
-        matchWhere3.disabled = true;
+        matchEntire3.disabled = true;
+        matchBeginning3.disabled = true;
+        matchEnd3.disabled = true;
     } else {
+        concordanceDisplay3.checked = true;
         concordanceDisplay3.disabled = false;
         concordanceCutoff3.disabled = false;
-        matchWhere3.disabled = false;
+        matchEntire3.disabled = false;
+        matchBeginning3.disabled = false;
+        matchEnd3.disabled = false;
+        if (regexSelection3.checked == false) {
+            matchWhere3.disabled = false;
+        }
     }
 });
 
