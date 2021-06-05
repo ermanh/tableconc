@@ -105,10 +105,26 @@ filterControl1.addEventListener('change', () => {
     if (filterControl1.checked) {
         searchRow1.style.display = "none";
         filterRow1.style.display = "inline-block";
-        if (columnSelection1.innerHTML !== "") { populateFilterValues("1"); }
+        filterMinSpan1.style.display = "inline-block";
+        if (columnSelection1.innerHTML !== "") { 
+            populateFilterValues("1", filterMin1.value); 
+        }
     } else {
         searchRow1.style.display = "block";
         filterRow1.style.display = "none";
+        filterMinSpan1.style.display = "none";
+    }
+});
+
+filterMin1.addEventListener('keypress', (e) => {
+    if (!/^\d$/.test(e.key)) { e.preventDefault(); }
+});
+filterMin1.addEventListener('focusout', () => {
+    if (filterMin1.value <= 0) { filterMin1.value = "1"; }
+});
+filterMin1.addEventListener('input', () => {
+    if (columnSelection1.value && columnSelection1.value !== "(none)") {
+        populateFilterValues("1", filterMin1.value);
     }
 });
 
@@ -214,7 +230,9 @@ columnSelection1.addEventListener('change', () => {
         if (columnSelection2.value == "(none)") { searchButton.disabled = true; }
     } else {
         // Populate filter values if "Filter by value" checked
-        if (filterControl1.checked) { populateFilterValues("1"); }
+        if (filterControl1.checked) { 
+            populateFilterValues("1", filterMin1.value); 
+        }
         // Enable all selections
         searchInput1.disabled = false;
         regexSelection1.disabled = false;
@@ -277,10 +295,25 @@ filterControl2.addEventListener('change', () => {
     if (filterControl2.checked) {
         searchRow2.style.display = "none";
         filterRow2.style.display = "inline-block";
-        if (columnSelection2.innerHTML !== "") { populateFilterValues("2"); }
+        filterMinSpan2.style.display = "inline-block";
+        if (columnSelection2.innerHTML !== "") { 
+            populateFilterValues("2", filterMin2.value); 
+        }
     } else {
         searchRow2.style.display = "block";
         filterRow2.style.display = "none";
+        filterMinSpan2.style.display = "none";
+    }
+});
+filterMin2.addEventListener('keypress', (e) => {
+    if (!/^\d$/.test(e.key)) { e.preventDefault(); }
+});
+filterMin2.addEventListener('focusout', () => {
+    if (filterMin2.value <= 0) { filterMin2.value = "1"; }
+});
+filterMin2.addEventListener('input', () => {
+    if (columnSelection2.value && columnSelection2.value !== "(none)") {
+        populateFilterValues("2", filterMin2.value);
     }
 });
 
@@ -386,7 +419,9 @@ columnSelection2.addEventListener('change', () => {
         if (columnSelection1.value == "(none)") { searchButton.disabled = true; }
     } else {
         // Populate filter values if "Filter by value" checked
-        if (filterControl2.checked) { populateFilterValues("2"); }
+        if (filterControl2.checked) { 
+            populateFilterValues("2", filterMin2.value); 
+        }
         // Enable all selections
         searchInput2.disabled = false;
         regexSelection2.disabled = false;
@@ -453,10 +488,25 @@ filterControl3.addEventListener('change', () => {
     if (filterControl3.checked) {
         searchRow3.style.display = "none";
         filterRow3.style.display = "inline-block";
-        if (columnSelection3.innerHTML !== "") { populateFilterValues("3"); }
+        filterMinSpan3.style.display = "inline-block";
+        if (columnSelection3.innerHTML !== "") { 
+            populateFilterValues("3", filterMin3.value); 
+        }
     } else {
         searchRow3.style.display = "block";
         filterRow3.style.display = "none";
+        filterMinSpan3.style.display = "none";
+    }
+});
+filterMin3.addEventListener('keypress', (e) => {
+    if (!/^\d$/.test(e.key)) { e.preventDefault(); }
+});
+filterMin3.addEventListener('focusout', () => {
+    if (filterMin3.value <= 0) { filterMin3.value = "1"; }
+});
+filterMin3.addEventListener('input', () => {
+    if (columnSelection3.value && columnSelection3.value !== "(none)") {
+        populateFilterValues("3", filterMin3.value);
     }
 });
 
@@ -478,7 +528,7 @@ regexSelection3.addEventListener('change', () => {
     }
 });
 
-// ~~~ Match Where 1 ~~~
+// ~~~ Match Where 3 ~~~
 matchWhere3.addEventListener('change', () => {
     let value = matchWhere3.value;
     if (value == "match-entire-3") {
@@ -562,7 +612,9 @@ columnSelection3.addEventListener('change', () => {
         if (columnSelection1.value == "(none)") { searchButton.disabled = true; }
     } else {
         // Populate filter values if "Filter by value" checked
-        if (filterControl3.checked) { populateFilterValues("3"); }
+        if (filterControl3.checked) { 
+            populateFilterValues("3", filterMin3.value); 
+        }
         // Enable all selections
         searchInput3.disabled = false;
         regexSelection3.disabled = false;

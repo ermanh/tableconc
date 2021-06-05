@@ -29,8 +29,6 @@ const colors = {
     }
 };
 
-const filterValueMaxLength = 200;
-
 // Top Stuff
 const lightControl = document.getElementById("light-control");
 const darkControl = document.getElementById("dark-control");
@@ -68,6 +66,8 @@ const filterControl1 = document.getElementById("filter-control-1");
 const searchRow1 = document.getElementById("search-row-1");
 const filterRow1 = document.getElementById("filter-row-1");
 const filterSelection1 = document.getElementById("filter-selection-1");
+const filterMinSpan1 = document.getElementById("filter-min-span-1");
+const filterMin1 = document.getElementById("filter-min-1");
 const searchInput1 = document.getElementById("search-input-1");
 const regexSelection1 = document.getElementById("regex-1");
 const fullWords1 = document.getElementById("full-words-1");
@@ -90,6 +90,8 @@ const filterControl2 = document.getElementById("filter-control-2");
 const searchRow2 = document.getElementById("search-row-2");
 const filterRow2 = document.getElementById("filter-row-2");
 const filterSelection2 = document.getElementById("filter-selection-2");
+const filterMinSpan2 = document.getElementById("filter-min-span-2");
+const filterMin2 = document.getElementById("filter-min-2");
 const searchInput2 = document.getElementById("search-input-2");
 const regexSelection2 = document.getElementById("regex-2");
 const fullWords2 = document.getElementById("full-words-2");
@@ -112,6 +114,8 @@ const filterControl3 = document.getElementById("filter-control-3");
 const searchRow3 = document.getElementById("search-row-3");
 const filterRow3 = document.getElementById("filter-row-3");
 const filterSelection3 = document.getElementById("filter-selection-3");
+const filterMinSpan3 = document.getElementById("filter-min-span-3");
+const filterMin3 = document.getElementById("filter-min-3");
 const searchInput3 = document.getElementById("search-input-3");
 const regexSelection3 = document.getElementById("regex-3");
 const fullWords3 = document.getElementById("full-words-3");

@@ -25,7 +25,8 @@ function renameColumnNames(columnNames) {
     return newColumnNames;
 }
 
-function populateFilterValues(whichFilter) {
+function populateFilterValues(whichFilter, minQuantity) {
+    let filterValueMaxLength = 200;
     var columnValue = document.getElementById(
         `column-selection-${whichFilter}`).value;
     if (columnValue == "(none)") { return null; }
@@ -54,6 +55,7 @@ function populateFilterValues(whichFilter) {
     var values = Object.keys(valueCount).sort((a, b) => { 
         return a.toLowerCase() > b.toLowerCase(); 
     });
+    values = values.filter((value) => valueCount[value] >= Number(minQuantity));
 
     var filterSelection = d3.select(`#filter-selection-${whichFilter}`);
     filterSelection.html(""); // clear menu
@@ -61,9 +63,10 @@ function populateFilterValues(whichFilter) {
         .data(values).enter()
         .append("option")
         .attr("value", (d) => d)
-        .text((d) => { 
+        .text((d) => {
             if (d.length > filterValueMaxLength) {
-                return `${d.slice(0,filterValueMaxLength)} (${valueCount[d]})`;
+            return `${d.slice(0,filterValueMaxLength)}&hellip; ` +
+                `(${valueCount[d]})`;
             }
             if (d === "") { return `(empty) (${valueCount[d]})`; } 
             return `${d} (${valueCount[d]})`; 

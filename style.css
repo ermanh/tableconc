@@ -295,13 +295,6 @@ input.search::-webkit-search-decoration {
     -webkit-appearance: none;
 }
 
-/* #search-input-1, #search-input-2, #search-input-3 {
-    font-size: 0.8em;
-    border-radius: 0.5em;
-    width: 250px;
-    margin: 5px 0;
-} */
-
 #search-input-1:disabled, #search-input-2:disabled, #search-input-3:disabled {
     background-color: lightgray;
 }
@@ -341,6 +334,21 @@ form {
 
 #filter-row-1, #filter-row-2, #filter-row-3 {
     display: none;
+    padding: 1px;
+}
+
+#filter-min-span-1, #filter-min-span-2, #filter-min-span-3 {
+    display: none;
+    font-size: 0.8em;
+    background-color: lightsteelblue;
+    border-radius: 3px;
+    padding: 0;
+    color: var(--banner-bg-color);
+}
+
+#filter-min-1, #filter-min-2, #filter-min-3 {
+    border-radius: 3px;
+    width: 40px;
 }
 
 #controls td, #controls tr {

@@ -7,9 +7,7 @@
 //      - Write unit tests for all functions
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
-// - A show everything button (e.g., for inspecting data) ?
 // Enhancements
-//      - Filter selection - limit to values greater than 1 (or other threshold)
 
 
 const searchBox = document.getElementById("search-box");
