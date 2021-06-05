@@ -560,63 +560,57 @@ function concord() {
     }
     
     // Show number of matched results
-    numberOfResults = matchedRows.length;
-    if (numberOfResults > 0) {
-        resultsNumber.textContent = "";
-        setTimeout(
-            () => { resultsNumber.textContent = `${numberOfResults}`; }, 
-            resultsNumberTimeout
-        );
-    }
-    
     if (matchedRows.length > 0) {
-        // Prepare columns
+        showTotalResults(matchedRows.length);
         const [selectedColumns, columnsToDisplay] = prepareColumns(columnNames);
-        // Insert column headers
         insertColumnHeaders(columnsToDisplay);
-        // Array for only the matched data
         matchedData = setMatchedData(matchedRows, selectedColumns);
-        // Determine which rows to show on page
         const [showStart, showEnd] = determineRowsToShow(matchedData.length);
-        // Insert results into table
         insertResults(matchedData.slice(showStart, showEnd));
-
     } else {
-        resultsTable.innerHTML = "";
-        let resultText = "None for ";
-        if (searchInput1.value !== "" || filterSelection1.value) {
-            let value1 = (searchInput1.value !== "") ? 
-                searchInput1.value : filterSelection1.value;
-            resultText = resultText + `"${value1}"`;
-            if (searchInput2.value !== "" || filterSelection2.value ||
-                searchInput3.value !== "" || filterSelection3.value) 
-            {
-                resultText = resultText + " and ";
-            }
-        }
-        if (searchInput2.value !== "" || filterSelection2.value) {
-            let value2 = (searchInput2.value !== "") ? 
-                searchInput2.value : filterSelection2.value;
-            resultText = resultText + `"${value2}"`;
-            if (searchInput3.value !== "" || filterSelection3.value) {
-                resultText = resultText + " and ";
-            }
-        }
-        if (searchInput3.value !== "" || filterSelection3.value) {
-            let value3 = (searchInput3.value !== "") ? 
-                searchInput3.value : filterSelection3.value;
-            resultText = resultText + `"${value3}"`;
-        }
-        resultsNumber.textContent = "";
-        setTimeout(
-            () => { resultsNumber.textContent = resultText; }, 
-            resultsNumberTimeout
-        );
+        showNoResults();
     }
 
     console.log("FINAL columnSelection1.value", columnSelection1.value);
     console.log("FINAL columnSelection2.value", columnSelection2.value);
     console.log("FINAL columnSelection3.value", columnSelection3.value);
-};
+}
+
+function showTotalResults(numberOfResults) {
+    resultsNumber.textContent = "";
+    setTimeout(() => { resultsNumber.textContent = `${numberOfResults}`; }, 
+               resultsNumberTimeout);
+}
+
+function showNoResults() {
+    resultsTable.innerHTML = "";
+    let resultText = "None for ";
+    if (searchInput1.value !== "" || filterSelection1.value) {
+        let value1 = (searchInput1.value !== "") ? 
+            searchInput1.value : filterSelection1.value;
+        resultText = resultText + `"${value1}"`;
+        if (searchInput2.value !== "" || filterSelection2.value ||
+            searchInput3.value !== "" || filterSelection3.value) 
+        {
+            resultText = resultText + " and ";
+        }
+    }
+    if (searchInput2.value !== "" || filterSelection2.value) {
+        let value2 = (searchInput2.value !== "") ? 
+            searchInput2.value : filterSelection2.value;
+        resultText = resultText + `"${value2}"`;
+        if (searchInput3.value !== "" || filterSelection3.value) {
+            resultText = resultText + " and ";
+        }
+    }
+    if (searchInput3.value !== "" || filterSelection3.value) {
+        let value3 = (searchInput3.value !== "") ? 
+            searchInput3.value : filterSelection3.value;
+        resultText = resultText + `"${value3}"`;
+    }
+    resultsNumber.textContent = "";
+    setTimeout(() => { resultsNumber.textContent = resultText; }, 
+                resultsNumberTimeout);
+}
 
 searchBox.addEventListener('submit', concord);
