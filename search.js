@@ -1,14 +1,24 @@
 //// TODOs
 // Favicon
+// Add a help/guide
 // Refactor and clean code
 //      - Break up long functions
 //      - create a main.js for all the major actions, keep simple and short
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
 //      - Remove unused variables and code
+//      - Replace color names with hex values
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
 // Enhancements
+//      - Add line no. column (the order as in the original file)
+//      - Dark mode highlight colors
+//          - first higlight
+//          - background grays can be darker
+//      - Do not reset text-align when changing display columns (?)
+//      - Selecting findall 
+//          - doesn't disable match-entire/beginning/end, but
+//            when you click match-entire/beginnign/end, findall is deselected (?)
 // Testing
 //      - Use significantly larger csv, tsv, json, and plain text files
 //      - Include data containing html and chars that need escaping
@@ -194,6 +204,96 @@ function insertResults(rows) {
     enforceHilites();
 }
 
+function constructRegex(i) {
+    let pattern;
+    let flags = "";
+    let caseSensitive = document.getElementById(`case-sensitive-${i}`);
+    let findall = document.getElementById(`findall-${i}`);
+    let regexSelection = document.getElementById(`regex-${i}`);
+    let searchInput = document.getElementById(`search-input-${i}`);
+    let fullWords = document.getElementById(`full-words-${i}`);
+    let matchWhere = document.getElementById(`match-where-${i}`);
+    if (!caseSensitive.checked) { flags = `${flags}i`; }
+    if (findall.checked) {
+        flags = `${flags}g`;
+        if (regexSelection.checked) {
+            pattern = searchInput.value;
+        } else {
+            pattern = escapeRegExp(searchInput.value);
+            if (fullWords.checked) {
+                pattern = fullwordBoundaries(pattern, searchInput.value);
+            }
+        }
+    } else {
+        if (regexSelection.checked) {
+            pattern = `^(.*?)(${searchInput.value})(.*)$`;
+        } else {
+            pattern = escapeRegExp(searchInput.value);
+            if (fullWords.checked) {
+                pattern = fullwordBoundaries(pattern, searchInput.value);
+            }
+            if (matchWhere.value == `match-entire-${i}`) {
+                pattern = `^(${pattern})$`;
+            } else if (matchWhere.value == `match-beginning-${i}`) {
+                pattern = `^(${pattern})(.*)$`;
+            } else if (matchWhere.value == `match-end-${i}`) {
+                pattern = `^(.*?)(${pattern})$`;
+            } else {
+                pattern = `^(.*?)(${pattern})(.*)$`;
+            }
+        }
+    }
+    return RegExp(pattern, flags);
+}
+
+function createHilitedString(i, str, re, tagOpen, tagClose) {
+    let regexSelection = document.getElementById(`regex-${i}`);
+    let matchWhere = document.getElementById(`match-where-${i}`);
+    let findall = document.getElementById(`findall-${i}`);
+    let htmlSafeString;
+    if (regexSelection.checked || 
+        matchWhere.value == `match-anywhere-${i}`)
+    {
+        if (findall.checked) {
+            htmlSafeString = iterHtmlSafeReplace(
+                str, re, tagOpen, tagClose);
+        } else {
+            htmlSafeString = str.replace(re, (_, g1, g2, g3) => {
+                return `${escapeHTML(g1)}${tagOpen}` +
+                        `${escapeHTML(g2)}${tagClose}` + 
+                        `${escapeHTML(g3)}`; });
+        }
+    } else if (matchWhere.value == `match-entire-${i}`) {
+        htmlSafeString = str.replace(re, (_, g1) => {
+            return `${tagOpen}${escapeHTML(g1)}${tagClose}`; });
+    } else if (matchWhere.value == `match-beginning-${i}`) {
+        htmlSafeString = str.replace(re, (_, g1, g2) => {
+            return `${tagOpen}${escapeHTML(g1)}${tagClose}` +
+                    `${escapeHTML(g2)}`; });
+    } else if (matchWhere.value == `match-end-${i}`) {
+        htmlSafeString = str.replace(re1, (_, g1, g2) => {
+            return `${escapeHTML(g1)}${tagOpen}` + 
+                    `${escapeHTML(g2)}${tagClose}`; });
+    }
+    return htmlSafeString;
+}
+
+function recordMatchedRows_CreateHilitedStrings(
+    i, startingRowIndex, searchColumnIndex, re, matchedRows, newData
+) {
+    let tagOpen = `<text class='hilite${i}'>`;
+    let tagClose = "</text>";
+
+    for (let j = startingRowIndex; j < data.length; j++) {
+        let str = data[j][searchColumnIndex];
+        if (str.match(re)) {
+            matchedRows.push(j);
+            let htmlSafeString = createHilitedString(
+                i, str, re, tagOpen, tagClose);
+            newData[j][searchColumnIndex] = htmlSafeString;
+        }
+    }
+}
 
 function concord() {
     newData = JSON.parse(JSON.stringify(data));
@@ -214,6 +314,7 @@ function concord() {
 
     // PROCESS SEARCH INPUT 1
     if (filterControl1.checked) {
+        // Using Filter Selection 1
         if (typeof(filterSelection1.value == "string")) {
             for (let i = startingRowIndex; i < data.length; i++) {
                 let str = data[i][searchColumnIndex1];
@@ -223,86 +324,9 @@ function concord() {
     } else {
         if (searchInput1.value !== "") {
             console.log("YAY");  
-            let re1;
-            let pattern1;
-            let flags1 = "";
-            let tagOpen1 = "<text class='hilite1'>";
-            let tagClose1 = "</text>";
-
-            // Construct regex
-            if (!caseSensitive1.checked) { flags1 = `${flags1}i`; }
-            if (findall1.checked) {
-                flags1 = `${flags1}g`;
-                if (regexSelection1.checked) {
-                    pattern1 = searchInput1.value;
-                } else {
-                    pattern1 = escapeRegExp(searchInput1.value);
-                    if (fullWords1.checked) {
-                        pattern1 = fullwordBoundaries(pattern1, 
-                                                      searchInput1.value);
-                    }
-                }
-            } else {
-                if (regexSelection1.checked) {
-                    pattern1 = `^(.*?)(${searchInput1.value})(.*)$`;
-                } else {
-                    pattern1 = escapeRegExp(searchInput1.value);
-                    if (fullWords1.checked) {
-                        pattern1 = fullwordBoundaries(pattern1, 
-                                                      searchInput1.value);
-                    }
-                    if (matchWhere1.value == "match-entire-1") {
-                        pattern1 = `^(${pattern1})$`;
-                    } else if (matchWhere1.value == "match-beginning-1") {
-                        pattern1 = `^(${pattern1})(.*)$`;
-                    } else if (matchWhere1.value == "match-end-1") {
-                        pattern1 = `^(.*?)(${pattern1})$`;
-                    } else {
-                        pattern1 = `^(.*?)(${pattern1})(.*)$`;
-                    }
-                }
-            }
-            re1 = (flags1 == "") ? RegExp(pattern1) : RegExp(pattern1, flags1);
-            
-            // Record matched rows and create array of color-coded strings
-            for (let i = startingRowIndex; i < data.length; i++) {
-                let str = data[i][searchColumnIndex1];
-                if (str.match(re1)) {
-                    matchedRows1.push(i);
-                    let htmlSafeString1;
-                    if (regexSelection1.checked || 
-                        matchWhere1.value == "match-anywhere-1") 
-                    {
-                        if (findall1.checked) {
-                            htmlSafeString1 = iterHtmlSafeReplace(
-                                str, re1, tagOpen1, tagClose1);
-                        } else {
-                            htmlSafeString1 = str.replace(
-                                re1, (_, g1, g2, g3) =>
-                            {
-                                return `${escapeHTML(g1)}${tagOpen1}` + 
-                                       `${escapeHTML(g2)}${tagClose1}` + 
-                                       `${escapeHTML(g3)}`;
-                            });
-                        }
-                    } else if (matchWhere1.value == "match-entire-1") {
-                        htmlSafeString1 = str.replace(re1, (_, g1) => {
-                            return `${tagOpen1}${escapeHTML(g1)}${tagClose1}`;
-                        });
-                    } else if (matchWhere1.value == "match-beginning-1") {
-                        htmlSafeString1 = str.replace(re1, (_, g1, g2) => {
-                            return `${tagOpen1}${escapeHTML(g1)}${tagClose1}` +
-                                   `${escapeHTML(g2)}`;
-                        });
-                    } else if (matchWhere1.value == "match-end-1") {
-                        htmlSafeString1 = str.replace(re1, (_, g1, g2) => {
-                            return `${escapeHTML(g1)}${tagOpen1}` + 
-                                   `${escapeHTML(g2)}${tagClose1}`;
-                        });
-                    }
-                    newData[i][searchColumnIndex1] = htmlSafeString1;
-                } 
-            }
+            let re1 = constructRegex("1");
+            recordMatchedRows_CreateHilitedStrings("1", startingRowIndex, 
+                searchColumnIndex1, re1, matchedRows1, newData);
         }
     }
     
@@ -317,86 +341,9 @@ function concord() {
     } else {
         if (searchInput2.value !== "") {
             console.log("YAY-YAY");
-            let re2;
-            let pattern2;
-            let flags2 = "";
-            let tagOpen2 = "<text class='hilite2'>";
-            let tagClose2 = "</text>";
-
-            // Construct regex
-            if (!caseSensitive2.checked) { flags2 = `${flags2}i`; }
-            if (findall2.checked) { 
-                flags2 = `${flags2}g`;
-                if (regexSelection2.checked) {
-                    pattern2 = searchInput2.value;
-                } else {
-                    pattern2 = escapeRegExp(searchInput2.value);
-                    if (fullWords2.checked) {
-                        pattern2 = fullwordBoundaries(pattern2, 
-                                                      searchInput2.value);
-                    }
-                }
-            } else {
-                if (regexSelection2.checked) {
-                    pattern2 = `^(.*?)(${searchInput2.value})(.*)$`; 
-                } else {
-                    pattern2 = escapeRegExp(searchInput2.value);
-                    if (fullWords2.checked) {
-                        pattern2 = fullwordBoundaries(pattern2, 
-                                                      searchInput2.value);
-                    }
-                    if (matchWhere2.value == "match-entire-2") {
-                        pattern2 = `^(${pattern2})$`;
-                    } else if (matchWhere2.value == "match-beginning-2") {
-                        pattern2 = `^(${pattern2})(.*)$`;
-                    } else if (matchWhere2.value == "match-end-2") {
-                        pattern2 = `^(.*?)(${pattern2})$`;
-                    } else {
-                        pattern2 = `^(.*?)(${pattern2})(.*)$`;
-                    }
-                }
-            }
-            re2 = (flags2 == "") ? RegExp(pattern2) : RegExp(pattern2, flags2);
-
-            // Record matched rows and create array of color-coded strings
-            for (let i = startingRowIndex; i < data.length; i++) {
-                let str = data[i][searchColumnIndex2];
-                if (str.match(re2)) {
-                    matchedRows2.push(i);
-                    let htmlSafeString2;
-                    if (regexSelection2.checked || 
-                        matchWhere2.value == "match-anywhere-2") 
-                    {
-                        if (findall2.checked) {
-                            htmlSafeString2 = iterHtmlSafeReplace(
-                                str, re2, tagOpen2, tagClose2);
-                        } else {
-                            htmlSafeString2 = str.replace(
-                                re2, (_, g1, g2, g3) =>
-                            {
-                                return `${escapeHTML(g1)}${tagOpen2}` + 
-                                       `${escapeHTML(g2)}${tagClose2}` + 
-                                       `${escapeHTML(g3)}`;
-                            });
-                        }
-                    } else if (matchWhere2.value == "match-entire-2") {
-                        htmlSafeString2 = str.replace(re2, (_, g1) => {
-                            return `${tagOpen2}${escapeHTML(g1)}${tagClose2}`;
-                        });
-                    } else if (matchWhere2.value == "match-beginning-2") {
-                        htmlSafeString2 = str.replace(re2, (_, g1, g2) => {
-                            return `${tagOpen2}${escapeHTML(g1)}${tagClose2}` +
-                                   `${escapeHTML(g2)}`;
-                        });
-                    } else if (matchWhere2.value == "match-end-2") {
-                        htmlSafeString2 = str.replace(re2, (_, g1, g2) => {
-                            return `${escapeHTML(g1)}${tagOpen2}` + 
-                                   `${escapeHTML(g2)}${tagClose2}`;
-                        });
-                    }
-                    newData[i][searchColumnIndex2] = htmlSafeString2;
-                } 
-            }
+            let re2 = constructRegex("2");
+            recordMatchedRows_CreateHilitedStrings("2", startingRowIndex,
+                searchColumnIndex2, re2, matchedRows2, newData);
         }
     }
 
@@ -411,91 +358,15 @@ function concord() {
     } else {
         if (searchInput3.value !== "") {
             console.log("YAY-YAY-YAY");
-            let re3;
-            let pattern3;
-            let flags3 = "";
-            let tagOpen3 = "<text class='hilite3'>";
-            let tagClose3 = "</text>";
-
-            // Construct regex
-            if (!caseSensitive3.checked) { flags3 = `${flags3}i`; }
-            if (findall3.checked) { 
-                flags3 = `${flags3}g`;
-                if (regexSelection3.checked) {
-                    pattern3 = searchInput3.value;
-                } else {
-                    pattern3 = escapeRegExp(searchInput3.value);
-                    if (fullWords3.checked) {
-                        pattern3 = fullwordBoundaries(pattern3, 
-                                                      searchInput3.value);
-                    }
-                }
-            } else {
-                if (regexSelection3.checked) {
-                    pattern3 = `^(.*?)(${searchInput3.value})(.*)$`; 
-                } else {
-                    pattern3 = escapeRegExp(searchInput3.value);
-                    if (fullWords3.checked) {
-                        pattern3 = fullwordBoundaries(pattern3, 
-                                                      searchInput3.value);
-                    }
-                    if (matchWhere3.value == "match-entire-3") {
-                        pattern3 = `^(${pattern3})$`;
-                    } else if (matchWhere3.value == "match-beginning-3") {
-                        pattern3 = `^(${pattern3})(.*)$`;
-                    } else if (matchWhere3.value == "match-end-3") {
-                        pattern3 = `^(.*?)(${pattern3})$`;
-                    } else {
-                        pattern3 = `^(.*?)(${pattern3})(.*)$`;
-                    }
-                }
-            }
-            re3 = (flags3 == "") ? RegExp(pattern3) : RegExp(pattern3, flags3);
-
-            // Record matched rows and create array of color-coded strings
-            for (let i = startingRowIndex; i < data.length; i++) {
-                let str = data[i][searchColumnIndex3];
-                if (str.match(re3)) {
-                    matchedRows3.push(i);
-                    let htmlSafeString3;
-                    if (regexSelection3.checked || 
-                        matchWhere3.value == "match-anywhere-3") 
-                    {
-                        if (findall3.checked) {
-                            htmlSafeString3 = iterHtmlSafeReplace(
-                                str, re3, tagOpen3, tagClose3);
-                        } else {
-                            htmlSafeString3 = str.replace(
-                                re3, (_, g1, g2, g3) =>
-                            {
-                                return `${escapeHTML(g1)}${tagOpen3}` +
-                                       `${escapeHTML(g2)}${tagClose3}` + 
-                                       `${escapeHTML(g3)}`;
-                            });
-                        }
-                    } else if (matchWhere3.value == "match-entire-3") {
-                        htmlSafeString3 = str.replace(re3, (_, g1) => {
-                            return `${tagOpen3}${escapeHTML(g1)}${tagClose3}`;
-                        });
-                    } else if (matchWhere3.value == "match-beginning-3") {
-                        htmlSafeString3 = str.replace(re3, (_, g1, g2) => {
-                            return `${tagOpen3}${escapeHTML(g1)}${tagClose3}` + 
-                                   `${escapeHTML(g2)}`;
-                        });
-                    } else if (matchWhere3.value == "match-end-3") {
-                        htmlSafeString3 = str.replace(re3, (_, g1, g2) => {
-                            return `${escapeHTML(g1)}` + 
-                                   `${tagOpen3}${escapeHTML(g2)}${tagClose3}`;
-                        });
-                    }
-                    newData[i][searchColumnIndex3] = htmlSafeString3;
-                } 
-            }
+            let re3 = constructRegex("3");
+            recordMatchedRows_CreateHilitedStrings("3", startingRowIndex,
+                searchColumnIndex3, re3, matchedRows3, newData);
         }
     }
     
     //// Display results
     
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CAN REFACTOR
     // Matched rows logic
     let inputValid1 = (
         (!filterControl1.checked && searchInput1.value !== "") ||
@@ -519,6 +390,7 @@ function concord() {
             matchedRows.filter((x) => matchedRows3.includes(x)) : matchedRows3;
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CAN REFACTOR
     // Pad strings to be displayed
     if (matchedRows.length > 0) {
         if (!filterControl1.checked && concordanceDisplay1.checked && 
@@ -559,7 +431,7 @@ function concord() {
         }
     }
     
-    // Show number of matched results
+    // Show results
     if (matchedRows.length > 0) {
         showTotalResults(matchedRows.length);
         const [selectedColumns, columnsToDisplay] = prepareColumns(columnNames);
@@ -575,6 +447,7 @@ function concord() {
     console.log("FINAL columnSelection2.value", columnSelection2.value);
     console.log("FINAL columnSelection3.value", columnSelection3.value);
 }
+
 
 function showTotalResults(numberOfResults) {
     resultsNumber.textContent = "";
