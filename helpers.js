@@ -204,13 +204,13 @@ function formatPadEnd(
 
 function getHiliteRegExps(oneTwoOrThree) {
     let beforeRE, hilitedRE;
-    if (oneTwoOrThree == "one") {
+    if (oneTwoOrThree == "1") {
         beforeRE = RegExp(/^(.*?)<text class='hilite1'>/);
         hilitedRE = RegExp(/<text class='hilite1'>.+?<\/text>/);
-    } else if (oneTwoOrThree == "two") {
+    } else if (oneTwoOrThree == "2") {
         beforeRE = RegExp(/^(.*?)<text class='hilite2'>/);
         hilitedRE = RegExp(/<text class='hilite2'>.+?<\/text>/);
-    } else if (oneTwoOrThree == "three") {
+    } else if (oneTwoOrThree == "3") {
         beforeRE = RegExp(/^(.*?)<text class='hilite3'>/);
         hilitedRE = RegExp(/<text class='hilite3'>.+?<\/text>/);
     }

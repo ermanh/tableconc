@@ -737,7 +737,7 @@ previousPage.addEventListener('click', () => {
 
     previousPage.disabled = showStart <= 1;
     nextPage.disabled = showEnd >= matchedData.length;
-});å
+});
 nextPage.addEventListener('click', () => {
     let showStart = Number(showingStart.value) + Number(showRows.value);
     let showEnd = showStart + Number(showRows.value) - 1;

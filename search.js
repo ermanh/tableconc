@@ -295,79 +295,34 @@ function recordMatchedRows_CreateHilitedStrings(
     }
 }
 
-function concord() {
-    newData = JSON.parse(JSON.stringify(data));
-
-    let columnNames = columnHeaders.checked ? data[0] : data[0].map(
-        (d, i) => { return `Column ${i + 1}`; });
-    let startingRowIndex = columnHeaders.checked ? 1 : 0;    
-    let columnObject = {};  // {column name: index}
-    for (let i = 0; i < columnNames.length; i++) {
-        columnObject[columnNames[i]] = i;
-    }
-    let matchedRows1 = Array();  // the rows where there is a match
-    let searchColumnIndex1 = columnObject[columnSelection1.value];
-    let matchedRows2 = Array();
-    let searchColumnIndex2 = columnObject[columnSelection2.value];
-    let matchedRows3 = Array();
-    let searchColumnIndex3 = columnObject[columnSelection3.value];
-
-    // PROCESS SEARCH INPUT 1
-    if (filterControl1.checked) {
-        // Using Filter Selection 1
-        if (typeof(filterSelection1.value == "string")) {
-            for (let i = startingRowIndex; i < data.length; i++) {
-                let str = data[i][searchColumnIndex1];
-                if (str == filterSelection1.value) { matchedRows1.push(i); }
+function processSearchInput(
+    i, startingRowIndex, searchColumnIndex, data, newData
+) 
+{
+    let matchedRows = Array();
+    let filterControl = document.getElementById(`filter-control-${i}`);
+    let filterSelection = document.getElementById(`filter-selection-${i}`);
+    let searchInput = document.getElementById(`search-input-${i}`);
+    if (filterControl.checked) {  // Use an existing value to filter
+        if (typeof(filterSelection.value == "string")) {
+            for (let j = startingRowIndex; j < data.length; j++) {
+                let str = data[j][searchColumnIndex];
+                if (str == filterSelection.value) { matchedRows.push(j); }
             }
         }
-    } else {
-        if (searchInput1.value !== "") {
-            console.log("YAY");  
-            let re1 = constructRegex("1");
-            recordMatchedRows_CreateHilitedStrings("1", startingRowIndex, 
-                searchColumnIndex1, re1, matchedRows1, newData);
+    } else {  // Use the search function
+        if (searchInput.value !== "") {
+            let re = constructRegex(i);
+            recordMatchedRows_CreateHilitedStrings(i, startingRowIndex,
+                searchColumnIndex, re, matchedRows, newData);
         }
     }
-    
-    // PROCESS SEARCH INPUT 2
-    if (filterControl2.checked) {
-        if (typeof(filterSelection2.value) == "string") {
-            for (let i = startingRowIndex; i < data.length; i++) {
-                let str = data[i][searchColumnIndex2];
-                if (str === filterSelection2.value) { matchedRows2.push(i); }
-            }
-        }
-    } else {
-        if (searchInput2.value !== "") {
-            console.log("YAY-YAY");
-            let re2 = constructRegex("2");
-            recordMatchedRows_CreateHilitedStrings("2", startingRowIndex,
-                searchColumnIndex2, re2, matchedRows2, newData);
-        }
-    }
+    return matchedRows;
+}
 
-    // PROCESS SEARCH INPUT 3
-    if (filterControl3.checked) {
-        if (typeof(filterSelection3.value) == "string") {
-            for (let i = startingRowIndex; i < data.length; i++) {
-                let str = data[i][searchColumnIndex3];
-                if (str === filterSelection3.value) { matchedRows3.push(i); }
-            }
-        }
-    } else {
-        if (searchInput3.value !== "") {
-            console.log("YAY-YAY-YAY");
-            let re3 = constructRegex("3");
-            recordMatchedRows_CreateHilitedStrings("3", startingRowIndex,
-                searchColumnIndex3, re3, matchedRows3, newData);
-        }
-    }
-    
-    //// Display results
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CAN REFACTOR
-    // Matched rows logic
+
+function determineMatchedRows(matchedRows1, matchedRows2, matchedRows3, 
+                              matchedRows) {
     let inputValid1 = (
         (!filterControl1.checked && searchInput1.value !== "") ||
         (filterControl1.checked && typeof(filterSelection1.value) == "string")
@@ -389,65 +344,35 @@ function concord() {
         matchedRows = (inputValid1 || inputValid2) ?
             matchedRows.filter((x) => matchedRows3.includes(x)) : matchedRows3;
     }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CAN REFACTOR
-    // Pad strings to be displayed
-    if (matchedRows.length > 0) {
-        if (!filterControl1.checked && concordanceDisplay1.checked && 
-            searchInput1.value !== "") 
-        {
-            let concordStrings1 = matchedRows.map((index) => {
-                return newData[index][searchColumnIndex1];
-            });
-            concordStrings1 = padConcordance(
-                concordStrings1, 'one', concordanceCutoff1.value);
-            matchedRows.forEach((index) => {
-                newData[index][searchColumnIndex1] = concordStrings1.shift();
-            });
-        }
-        if (!filterControl2.checked && concordanceDisplay2.checked && 
-            searchInput2.value !== "") 
-        {
-            let concordStrings2 = matchedRows.map((index) => {
-                return newData[index][searchColumnIndex2];
-            });
-            concordStrings2 = padConcordance(
-                concordStrings2, 'two', concordanceCutoff2.value);
-            matchedRows.forEach((index) => {
-                newData[index][searchColumnIndex2] = concordStrings2.shift();
-            });
-        }
-        if (!filterControl3.checked && concordanceDisplay3.checked && 
-            searchInput3.value !== "") 
-        {
-            let concordStrings3 = matchedRows.map((index) => {
-                return newData[index][searchColumnIndex3];
-            });
-            concordStrings3 = padConcordance(
-                concordStrings3, 'three', concordanceCutoff3.value);
-            matchedRows.forEach((index) => {
-                newData[index][searchColumnIndex3] = concordStrings3.shift();
-            });
-        }
-    }
-    
-    // Show results
-    if (matchedRows.length > 0) {
-        showTotalResults(matchedRows.length);
-        const [selectedColumns, columnsToDisplay] = prepareColumns(columnNames);
-        insertColumnHeaders(columnsToDisplay);
-        matchedData = setMatchedData(matchedRows, selectedColumns);
-        const [showStart, showEnd] = determineRowsToShow(matchedData.length);
-        insertResults(matchedData.slice(showStart, showEnd));
-    } else {
-        showNoResults();
-    }
-
-    console.log("FINAL columnSelection1.value", columnSelection1.value);
-    console.log("FINAL columnSelection2.value", columnSelection2.value);
-    console.log("FINAL columnSelection3.value", columnSelection3.value);
+    return matchedRows;
 }
 
+function padEachSearch(i, searchColumnIndex, matchedRows, newData) {
+    let filterControl = document.getElementById(`filter-control-${i}`);
+    let concordDisplay = document.getElementById(`concordance-display-${i}`);
+    let searchInput = document.getElementById(`search-input-${i}`);
+    let concordCutoff = document.getElementById(`concordance-cutoff-${i}`);
+    if (!filterControl.checked && concordDisplay.checked && 
+        searchInput.value !== "")
+    {
+        let concordStrings = matchedRows.map((j) => {
+            return newData[j][searchColumnIndex]; 
+        });
+        concordStrings = padConcordance(concordStrings, i, concordCutoff);
+        matchedRows.forEach((j) => {
+            newData[j][searchColumnIndex] = concordStrings.shift();
+        });
+    }
+}
+
+function padResults(searchColumnIndex1, searchColumnIndex2, searchColumnIndex3,
+                    matchedRows, newData) {
+    if (matchedRows.length > 0) {
+        padEachSearch("1", searchColumnIndex1, matchedRows, newData);
+        padEachSearch("2", searchColumnIndex2, matchedRows, newData);
+        padEachSearch("3", searchColumnIndex3, matchedRows, newData);
+    }
+}
 
 function showTotalResults(numberOfResults) {
     resultsNumber.textContent = "";
@@ -484,6 +409,47 @@ function showNoResults() {
     resultsNumber.textContent = "";
     setTimeout(() => { resultsNumber.textContent = resultText; }, 
                 resultsNumberTimeout);
+}
+
+function concord() {
+    newData = JSON.parse(JSON.stringify(data));
+    
+    let columnNames = columnHeaders.checked ? 
+        data[0] : data[0].map((d, i) => `Column ${i + 1}`);
+    let startingRowIndex = columnHeaders.checked ? 1 : 0;    
+    let colObj = {};  // {column name: index}
+    for (let i = 0; i < columnNames.length; i++) { colObj[columnNames[i]] = i; }
+
+    let searchColumnIndex1 = colObj[columnSelection1.value];
+    let matchedRows1 = processSearchInput("1", startingRowIndex, 
+                                          searchColumnIndex1, data, newData);
+    let searchColumnIndex2 = colObj[columnSelection2.value];
+    let matchedRows2 = processSearchInput("2", startingRowIndex, 
+                                          searchColumnIndex2, data, newData);
+    let searchColumnIndex3 = colObj[columnSelection3.value];
+    let matchedRows3 = processSearchInput("3", startingRowIndex, 
+                                          searchColumnIndex3, data, newData);
+
+    matchedRows = determineMatchedRows(matchedRows1, matchedRows2, matchedRows3,
+                                       matchedRows);
+    padResults(searchColumnIndex1, searchColumnIndex2, searchColumnIndex3,
+               matchedRows, newData);
+    
+    // Show results
+    if (matchedRows.length > 0) {
+        showTotalResults(matchedRows.length);
+        const [selectedColumns, columnsToDisplay] = prepareColumns(columnNames);
+        insertColumnHeaders(columnsToDisplay);
+        matchedData = setMatchedData(matchedRows, selectedColumns);
+        const [showStart, showEnd] = determineRowsToShow(matchedData.length);
+        insertResults(matchedData.slice(showStart, showEnd));
+    } else {
+        showNoResults();
+    }
+
+    console.log("FINAL columnSelection1.value", columnSelection1.value);
+    console.log("FINAL columnSelection2.value", columnSelection2.value);
+    console.log("FINAL columnSelection3.value", columnSelection3.value);
 }
 
 searchBox.addEventListener('submit', concord);
