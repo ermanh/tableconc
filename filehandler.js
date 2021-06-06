@@ -67,11 +67,10 @@ function addColumnsToDisplayListeners(columnNames) {
     Array.from(columnsToShowNodes).forEach((node) => {
         node.addEventListener("change", () => {
             let [selectedColumns, 
-                    columnsToDisplay] = prepareColumns(columnNames);
+                 columnsToDisplay] = prepareColumns(columnNames);
             insertColumnHeaders(columnsToDisplay);
             matchedData = setMatchedData(matchedRows, selectedColumns);
-            let [showStart, 
-                    showEnd] = determineRowsToShow(matchedData.length);
+            let [showStart, showEnd] = determineRowsToShow(matchedData.length);
             insertResults(matchedData.slice(showStart, showEnd));
         });
     });
@@ -81,7 +80,6 @@ function readFile() {
     let reader = new FileReader();
     let columnHeaders = document.getElementById("column-headers").checked;
     filetype = fileInput.files[0].type;
-
     reader.onload = () => {    
         if (filetype == "text/csv") {
             data = d3.csvParseRows(reader.result);
