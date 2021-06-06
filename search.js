@@ -11,6 +11,7 @@
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
 // Enhancements
+//      - Filehandler need to handle file processing errors
 //      - Add line no. column (the order as in the original file)
 //      - Dark mode highlight colors
 //          - first higlight
@@ -411,7 +412,7 @@ function showNoResults() {
                 resultsNumberTimeout);
 }
 
-function concord() {
+function concordSearch() {
     newData = JSON.parse(JSON.stringify(data));
     
     let columnNames = columnHeaders.checked ? 
@@ -446,10 +447,6 @@ function concord() {
     } else {
         showNoResults();
     }
-
-    console.log("FINAL columnSelection1.value", columnSelection1.value);
-    console.log("FINAL columnSelection2.value", columnSelection2.value);
-    console.log("FINAL columnSelection3.value", columnSelection3.value);
 }
 
-searchBox.addEventListener('submit', concord);
+searchBox.addEventListener('submit', concordSearch);

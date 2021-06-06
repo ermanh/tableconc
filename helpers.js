@@ -22,6 +22,9 @@ function renameColumnNames(columnNames) {
             newColumnNames.push(`${newName} (${dictionary[newName]})`);
         }
     });
+    while (columnNamesHaveDuplicates(newColumnNames)) {  // Rename duplicates
+        newColumnNames = renameColumnNames(newColumnNames); 
+    }
     return newColumnNames;
 }
 

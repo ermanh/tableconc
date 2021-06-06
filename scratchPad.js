@@ -1,28 +1,39 @@
 
-
-function padEachSearch(i, searchColumnIndex, matchedRows, newData) {
-    let filterControl = document.getElementById(`filter-control-${i}`);
-    let concordDisplay = document.getElementById(`concordance-display-${i}`);
-    let searchInput = document.getElementById(`search-input-${i}`);
-    let concordCutoff = document.getElementById(`concordance-cutoff-${i}`);
-    if (!filterControl.checked && concordDisplay.checked && 
-        searchInput.value !== "")
-    {
-        let concordStrings = matchedRows.map((j) => {
-            return newData[j][searchColumnIndex]; 
-        });
-        concordStrings = padConcordance(concordStrings, i, concordCutoff);
-        matchedRows.forEach((j) => {
-            newData[j][searchColumnIndex] = concordStrings.shift();
-        });
-    }
+function populateColumnDropdowns(columnNames) {
+    ["1", "2", "3"].forEach((i) => {
+        d3.select(`#column-selection-${i}`).html("").selectAll("option")
+            .data(["(none)"].concat(columnNames)).enter()
+            .append("option")
+            .attr("value", (d) => d)
+            .text((d) => d);
+    });
 }
 
-function padResults(searchColumnIndex1, searchColumnIndex2, searchColumnIndex3,
-                    matchedRows, newData) {
-    if (matchedRows.length > 0) {
-        padEachSearch("1", searchColumnIndex1, matchedRows, newData);
-        padEachSearch("2", searchColumnIndex2, matchedRows, newData);
-        padEachSearch("3", searchColumnIndex3, matchedRows, newData);
-    }
+function populateColumnsToDisplay(columnNames) {
+    d3.select("#columns-to-show").html("");  // clear checkboxes
+    let columnsToShow = d3.select("#columns-to-show").selectAll("input")
+        .data(columnNames).enter().append("span");
+    columnsToShow.append("input")
+        .attr("id", (d) => `to-show-${d}`)
+        .attr("class", () => "column-to-show")
+        .attr("type", "checkbox")
+        .property("checked", true);
+    columnsToShow.insert("label")
+        .attr("for", (d) => `to-show-${d}`)
+        .html((d) => ` ${d}&nbsp;&nbsp;&nbsp;`);
+}
+
+function addColumnsToDisplayListeners(columnNames) {
+    let columnsToShowNodes = document.getElementsByClassName("column-to-show");
+    Array.from(columnsToShowNodes).forEach((node) => {
+        node.addEventListener("change", () => {
+            let [selectedColumns, 
+                    columnsToDisplay] = prepareColumns(columnNames);
+            insertColumnHeaders(columnsToDisplay);
+            matchedData = setMatchedData(matchedRows, selectedColumns);
+            let [showStart, 
+                    showEnd] = determineRowsToShow(matchedData.length);
+            insertResults(matchedData.slice(showStart, showEnd));
+        });
+    });
 }

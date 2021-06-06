@@ -8,24 +8,12 @@ let matchedRows;
 function processJSON(json) {
     let tempData;
     let errorMessage = `<text style='color:crimson'>
-        JSON file must be an array of objects.<br>For example:<br><br>
-        &nbsp;&nbsp;[<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Column 1": "one",<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Column 2": "two"<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Column 1": "alpha",<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Column 2": "beta"<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-        &nbsp;&nbsp;]<br>
-        </text>`;
+        The JSON file must be an array of objects.</text>`;
     if (!Array.isArray(json)) {
         resultsNumber.innerHTML = errorMessage;
         return false;
     }
-    let jsonSet = json.reduce((set, item) => { return set.add(typeof(item)); }, 
-                              new Set());
+    let jsonSet = json.reduce((set, item) => set.add(typeof(item)), new Set());
     if(!(jsonSet.size == 1 && jsonSet.has("object"))) {
         resultsNumber.innerHTML = errorMessage;
         return false;
@@ -39,11 +27,8 @@ function processJSON(json) {
     tempData = json.map((row) => {
         return fields.map((fieldName) => { 
             if (row[fieldName]) {
-                if (typeof(row[fieldName]) == "string") {
-                    return row[fieldName];
-                } else {
-                    return JSON.stringify(row[fieldName]);
-                }
+                return (typeof(row[fieldName]) == "string") ?
+                    row[fieldName] : JSON.stringify(row[fieldName]);
             } else {
                 return ""; 
             }
@@ -51,6 +36,45 @@ function processJSON(json) {
     });
     tempData.unshift(fields);
     return tempData;
+}
+
+function populateColumnDropdowns(columnNames) {
+    ["1", "2", "3"].forEach((i) => {
+        d3.select(`#column-selection-${i}`).html("").selectAll("option")
+            .data(["(none)"].concat(columnNames)).enter()
+            .append("option")
+            .attr("value", (d) => d)
+            .text((d) => d);
+    });
+}
+
+function populateColumnsToDisplay(columnNames) {
+    d3.select("#columns-to-show").html("");  // clear checkboxes
+    let columnsToShow = d3.select("#columns-to-show").selectAll("input")
+        .data(columnNames).enter().append("span");
+    columnsToShow.append("input")
+        .attr("id", (d) => `to-show-${d}`)
+        .attr("class", () => "column-to-show")
+        .attr("type", "checkbox")
+        .property("checked", true);
+    columnsToShow.insert("label")
+        .attr("for", (d) => `to-show-${d}`)
+        .html((d) => ` ${d}&nbsp;&nbsp;&nbsp;`);
+}
+
+function addColumnsToDisplayListeners(columnNames) {
+    let columnsToShowNodes = document.getElementsByClassName("column-to-show");
+    Array.from(columnsToShowNodes).forEach((node) => {
+        node.addEventListener("change", () => {
+            let [selectedColumns, 
+                    columnsToDisplay] = prepareColumns(columnNames);
+            insertColumnHeaders(columnsToDisplay);
+            matchedData = setMatchedData(matchedRows, selectedColumns);
+            let [showStart, 
+                    showEnd] = determineRowsToShow(matchedData.length);
+            insertResults(matchedData.slice(showStart, showEnd));
+        });
+    });
 }
 
 function readFile() {
@@ -66,68 +90,25 @@ function readFile() {
         } else if (filetype == "application/json") {
             data = processJSON(JSON.parse(reader.result));
         } else if (filetype == "text/plain") {
-            data = reader.result.split('\n');
-            data = data.map((line) => [line]);
+            data = reader.result.split('\n').map((line) => [line]);
         }
         if (!data) { return false; }
 
         let columnNames = columnHeaders ? 
             data[0] : data[0].map((d, i) =>`Column ${i + 1}`);
-        
         columnNames = renameColumnNames(columnNames);
-        while (columnNamesHaveDuplicates(columnNames)) {  // Rename duplicates 
-            columnNames = renameColumnNames(columnNames); 
-        }
+        if (columnHeaders) { data[0] = columnNames; }
 
         // Replace null or undefined values with empty strings
         data.forEach((row, i) => {
             row.forEach((item, j) => { if (!item) { data[i][j] = ""; } });
         });
 
-        // populate drop-down menu
-        d3.select("#column-selection-1").html("").selectAll("option")
-            .data(["(none)"].concat(columnNames)).enter()
-                .append("option")
-                .attr("value", (d) => d)
-                .text((d) => d);
-        d3.select("#column-selection-2").html("").selectAll("option")
-            .data(["(none)"].concat(columnNames)).enter()
-                .append("option")
-                .attr("value", (d) => d)
-                .text((d) => d);
-        d3.select("#column-selection-3").html("").selectAll("option")
-            .data(["(none)"].concat(columnNames)).enter()
-                .append("option")
-                .attr("value", (d) => d)
-                .text((d) => d);
-
-        // columns to display
-        d3.select("#columns-to-show").html("");  // clear checkboxes
-        let columnsToShow = d3.select("#columns-to-show").selectAll("input")
-            .data(columnNames).enter().append("span");
-        columnsToShow.append("input")
-            .attr("id", (d) => `to-show-${d}`)
-            .attr("class", () => "column-to-show")
-            .attr("type", "checkbox")
-            .property("checked", true);
-        columnsToShow.insert("label")
-            .attr("for", (d) => `to-show-${d}`)
-            .html((d) => ` ${d}&nbsp;&nbsp;&nbsp;`);
-        
-        // add column listeners
-        columnsToShowNodes = document.getElementsByClassName("column-to-show");
-        Array.from(columnsToShowNodes).forEach((node) => {
-            node.addEventListener("change", () => {
-                let [selectedColumns, 
-                     columnsToDisplay] = prepareColumns(columnNames);
-                insertColumnHeaders(columnsToDisplay);
-                matchedData = setMatchedData(matchedRows, selectedColumns);
-                let [showStart, 
-                     showEnd] = determineRowsToShow(matchedData.length);
-                insertResults(matchedData.slice(showStart, showEnd));
-            });
-        });
+        populateColumnDropdowns(columnNames);
+        populateColumnsToDisplay(columnNames);
+        addColumnsToDisplayListeners(columnNames);        
     };
+
     reader.readAsText(fileInput.files[0]);
 }
 
