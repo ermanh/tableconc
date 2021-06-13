@@ -20,6 +20,8 @@
 //      - Selecting findall 
 //          - doesn't disable match-entire/beginning/end, but
 //            when you click match-entire/beginnign/end, findall is deselected (?)
+// Bugs
+//      - column selection disabled/enabled not consistently applied
 // Testing
 //      - Use significantly larger csv, tsv, json, and plain text files
 //      - Include data containing html and chars that need escaping

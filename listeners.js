@@ -204,10 +204,7 @@ findall1.addEventListener('change', () => {
 
 // ~~~ Column Selection 1 ~~~
 columnSelection1.addEventListener('change', () => {
-    let columnSelectionValue1 = columnSelection1.value;
-    let columnSelectionValue2 = columnSelection2.value;
-    let columnSelectionValue3 = columnSelection3.value;
-    if (columnSelectionValue1 == "(none)") {
+    if (columnSelection1.value == "(none)") {
         // Enable all selections in the other column selection
         columnSelection2.childNodes.forEach((node) => node.disabled = false);
         columnSelection3.childNodes.forEach((node) => node.disabled = false);
@@ -227,7 +224,11 @@ columnSelection1.addEventListener('change', () => {
         bgColorPickerDiv1.style.opacity = "0.3";
         colorPicker1.disabled = true;
         bgColorPicker1.disabled = true;
-        if (columnSelection2.value == "(none)") { searchButton.disabled = true; }
+        if (columnSelection2.value == "(none)" && 
+            columnSelection3.value == "(none)") 
+        { 
+            searchButton.disabled = true; 
+        }
     } else {
         // Populate filter values if "Filter by value" checked
         if (filterControl1.checked) { 
@@ -241,29 +242,27 @@ columnSelection1.addEventListener('change', () => {
         matchWhere1.disabled = false;
         findall1.disabled = false;
         concordanceDisplay1.disabled = false;
-        if (concordanceDisplay1.checked) { concordanceCutoff1.disabled = false; }
+        if (concordanceDisplay1.checked) { 
+            concordanceCutoff1.disabled = false; 
+        }
         colorPickerDiv1.style.opacity = "1";
         bgColorPickerDiv1.style.opacity = "1";
         colorPicker1.disabled = false;
         bgColorPicker1.disabled = false;
         searchButton.disabled = false;
-        columnSelection2.childNodes.forEach((node) => {
-            if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
-                // Enable all options in the other search
-                node.disabled = false;
-            } else {
-                // Disable the selected option in the other search
-                node.disabled = true;
-            }
-        });
-        columnSelection3.childNodes.forEach((node) => {
-            if (![columnSelectionValue1, columnSelectionValue2].includes(node.value)) {
-                node.disabled = false;
-            } else {
-                node.disabled = true;
-            }
-        });
     }
+    columnSelection2.childNodes.forEach((node) => {
+        if (node.value !== "(none)") {
+            node.disabled = [columnSelection1.value, 
+                             columnSelection3.value].includes(node.value);
+        }
+    });
+    columnSelection3.childNodes.forEach((node) => {
+        if (node.value !== "(none)") {
+            node.disabled = [columnSelection1.value,
+                             columnSelection2.value].includes(node.value);
+        }
+    });
 });
 
 // ~~~ Color Pickers 1 ~~~
@@ -393,10 +392,7 @@ findall2.addEventListener('change', () => {
 
 // ~~~ Column Selection 2 ~~~
 columnSelection2.addEventListener('change', () => {
-    let columnSelectionValue1 = columnSelection1.value;
-    let columnSelectionValue2 = columnSelection2.value;
-    let columnSelectionValue3 = columnSelection3.value;
-    if (columnSelectionValue2 == "(none)") {
+    if (columnSelection2.value == "(none)") {
         // Enable all selections in the other column selection
         columnSelection1.childNodes.forEach((node) => node.disabled = false);
         columnSelection3.childNodes.forEach((node) => node.disabled = false);
@@ -416,7 +412,11 @@ columnSelection2.addEventListener('change', () => {
         bgColorPickerDiv2.style.opacity = "0.3";
         colorPicker2.disabled = true;
         bgColorPicker2.disabled = true;
-        if (columnSelection1.value == "(none)") { searchButton.disabled = true; }
+        if (columnSelection1.value == "(none)" &&
+            columnSelection3.value == "(none)") 
+        { 
+            searchButton.disabled = true; 
+        }
     } else {
         // Populate filter values if "Filter by value" checked
         if (filterControl2.checked) { 
@@ -430,31 +430,27 @@ columnSelection2.addEventListener('change', () => {
         matchWhere2.disabled = false;
         findall2.disabled = false;
         concordanceDisplay2.disabled = false;
-        if (concordanceDisplay2.checked) { concordanceCutoff2.disabled = false; }
+        if (concordanceDisplay2.checked) { 
+            concordanceCutoff2.disabled = false; 
+        }
         colorPickerDiv2.style.opacity = "1";
         bgColorPickerDiv2.style.opacity = "1";
         colorPicker2.disabled = false;
         bgColorPicker2.disabled = false;
         searchButton.disabled = false;
-        columnSelection1.childNodes.forEach((node) => {
-            if (![columnSelectionValue2, columnSelectionValue3].includes(node.value)) {
-                // Enable all options in the other search
-                node.disabled = false;
-            } else {
-                // Disable the selected option in the other search
-                node.disabled = true;
-            }
-        });
-        columnSelection3.childNodes.forEach((node) => {
-            if (![columnSelectionValue1, columnSelectionValue2].includes(node.value)) {
-                // Enable all options in the other search
-                node.disabled = false;
-            } else {
-                // Disable the selected option in the other search
-                node.disabled = true;
-            }
-        });
     }
+    columnSelection1.childNodes.forEach((node) => {
+        if (node.value !== "(none)") {
+            node.disabled = [columnSelection2.value, 
+                             columnSelection3.value].includes(node.value);
+        }
+    });
+    columnSelection3.childNodes.forEach((node) => {
+        if (node.value !== "(none)") {
+            node.disabled = [columnSelection1.value, 
+                             columnSelection2.value].includes(node.value);
+        }
+    });
 });
 
 // ~~~ Color Pickers 2 ~~~
@@ -586,10 +582,7 @@ findall3.addEventListener('change', () => {
 
 // ~~~ Column Selection 3 ~~~
 columnSelection3.addEventListener('change', () => {
-    let columnSelectionValue1 = columnSelection1.value;
-    let columnSelectionValue2 = columnSelection2.value;
-    let columnSelectionValue3 = columnSelection3.value;
-    if (columnSelectionValue3 == "(none)") {
+    if (columnSelection3.value == "(none)") {
         // Enable all selections in the other column selection
         columnSelection1.childNodes.forEach((node) => node.disabled = false);
         columnSelection2.childNodes.forEach((node) => node.disabled = false);
@@ -609,7 +602,11 @@ columnSelection3.addEventListener('change', () => {
         bgColorPickerDiv3.style.opacity = "0.3";
         colorPicker3.disabled = true;
         bgColorPicker3.disabled = true;
-        if (columnSelection1.value == "(none)") { searchButton.disabled = true; }
+        if (columnSelection1.value == "(none)" && 
+            columnSelection2.value == "(none)") 
+        { 
+            searchButton.disabled = true; 
+        }
     } else {
         // Populate filter values if "Filter by value" checked
         if (filterControl3.checked) { 
@@ -623,31 +620,27 @@ columnSelection3.addEventListener('change', () => {
         matchWhere3.disabled = false;
         findall3.disabled = false;
         concordanceDisplay3.disabled = false;
-        if (concordanceDisplay3.checked) { concordanceCutoff3.disabled = false; }
+        if (concordanceDisplay3.checked) { 
+            concordanceCutoff3.disabled = false; 
+        }
         colorPickerDiv3.style.opacity = "1";
         bgColorPickerDiv3.style.opacity = "1";
         colorPicker3.disabled = false;
         bgColorPicker3.disabled = false;
         searchButton.disabled = false;
-        columnSelection1.childNodes.forEach((node) => {
-            if (![columnSelectionValue2, columnSelectionValue3].includes(node.value)) {
-                // Enable all options in the other search
-                node.disabled = false;
-            } else {
-                // Disable the selected option in the other search
-                node.disabled = true;
-            }
-        });
-        columnSelection2.childNodes.forEach((node) => {
-            if (![columnSelectionValue1, columnSelectionValue3].includes(node.value)) {
-                // Enable all options in the other search
-                node.disabled = false;
-            } else {
-                // Disable the selected option in the other search
-                node.disabled = true;
-            }
-        });
     }
+    columnSelection1.childNodes.forEach((node) => {
+        if (node.value !== "(none)") {
+            node.disabled = [columnSelection2.value,
+                             columnSelection3.value].includes(node.value);
+        }
+    });
+    columnSelection2.childNodes.forEach((node) => {
+        if (node.value !== "(none)") {
+            node.disabled = [columnSelection1.value,
+                             columnSelection3.value].includes(node.value);
+        }
+    });
 });
 
 // ~~~ Color Pickers 3 ~~~

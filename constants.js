@@ -15,17 +15,17 @@ const colors = {
     }, 
     "dark": {
         "fore": "#ffffff",          // white
-        "back": "#363636",          // darker gray
+        "back": "#2b2b2b",          // darker gray
         "thFore": "#b0c4de",        // lightsteelblue
-        "thBack": "#363636",        // darker gray
+        "thBack": "#2b2b2b",        // darker gray
         "thBorder": "#808080",      // gray
-        "tdBack": "#444444",        // dark gray
+        "tdBack": "#363636",        // dark gray
         "picker1": "#ffda0d",       // cadmium yellow
         "picker2": "#00ffff",       // cyan
         "picker3": "#ff00ff",       // magenta
-        "bgPicker1": "#37342e",     // dark yellow
-        "bgPicker2": "#2a373f",     // dark cyan
-        "bgPicker3": "#342a37"      // dark magenta
+        "bgPicker1": "#4d473c",     // dark yellow
+        "bgPicker2": "#374a57",     // dark cyan
+        "bgPicker3": "#4c3a52"      // dark magenta
     }
 };
 
