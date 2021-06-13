@@ -10,12 +10,12 @@ function processJSON(json) {
     let errorMessage = `<text style='color:crimson'>
         The JSON file must be an array of objects.</text>`;
     if (!Array.isArray(json)) {
-        resultsNumber.innerHTML = errorMessage;
+        resultsNone.innerHTML = errorMessage;
         return false;
     }
     let jsonSet = json.reduce((set, item) => set.add(typeof(item)), new Set());
     if(!(jsonSet.size == 1 && jsonSet.has("object"))) {
-        resultsNumber.innerHTML = errorMessage;
+        resultsNone.innerHTML = errorMessage;
         return false;
     }
     let fields = Array();
@@ -122,8 +122,11 @@ fileInput.addEventListener('change', () => {
     filterSelection1.innerHTML = "";
     filterSelection2.innerHTML = "";
     filterSelection3.innerHTML = "";
-    resultsNumber.innerHTML = "";
+    resultsNone.innerHTML = "";
     resultsTable.innerHTML = "";
+    showingStart.value = "1";
+    showingEnd.textContent = "_";
+    resultsTotal.textContent = "_";
 
     readFile();    
 });

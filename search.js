@@ -25,7 +25,7 @@
 //      - Include data containing html and chars that need escaping
 //      - Test on some malformed/invalid csv, tsv, json files
 
-const resultsNumberTimeout = 100;
+const resultsTimesout = 100;
 
 function prepareColumns(columnNames) {
     const selectedColumns = Array();  // Array of trues and falses
@@ -189,6 +189,7 @@ function addTextAlignerListeners() {
 }
 
 function insertResults(rows) {
+    resultsNone.innerHTML = "";
     resultsTableD3.selectAll("tr.sortable-row").remove();
     rows.forEach((row) => {
         resultsTableD3.append("tr")
@@ -376,14 +377,13 @@ function padResults(searchColumnIndex1, searchColumnIndex2, searchColumnIndex3,
 }
 
 function showTotalResults(numberOfResults) {
-    resultsNumber.textContent = "";
-    setTimeout(() => { resultsNumber.textContent = `${numberOfResults}`; }, 
-               resultsNumberTimeout);
+    setTimeout(() => { resultsTotal.textContent = `${numberOfResults}`; }, 
+               resultsTimesout);
 }
 
 function showNoResults() {
     resultsTable.innerHTML = "";
-    let resultText = "None for ";
+    let resultText = "No results for ";
     if (searchInput1.value !== "" || filterSelection1.value) {
         let value1 = (searchInput1.value !== "") ? 
             searchInput1.value : filterSelection1.value;
@@ -407,9 +407,13 @@ function showNoResults() {
             searchInput3.value : filterSelection3.value;
         resultText = resultText + `"${value3}"`;
     }
-    resultsNumber.textContent = "";
-    setTimeout(() => { resultsNumber.textContent = resultText; }, 
-                resultsNumberTimeout);
+    showingStart.value = "1";
+    showingEnd.textContent = "_";
+    resultsTotal.textContent = "_";
+    resultsNone.textContent = "";
+    previousPage.disabled = true;
+    nextPage.disabled = true;
+    setTimeout(() => { resultsNone.innerHTML = resultText; }, resultsTimeout);
 }
 
 function concordSearch() {

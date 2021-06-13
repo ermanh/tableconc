@@ -679,16 +679,13 @@ showingStart.addEventListener("keypress", (e) => {
     if (!/^\d$/.test(e.key)) { e.preventDefault(); } 
 });
 showingStart.addEventListener("focusout", () => {
-    value = Number(showingStart.value);
-    if (value <= 0) {
-        showingStart.value = 1;
-    } else {
-        if (resultsNumber.textContent !== "" && 
-            value > Number(resultsNumber.textContent)) 
-        {
-            showingStart.value = resultsNumber.textContent;
-        }
+    if (showingStart.value <= 0) { showingStart.value = 1; }
+    if (resultsTotal.textContent !== "_" && 
+        Number(showingStart.value) > Number(resultsTotal.textContent)) 
+    {
+        showingStart.value = resultsTotal.textContent;
     }
+    updatePageView();
 });
 showingStart.addEventListener('input', () => {
     previousPage.disabled = (Number(showingStart.value) <= 1) ? true : false;
@@ -717,7 +714,8 @@ showRows.addEventListener('input', () => {
 const showingEndConfig = { 
     characterData: false, attributes: false, childList: true, subtree: false };
 const showingEndCallback = (mutations, observer) => {
-    nextPage.disabled = Number(showingEnd.textContent) >= matchedData.length;
+    nextPage.disabled = (showingEnd.textContent == "_" || 
+                         Number(showingEnd.textContent) >= matchedData.length);
 };
 const showingEndObserver = new MutationObserver(showingEndCallback);
 showingEndObserver.observe(showingEnd, showingEndConfig);
