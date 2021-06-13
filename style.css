@@ -396,10 +396,23 @@ pre {
 th.result-index, .result-index {
     background-color: lightslategray;
     color: lightsteelblue;
-    font-size: 1em;
+    font-size: 0.85em;
     text-align: right;
     padding: 0 8px 0 12px;
     border: 0.5px solid lightsteelblue;
+    border-collapse: collapse;
+    width: 10px;
+}
+
+th.result-original-index {
+    font-size: 1em;
+}
+
+.result-original-index {
+    font-size: 0.85em;
+    text-align: right;
+    padding: 0 8px;
+    border: 0.5px solid white;
     border-collapse: collapse;
     width: 10px;
 }
@@ -482,6 +495,10 @@ div.sort {
     height: 100%;
     display: inline-block;
     margin-left: 5px;
+}
+
+div.sort.line-number {
+    padding: 0 5px;
 }
 
 td {

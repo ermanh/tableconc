@@ -12,10 +12,7 @@
 //      - Cross-browser aesthetics (mostly/basically done)
 // Enhancements
 //      - Filehandler need to handle file processing errors
-//      - Add line no. column (the order as in the original file)
 //      - Do not reset text-align when changing display columns (?)
-// Bugs
-//      - column selection disabled/enabled not consistently applied
 // Testing
 //      - Use significantly larger csv, tsv, json, and plain text files
 //      - Include data containing html and chars that need escaping
@@ -31,8 +28,11 @@ function prepareColumns(columnNames) {
     const columnsToDisplay = columnNames.filter((d, i) => {
         if (selectedColumns[i]) { return d; }
     });
+    // Add original line number
     selectedColumns.unshift(true);
+    columnsToDisplay.unshift("");
     // Add result index column with text-align control
+    selectedColumns.unshift(true);
     columnsToDisplay.unshift(`
         <svg id="text-align-control" class="align-left" height="13", width="15">
             <path d="M0,3 L8,3 M0,6 L13,6 M0,9 L8,9 M0,12 L13,12"/>
@@ -49,13 +49,22 @@ function insertColumnHeaders(columnsToDisplay) {
         .data(columnsToDisplay).enter()
         .append("th")
         .attr("class", (d, i) => {
-            return (i == 0) ? "result-index" : "sortable";
+            if (i > 1) {
+                return "sortable";
+            } else if (i == 1) {
+                return "sortable result-original-index";
+            } else if (i == 0) {
+                return "result-index";
+            }
         })
         .html((d, i) => { 
             // Add resize and sorter controller divs in header row
             if (i == 0) {
                 return d;
             } else if (i == 1) {
+                return `
+                    <div class="sort line-number" id="i${i}">&#x25BC;</div>`; 
+            } else if (i == 2) {
                 if (i == columnsToDisplay.length - 1) {
                     return `<pre>${d}</pre>
                             <div class="sort" id="i${i}">&equiv;</div>`; 
@@ -83,6 +92,7 @@ function setMatchedData(matchedRows, selectedColumns) {
     let matchedData = Array();
     matchedRows.forEach((rowIndex, resultIndex) => {
             let row = JSON.parse(JSON.stringify(newData[rowIndex]));
+            row.unshift(String(rowIndex));
             row.unshift(String(resultIndex + 1));
             row = row.filter((d, j) => selectedColumns[j]);
             matchedData.push(row);
@@ -110,9 +120,13 @@ function sortRows(columnToSort, order) {
         let aString = a[columnToSort].__data__;
         let bString = b[columnToSort].__data__;
         if (order == "ascending") {
-            return aString.localeCompare(bString);
+            return (columnToSort == "1") ? 
+                Number(aString) > Number(bString) : 
+                aString.localeCompare(bString);
         } else if (order == "descending") {
-            return bString.localeCompare(aString);
+            return (columnToSort == "1") ?
+                Number(aString) < Number(bString) : 
+                bString.localeCompare(aString);
         }
     });
     newRows = newRows.map((row, i) => {
@@ -192,7 +206,15 @@ function insertResults(rows) {
             .attr("class", "sortable-row")
             .selectAll("td").data(row).enter()
                 .append("td")
-                .attr("class", (d, i) => (i !== 0) ? "results-td" : "result-index")
+                .attr("class", (d, i) => {
+                    if (i > 1) {
+                        return "results-td";
+                    } else if (i == 1) {
+                        return "result-original-index";
+                    } else if (i == 0) {
+                        return "result-index";
+                    }
+                })
                 .html((d) => `<pre>${d}</pre>`);
     }); 
     addResizerListeners();
