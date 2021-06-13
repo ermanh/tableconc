@@ -155,12 +155,14 @@ matchWhere1.addEventListener('change', () => {
         concordanceCutoff1.disabled = true;
         regexSelection1.disabled = true;
         findall1.disabled = true;
+        findall1.checked = false;
     } else if (["match-beginning-1", "match-end-1"].includes(value)) {
         fullWords1.disabled = false;
         concordanceDisplay1.disabled = false;
         concordanceCutoff1.disabled = false;
         regexSelection1.disabled = true;
         findall1.disabled = true;
+        findall1.checked = false;
     } else if (value == "match-anywhere-1") {
         fullWords1.disabled = false;
         concordanceDisplay1.disabled = false;
@@ -186,16 +188,10 @@ findall1.addEventListener('change', () => {
         concordanceDisplay1.disabled = true;
         concordanceCutoff1.disabled = true;
         matchWhere1.value = 'match-anywhere-1';
-        matchEntire1.disabled = true;
-        matchBeginning1.disabled = true;
-        matchEnd1.disabled = true;
     } else {
         concordanceDisplay1.checked = true;
         concordanceDisplay1.disabled = false;
         concordanceCutoff1.disabled = false;
-        matchEntire1.disabled = false;
-        matchBeginning1.disabled = false;
-        matchEnd1.disabled = false;
         if (regexSelection1.checked == false) {
             matchWhere1.disabled = false;
         }
@@ -205,11 +201,7 @@ findall1.addEventListener('change', () => {
 // ~~~ Column Selection 1 ~~~
 columnSelection1.addEventListener('change', () => {
     if (columnSelection1.value == "(none)") {
-        // Enable all selections in the other column selection
-        columnSelection2.childNodes.forEach((node) => node.disabled = false);
-        columnSelection3.childNodes.forEach((node) => node.disabled = false);
-        // Clear filter values
-        filterSelection1.innerHTML = "";
+        filterSelection1.innerHTML = "";  // Clear filter values
         // Disable all selections
         searchInput1.value = "";
         searchInput1.disabled = true;
@@ -343,12 +335,14 @@ matchWhere2.addEventListener('change', () => {
         concordanceCutoff2.disabled = true;
         regexSelection2.disabled = true;
         findall2.disabled = true;
+        findall2.checked = false;
     } else if (["match-beginning-2", "match-end-2"].includes(value)) {
         fullWords2.disabled = false;
         concordanceDisplay2.disabled = false;
         concordanceCutoff2.disabled = false;
         regexSelection2.disabled = true;
         findall2.disabled = true;
+        findall2.checked = false;
     } else if (value == "match-anywhere-2") {
         fullWords2.disabled = false;
         concordanceDisplay2.disabled = false;
@@ -374,16 +368,10 @@ findall2.addEventListener('change', () => {
         concordanceDisplay2.disabled = true;
         concordanceCutoff2.disabled = true;
         matchWhere2.value = "match-anywhere-2";
-        matchEntire2.disabled = true;
-        matchBeginning2.disabled = true;
-        matchEnd2.disabled = true;
     } else {
         concordanceDisplay2.checked = true;
         concordanceDisplay2.disabled = false;
         concordanceCutoff2.disabled = false;
-        matchEntire2.disabled = false;
-        matchBeginning2.disabled = false;
-        matchEnd2.disabled = false;
         if (regexSelection2.checked == false) {
             matchWhere2.disabled = false;
         }
@@ -393,11 +381,7 @@ findall2.addEventListener('change', () => {
 // ~~~ Column Selection 2 ~~~
 columnSelection2.addEventListener('change', () => {
     if (columnSelection2.value == "(none)") {
-        // Enable all selections in the other column selection
-        columnSelection1.childNodes.forEach((node) => node.disabled = false);
-        columnSelection3.childNodes.forEach((node) => node.disabled = false);
-        // Clear filter values
-        filterSelection2.innerHTML = "";
+        filterSelection2.innerHTML = "";  // Clear filter values
         // Disable all selections
         searchInput2.value = "";
         searchInput2.disabled = true;
@@ -533,12 +517,14 @@ matchWhere3.addEventListener('change', () => {
         concordanceCutoff3.disabled = true;
         regexSelection3.disabled = true;
         findall3.disabled = true;
+        findall3.checked = false;
     } else if (["match-beginning-3", "match-end-3"].includes(value)) {
         fullWords3.disabled = false;
         concordanceDisplay3.disabled = false;
         concordanceCutoff3.disabled = false;
         regexSelection3.disabled = true;
         findall3.disabled = true;
+        findall3.checked = false;
     } else if (value == "match-anywhere-3") {
         fullWords3.disabled = false;
         concordanceDisplay3.disabled = false;
@@ -564,16 +550,10 @@ findall3.addEventListener('change', () => {
         concordanceDisplay3.disabled = true;
         concordanceCutoff3.disabled = true;
         matchWhere3.value = "match-anywhere-3";
-        matchEntire3.disabled = true;
-        matchBeginning3.disabled = true;
-        matchEnd3.disabled = true;
     } else {
         concordanceDisplay3.checked = true;
         concordanceDisplay3.disabled = false;
         concordanceCutoff3.disabled = false;
-        matchEntire3.disabled = false;
-        matchBeginning3.disabled = false;
-        matchEnd3.disabled = false;
         if (regexSelection3.checked == false) {
             matchWhere3.disabled = false;
         }
@@ -583,11 +563,7 @@ findall3.addEventListener('change', () => {
 // ~~~ Column Selection 3 ~~~
 columnSelection3.addEventListener('change', () => {
     if (columnSelection3.value == "(none)") {
-        // Enable all selections in the other column selection
-        columnSelection1.childNodes.forEach((node) => node.disabled = false);
-        columnSelection2.childNodes.forEach((node) => node.disabled = false);
-        // Clear filter values
-        filterSelection3.innerHTML = "";
+        filterSelection3.innerHTML = "";  // Clear filter values
         // Disable all selections
         searchInput3.value = "";
         searchInput3.disabled = true;

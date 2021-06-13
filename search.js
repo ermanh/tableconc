@@ -13,13 +13,7 @@
 // Enhancements
 //      - Filehandler need to handle file processing errors
 //      - Add line no. column (the order as in the original file)
-//      - Dark mode highlight colors
-//          - first higlight
-//          - background grays can be darker
 //      - Do not reset text-align when changing display columns (?)
-//      - Selecting findall 
-//          - doesn't disable match-entire/beginning/end, but
-//            when you click match-entire/beginnign/end, findall is deselected (?)
 // Bugs
 //      - column selection disabled/enabled not consistently applied
 // Testing
