@@ -171,7 +171,7 @@ function formatPadStart(
     } else {
         padStart += " "; 
     }
-    return [padStart, sliceStartIndex];
+    return [padStart, sliceStartIndexNew];
 }
 
 function formatPadEnd(
@@ -222,6 +222,7 @@ function getHiliteRegExps(oneTwoOrThree) {
 
 function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
     // concordCutoffValue: no. of spaces to each side of the searched pattern
+    concordCutoffValue = Number(concordCutoffValue);
     let ellipsisHTML = '<text style="color:gray">&hellip;</text>';
     let ellipsisRegExp = RegExp(escapeRegExp(ellipsisHTML));
     let [beforeRE, hilitedRE] = getHiliteRegExps(oneTwoOrThree);

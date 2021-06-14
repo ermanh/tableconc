@@ -12,7 +12,7 @@
 //      - Use significantly larger csv, tsv, json, and plain text files
 //      - Include data containing html and chars that need escaping
 
-const resultsTimesout = 100;
+const resultsTimeout = 100;
 
 function prepareColumns(columnNames) {
     const selectedColumns = Array();  // Array of trues and falses
@@ -372,7 +372,7 @@ function padEachSearch(i, searchColumnIndex, matchedRows, newData) {
         let concordStrings = matchedRows.map((j) => {
             return newData[j][searchColumnIndex]; 
         });
-        concordStrings = padConcordance(concordStrings, i, concordCutoff);
+        concordStrings = padConcordance(concordStrings, i, concordCutoff.value);
         matchedRows.forEach((j) => {
             newData[j][searchColumnIndex] = concordStrings.shift();
         });
@@ -390,7 +390,7 @@ function padResults(searchColumnIndex1, searchColumnIndex2, searchColumnIndex3,
 
 function showTotalResults(numberOfResults) {
     setTimeout(() => { resultsTotal.textContent = `${numberOfResults}`; }, 
-               resultsTimesout);
+               resultsTimeout);
 }
 
 function showNoResults() {
