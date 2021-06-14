@@ -1,5 +1,4 @@
 //// TODOs
-// Favicon
 // Add a help/guide
 // Refactor and clean code
 //      - Break up long functions
@@ -7,15 +6,11 @@
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
 //      - Remove unused variables and code
-//      - Replace color names with hex values
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
-// Enhancements
-//      - Filehandler need to handle file processing errors
 // Testing
 //      - Use significantly larger csv, tsv, json, and plain text files
 //      - Include data containing html and chars that need escaping
-//      - Test on some malformed/invalid csv, tsv, json files
 
 const resultsTimesout = 100;
 

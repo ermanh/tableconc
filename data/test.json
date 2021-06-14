@@ -1,63 +1,65 @@
-[{
+[
+  {
     "One": "good",
-    "Two": "better", 
+    "Two": "better",
     "Three": "best",
     "Four": "bestest"
-},
-{
+  },
+  {
     "One": "jump",
-    "Two": "leap", 
+    "Two": "leap",
     "Three": "skip",
     "Four": ["bleu", "blanc", "rouge"]
-},
-{
-    "One": "I have a tangelo.", 
-    "Two": "He doesn't have a tangelo.", 
+  },
+  {
+    "One": "I have a tangelo.",
+    "Two": "He doesn't have a tangelo.",
     "Three": "We have pomelos.",
     "Four": "And I have a lychee, mwahahaha."
-},
-{
+  },
+  {
     "One": "Citrus fruits are yummy.",
     "Two": "Oranges excluded",
     "Three": "Lemons are the best."
-},
-{
-    "One": "Dandelion leaves are bitter.", 
-    "Two": "But also nutritious", 
+  },
+  {
+    "One": "Dandelion leaves are bitter.",
+    "Two": "But also nutritious",
     "Three": "--for rabits!"
-},
-{
+  },
+  {
     "One": "The peppercorn colors:",
     "Two": "Black",
     "Three": "Pink"
-},
-{
-    "One": "Give me freedom or give me death", 
-    "Two": "The early bird gets the worm", 
-    "Three": "It's my way or the highway, Chuck." 
-},
-{
+  },
+  {
+    "One": "Give me freedom or give me death",
+    "Two": "The early bird gets the worm",
+    "Three": "It's my way or the highway, Chuck."
+  },
+  {
     "One": "Francis McDorman is the bomb.",
     "Two": "Swankie, too",
     "Three": "Nah, Linda May was the best; she was a delight."
-},
-{
+  },
+  {
     "One": "A rolling stone never gathers moss.",
     "Two": "Takenaka Carpentry Tools Museum",
     "Three": "Klean Kanteen TKWide Insulated Water Bottles"
-},
-{
+  },
+  {
     "One": "The Flying Chopstick",
     "Two": "Two and a Half Men",
     "Three": "A Quarter and a Bushel"
-},
-{
+  },
+  {
     "One": "This cell has tags like <a>this</a>",
     "Two": "Or <text>this</text>",
     "Three": "Or {0}this{1}"
-},
-{
+  },
+  {
     "One": "I   have multiple spaces.",
     "Two": "Me      too",
     "Three": "Weeeee  ee  e!"
-}]
+  }
+]

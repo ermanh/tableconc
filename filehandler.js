@@ -90,7 +90,11 @@ function readFile() {
         } else if (filetype == "text/plain") {
             data = reader.result.split('\n').map((line) => [line]);
         }
-        if (!data) { return false; }
+        if (!data) {
+            resultsNone.innerHTML = `<text style='color:crimson'>
+                Invalid file format.</text>`;
+            return false; 
+        }
 
         let columnNames = columnHeaders ? 
             data[0] : data[0].map((d, i) =>`Column ${i + 1}`);
@@ -101,12 +105,10 @@ function readFile() {
         data.forEach((row, i) => {
             row.forEach((item, j) => { if (!item) { data[i][j] = ""; } });
         });
-
         populateColumnDropdowns(columnNames);
         populateColumnsToDisplay(columnNames);
         addColumnsToDisplayListeners(columnNames);        
     };
-
     reader.readAsText(fileInput.files[0]);
 }
 

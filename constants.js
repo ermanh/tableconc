@@ -1,13 +1,13 @@
 const colors = {
     "light": {
         "fore": "#000000",          // black
-        "back": "#b0c4de",          // lightsteelblue
-        "thFore": "#2a3347",        // --banner-bg-color
-        "thBack": "#b0c4de",        // lightsteelblue
+        "back": "#b0c4de",          // --lightsteelblue
+        "thFore": "#2a3347",        // --dark-blue
+        "thBack": "#b0c4de",        // --lightsteelblue
         "thBorder": "#ffffff",      // white
         "tdBack": "#ffffff",        // white
-        "picker1": "#ff0000",       // red
-        "picker2": "#0c5eec",       // medium blue
+        "picker1": "#ff0000",       // --red
+        "picker2": "#0c5eec",       // --blue
         "picker3": "#008000",       // green
         "bgPicker1": "#fcdad8",     // light red
         "bgPicker2": "#d3e2fa",     // light blue
