@@ -12,7 +12,6 @@
 //      - Cross-browser aesthetics (mostly/basically done)
 // Enhancements
 //      - Filehandler need to handle file processing errors
-//      - Do not reset text-align when changing display columns (?)
 // Testing
 //      - Use significantly larger csv, tsv, json, and plain text files
 //      - Include data containing html and chars that need escaping
@@ -63,7 +62,7 @@ function insertColumnHeaders(columnsToDisplay) {
                 return d;
             } else if (i == 1) {
                 return `
-                    <div class="sort line-number" id="i${i}">&#x25BC;</div>`; 
+                    <div class="sort line-number" id="i${i}">&#x25B2;</div>`; 
             } else if (i == 2) {
                 if (i == columnsToDisplay.length - 1) {
                     return `<pre>${d}</pre>
@@ -158,12 +157,12 @@ function addSorterListeners() {
             () => sorter.style.color = "steelblue");
         sorter.addEventListener('click', (e) => {
             text = sorter.innerHTML;
-            if (text == "\u2261" || text == "\u25B2") { 
+            if (text == "\u2261" || text == "\u25BC") { 
                 sorters.forEach((sorter) => sorter.innerHTML = "&equiv;");
-                sorter.innerHTML = "&#x25BC;"; 
-                sortRows(sorter.id.slice(1), "ascending");
-            } else if (text == "\u25BC") { 
                 sorter.innerHTML = "&#x25B2;"; 
+                sortRows(sorter.id.slice(1), "ascending");
+            } else if (text == "\u25B2") { 
+                sorter.innerHTML = "&#x25BC;"; 
                 sortRows(sorter.id.slice(1), "descending");
             }
         });

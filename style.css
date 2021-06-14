@@ -394,7 +394,7 @@ pre {
 }
 
 th.result-index, .result-index {
-    background-color: lightslategray;
+    background-color: rgb(102, 115, 131);
     color: lightsteelblue;
     font-size: 0.85em;
     text-align: right;
