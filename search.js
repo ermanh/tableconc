@@ -5,7 +5,10 @@
 //      - create a main.js for all the major actions, keep simple and short
 //      - Move variable declarations to separate js file
 //      - Write unit tests for all functions
-//      - Remove unused variables and code
+//      - Remove unused global variables and code
+//      - Remove on-the-fly event listeners
+// Features
+//      - Sort the concordance column by word relative to center
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
 // Testing
@@ -35,51 +38,56 @@ function prepareColumns(columnNames) {
     return [selectedColumns, columnsToDisplay];
 }
 
+function determineThClasses(i) {
+    if (i > 1) {
+        return "sortable";
+    } else if (i == 1) {
+        return "sortable result-original-index";
+    } else if (i == 0) {
+        return "result-index";
+    }
+}
+
+function determineThInnerHTML(d, i, columnsToDisplayLength) {
+    // Add resize and sorter controller divs in header row
+    if (i == 0) {
+        return d;
+    } else if (i == 1) {
+        return `
+            <div class="sort line-number" id="i${i}">&#x25B2;</div>`; 
+    } else if (i == 2) {
+        if (i == columnsToDisplayLength - 1) {
+            return `<pre>${d}</pre>
+                    <div class="sort" id="i${i}">&equiv;</div>`; 
+        } else {
+            return `<pre>${d}</pre>
+                    <div class="sort" id="i${i}">&equiv;</div>
+                    <div class="resize-right"></div>`; 
+        }
+    } else {
+        if (i !== columnsToDisplayLength - 1) {
+            return `<div class="resize-left"></div>
+                    <pre>${d}</pre>
+                    <div class="sort" id="i${i}">&equiv;</div>
+                    <div class="resize-right"></div>`; 
+        } else {
+            return `<div class="resize-left"></div>
+                    <pre>${d}</pre>
+                    <div class="sort" id="i${i}">&equiv;</div>`;
+        }
+    }
+}
+
 function insertColumnHeaders(columnsToDisplay) {
+    // TODO: Add argument for the concordance column
     resultsTable.innerHTML = "";
     resultsTableD3.append("tr")
         .attr("id", "sticky")
         .selectAll("th")
         .data(columnsToDisplay).enter()
         .append("th")
-        .attr("class", (d, i) => {
-            if (i > 1) {
-                return "sortable";
-            } else if (i == 1) {
-                return "sortable result-original-index";
-            } else if (i == 0) {
-                return "result-index";
-            }
-        })
-        .html((d, i) => { 
-            // Add resize and sorter controller divs in header row
-            if (i == 0) {
-                return d;
-            } else if (i == 1) {
-                return `
-                    <div class="sort line-number" id="i${i}">&#x25B2;</div>`; 
-            } else if (i == 2) {
-                if (i == columnsToDisplay.length - 1) {
-                    return `<pre>${d}</pre>
-                            <div class="sort" id="i${i}">&equiv;</div>`; 
-                } else {
-                    return `<pre>${d}</pre>
-                            <div class="sort" id="i${i}">&equiv;</div>
-                            <div class="resize-right"></div>`; 
-                }
-            } else {
-                if (i !== columnsToDisplay.length - 1) {
-                    return `<div class="resize-left"></div>
-                            <pre>${d}</pre>
-                            <div class="sort" id="i${i}">&equiv;</div>
-                            <div class="resize-right"></div>`; 
-                } else {
-                    return `<div class="resize-left"></div>
-                            <pre>${d}</pre>
-                            <div class="sort" id="i${i}">&equiv;</div>`;
-                }
-            }
-        });
+        .attr("class", (d, i) => determineThClasses(i))
+        .html((d, i) => determineThInnerHTML(d, i, columnsToDisplay.length));
 }
 
 function setMatchedData(matchedRows, selectedColumns) {
@@ -372,7 +380,7 @@ function padEachSearch(i, searchColumnIndex, matchedRows, newData) {
         let concordStrings = matchedRows.map((j) => {
             return newData[j][searchColumnIndex]; 
         });
-        concordStrings = padConcordance(concordStrings, i, concordCutoff.value);
+        concordStrings = padConcordance(i, concordStrings, concordCutoff.value);
         matchedRows.forEach((j) => {
             newData[j][searchColumnIndex] = concordStrings.shift();
         });
@@ -454,6 +462,7 @@ function concordSearch() {
     
     // Show results
     if (matchedRows.length > 0) {
+        showingStart.value = 1;
         showTotalResults(matchedRows.length);
         const [selectedColumns, columnsToDisplay] = prepareColumns(columnNames);
         insertColumnHeaders(columnsToDisplay);

@@ -220,12 +220,12 @@ function getHiliteRegExps(oneTwoOrThree) {
     return [beforeRE, hilitedRE];
 }
 
-function padConcordance(concordanceColumn, oneTwoOrThree, concordCutoffValue) {
+function padConcordance(i, concordanceColumn, concordCutoffValue) {
     // concordCutoffValue: no. of spaces to each side of the searched pattern
     concordCutoffValue = Number(concordCutoffValue);
     let ellipsisHTML = '<text style="color:gray">&hellip;</text>';
     let ellipsisRegExp = RegExp(escapeRegExp(ellipsisHTML));
-    let [beforeRE, hilitedRE] = getHiliteRegExps(oneTwoOrThree);
+    let [beforeRE, hilitedRE] = getHiliteRegExps(i);
     let afterRE = RegExp(/.*?<\/text>(.*)$/);
     let beforeLengths = concordanceColumn.map((el) => {
         return unescapeHTML(beforeRE.exec(el).pop()).length;
