@@ -42,6 +42,7 @@ function determineThClasses(i) {
 }
 
 function determineThInnerHTML(d, i, totalColumns) {
+    // TODO: Add argument for the concordance column
     let isFinalColumn = (i == totalColumns - 1);
     let taggedData = `<pre>${d}</pre>`;
     let sorter = `<div class="sort" id="i${i}">&equiv;</div>`;
@@ -66,7 +67,6 @@ function determineThInnerHTML(d, i, totalColumns) {
 }
 
 function insertColumnHeaders(columnsToDisplay) {
-    // TODO: Add argument for the concordance column
     resultsTable.innerHTML = "";
     resultsTableD3.append("tr")
         .attr("id", "sticky")
@@ -421,6 +421,21 @@ function showNoResults() {
     previousPage.disabled = true;
     nextPage.disabled = true;
     setTimeout(() => { resultsNone.innerHTML = resultText; }, resultsTimeout);
+}
+
+function returnConcordanceColumns(
+    searchColumnIndex1, searchColumnIndex2, searchColumnIndex3
+) {
+    let concordanceColumns = Array();
+    if (searchInput1.value !== "" && concordanceDisplay1.checked) {
+        concordanceColumns.push(searchColumnIndex1 + 2);
+    }
+    if (searchInput2.value !== "" && concordanceDisplay2.checked) {
+        concordanceColumns.push(searchColumnIndex2 + 2);
+    }
+    if (searchInput3.value !== "" && concordanceDisplay3.checked) {
+        concordanceColumns.push(searchColumnIndex3 + 2);
+    }
 }
 
 function concordSearch() {
