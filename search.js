@@ -18,7 +18,7 @@
 const resultsTimeout = 100;
 
 
-function returnConcordanceColumns(
+function getConcordanceColumns(
     searchColumnIndex1, searchColumnIndex2, searchColumnIndex3
 ) {
     let concordanceColumns = Array();
@@ -42,6 +42,7 @@ function prepareColumns(columnNames, concordanceColumns) {
     let columnsToDisplay = columnNames.filter((d, i) => {
         if (selectedColumns[i]) { return d; }
     });
+    // which columns have concordance display
     let selectedConcordColumns = selectedColumns.map((d, i) => {
         return concordanceColumns.includes(i) ? true : false;
     });
@@ -68,8 +69,10 @@ function determineThInnerHTML(d, i, totalColumns, selectedConcordColumns) {
     let taggedData = `<pre>${d}</pre>`;
     let sorter = `<div class="sort" id="i${i}">&equiv;</div>`;
     if (selectedConcordColumns[i]) {
-        sorter += `<input id="concord-column-sort-${i}"
-                    type="number" value="-1" max="10" min="-10">`;
+        sorter += `<input id="concord-column-sort-${i}" class="concord-sorter"
+                    type="number" value="-1" max="10" min="-10"
+                    style="border-radius:3px;padding:0 2px;width:30px;"
+                    onKeyDown="return false">`;
     }
     let resizerLeft = `<div class="resize-left"></div>`;
     let resizerRight = `<div class="resize-right"></div>`;
@@ -124,26 +127,51 @@ function determineRowsToShow(totalRows) {
     return [showStart, showEnd]; 
 }
 
-function sortRows(columnToSort, order) {
-    rows = document.querySelectorAll('tr.sortable-row');
-    newRows = Array();
-    Array.from(rows).forEach((row) => {
-        newRow = Array.from(row.children);
-        newRows.push(newRow);
-    });
-    newRows = newRows.sort((a, b) => {
+function getRelativePositionWord(data, position) {
+    if (position == 0) {
+        let regExp = /[^ ]*?<text class="hilite\d">.+?<\/text>[^ ]*/;
+        return regExp.exec(data)[0];
+    } else if (position < 0) {
+        let regExp = /^(.*?)<text class="hilite\d">/;
+        let beforeArray = regExp.exec(data)[1].split(' ').reverse();
+        return beforeArray[Math.abs(position)];
+    } else if (position > 0) {
+        let regExp = /<text class="hilite\d">.+?<\/text>(.*)$/;
+        let afterArray = regExp.exec(data)[1].split(' ');
+        return afterArray[position];
+    }
+}
+
+function sortByColumn(columnToSort, order, rows, concordSortInput) {
+    return rows.sort((a, b) => {
         let aString = a[columnToSort].__data__;
         let bString = b[columnToSort].__data__;
-        if (order == "ascending") {
-            return (columnToSort == "1") ? 
+        if (columnToSort == "1") {
+            return (order == "ascending") ? 
                 Number(aString) > Number(bString) : 
-                aString.localeCompare(bString);
-        } else if (order == "descending") {
-            return (columnToSort == "1") ?
-                Number(aString) < Number(bString) : 
-                bString.localeCompare(aString);
+                Number(aString) < Number(bString);
+        } else {
+            if (concordSortInput) {
+                let position = Number(concordSortInput.value);
+                let aWord = getRelativePositionWord(aString, position);
+                let bWord = getRelativePositionWord(bString, position);
+                return (order == "ascending") ?
+                    aWord.localeCompare(bWord) : 
+                    bWord.localeCompare(aWord);
+            } else {
+                return (order == "ascending") ?
+                    aString.localeCompare(bString) : 
+                    bString.localeCompare(aString);
+            }
         }
     });
+}
+
+function sortRows(columnToSort, order, concordSortInput) {
+    rows = document.querySelectorAll('tr.sortable-row');
+    newRows = Array();
+    Array.from(rows).forEach((row) => newRows.push(Array.from(row.children)));
+    newRows = sortByColumn(columnToSort, order, newRows, concordSortInput);
     newRows = newRows.map((row, i) => {
         return row.map((item, j) => (j == 0) ? String(i + 1) : item.__data__);
     });
@@ -172,14 +200,17 @@ function addSorterListeners() {
         sorter.addEventListener('mouseout', 
             () => sorter.style.color = "steelblue");
         sorter.addEventListener('click', (e) => {
-            text = sorter.innerHTML;
+            let columnIndex = sorter.id.slice(1);
+            let concordSortInput = document.getElementById(
+                `concord-column-sort-${columnIndex}`);
+            let text = sorter.innerHTML;
             if (text == "\u2261" || text == "\u25BC") { 
                 sorters.forEach((sorter) => sorter.innerHTML = "&equiv;");
                 sorter.innerHTML = "&#x25B2;"; 
-                sortRows(sorter.id.slice(1), "ascending");
+                sortRows(sorter.id.slice(1), "ascending", concordSortInput);
             } else if (text == "\u25B2") { 
                 sorter.innerHTML = "&#x25BC;"; 
-                sortRows(sorter.id.slice(1), "descending");
+                sortRows(sorter.id.slice(1), "descending", concordSortInput);
             }
         });
     });
@@ -316,7 +347,7 @@ function createHilitedString(i, str, re, tagOpen, tagClose) {
 function recordMatchedRows_CreateHilitedStrings(
     i, startingRowIndex, searchColumnIndex, re, matchedRows, newData
 ) {
-    let tagOpen = `<text class='hilite${i}'>`;
+    let tagOpen = `<text class="hilite${i}">`;
     let tagClose = "</text>";
 
     for (let j = startingRowIndex; j < data.length; j++) {
@@ -449,25 +480,33 @@ function showNoResults() {
     setTimeout(() => { resultsNone.innerHTML = resultText; }, resultsTimeout);
 }
 
+function getColumnNames() {
+    return columnHeaders.checked ? 
+        data[0] : data[0].map((d, i) => `Column ${i + 1}`);
+}
+
+function getSearchColumnIndices(columnNames) {
+    let colObj = {};  // { columnName: index }
+    for (let i = 0; i < columnNames.length; i++) { colObj[columnNames[i]] = i; }
+    return [colObj[columnSelection1.value], 
+            colObj[columnSelection2.value], 
+            colObj[columnSelection3.value]];
+}
+
 function concordSearch() {
     newData = JSON.parse(JSON.stringify(data));
     
-    let columnNames = columnHeaders.checked ? 
-        data[0] : data[0].map((d, i) => `Column ${i + 1}`);
     let startingRowIndex = columnHeaders.checked ? 1 : 0;    
-    let colObj = {};  // {column name: index}
-    for (let i = 0; i < columnNames.length; i++) { colObj[columnNames[i]] = i; }
+    let columnNames = getColumnNames();
+    let [searchColumnIndex1, searchColumnIndex2, searchColumnIndex3] =
+        getSearchColumnIndices(columnNames);
 
-    let searchColumnIndex1 = colObj[columnSelection1.value];
     let matchedRows1 = processSearchInput("1", startingRowIndex, 
                                           searchColumnIndex1, data, newData);
-    let searchColumnIndex2 = colObj[columnSelection2.value];
     let matchedRows2 = processSearchInput("2", startingRowIndex, 
                                           searchColumnIndex2, data, newData);
-    let searchColumnIndex3 = colObj[columnSelection3.value];
     let matchedRows3 = processSearchInput("3", startingRowIndex, 
                                           searchColumnIndex3, data, newData);
-
     matchedRows = determineMatchedRows(matchedRows1, matchedRows2, matchedRows3,
                                        matchedRows);
     padResults(searchColumnIndex1, searchColumnIndex2, searchColumnIndex3,
@@ -477,7 +516,7 @@ function concordSearch() {
     if (matchedRows.length > 0) {
         showingStart.value = 1;
         showTotalResults(matchedRows.length);
-        const concordanceColumns = returnConcordanceColumns(
+        const concordanceColumns = getConcordanceColumns(
             searchColumnIndex1, searchColumnIndex2, searchColumnIndex3);
         const [selectedColumns, selectedConcordColumns, columnsToDisplay] = 
             prepareColumns(columnNames, concordanceColumns);

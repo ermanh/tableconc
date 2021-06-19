@@ -66,9 +66,14 @@ function addColumnsToDisplayListeners(columnNames) {
     let columnsToShowNodes = document.getElementsByClassName("column-to-show");
     Array.from(columnsToShowNodes).forEach((node) => {
         node.addEventListener("change", () => {
-            let [selectedColumns, 
-                 columnsToDisplay] = prepareColumns(columnNames);
-            insertColumnHeaders(columnsToDisplay);
+            let columnNames = getColumnNames();
+            let [searchColumnIndex1, searchColumnIndex2, searchColumnIndex3] =
+                getSearchColumnIndices(columnNames); 
+            let concordanceColumns = getConcordanceColumns(
+                searchColumnIndex1, searchColumnIndex2, searchColumnIndex3);
+            let [selectedColumns, selectedConcordColumns, columnsToDisplay] = 
+                prepareColumns(columnNames, concordanceColumns);
+            insertColumnHeaders(columnsToDisplay, selectedConcordColumns);
             matchedData = setMatchedData(matchedRows, selectedColumns);
             let [showStart, showEnd] = determineRowsToShow(matchedData.length);
             insertResults(matchedData.slice(showStart, showEnd));
