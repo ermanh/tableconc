@@ -17,18 +17,39 @@
 
 const resultsTimeout = 100;
 
-function prepareColumns(columnNames) {
-    const selectedColumns = Array();  // Array of trues and falses
+
+function returnConcordanceColumns(
+    searchColumnIndex1, searchColumnIndex2, searchColumnIndex3
+) {
+    let concordanceColumns = Array();
+    if (searchInput1.value !== "" && concordanceDisplay1.checked) {
+        concordanceColumns.push(searchColumnIndex1);
+    }
+    if (searchInput2.value !== "" && concordanceDisplay2.checked) {
+        concordanceColumns.push(searchColumnIndex2);
+    }
+    if (searchInput3.value !== "" && concordanceDisplay3.checked) {
+        concordanceColumns.push(searchColumnIndex3);
+    }
+    return concordanceColumns;
+}
+
+function prepareColumns(columnNames, concordanceColumns) {
+    let selectedColumns = Array();  // Array of trues and falses
     inputs = document.getElementById("columns-to-show")
                      .getElementsByTagName("input");
     Array.from(inputs).forEach((input) => selectedColumns.push(input.checked));
-    const columnsToDisplay = columnNames.filter((d, i) => {
+    let columnsToDisplay = columnNames.filter((d, i) => {
         if (selectedColumns[i]) { return d; }
+    });
+    let selectedConcordColumns = selectedColumns.map((d, i) => {
+        return concordanceColumns.includes(i) ? true : false;
     });
     // Add original line number & result index column
     selectedColumns.unshift(true, true);
+    selectedConcordColumns.unshift(false, false);
     columnsToDisplay.unshift("", ""); 
-    return [selectedColumns, columnsToDisplay];
+    return [selectedColumns, selectedConcordColumns, columnsToDisplay];
 }
 
 function determineThClasses(i) {
@@ -41,11 +62,15 @@ function determineThClasses(i) {
     }
 }
 
-function determineThInnerHTML(d, i, totalColumns) {
+function determineThInnerHTML(d, i, totalColumns, selectedConcordColumns) {
     // TODO: Add argument for the concordance column
     let isFinalColumn = (i == totalColumns - 1);
     let taggedData = `<pre>${d}</pre>`;
     let sorter = `<div class="sort" id="i${i}">&equiv;</div>`;
+    if (selectedConcordColumns[i]) {
+        sorter += `<input id="concord-column-sort-${i}"
+                    type="number" value="-1" max="10" min="-10">`;
+    }
     let resizerLeft = `<div class="resize-left"></div>`;
     let resizerRight = `<div class="resize-right"></div>`;
     if (i > 2) {
@@ -66,7 +91,7 @@ function determineThInnerHTML(d, i, totalColumns) {
     }
 }
 
-function insertColumnHeaders(columnsToDisplay) {
+function insertColumnHeaders(columnsToDisplay, selectedConcordColumns) {
     resultsTable.innerHTML = "";
     resultsTableD3.append("tr")
         .attr("id", "sticky")
@@ -74,7 +99,8 @@ function insertColumnHeaders(columnsToDisplay) {
         .data(columnsToDisplay).enter()
         .append("th")
         .attr("class", (d, i) => determineThClasses(i))
-        .html((d, i) => determineThInnerHTML(d, i, columnsToDisplay.length));
+        .html((d, i) => determineThInnerHTML(
+            d, i, columnsToDisplay.length, selectedConcordColumns));
 }
 
 function setMatchedData(matchedRows, selectedColumns) {
@@ -423,21 +449,6 @@ function showNoResults() {
     setTimeout(() => { resultsNone.innerHTML = resultText; }, resultsTimeout);
 }
 
-function returnConcordanceColumns(
-    searchColumnIndex1, searchColumnIndex2, searchColumnIndex3
-) {
-    let concordanceColumns = Array();
-    if (searchInput1.value !== "" && concordanceDisplay1.checked) {
-        concordanceColumns.push(searchColumnIndex1 + 2);
-    }
-    if (searchInput2.value !== "" && concordanceDisplay2.checked) {
-        concordanceColumns.push(searchColumnIndex2 + 2);
-    }
-    if (searchInput3.value !== "" && concordanceDisplay3.checked) {
-        concordanceColumns.push(searchColumnIndex3 + 2);
-    }
-}
-
 function concordSearch() {
     newData = JSON.parse(JSON.stringify(data));
     
@@ -466,8 +477,11 @@ function concordSearch() {
     if (matchedRows.length > 0) {
         showingStart.value = 1;
         showTotalResults(matchedRows.length);
-        const [selectedColumns, columnsToDisplay] = prepareColumns(columnNames);
-        insertColumnHeaders(columnsToDisplay);
+        const concordanceColumns = returnConcordanceColumns(
+            searchColumnIndex1, searchColumnIndex2, searchColumnIndex3);
+        const [selectedColumns, selectedConcordColumns, columnsToDisplay] = 
+            prepareColumns(columnNames, concordanceColumns);
+        insertColumnHeaders(columnsToDisplay, selectedConcordColumns);
         matchedData = setMatchedData(matchedRows, selectedColumns);
         const [showStart, showEnd] = determineRowsToShow(matchedData.length);
         insertResults(matchedData.slice(showStart, showEnd));
