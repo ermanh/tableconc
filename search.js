@@ -112,12 +112,12 @@ function insertColumnHeaders(columnsToDisplay, selectedConcordColumns) {
 function setMatchedData(matchedRows, selectedColumns) {
     let matchedData = Array();
     matchedRows.forEach((rowIndex, resultIndex) => {
-            let row = JSON.parse(JSON.stringify(newData[rowIndex]));
-            row.unshift(String(rowIndex));
-            row.unshift(String(resultIndex + 1));
-            row = row.filter((d, j) => selectedColumns[j]);
-            matchedData.push(row);
-        });
+        let row = JSON.parse(JSON.stringify(newData[rowIndex]));
+        row.unshift(String(rowIndex));
+        row.unshift(String(resultIndex + 1));
+        row = row.filter((d, j) => selectedColumns[j]);
+        matchedData.push(row);
+    });
     return matchedData;
 }
 
@@ -132,23 +132,26 @@ function determineRowsToShow(totalRows) {
 
 function getRelativePositionWord(data, position) {
     if (position == 0) {
-        let regExp = /[^ ]*?<text class="hilite\d">.+?<\/text>[^ ]*/;
+        let regExp = /.*?<text class="hilite\d">.+?<\/text>.*/;
         return regExp.exec(data)[0];
     } else if (position < 0) {
         let regExp = /^(.*?)<text class="hilite\d">/;
         let beforeArray = regExp.exec(data)[1].split(' ').reverse();
-        return beforeArray[Math.abs(position)];
+        let beforeString = beforeArray[Math.abs(position)];
+        return beforeString ? beforeString : "";
     } else if (position > 0) {
         let regExp = /<text class="hilite\d">.+?<\/text>(.*)$/;
         let afterArray = regExp.exec(data)[1].split(' ');
-        return afterArray[position];
+        return afterArray[position] ? afterArray[position] : "";
     }
 }
 
 function sortByColumn(columnToSort, order, rows, concordSortInput) {
     return rows.sort((a, b) => {
-        let aString = a[columnToSort].__data__;
-        let bString = b[columnToSort].__data__;
+        // let aString = a[columnToSort].__data__;
+        // let bString = b[columnToSort].__data__;
+        let aString = a[columnToSort];
+        let bString = b[columnToSort];
         if (columnToSort == "1") {
             return (order == "ascending") ? 
                 Number(aString) > Number(bString) : 
@@ -171,19 +174,17 @@ function sortByColumn(columnToSort, order, rows, concordSortInput) {
 }
 
 function sortRows(columnToSort, order, concordSortInput) {
-    rows = document.querySelectorAll('tr.sortable-row');
-    newRows = Array();
-    Array.from(rows).forEach((row) => newRows.push(Array.from(row.children)));
-    newRows = sortByColumn(columnToSort, order, newRows, concordSortInput);
-    newRows = newRows.map((row, i) => {
-        return row.map((item, j) => (j == 0) ? String(i + 1) : item.__data__);
+    // rows = document.querySelectorAll('tr.sortable-row');
+    // newRows = Array();
+    // Array.from(rows).forEach((row) => newRows.push(Array.from(row.children)));
+    matchedData = sortByColumn(columnToSort, order, matchedData, concordSortInput);
+    matchedData = matchedData.map((row, i) => {
+        return row.map((item, j) => (j == 0) ? String(i + 1) : item);
     });
-    d3.selectAll('tr.sortable-row')
-        .data(newRows)
-        .selectAll('td')
-            .data((d) => d)
-            .html((d) => `<pre>${d}</pre>`);
-    enforceHilites();
+    // newRows = newRows.map((row, i) => {
+    //     return row.map((item, j) => (j == 0) ? String(i + 1) : item.__data__);
+    // });
+    replaceSortableRows();
 }
 
 function addResizerListeners() {
@@ -266,9 +267,6 @@ function insertResults(rows) {
                 })
                 .html((d) => `<pre>${d}</pre>`);
     }); 
-    addResizerListeners();
-    addSorterListeners();
-    addTextAlignerListeners();
     enforceLightDarkMode();
     enforceHilites();
 }
@@ -527,6 +525,9 @@ function concordSearch() {
         matchedData = setMatchedData(matchedRows, selectedColumns);
         const [showStart, showEnd] = determineRowsToShow(matchedData.length);
         insertResults(matchedData.slice(showStart, showEnd));
+        addResizerListeners();
+        addSorterListeners();
+        addTextAlignerListeners();
     } else {
         showNoResults();
     }

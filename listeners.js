@@ -700,7 +700,7 @@ previousPage.addEventListener('click', () => {
         matchedData.length : showStart + Number(showRows.value) - 1;
     showingStart.value = String(showStart);
     showingEnd.textContent = String(showEnd);
-    insertResults(matchedData.slice(showStart - 1, showEnd));
+    replaceSortableRows();
 
     previousPage.disabled = showStart <= 1;
     nextPage.disabled = showEnd >= matchedData.length;
@@ -716,7 +716,7 @@ nextPage.addEventListener('click', () => {
     }
     showingStart.value = String(showStart);
     showingEnd.textContent = String(showEnd);
-    insertResults(matchedData.slice(showStart - 1, showEnd));
+    replaceSortableRows();
 
     previousPage.disabled = showStart <= 1;
     nextPage.disabled = showEnd >= matchedData.length;

@@ -387,3 +387,32 @@ function updatePageView() {
         insertResults(matchedData.slice(showStart - 1, showEnd));
     }
 }
+
+function replaceSortableRows() {
+    let showStart = Number(showingStart.value) - 1;
+    let showEnd = Number(showingEnd.textContent);
+    resultsTableD3.selectAll("tr.sortable-row").remove();
+    matchedData.slice(showStart, showEnd).forEach((row) => {
+        resultsTableD3.append("tr")
+            .attr("class", "sortable-row")
+            .selectAll("td").data(row).enter()
+                .append("td")
+                .attr("class", (d, i) => {
+                    if (i > 1) {
+                        return "results-td";
+                    } else if (i == 1) {
+                        return "result-original-index";
+                    } else if (i == 0) {
+                        return "result-index";
+                    }
+                })
+                .html((d) => `<pre>${d}</pre>`);
+    }); 
+    // d3.selectAll('tr.sortable-row')
+    //     .data(matchedData.slice(showStart, showEnd))
+    //     .selectAll('td')
+    //         .data((d) => d)
+    //         .html((d) => `<pre>${d}</pre>`);
+    enforceLightDarkMode();
+    enforceHilites();
+}

@@ -78,6 +78,9 @@ function addColumnsToDisplayListeners(columnNames) {
             matchedData = setMatchedData(matchedRows, selectedColumns);
             let [showStart, showEnd] = determineRowsToShow(matchedData.length);
             insertResults(matchedData.slice(showStart, showEnd));
+            addResizerListeners();
+            addSorterListeners();
+            addTextAlignerListeners();
         });
     });
 }
