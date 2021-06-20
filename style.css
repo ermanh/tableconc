@@ -416,7 +416,7 @@ th {
     padding: 3px 12px;
     border: 1px solid var(--white);
     border-collapse: collapse;
-    z-index: 99;
+    z-index: 100;
 }
 
 td.results-td {
@@ -540,23 +540,25 @@ td#search-logic {
 }
 
 .infotiptext {
+    font-size: 1.05em;
+    display: block;
     visibility: hidden;
-    min-width: 115px;
-    background-color: #dfe2f5;
-    opacity: 0.85;
+    min-width: 170px;
+    background-color: #fcfce4;
     color: #1e1f21;
     font-family: Arial, sans-serif;
     font-weight: lighter;
     text-align: left;
     border-radius: 5px;
     padding: 5px 10px 7px 10px;
-    margin: 2px;
+    margin: 5px;
     position: absolute;
-    z-index: 5;
+    z-index: 101 !important;
 }
 
 .infotip:hover .infotiptext {
     visibility: visible;
+    position: bottom;
 }
 
 

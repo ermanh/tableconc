@@ -7,8 +7,6 @@
 //      - Write unit tests for all functions
 //      - Remove unused global variables and code
 //      - Remove on-the-fly event listeners
-// Features
-//      - Sort the concordance column by word relative to center
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
 // Testing
@@ -67,7 +65,6 @@ function determineThClasses(i) {
 }
 
 function determineThInnerHTML(d, i, totalColumns, selectedConcordColumns) {
-    // TODO: Add argument for the concordance column
     let isFinalColumn = (i == totalColumns - 1);
     let taggedData = `<pre>${d}</pre>`;
     let sorter = `<div class="sort" id="i${i}">&equiv;</div>`;
@@ -76,6 +73,20 @@ function determineThInnerHTML(d, i, totalColumns, selectedConcordColumns) {
                     type="number" value="-1" max="10" min="-10"
                     style="border-radius:3px;padding:0 2px;width:30px;"
                     onKeyDown="return false">`;
+        sorter += `&nbsp;<div class="infotip">&nbsp;i&nbsp;
+                       <span class="infotiptext">
+                           Set which word relative to the highlighted text to 
+                           sort by. 
+                           <span style="color:#2f70a5">
+                               (E.g., -1 = first word to the left).</span>
+                           <br><br>
+                           If the highlighted text is inside a word, 
+                           the entire word is position 0. 
+                           <span style="color:#2f70a5">
+                               ("Word" here means consecutive non-space 
+                               characters.)</span>
+                       </span>
+                   </div>`;
     }
     let resizerLeft = `<div class="resize-left"></div>`;
     let resizerRight = `<div class="resize-right"></div>`;
@@ -132,7 +143,7 @@ function determineRowsToShow(totalRows) {
 
 function getRelativePositionWord(data, position) {
     if (position == 0) {
-        let regExp = /.*?<text class="hilite\d">.+?<\/text>.*/;
+        let regExp = /[^ ]*?<text class="hilite\d">.+?<\/text>[^ ]*/;
         return regExp.exec(data)[0];
     } else if (position < 0) {
         let regExp = /^(.*?)<text class="hilite\d">/;
@@ -148,8 +159,6 @@ function getRelativePositionWord(data, position) {
 
 function sortByColumn(columnToSort, order, rows, concordSortInput) {
     return rows.sort((a, b) => {
-        // let aString = a[columnToSort].__data__;
-        // let bString = b[columnToSort].__data__;
         let aString = a[columnToSort];
         let bString = b[columnToSort];
         if (columnToSort == "1") {
@@ -174,16 +183,11 @@ function sortByColumn(columnToSort, order, rows, concordSortInput) {
 }
 
 function sortRows(columnToSort, order, concordSortInput) {
-    // rows = document.querySelectorAll('tr.sortable-row');
-    // newRows = Array();
-    // Array.from(rows).forEach((row) => newRows.push(Array.from(row.children)));
-    matchedData = sortByColumn(columnToSort, order, matchedData, concordSortInput);
+    matchedData = sortByColumn(
+        columnToSort, order, matchedData, concordSortInput);
     matchedData = matchedData.map((row, i) => {
         return row.map((item, j) => (j == 0) ? String(i + 1) : item);
     });
-    // newRows = newRows.map((row, i) => {
-    //     return row.map((item, j) => (j == 0) ? String(i + 1) : item.__data__);
-    // });
     replaceSortableRows();
 }
 

@@ -408,11 +408,6 @@ function replaceSortableRows() {
                 })
                 .html((d) => `<pre>${d}</pre>`);
     }); 
-    // d3.selectAll('tr.sortable-row')
-    //     .data(matchedData.slice(showStart, showEnd))
-    //     .selectAll('td')
-    //         .data((d) => d)
-    //         .html((d) => `<pre>${d}</pre>`);
     enforceLightDarkMode();
     enforceHilites();
 }
