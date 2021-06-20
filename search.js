@@ -35,16 +35,19 @@ function getConcordanceColumns(
 }
 
 function prepareColumns(columnNames, concordanceColumns) {
-    let selectedColumns = Array();  // Array of trues and falses
+    // Which columns are selected for display (array of trues & falses)
+    let selectedColumns = Array();
     inputs = document.getElementById("columns-to-show")
                      .getElementsByTagName("input");
     Array.from(inputs).forEach((input) => selectedColumns.push(input.checked));
-    let columnsToDisplay = columnNames.filter((d, i) => {
-        if (selectedColumns[i]) { return d; }
-    });
-    // which columns have concordance display
-    let selectedConcordColumns = selectedColumns.map((d, i) => {
-        return concordanceColumns.includes(i) ? true : false;
+    
+    let columnsToDisplay = Array();
+    let selectedConcordColumns = Array();
+    columnNames.forEach((d, i) => {
+        if (selectedColumns[i]) {
+            columnsToDisplay.push(d);
+            selectedConcordColumns.push(concordanceColumns.includes(i));  
+        }
     });
     // Add original line number & result index column
     selectedColumns.unshift(true, true);

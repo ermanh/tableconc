@@ -66,6 +66,7 @@ function addColumnsToDisplayListeners(columnNames) {
     let columnsToShowNodes = document.getElementsByClassName("column-to-show");
     Array.from(columnsToShowNodes).forEach((node) => {
         node.addEventListener("change", () => {
+            // TODO: many shared lines with concord(), maybe can refactor
             let columnNames = getColumnNames();
             let [searchColumnIndex1, searchColumnIndex2, searchColumnIndex3] =
                 getSearchColumnIndices(columnNames); 
