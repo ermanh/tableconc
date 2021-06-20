@@ -14,12 +14,12 @@ const colors = {
         "bgPicker3": "#e0edd3"      // light green
     }, 
     "dark": {
-        "fore": "#ffffff",          // white
-        "back": "#363636",          // dark gray
+        "fore": "#cecece",          // white
+        "back": "#2a2a2a",          // dark gray
         "thFore": "#b0c4de",        // lightsteelblue
-        "thBack": "#363636",        // dark gray
+        "thBack": "#2a2a2a",        // dark gray
         "thBorder": "#808080",      // gray
-        "tdBack": "#2a2a2a",        // darker gray
+        "tdBack": "#222222",        // darker gray
         "picker1": "#ffda0d",       // cadmium yellow
         "picker2": "#00ffff",       // cyan
         "picker3": "#ff00ff",       // magenta
