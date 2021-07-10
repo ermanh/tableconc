@@ -484,6 +484,7 @@ function showNoResults() {
     resultsNone.textContent = "";
     previousPage.disabled = true;
     nextPage.disabled = true;
+    resultText = `<span style="color:#ff0000">${resultText}</span>`;
     setTimeout(() => { resultsNone.innerHTML = resultText; }, resultsTimeout);
 }
 

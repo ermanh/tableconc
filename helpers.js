@@ -413,6 +413,7 @@ function replaceSortableRows() {
 }
 
 function resetSearch() {
+    resultsNone.innerHTML = "";
     let isDark = darkControl.classList.contains("is-dark");
     let darkOrLight = isDark ? "dark" : "light";
     secondSearchHider.style.stroke = colors[darkOrLight].picker2;
