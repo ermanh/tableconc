@@ -80,7 +80,7 @@ body {
     text-align: center;
 }
 
-#previous-page, #next-page {
+#very-start, #previous-page, #next-page, #very-end {
     color: #ff4500;  /* orangered */
     border-radius: 3px;
     background-color: var(--off-white);

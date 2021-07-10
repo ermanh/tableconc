@@ -61,6 +61,8 @@ const showingStart = document.getElementById("showing-start");
 const showingEnd = document.getElementById("showing-end");
 const previousPage = document.getElementById("previous-page");
 const nextPage = document.getElementById("next-page");
+const veryStart = document.getElementById("very-start");
+const veryEnd = document.getElementById("very-end");
 
 
 // Search One

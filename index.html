@@ -301,7 +301,9 @@
     </div>
     <div id="results">
         <div id="results-header">
-            <label id="showing-start-label" for="showing-start">Showing:</label>
+            <label id="showing-start-label" for="showing-start">Showing:&nbsp;</label>
+            <button id="very-start" disabled>&lt;&lt;</button>
+            <button id="previous-page" disabled>&lt;</button>&nbsp;
             <span id="showing">
                 <input id="showing-start" type="number" value="1" min="1">
                 to&nbsp;
@@ -309,11 +311,11 @@
                 &nbsp;of&nbsp;
                 <span id="results-total"></span>
             </span>&nbsp;
-            <button id="previous-page" disabled>&lt;</button>
             <button id="next-page" disabled>&gt;</button>
+            <button id="very-end" disabled>&gt;&gt;</button>
             &nbsp;&nbsp;
             <label id="show-rows-label" for="show-rows">Rows per page:</label>
-            <input id="show-rows" type="number" value="200" min="1">
+            <input id="show-rows" type="number" value="25" min="1">
             &nbsp;&nbsp;&nbsp;
             <span id="results-none"></span>
         </div>
