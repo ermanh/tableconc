@@ -411,3 +411,48 @@ function replaceSortableRows() {
     enforceLightDarkMode();
     enforceHilites();
 }
+
+function resetSearch() {
+    let isDark = darkControl.classList.contains("is-dark");
+    let darkOrLight = isDark ? "dark" : "light";
+    secondSearchHider.style.stroke = colors[darkOrLight].picker2;
+    thirdSearchHider.style.stroke = colors[darkOrLight].picker3;
+    ["1", "2", "3"].forEach((i) => {
+        document.getElementById(`column-selection-${i}`).value = "(none)";
+        document.getElementById(`filter-control-${i}`).checked = false;
+        document.getElementById(`filter-min-${i}`).style.display = "none";
+        document.getElementById(`filter-min-${i}`).value = "2";
+        document.getElementById(`filter-row-${i}`).style.display = "none";
+        document.getElementById(`filter-selection-${i}`).innerHTML = "";
+        document.getElementById(`search-row-${i}`).style.display = "block";
+        document.getElementById(`search-input-${i}`).value = "";
+        document.getElementById(`search-input-${i}`).disabled = true;
+        document.getElementById(`full-words-${i}`).checked = true;
+        document.getElementById(`full-words-${i}`).disabled = true;
+        document.getElementById(`regex-${i}`).checked = false;
+        document.getElementById(`regex-${i}`).disabled = true;
+        document.getElementById(`match-where-${i}`)
+            .value = `match-anywhere-${i}`;
+        document.getElementById(`match-where-${i}`).disabled = true;
+        document.getElementById(`case-sensitive-${i}`).checked = false;
+        document.getElementById(`case-sensitive-${i}`).disabled = true;
+        document.getElementById(`concordance-display-${i}`).checked = true;
+        document.getElementById(`concordance-display-${i}`).disabled = true;
+        document.getElementById(`concordance-cutoff-${i}`).value = "50";
+        document.getElementById(`concordance-cutoff-${i}`).disabled = true;
+        document.getElementById(`findall-${i}`).checked = false;
+        document.getElementById(`findall-${i}`).disabled = true;
+        document.getElementById(`picker-${i}`).disabled = true;
+        document.getElementById(`bg-picker-${i}`).disabled = true;
+        let pColor = colors[darkOrLight][`picker${i}`];
+        let pBgColor = colors[darkOrLight][`bgPicker${i}`];
+        document.getElementById(`picker-${i}`).value = pColor;
+        document.getElementById(`bg-picker-${i}`).value = pBgColor;
+        document.getElementById(`picker-div-${i}`)
+            .style.backgroundColor = pColor;
+        document.getElementById(`bg-picker-div-${i}`)
+            .style.backgroundColor = pBgColor;
+        document.getElementById(`picker-div-${i}`).style.opacity = "0.3";
+        document.getElementById(`bg-picker-div-${i}`).style.opacity = "0.3";
+    });
+}

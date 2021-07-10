@@ -9,6 +9,8 @@
 //      - Remove on-the-fly event listeners
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
+// Bug
+//      - After choosing a new file, everything should be reset
 // Testing
 //      - Use significantly larger csv, tsv, json, and plain text files
 //      - Include data containing html and chars that need escaping

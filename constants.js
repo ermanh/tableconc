@@ -48,6 +48,7 @@ const thirdSearchHider = document.getElementById("third-search-hider");
 
 const searchBox = document.getElementById("search-box");
 const searchButton = document.getElementById("search-button");
+const resetButton = document.getElementById("reset-button");
 
 const resultsDiv = document.getElementById("results");
 const resultsTable = document.getElementById("results-table");

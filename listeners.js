@@ -1,10 +1,13 @@
 
 // ~~~ Columns to display ~~~
 columnHeaders.addEventListener('change', () => {
-    if (chooseFile.value) { readFile(); }
     filterSelection1.innerHTML = "";
     filterSelection2.innerHTML = "";
     filterSelection3.innerHTML = "";
+    searchInput1.disabled = true;
+    searchInput2.disabled = true;
+    searchInput3.disabled = true;
+    if (chooseFile.value) { readFile(); }
 });
 
 // ~~~ Hide Controls ~~~
@@ -242,6 +245,7 @@ columnSelection1.addEventListener('change', () => {
         colorPicker1.disabled = false;
         bgColorPicker1.disabled = false;
         searchButton.disabled = false;
+        resetButton.disabled = false;
     }
     columnSelection2.childNodes.forEach((node) => {
         if (node.value !== "(none)") {
@@ -422,6 +426,7 @@ columnSelection2.addEventListener('change', () => {
         colorPicker2.disabled = false;
         bgColorPicker2.disabled = false;
         searchButton.disabled = false;
+        resetButton.disabled = false;
     }
     columnSelection1.childNodes.forEach((node) => {
         if (node.value !== "(none)") {
@@ -604,6 +609,7 @@ columnSelection3.addEventListener('change', () => {
         colorPicker3.disabled = false;
         bgColorPicker3.disabled = false;
         searchButton.disabled = false;
+        resetButton.disabled = false;
     }
     columnSelection1.childNodes.forEach((node) => {
         if (node.value !== "(none)") {
