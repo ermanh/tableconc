@@ -14,29 +14,48 @@
 <body>
     <div id="sticky-div">
         <div id="banner">
-            <div id="light-container">
+            <div id="help-container">
+                <svg id="help-question-mark">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="17" r="0.5" />
+                    <path d="M12,14 L12,12 A 3,3 90 1 0 9,9" />
+                </svg>
+            </div>
+            <div id="light-container" class="controls-infotip">
                 <svg id="light-control" class="light-dark-controls is-light">
                     <circle cx="12" cy="12" r="5" />
                     <path d="M12,2 L12,4 M12,22 L12,20  M2,12 L4,12 M22,12 L20,12
                              M7,7 L5,5 M17,17 L19,19    M17,7 L19,5 M7,17 L5,19" />
                 </svg>
+                <span class="controls-infotiptext">
+                    Light mode
+                </span>
             </div>
-            <div id="dark-container">
+            <div id="dark-container" class="controls-infotip">
                 <svg id="dark-control" class="light-dark-controls is-light">
                     <path d="M7,5 C 23,1 23,23 7,19 C 15,19 15,5 7,5" />
                 </svg>
+                <span class="controls-infotiptext">
+                    Dark mode
+                </span>
             </div>
-            <div class="control-container">
+            <div class="control-container controls-infotip">
                 <svg id="hide-controls">
                     <circle cx="10" cy="10" r="5" />
                     <path d="M19,19 L13,13" />
                 </svg>
+                <span class="controls-infotiptext">
+                    Show/hide search
+                </span>
             </div>
-            <div class="control-container">
+            <div class="control-container controls-infotip">
                 <svg id="hide-column-controls">
                     <rect x="5" y="5" width="7" height="14" />
                     <rect x="12" y="5" width="7" height="14" />
                 </svg>
+                <span class="controls-infotiptext">
+                    Show/hide column selection
+                </span>
             </div>
             &nbsp;&nbsp;
             <div id="file-div">
@@ -44,9 +63,6 @@
                 &nbsp;&nbsp;
                 <input id="column-headers" type="checkbox" checked>
                 <label id="column-headers-label" for="column-headers">Contains headers</label>
-            </div>
-            <div id="help">
-                ?
             </div>
         </div>
         <div id="controls">

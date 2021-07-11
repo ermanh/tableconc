@@ -108,10 +108,14 @@ body {
     letter-spacing: 1px;
 }
 
-#light-container, #dark-container {
+#help-container, #light-container, #dark-container {
     padding: 0;
     width: 24px;
     display: inline-block;
+}
+
+#help-container {
+    margin: 0 3px;
 }
 
 #light-container {
@@ -136,6 +140,23 @@ body {
     border-bottom: 1px solid var(--dark-blue);
 }
 
+#help-question-mark {
+    height: 24px;
+    width: 24px;
+    margin-top: 0;
+    background-color: #4169e1;
+    border-radius: 5px;
+    stroke: var(--lightsteelblue);
+    stroke-width: 2px;
+    fill: none;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    border: 1px solid var(--dark-blue);
+}
+
 #light-control {
     stroke: var(--khaki-yellow);
     stroke-width: 1px;
@@ -158,16 +179,6 @@ body {
     vertical-align: top;
 }
 
-#help {
-    display: inline-block;
-    vertical-align: 50%;
-    font-size: 0.85em;
-    margin-left: 50px;
-    padding: 2px 6px;
-    border-radius: 2px;
-    background-color: royalblue;
-}
-
 #controls {
     color: var(--white);
 }
@@ -186,7 +197,7 @@ body {
     display: inline-block;
 }
 
-#hide-controls, #hide-column-controls {
+#help-question-mark, #hide-controls, #hide-column-controls {
     height: 24px;
     width: 24px;
     border-radius: 5px;
@@ -200,6 +211,10 @@ body {
     -khtml-user-select: none;
     -ms-user-select: none;
     border: 1px solid var(--dark-blue);
+}
+
+#help-question-mark {
+    border-radius: 50%;
 }
 
 #hide-controls {
@@ -547,6 +562,25 @@ td#search-logic {
     font-family: 'Times New Roman', Times, serif;
     font-size: 0.8em;
     font-weight: 600;
+}
+
+.controls-infotiptext {
+    font-size: 0.9em;
+    display: block;
+    visibility: hidden;
+    background-color: #333333;
+    color: var(--off-white);
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 101 !important;
+    border-radius: 5px;
+    border: 1px solid #565656
+}
+
+.controls-infotip:hover .controls-infotiptext {
+    visibility: visible;
+    position: bottom;
+    transition-delay: 0.5s;
 }
 
 .infotiptext {
