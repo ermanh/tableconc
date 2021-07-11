@@ -14,12 +14,17 @@
 <body>
     <div id="sticky-div">
         <div id="banner">
-            <div id="help-container">
+            <div id="help-container" class="controls-infotip">
                 <svg id="help-question-mark">
                     <circle cx="12" cy="12" r="10" />
                     <circle cx="12" cy="17" r="0.5" />
                     <path d="M12,14 L12,12 A 3,3 90 1 0 9,9" />
                 </svg>
+                <div class="menu-infotiptext">
+                    <a>Guide</a>
+                    <a>Regular expressions</a>
+                    <a>About</a>
+                </div>
             </div>
             <div id="light-container" class="controls-infotip">
                 <svg id="light-control" class="light-dark-controls is-light">
@@ -69,13 +74,16 @@
             <form id="search-box" onsubmit="return false;">
                 <table>
                     <tr>
-                        <td>
+                        <td class="controls-infotip">
                             <svg id="second-search-hider" height="12" width="12">
                                 <path d="M1,6 L11,6 M6,1 L6,11" />
                             </svg>
                             <svg id="third-search-hider" height="12" width="12">
                                 <path d="M1,6 L11,6 M6,1 L6,11" />
                             </svg>
+                            <span class="controls-infotiptext-2">
+                                Additional search fields
+                            </span>
                         </td>
                     </tr>
                     <tr>

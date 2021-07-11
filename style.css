@@ -564,23 +564,60 @@ td#search-logic {
     font-weight: 600;
 }
 
-.controls-infotiptext {
+.menu-infotiptext {
+    background-color: #252525;
+    color: #cccccc;
+    padding: 2px 0;
+    display: block;
+    position: absolute;
+    visibility: hidden;
+    z-index: 101 !important;
+    border-radius: 3px;
+    min-width: 150px;
+}
+
+.menu-infotiptext a {
+    font-size: 0.95em;
+    padding: 4px 8px;
+    display: block;
+}
+
+.menu-infotiptext a:hover {
+    background-color: #353535;
+}
+
+.controls-infotiptext, .controls-infotiptext-2 {
     font-size: 0.9em;
     display: block;
     visibility: hidden;
-    background-color: #333333;
-    color: var(--off-white);
-    padding: 5px 10px;
+    background-color: #252525;
+    color: #cccccc;
+    padding: 4px 8px;
     position: absolute;
     z-index: 101 !important;
     border-radius: 5px;
-    border: 1px solid #565656
+    /* border: 1px solid #787878; */
+}
+
+.controls-infotiptext-2 {
+    margin: -18px 0 0 50px;
+}
+
+.controls-infotip:hover .menu-infotiptext {
+    visibility: visible;
+    position: bottom;
 }
 
 .controls-infotip:hover .controls-infotiptext {
     visibility: visible;
     position: bottom;
-    transition-delay: 0.5s;
+    transition-delay: 0.6s;
+}
+
+.controls-infotip:hover .controls-infotiptext-2 {
+    visibility: visible;
+    position: right;
+    transition-delay: 0.6s;
 }
 
 .infotiptext {
@@ -588,8 +625,9 @@ td#search-logic {
     display: block;
     visibility: hidden;
     min-width: 170px;
-    background-color: #fcfce4;
-    color: #1e1f21;
+    background-color: #fafad2;
+    /* background-color: #fcfce4; */
+    color: #222222;
     font-family: Arial, sans-serif;
     font-weight: lighter;
     text-align: left;
