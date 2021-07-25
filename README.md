@@ -1,7 +1,9 @@
 # TableConc
+Version 1.0.0-beta
+
 TableConc is a concordance search tool for tabular data. 
 
-This web tool is intended for users who want to inspect or apply additional search conditions on other relevant data (in other columns of a table) in addition to the main data they want to analyze. 
+This web tool is designed for users who want to apply search conditions on multiple sets of related data (different columns in a table) for manual inspection and analysis. 
 
 ## Supported Files
 - .csv
@@ -10,25 +12,26 @@ This web tool is intended for users who want to inspect or apply additional sear
 - .json (must contain only one array of objects, non-string values will be stringified)
 
 ## Supported Functions
-- Search
-    - Apply search conditions on up to 3 different columns (logical AND)
+Search
+    - Apply queries on up to 3 different columns simultaneously (logical AND)
     - Regular expressions
-- Concordance and matched pattern display
+Matched pattern display
     - Customize text and background highlight colors
-    - Limit the length of the concordance display
-- Filter
+    - Concordance display
+    - Limit length of concordance display
+Filter
     - Filter a column by its values
     - Limit filter options by how many times the values occur
-- Sort
+Sort
     - Sort a column by ascending or descending order
     - Sort a concordance column by word position relative to the matched pattern
     - Sort the table by the original index in the file
-- Other table functions
+Other table functions
     - Select which columns to show
     - Adjust the width of data columns
     - Change text alignment
     - Customize the number of rows displayed
-- Website display
+Website display
     - Light/dark modes
     - Hide certain sections to increase data viewing space
-    - Table header will stick to the top of the website when scrolled
+    - Table header sticks to the top of the viewport when scrolled
