@@ -13,25 +13,25 @@ This web tool is designed for users who want to apply search conditions on multi
 
 ## Supported Functions
 Search
-    - Apply queries on up to 3 different columns simultaneously (logical AND)
-    - Regular expressions
+- Apply queries on up to 3 different columns simultaneously (logical AND)
+- Regular expressions
 Matched pattern display
-    - Customize text and background highlight colors
-    - Concordance display
-    - Limit length of concordance display
+- Customize text and background highlight colors
+- Concordance display
+- Limit length of concordance display
 Filter
-    - Filter a column by its values
-    - Limit filter options by how many times the values occur
+- Filter a column by its values
+- Limit filter options by how many times the values occur
 Sort
-    - Sort a column by ascending or descending order
-    - Sort a concordance column by word position relative to the matched pattern
-    - Sort the table by the original index in the file
+- Sort a column by ascending or descending order
+- Sort a concordance column by word position relative to the matched pattern
+- Sort the table by the original index in the file
 Other table functions
-    - Select which columns to show
-    - Adjust the width of data columns
-    - Change text alignment
-    - Customize the number of rows displayed
+- Select which columns to show
+- Adjust the width of data columns
+- Change text alignment
+- Customize the number of rows displayed
 Website display
-    - Light/dark modes
-    - Hide certain sections to increase data viewing space
-    - Table header sticks to the top of the viewport when scrolled
+- Light/dark modes
+- Hide certain sections to increase data viewing space
+- Table header sticks to the top of the viewport when scrolled
