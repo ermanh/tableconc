@@ -64,7 +64,6 @@ const nextPage = document.getElementById("next-page");
 const veryStart = document.getElementById("very-start");
 const veryEnd = document.getElementById("very-end");
 
-
 // Search One
 const columnSelection1 = document.getElementById("column-selection-1");
 const filterControl1 = document.getElementById("filter-control-1");

@@ -3,7 +3,7 @@
 //      - Break up long functions
 //      - create a main.js for all the major actions, keep simple and short
 //      - Move variable declarations to separate js file
-//      - Remove unused global variables and code
+//      - Remove unused code
 //      - Remove on-the-fly event listeners
 // Bugs
 // Testing

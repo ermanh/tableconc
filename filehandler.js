@@ -142,5 +142,3 @@ fileInput.addEventListener('change', () => {
 
     readFile();    
 });
-
-
