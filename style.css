@@ -707,10 +707,10 @@ input[type="number"] {
 
 .modal-content {
     background-color: var(--lightsteelblue);
-    margin: 10% auto;
+    margin: 8% auto;
     padding: 10px 25px 15px 40px;
     width: 425px;
-    height: 385px;
+    height: 435px;
     border-radius: 10px;
     color: var(--dark-blue);
     font-size: 1em;

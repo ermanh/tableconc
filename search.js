@@ -1,14 +1,10 @@
 //// TODOs
-// Add a help/guide
 // Refactor and clean code
 //      - Break up long functions
 //      - create a main.js for all the major actions, keep simple and short
 //      - Move variable declarations to separate js file
-//      - Write unit tests for all functions
 //      - Remove unused global variables and code
 //      - Remove on-the-fly event listeners
-// Improve UI aesthetics/format/style
-//      - Cross-browser aesthetics (mostly/basically done)
 // Bugs
 // Testing
 //      - Use significantly larger csv, tsv, json, and plain text files
@@ -71,7 +67,7 @@ function determineThInnerHTML(d, i, totalColumns, selectedConcordColumns) {
     let sorter = `<div class="sort" id="i${i}">&equiv;</div>`;
     if (selectedConcordColumns[i]) {
         sorter += `<input id="concord-column-sort-${i}" class="concord-sorter"
-                    type="number" value="-1" max="10" min="-10"
+                    type="number" value="0" max="10" min="-10"
                     style="border-radius:3px;padding:0 2px;width:30px;"
                     onKeyDown="return false">`;
         sorter += `&nbsp;<div class="infotip">&nbsp;i&nbsp;
@@ -164,8 +160,8 @@ function sortByColumn(columnToSort, order, rows, concordSortInput) {
         let bString = b[columnToSort];
         if (columnToSort == "1") {
             return (order == "ascending") ? 
-                Number(aString) > Number(bString) : 
-                Number(aString) < Number(bString);
+                Number(aString) - Number(bString) : 
+                Number(bString) - Number(aString);
         } else {
             if (concordSortInput) {
                 let position = Number(concordSortInput.value);

@@ -26,7 +26,7 @@
         th { color: #384a73; }
         th, td { 
             padding: 8px 15px; 
-            max-width: 235px; 
+            max-width: 245px; 
             border: 1px solid #b0c4de; }
         .category { color: #4682b4; }
         .center { text-align: center; }
@@ -45,7 +45,7 @@
         This guide introduces some basic metacharacters.
     </p>
     <p>
-        <b>Note:</b> This web tool uses regexes as implemented in JavaScript.
+        <b>Note:</b> You can search online to learn more about regexes. This web tool uses regexes as implemented in JavaScript.
     </p>
     <table>
         <tr>
@@ -94,7 +94,7 @@
         <tr>
             <td class="regex center">.</td>
             <td>Any character except the newline character (\n)</td>
-            <td class="regex">Boeing.[A-Za-z0-9]</td>
+            <td class="regex">Boeing.\w</td>
             <td>
                 &bull; <span>Boeing A</span>23<br>
                 &bull; <span>Boeing-A</span>23<br>
@@ -108,7 +108,7 @@
             <td class="regex center">\b</td>
             <td>Boundary between a \w character and a non-\w character (or start/end of string)</td>
             <td class="regex">\b\w\w\b</td>
-            <td><span>He</span> has won.</td>
+            <td><span>He</span> has won <span>an</span> apple.</td>
         </tr>
         <tr>
             <td class="regex center">^</td>
@@ -181,17 +181,21 @@
         <tr>
             <td class="regex center">\</td>
             <td>
-                Escape a metacharacter so it is treated as a normal character
+                Escape a metacharacter so it is treated literally<br><br>
+                <b>Note:</b> The backslash itself also needs to be escaped to be treated literally.
             </td>
             <td>
                 &bull; <span class="regex">1.5</span><br>
-                &bull; <span class="regex">1\.5</span>
+                &bull; <span class="regex">1\.5</span><br>
+                &bull; <span class="regex">C:\\Documents</span>
             </td>
             <td>
                 &bull; <span>1-5</span>, <span>1.5</span>, <span>1a5</span><br>
-                &bull; 1-5, <span>1.5</span>, 1a5
+                &bull; 1-5, <span>1.5</span>, 1a5<br>
+                &bull; <span>C:\Documents</span>\test.txt
             </td>
         </tr>
     </table>
+    <br>
 </body>
 </html>

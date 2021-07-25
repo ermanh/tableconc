@@ -21,7 +21,7 @@
                     <path d="M12,14 L12,12 A 3,3 90 1 0 9,9" />
                 </svg>
                 <div class="menu-infotiptext">
-                    <a href="./regex.html" target="popup" onclick="window.open('./regex.html', 'popup', 'width=950,height=600')">
+                    <a href="./regex.html" target="popup" onclick="window.open('./regex.html', 'popup', 'width=1000,height=600')">
                         Regular expressions
                     </a>
                     <a onclick="document.getElementById('modal-about').style.display = 'block';">About</a>
@@ -131,7 +131,7 @@
                                                         <option value="match-end-1" id="match-end-1">Match end</option>
                                                     </select>
                                                 </td>
-                                                <td style="width:180px;">
+                                                <td style="width:190px;">
                                                     <input id="concordance-display-1" type="checkbox" checked disabled>
                                                     <label for="concordance-display-1">Concordance</label>
                                                     <input class="cutoff" id="concordance-cutoff-1" type="number" value="50" disabled>
@@ -208,7 +208,7 @@
                                                         <option value="match-end-2" id="match-end-2">Match end</option>
                                                     </select>
                                                 </td>
-                                                <td style="width:180px;">
+                                                <td style="width:190px;">
                                                     <input id="concordance-display-2" type="checkbox" checked disabled>
                                                     <label for="concordance-display-2">Concordance</label>
                                                     <input class="cutoff" id="concordance-cutoff-2" type="number" value="50" disabled>
@@ -278,7 +278,7 @@
                                                         <option value="match-end-3" id="match-end-3">Match end</option>
                                                     </select>
                                                 </td>
-                                                <td style="width:180px;">
+                                                <td style="width:190px;">
                                                     <input id="concordance-display-3" type="checkbox" checked disabled>
                                                     <label for="concordance-display-3">Concordance</label>
                                                     <input class="cutoff" id="concordance-cutoff-3" type="number" value="50" disabled>
@@ -357,8 +357,8 @@
             <span class="close" onclick="document.getElementById('modal-about').style.display = 'none';">&times;</span>
             <h1 style="text-align:center;">TableConc</h1>
             <p>
-                TableConc is a concordance search tool for tabular data that
-                supports the following file formats:
+                TableConc is a concordance search tool for tabular data.                 
+                It supports the following file formats:
             </p>
             <table style="margin: 0 0 0 20px;">
                 <tr>
@@ -371,13 +371,13 @@
                 </tr>
                 <tr>
                     <td>.txt</td>
-                    <td>Plain text. The entire file is treated as a single column.</td>
+                    <td>Plain text. The entire file will be treated as a single column.</td>
                 </tr>
                 <tr>
                     <td>.json</td>
                     <td>
                         JSON. The file must contain only one array of objects. 
-                        Non-string values are stringified.
+                        Non-string values will be stringified.
                     </td>
                 </tr>
             </table>
@@ -393,6 +393,7 @@
                    style="color: blue; text-decoration: underline;">
                 GitHub</a>.
             </p>
+            <p>&copy; 2021 Herman Leung</p>
         </div>
     </div>
 
