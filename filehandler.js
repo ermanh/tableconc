@@ -86,6 +86,7 @@ function addColumnsToDisplayListeners(columnNames) {
 }
 
 function readFile() {
+    resetSearch();
     let reader = new FileReader();
     let columnHeaders = document.getElementById("column-headers").checked;
     filetype = fileInput.files[0].type;
