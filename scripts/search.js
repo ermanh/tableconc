@@ -1,17 +1,4 @@
-//// TODOs
-// Refactor and clean code
-//      - Break up long functions
-//      - create a main.js for all the major actions, keep simple and short
-//      - Move variable declarations to separate js file
-//      - Remove unused code
-//      - Remove on-the-fly event listeners
-// Bugs
-// Testing
-//      - Use significantly larger csv, tsv, json, and plain text files
-//      - Include data containing html and chars that need escaping
-
 const resultsTimeout = 100;
-
 
 function getConcordanceColumns(
     searchColumnIndex1, searchColumnIndex2, searchColumnIndex3

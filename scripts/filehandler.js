@@ -1,4 +1,3 @@
-// CAN BE MOVED TO GLOBALS FILE, "clashing" with `chooseFile` in formlisteners.js
 const fileInput = document.getElementById("choose-file");
 let data;
 let newData;
