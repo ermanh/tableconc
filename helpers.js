@@ -406,7 +406,12 @@ function replaceSortableRows() {
                         return "result-index";
                     }
                 })
-                .html((d) => `<pre>${d}</pre>`);
+                .html((d) => {
+                    if (!d.includes('<text class="hilite')) {
+                        d = escapeHTML(d);
+                    }
+                    return `<pre>${d}</pre>`;
+                });
     }); 
     enforceLightDarkMode();
     enforceHilites();

@@ -86,11 +86,11 @@ function addColumnsToDisplayListeners(columnNames) {
 }
 
 function readFile() {
-    resetSearch();
     let reader = new FileReader();
     let columnHeaders = document.getElementById("column-headers").checked;
     filetype = fileInput.files[0].type;
     reader.onload = () => {    
+        resetSearch();
         if (filetype == "text/csv") {
             data = d3.csvParseRows(reader.result);
         } else if (filetype == "text/tab-separated-values") {

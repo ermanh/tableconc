@@ -10,7 +10,6 @@
 // Improve UI aesthetics/format/style
 //      - Cross-browser aesthetics (mostly/basically done)
 // Bugs
-//      - HTML tags in text not properly escaped before display
 // Testing
 //      - Use significantly larger csv, tsv, json, and plain text files
 //      - Include data containing html and chars that need escaping
@@ -271,7 +270,12 @@ function insertResults(rows) {
                         return "result-index";
                     }
                 })
-                .html((d) => `<pre>${d}</pre>`);
+                .html((d) => {
+                    if (!d.includes('<text class="hilite')) {
+                        d = escapeHTML(d);
+                    }
+                    return `<pre>${d}</pre>`;
+                });
     }); 
     enforceLightDarkMode();
     enforceHilites();
@@ -509,14 +513,14 @@ function concordSearch() {
     let [searchColumnIndex1, searchColumnIndex2, searchColumnIndex3] =
         getSearchColumnIndices(columnNames);
 
-    let matchedRows1 = processSearchInput("1", startingRowIndex, 
-                                          searchColumnIndex1, data, newData);
-    let matchedRows2 = processSearchInput("2", startingRowIndex, 
-                                          searchColumnIndex2, data, newData);
-    let matchedRows3 = processSearchInput("3", startingRowIndex, 
-                                          searchColumnIndex3, data, newData);
-    matchedRows = determineMatchedRows(matchedRows1, matchedRows2, matchedRows3,
-                                       matchedRows);
+    let matchedRows1 = processSearchInput(
+        "1", startingRowIndex, searchColumnIndex1, data, newData);
+    let matchedRows2 = processSearchInput(
+        "2", startingRowIndex, searchColumnIndex2, data, newData);
+    let matchedRows3 = processSearchInput(
+        "3", startingRowIndex, searchColumnIndex3, data, newData);
+    matchedRows = determineMatchedRows(
+        matchedRows1, matchedRows2, matchedRows3, matchedRows);
     padResults(searchColumnIndex1, searchColumnIndex2, searchColumnIndex3,
                matchedRows, newData);
     
