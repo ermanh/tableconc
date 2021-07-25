@@ -8,15 +8,32 @@
     <link rel="icon" type="image/png" href="./favicons/96x96.png" sizes="96x96">
     <title>Regular Expression Guide</title>
     <style>
-        body {font-family: Arial, monospace; margin: 25px; color: #000000; background-color: #ffffff;}
-        h2 {color: #4682b4;}
-        span {color: #ff0000; background-color: #fcdad8;}
-        table {border-collapse: collapse; margin: 25px; border: 1px solid #b0c4de;}
-        th {color: #384a73;}
-        th, td {padding: 8px 15px; max-width: 235px; border: 1px solid #b0c4de;}
-        .category {color: #4682b4;}
-        .center {text-align: center;}
-        .regex {font-family: Courier, "Roboto Mono", monospace; font-size: 1em; color: #000000 !important; background-color: #ffffff !important}
+        body {
+            font-family: Arial, monospace; 
+            margin: 25px; color: #000000; 
+            background-color: #ffffff;
+        }
+        h2 { color: #4682b4; }
+        span { 
+            color: #ff0000; 
+            background-color: #fcdad8; 
+        }
+        table {
+            border-collapse: collapse; 
+            margin: 25px; 
+            border: 1px solid #b0c4de;
+        }
+        th { color: #384a73; }
+        th, td { 
+            padding: 8px 15px; 
+            max-width: 235px; 
+            border: 1px solid #b0c4de; }
+        .category { color: #4682b4; }
+        .center { text-align: center; }
+        .regex { 
+            font-family: Courier, "Roboto Mono", monospace; 
+            font-size: 1em; color: #000000 !important; 
+            background-color: #ffffff !important }
     </style>
 </head>
 <body>
@@ -25,20 +42,17 @@
         A regular expression (regex) is a composable search pattern for 
         matching sequences of characters in a string. You can use 
         metacharacters to specify conditions for individual characters and sequences. 
+        This guide introduces some basic metacharacters.
     </p>
     <p>
-        This guide introduces some basic metacharacters. 
-        You can search online to learn more about regexes.
-    </p>
-    <p>
-        <b>Note:</b> This web tool uses regexes implemented in JavaScript.
+        <b>Note:</b> This web tool uses regexes as implemented in JavaScript.
     </p>
     <table>
         <tr>
             <th>Metacharacter</th>
             <th>Definition/Usage</th>
             <th style="min-width: 120px;">Sample Regex</th>
-            <th>Matched Substrings</th>
+            <th>Matched Substring</th>
         </tr>
         <tr>
             <td colspan="4" class="category"><b>Character sets</b></td>

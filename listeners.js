@@ -755,6 +755,3 @@ veryEnd.addEventListener('click', () => {
     nextPage.disabled = true;
     veryEnd.disabled = true;
 });
-
-
-
