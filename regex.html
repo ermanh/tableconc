@@ -33,7 +33,8 @@
         .regex { 
             font-family: Courier, "Roboto Mono", monospace; 
             font-size: 1em; color: #000000 !important; 
-            background-color: #ffffff !important }
+            background-color: #ffffff !important; }
+        text { background-color: #85ebe1; }
     </style>
 </head>
 <body>
@@ -61,7 +62,7 @@
             <td class="regex center">\d</td>
             <td>Any digit (0-9)</td>
             <td class="regex">\d days</td>
-            <td>I rested for <span>3 days</span></td>
+            <td>I rested for <span>3 days</span>.</td>
         </tr>
         <tr>
             <td class="regex center">\w</td>
@@ -70,19 +71,19 @@
             <td><span>He</span> <span>ha</span>s <span>wo</span>n.</td>
         </tr>
         <tr>
-            <td class="regex center">[ ]</td>
+            <td class="regex center">[<text>&nbsp;</text>]</td>
             <td>Specify a character set</td>
             <td>
                 &bull; <span class="regex">[eo]mit</span><br>
                 &bull; <span class="regex">letter [A-Z]</span>
             </td>
             <td>
-                &bull; <span>emit</span> <span>omit</span> transmit<br>
-                &bull; The <span>letter A</span>. The letter a.
+                &bull; <span>emit</span>, <span>omit</span>, transmit<br>
+                &bull; the <span>letter A</span>, the letter a
             </td>
         </tr>
         <tr>
-            <td class="regex center">[^ ]</td>
+            <td class="regex center">[^<text>&nbsp;</text>]</td>
             <td>Specify characters to exclude</td>
             <td>
                 <span class="regex">[^eo]mit</span><br>
@@ -108,7 +109,7 @@
             <td class="regex center">\b</td>
             <td>Boundary between a \w character and a non-\w character (or start/end of string)</td>
             <td class="regex">\b\w\w\b</td>
-            <td><span>He</span> has won <span>an</span> apple.</td>
+            <td>She ate <span>an</span> apple.</td>
         </tr>
         <tr>
             <td class="regex center">^</td>
@@ -126,25 +127,25 @@
             <td colspan="4" class="category"><b>Quantifiers</b></td>
         </tr>
         <tr>
-            <td class="regex center">?</td>
+            <td class="regex center"><text>&nbsp;</text>?</td>
             <td>0 or 1</td>
             <td class="regex">trees?</td>
-            <td>One <span>tree</span>. Two <span>trees</span>.</td>
+            <td>one <span>tree</span>, two <span>trees</span></td>
         </tr>
         <tr>
-            <td class="regex center">+</td>
+            <td class="regex center"><text>&nbsp;</text>+</td>
             <td>1 or more</td>
             <td class="regex">[a-z]+</td>
             <td>I <span>donated</span> <span>to</span> UNICEF <span>today</span>.</td>
         </tr>
         <tr>
-            <td class="regex center">*</td>
+            <td class="regex center"><text>&nbsp;</text>*</td>
             <td>0 or more</td>
             <td class="regex">take.*away</td>
             <td><span>takeaway</span>, <span>take the dog away</span></td>
         </tr>
         <tr>
-            <td class="regex center">{ }</td>
+            <td class="regex center">{<text>&nbsp;</text>}</td>
             <td>Specify a quantity or quantity range</td>
             <td>
                 &bull; <span class="regex">[a-z]{3}</span><br>
@@ -152,22 +153,22 @@
                 &bull; <span class="regex">[a-z]{2,}</span>
             </td>
             <td>
-                &bull; a an <span>the</span> <span>thi</span>s <span>the</span>se<br>
-                &bull; a <span>an</span> <span>the</span> <span>this</span> <span>thes</span>e<br>
-                &bull; a <span>an</span> <span>the</span> <span>this</span> <span>these</span>
+                &bull; a, an, <span>the</span>, <span>thi</span>s, <span>the</span>se<br>
+                &bull; a, <span>an</span>, <span>the</span>, <span>this</span>, <span>thes</span>e<br>
+                &bull; a, <span>an</span>, <span>the</span>, <span>this</span>, <span>these</span>
             </td>
         </tr>
         <tr>
             <td colspan="4" class="category"><b>Other</b></td>
         </tr>
         <tr>
-            <td class="regex center">( )</td>
+            <td class="regex center">(<text>&nbsp;</text>)</td>
             <td>Treat a sequence as a group</td>
             <td class="regex">(da){2}</td>
             <td>data, tada, <span>dada</span></td>
         </tr>
         <tr>
-            <td class="regex center">|</td>
+            <td class="regex center"><text>&nbsp;</text>|<text>&nbsp;</text></td>
             <td>Separate 2 or more sequences as alternatives</td>
             <td>
                 &bull; <span class="regex">one|two|three</span><br>
@@ -179,7 +180,7 @@
             </td>
         </tr>
         <tr>
-            <td class="regex center">\</td>
+            <td class="regex center">\<text>&nbsp;</text></td>
             <td>
                 Escape a metacharacter so it is treated literally<br><br>
                 <b>Note:</b> The backslash itself also needs to be escaped to be treated literally.

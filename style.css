@@ -572,6 +572,7 @@ td#search-logic {
 .menu-infotiptext {
     background-color: #353535;
     color: #cccccc;
+    font-size: 1.1em;
     padding: 2px 0;
     display: block;
     position: absolute;
@@ -708,13 +709,17 @@ input[type="number"] {
 .modal-content {
     background-color: var(--lightsteelblue);
     margin: 8% auto;
-    padding: 10px 25px 15px 40px;
-    width: 425px;
-    height: 435px;
+    padding: 10px 20px 15px 40px;
+    width: 400px;
+    height: 400px;
     border-radius: 10px;
     color: var(--dark-blue);
     font-size: 1em;
     overflow-y: auto;
+}
+
+.modal-content p {
+    padding-right: 5px;
 }
 
 .close {
